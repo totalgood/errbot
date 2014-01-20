@@ -1,0 +1,305 @@
+
+<!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.bundled.threadpool module &mdash; Err 2.0.0-rc2 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.0.0-rc2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../" />
+    <link rel="up" title="errbot.bundled package" href="../errbot.bundled/" />
+    <link rel="next" title="errbot.templates package" href="../errbot.templates/" />
+    <link rel="prev" title="errbot.bundled.rocket module" href="../errbot.bundled.rocket/" />
+  <link rel="icon" type="image/png" href="../_static/err.png" />
+  <link rel="apple-touch-icon" href="../_static/err.png" />
+  <link rel="stylesheet" href="../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="../_static/fancybox/jquery.fancybox.pack.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-32534172-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.templates/" title="errbot.templates package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../errbot.bundled.rocket/" title="errbot.bundled.rocket module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li><a href="../errbot.bundled/" accesskey="U">errbot.bundled package</a> &raquo;</li> 
+      </ul>
+    </div>
+    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-errbot.bundled.threadpool">
+<span id="errbot-bundled-threadpool-module"></span><h1>errbot.bundled.threadpool module<a class="headerlink" href="#module-errbot.bundled.threadpool" title="Permalink to this headline">¶</a></h1>
+<p>Easy to use object-oriented thread pool framework.</p>
+<p>A thread pool is an object that maintains a pool of worker threads to perform
+time consuming operations in parallel. It assigns jobs to the threads
+by putting them in a work request queue, where they are picked up by the
+next available thread. This then performs the requested operation in the
+background and puts the results in another queue.</p>
+<p>The thread pool object can then collect the results from all threads from
+this queue as soon as they become available or after all threads have
+finished their work. It&#8217;s also possible, to define callbacks to handle
+each result as it comes in.</p>
+<p>The basic concept and some code was taken from the book &#8220;Python in a Nutshell,
+2nd edition&#8221; by Alex Martelli, O&#8217;Reilly 2006, ISBN 0-596-10046-9, from section
+14.5 &#8220;Threaded Program Architecture&#8221;. I wrapped the main program logic in the
+ThreadPool class, added the WorkRequest class and the callback system and
+tweaked the code here and there. Kudos also to Florent Aide for the exception
+handling mechanism.</p>
+<p>Basic usage:</p>
+<div class="highlight-python"><pre>&gt;&gt; pool = ThreadPool(poolsize)
+&gt;&gt; requests = makeRequests(some_callable, list_of_args, callback)
+&gt;&gt; [pool.putRequest(req) for req in requests]
+&gt;&gt; pool.wait()</pre>
+</div>
+<p>See the end of the module code for a brief, annotated usage example.</p>
+<p>Website : <a class="reference external" href="http://chrisarndt.de/projects/threadpool/">http://chrisarndt.de/projects/threadpool/</a></p>
+<dl class="function">
+<dt id="errbot.bundled.threadpool.makeRequests">
+<tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">makeRequests</tt><big>(</big><em>callable_</em>, <em>args_list</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x7f77bf960e60&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#makeRequests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.makeRequests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create several work requests for same callable with different arguments.</p>
+<p>Convenience function for creating several work requests for the same
+callable where each invocation of the callable receives different values
+for its arguments.</p>
+<p><tt class="docutils literal"><span class="pre">args_list</span></tt> contains the parameters for each invocation of callable.
+Each item in <tt class="docutils literal"><span class="pre">args_list</span></tt> should be either a 2-item tuple of the list of
+positional arguments and a dictionary of keyword arguments or a single,
+non-tuple argument.</p>
+<p>See docstring for <tt class="docutils literal"><span class="pre">WorkRequest</span></tt> for info on <tt class="docutils literal"><span class="pre">callback</span></tt> and
+<tt class="docutils literal"><span class="pre">exc_callback</span></tt>.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="errbot.bundled.threadpool.NoResultsPending">
+<em class="property">exception </em><tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">NoResultsPending</tt><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#NoResultsPending"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.NoResultsPending" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.Exception</span></tt></p>
+<p>All work requests have been processed.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="errbot.bundled.threadpool.NoWorkersAvailable">
+<em class="property">exception </em><tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">NoWorkersAvailable</tt><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#NoWorkersAvailable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.NoWorkersAvailable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.Exception</span></tt></p>
+<p>No worker threads available to process remaining requests.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.bundled.threadpool.ThreadPool">
+<em class="property">class </em><tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">ThreadPool</tt><big>(</big><em>num_workers</em>, <em>q_size=0</em>, <em>resq_size=0</em>, <em>poll_timeout=5</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>A thread pool, distributing work requests and collecting results.</p>
+<p>See the module docstring for more information.</p>
+<dl class="method">
+<dt id="errbot.bundled.threadpool.ThreadPool.createWorkers">
+<tt class="descname">createWorkers</tt><big>(</big><em>num_workers</em>, <em>poll_timeout=5</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.createWorkers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.createWorkers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add num_workers worker threads to the pool.</p>
+<p><tt class="docutils literal"><span class="pre">poll_timout</span></tt> sets the interval in seconds (int or float) for how
+ofte threads should check whether they are dismissed, while waiting for
+requests.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.bundled.threadpool.ThreadPool.dismissWorkers">
+<tt class="descname">dismissWorkers</tt><big>(</big><em>num_workers</em>, <em>do_join=False</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.dismissWorkers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.dismissWorkers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell num_workers worker threads to quit after their current task.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.bundled.threadpool.ThreadPool.joinAllDismissedWorkers">
+<tt class="descname">joinAllDismissedWorkers</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.joinAllDismissedWorkers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.joinAllDismissedWorkers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform Thread.join() on all worker threads that have been dismissed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.bundled.threadpool.ThreadPool.poll">
+<tt class="descname">poll</tt><big>(</big><em>block=False</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.poll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process any new results in the queue.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.bundled.threadpool.ThreadPool.putRequest">
+<tt class="descname">putRequest</tt><big>(</big><em>request</em>, <em>block=True</em>, <em>timeout=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.putRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.putRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put work request into work queue and save its id for later.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.bundled.threadpool.ThreadPool.wait">
+<tt class="descname">wait</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.wait"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.wait" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait for results, blocking until all have arrived.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.bundled.threadpool.WorkRequest">
+<em class="property">class </em><tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">WorkRequest</tt><big>(</big><em>callable_</em>, <em>args=None</em>, <em>kwds=None</em>, <em>requestID=None</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x7f77bf960e60&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>A request to execute a callable for putting in the request queue later.</p>
+<p>See the module function <tt class="docutils literal"><span class="pre">makeRequests</span></tt> for the common case
+where you want to build several <tt class="docutils literal"><span class="pre">WorkRequest</span></tt> objects for the same
+callable but with different arguments for each call.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.bundled.threadpool.WorkerThread">
+<em class="property">class </em><tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">WorkerThread</tt><big>(</big><em>requests_queue</em>, <em>results_queue</em>, <em>poll_timeout=5</em>, <em>**kwds</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkerThread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkerThread" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></tt></p>
+<p>Background thread connected to the requests/results queues.</p>
+<p>A worker thread sits in the background and picks up work requests from
+one queue and puts the results in another until it is dismissed.</p>
+<dl class="method">
+<dt id="errbot.bundled.threadpool.WorkerThread.dismiss">
+<tt class="descname">dismiss</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkerThread.dismiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkerThread.dismiss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a flag to tell the thread to exit when done with current job.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.bundled.threadpool.WorkerThread.run">
+<tt class="descname">run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkerThread.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkerThread.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Repeatedly process the job queue until told to exit.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../" title="Back to home page">
+        <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err" />
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+  <li><a href="../">Homepage</a></li>
+  <li><a href="../genindex/">Index</a></li>
+  <li><a href="../py-modindex/">Module index</a></li>
+  <li><a href="../modules/">API reference</a></li>
+      <li>
+          <a href="../errbot/">errbot package</a>
+          <ul>
+      <li>
+          <a href="../errbot.bundled/">errbot.bundled package</a>
+          <ul>
+          <li>Previous: <a href="../errbot.bundled.rocket/" title="previous chapter">errbot.bundled.rocket module</a></li>
+          <li>Next: <a href="../errbot.templates/" title="next chapter">errbot.templates package</a></li>
+          </ul>
+      </li>
+          </ul>
+      </li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/errbot.bundled.threadpool.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <script>
+    $(document).ready(function() {
+        $('.fancybox').fancybox({
+            padding : 0,
+            openEffect  : 'elastic'
+        });
+    });
+  </script>
+ <div class="relbar2">
+    
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.templates/" title="errbot.templates package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../errbot.bundled.rocket/" title="errbot.bundled.rocket module"
+             >previous</a> |</li>
+        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li><a href="../errbot.bundled/" >errbot.bundled package</a> &raquo;</li> 
+      </ul>
+    </div>
+ </div>
+  <div class="footer">
+    &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  
+  </body>
+</html>

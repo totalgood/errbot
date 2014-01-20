@@ -1,0 +1,258 @@
+
+<!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.utils module &mdash; Err 2.0.0-rc2 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.0.0-rc2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../" />
+    <link rel="up" title="errbot package" href="../errbot/" />
+    <link rel="next" title="errbot.version module" href="../errbot.version/" />
+    <link rel="prev" title="errbot.templating module" href="../errbot.templating/" />
+  <link rel="icon" type="image/png" href="../_static/err.png" />
+  <link rel="apple-touch-icon" href="../_static/err.png" />
+  <link rel="stylesheet" href="../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="../_static/fancybox/jquery.fancybox.pack.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-32534172-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.version/" title="errbot.version module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../errbot.templating/" title="errbot.templating module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" accesskey="U">errbot package</a> &raquo;</li> 
+      </ul>
+    </div>
+    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-errbot.utils">
+<span id="errbot-utils-module"></span><h1>errbot.utils module<a class="headerlink" href="#module-errbot.utils" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="errbot.utils.RateLimited">
+<tt class="descclassname">errbot.utils.</tt><tt class="descname">RateLimited</tt><big>(</big><em>minInterval</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#RateLimited"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.RateLimited" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="exception">
+<dt id="errbot.utils.ValidationException">
+<em class="property">exception </em><tt class="descclassname">errbot.utils.</tt><tt class="descname">ValidationException</tt><a class="reference internal" href="../_modules/errbot/utils/#ValidationException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.ValidationException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.Exception</span></tt></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="errbot.utils.drawbar">
+<tt class="descclassname">errbot.utils.</tt><tt class="descname">drawbar</tt><big>(</big><em>value</em>, <em>max</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#drawbar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.drawbar" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="errbot.utils.format_timedelta">
+<tt class="descclassname">errbot.utils.</tt><tt class="descname">format_timedelta</tt><big>(</big><em>timedelta</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#format_timedelta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.format_timedelta" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="errbot.utils.get_class_for_method">
+<tt class="descclassname">errbot.utils.</tt><tt class="descname">get_class_for_method</tt><big>(</big><em>meth</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#get_class_for_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.get_class_for_method" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="errbot.utils.get_sender_username">
+<tt class="descclassname">errbot.utils.</tt><tt class="descname">get_sender_username</tt><big>(</big><em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#get_sender_username"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.get_sender_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the sender&#8217;s user name from a message</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="errbot.utils.human_name_for_git_url">
+<tt class="descclassname">errbot.utils.</tt><tt class="descname">human_name_for_git_url</tt><big>(</big><em>url</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#human_name_for_git_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.human_name_for_git_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="errbot.utils.mess_2_embeddablehtml">
+<tt class="descclassname">errbot.utils.</tt><tt class="descname">mess_2_embeddablehtml</tt><big>(</big><em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#mess_2_embeddablehtml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.mess_2_embeddablehtml" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="errbot.utils.parse_jid">
+<tt class="descclassname">errbot.utils.</tt><tt class="descname">parse_jid</tt><big>(</big><em>jid</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#parse_jid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.parse_jid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="errbot.utils.recurse_check_structure">
+<tt class="descclassname">errbot.utils.</tt><tt class="descname">recurse_check_structure</tt><big>(</big><em>sample</em>, <em>to_check</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#recurse_check_structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.recurse_check_structure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="errbot.utils.split_string_after">
+<tt class="descclassname">errbot.utils.</tt><tt class="descname">split_string_after</tt><big>(</big><em>str_</em>, <em>n</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#split_string_after"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.split_string_after" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yield chunks of length <cite>n</cite> from the given string</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="errbot.utils.tail">
+<tt class="descclassname">errbot.utils.</tt><tt class="descname">tail</tt><big>(</big><em>f</em>, <em>window=20</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#tail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.tail" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="errbot.utils.unescape_xml">
+<tt class="descclassname">errbot.utils.</tt><tt class="descname">unescape_xml</tt><big>(</big><em>text</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#unescape_xml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.unescape_xml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes HTML or XML character references and entities from a text string.
+&#64;param text The HTML (or XML) source text.
+&#64;return The plain text, as a Unicode string, if necessary.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="errbot.utils.utf8">
+<tt class="descclassname">errbot.utils.</tt><tt class="descname">utf8</tt><big>(</big><em>key</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#utf8"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.utf8" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="errbot.utils.version2array">
+<tt class="descclassname">errbot.utils.</tt><tt class="descname">version2array</tt><big>(</big><em>version</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#version2array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.version2array" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="errbot.utils.which">
+<tt class="descclassname">errbot.utils.</tt><tt class="descname">which</tt><big>(</big><em>program</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#which"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.which" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="errbot.utils.xhtml2txt">
+<tt class="descclassname">errbot.utils.</tt><tt class="descname">xhtml2txt</tt><big>(</big><em>xhtml</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#xhtml2txt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.xhtml2txt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../" title="Back to home page">
+        <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err" />
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+  <li><a href="../">Homepage</a></li>
+  <li><a href="../genindex/">Index</a></li>
+  <li><a href="../py-modindex/">Module index</a></li>
+  <li><a href="../modules/">API reference</a></li>
+      <li>
+          <a href="../errbot/">errbot package</a>
+          <ul>
+          <li>Previous: <a href="../errbot.templating/" title="previous chapter">errbot.templating module</a></li>
+          <li>Next: <a href="../errbot.version/" title="next chapter">errbot.version module</a></li>
+          </ul>
+      </li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/errbot.utils.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <script>
+    $(document).ready(function() {
+        $('.fancybox').fancybox({
+            padding : 0,
+            openEffect  : 'elastic'
+        });
+    });
+  </script>
+ <div class="relbar2">
+    
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.version/" title="errbot.version module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../errbot.templating/" title="errbot.templating module"
+             >previous</a> |</li>
+        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" >errbot package</a> &raquo;</li> 
+      </ul>
+    </div>
+ </div>
+  <div class="footer">
+    &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  
+  </body>
+</html>

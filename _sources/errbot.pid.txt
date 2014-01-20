@@ -1,0 +1,7 @@
+errbot.pid module
+=================
+
+.. automodule:: errbot.pid
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+errbot.backends.hipchat module
+==============================
+
+.. automodule:: errbot.backends.hipchat
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+errbot.bundled.threadpool module
+================================
+
+.. automodule:: errbot.bundled.threadpool
+    :members:
+    :undoc-members:
+    :show-inheritance:

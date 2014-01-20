@@ -1,0 +1,19 @@
+errbot.bundled package
+======================
+
+Submodules
+----------
+
+.. toctree::
+
+   errbot.bundled.exrex
+   errbot.bundled.rocket
+   errbot.bundled.threadpool
+
+Module contents
+---------------
+
+.. automodule:: errbot.bundled
+    :members:
+    :undoc-members:
+    :show-inheritance:

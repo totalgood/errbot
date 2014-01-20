@@ -1,0 +1,39 @@
+errbot package
+==============
+
+Subpackages
+-----------
+
+.. toctree::
+
+    errbot.backends
+    errbot.builtins
+    errbot.bundled
+    errbot.templates
+
+Submodules
+----------
+
+.. toctree::
+
+   errbot.botplugin
+   errbot.config-template
+   errbot.config-travisci
+   errbot.errBot
+   errbot.holder
+   errbot.main
+   errbot.pid
+   errbot.plugin_manager
+   errbot.repos
+   errbot.storage
+   errbot.templating
+   errbot.utils
+   errbot.version
+
+Module contents
+---------------
+
+.. automodule:: errbot
+    :members:
+    :undoc-members:
+    :show-inheritance:

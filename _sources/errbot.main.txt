@@ -1,0 +1,7 @@
+errbot.main module
+==================
+
+.. automodule:: errbot.main
+    :members:
+    :undoc-members:
+    :show-inheritance:

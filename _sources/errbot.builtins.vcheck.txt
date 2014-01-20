@@ -1,0 +1,7 @@
+errbot.builtins.vcheck module
+=============================
+
+.. automodule:: errbot.builtins.vcheck
+    :members:
+    :undoc-members:
+    :show-inheritance:

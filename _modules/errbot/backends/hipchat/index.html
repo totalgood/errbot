@@ -1,0 +1,214 @@
+
+<!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.backends.hipchat &mdash; Err 2.0.0-rc2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '2.0.0-rc2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../../../../" />
+    <link rel="up" title="errbot" href="../../" />
+  <link rel="icon" type="image/png" href="../../../../_static/err.png" />
+  <link rel="apple-touch-icon" href="../../../../_static/err.png" />
+  <link rel="stylesheet" href="../../../../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="../../../../_static/fancybox/jquery.fancybox.pack.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-32534172-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+          <li><a href="../../../" >Module code</a> &raquo;</li>
+          <li><a href="../../" accesskey="U">errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for errbot.backends.hipchat</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlencode</span>
+<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">Request</span>
+
+<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">CHATROOM_FN</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.xmpp</span> <span class="kn">import</span> <span class="n">XMPPBackend</span><span class="p">,</span> <span class="n">XMPPConnection</span>
+<span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">utf8</span><span class="p">,</span> <span class="n">REMOVE_EOL</span><span class="p">,</span> <span class="n">mess_2_embeddablehtml</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">HIPCHAT_MESSAGE_URL</span> <span class="o">=</span> <span class="s">&#39;https://api.hipchat.com/v1/rooms/message&#39;</span>
+
+<span class="n">HIPCHAT_FORCE_PRE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;body&gt;&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+<span class="n">HIPCHAT_FORCE_SLASH_PRE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;/body&gt;&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+<span class="n">HIPCHAT_EOLS</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;/p&gt;|&lt;/li&gt;&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+<span class="n">HIPCHAT_BOLS</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;p [^&gt;]+&gt;|&lt;li [^&gt;]+&gt;&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="xhtml2hipchat"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.xhtml2hipchat">[docs]</a><span class="k">def</span> <span class="nf">xhtml2hipchat</span><span class="p">(</span><span class="n">xhtml</span><span class="p">):</span>
+    <span class="c"># Hipchat has a really limited html support</span>
+    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">REMOVE_EOL</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">xhtml</span><span class="p">)</span>  <span class="c"># Ignore formatting</span>
+    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">HIPCHAT_EOLS</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&lt;br/&gt;&#39;</span><span class="p">,</span> <span class="n">retarded_hipchat_html_plain</span><span class="p">)</span>  <span class="c"># readd the \n where they probably fit best</span>
+    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">HIPCHAT_BOLS</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">retarded_hipchat_html_plain</span><span class="p">)</span>  <span class="c"># zap every tag left</span>
+    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">HIPCHAT_FORCE_PRE</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&lt;body&gt;&lt;pre&gt;&#39;</span><span class="p">,</span> <span class="n">retarded_hipchat_html_plain</span><span class="p">)</span>  <span class="c"># fixor pre</span>
+    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">HIPCHAT_FORCE_SLASH_PRE</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&lt;/pre&gt;&lt;/body&gt;&#39;</span><span class="p">,</span> <span class="n">retarded_hipchat_html_plain</span><span class="p">)</span>  <span class="c"># fixor /pre</span>
+    <span class="k">return</span> <span class="n">retarded_hipchat_html_plain</span>
+
+</div>
+<div class="viewcode-block" id="HipchatClient"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatClient">[docs]</a><span class="k">class</span> <span class="nc">HipchatClient</span><span class="p">(</span><span class="n">XMPPConnection</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;token&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HipchatClient</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="HipchatClient.send_api_message"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatClient.send_api_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_api_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room_id</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">message_format</span><span class="o">=</span><span class="s">&#39;html&#39;</span><span class="p">):</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="s">&#39;json&#39;</span><span class="p">,</span> <span class="s">&#39;auth_token&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">}</span>
+        <span class="n">red_data</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;room_id&#39;</span><span class="p">:</span> <span class="n">room_id</span><span class="p">,</span> <span class="s">&#39;from&#39;</span><span class="p">:</span> <span class="n">fr</span><span class="p">,</span> <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="n">utf8</span><span class="p">(</span><span class="n">message</span><span class="p">),</span> <span class="s">&#39;message_format&#39;</span><span class="p">:</span> <span class="n">message_format</span><span class="p">}</span>
+        <span class="n">req</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">HIPCHAT_MESSAGE_URL</span> <span class="o">+</span> <span class="s">&#39;?&#39;</span> <span class="o">+</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">base</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">urlencode</span><span class="p">(</span><span class="n">red_data</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="HipchatClient.send_message"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatClient.send_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="ow">and</span> <span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;groupchat&#39;</span><span class="p">:</span>
+
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Message intercepted for Hipchat API&#39;</span><span class="p">)</span>
+            <span class="n">content</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">mess_2_embeddablehtml</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
+            <span class="n">room_jid</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">getTo</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_api_message</span><span class="p">(</span><span class="n">room_jid</span><span class="o">.</span><span class="n">getNode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">CHATROOM_FN</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">HipchatClient</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
+
+<span class="c"># It is just a different mode for the moment</span></div></div>
+<div class="viewcode-block" id="HipchatBackend"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatBackend">[docs]</a><span class="k">class</span> <span class="nc">HipchatBackend</span><span class="p">(</span><span class="n">XMPPBackend</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_token</span> <span class="o">=</span> <span class="n">token</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">password</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HipchatBackend</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+
+<div class="viewcode-block" id="HipchatBackend.create_connection"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatBackend.create_connection">[docs]</a>    <span class="k">def</span> <span class="nf">create_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">HipchatClient</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="p">[],</span> <span class="n">token</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">api_token</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="HipchatBackend.mode"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatBackend.mode">[docs]</a>    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;hipchat&#39;</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../../../../" title="Back to home page">
+        <img class="logo" src="../../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err" />
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../">Homepage</a></li>
+  <li><a href="../../../../genindex/">Index</a></li>
+  <li><a href="../../../../py-modindex/">Module index</a></li>
+  <li><a href="../../../../modules/">API reference</a></li>
+      <li>
+          <a href="../../../">Module code</a>
+          <ul>
+      <li>
+          <a href="../../">errbot</a>
+          <ul>
+          </ul>
+      </li>
+          </ul>
+      </li>
+</ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <script>
+    $(document).ready(function() {
+        $('.fancybox').fancybox({
+            padding : 0,
+            openEffect  : 'elastic'
+        });
+    });
+  </script>
+ <div class="relbar2">
+    
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+          <li><a href="../../../" >Module code</a> &raquo;</li>
+          <li><a href="../../" >errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+ </div>
+  <div class="footer">
+    &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  
+  </body>
+</html>

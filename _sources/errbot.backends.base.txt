@@ -1,0 +1,7 @@
+errbot.backends.base module
+===========================
+
+.. automodule:: errbot.backends.base
+    :members:
+    :undoc-members:
+    :show-inheritance:

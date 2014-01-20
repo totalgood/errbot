@@ -1,0 +1,7 @@
+errbot.bundled.exrex module
+===========================
+
+.. automodule:: errbot.bundled.exrex
+    :members:
+    :undoc-members:
+    :show-inheritance:

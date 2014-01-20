@@ -1,0 +1,7 @@
+errbot.holder module
+====================
+
+.. automodule:: errbot.holder
+    :members:
+    :undoc-members:
+    :show-inheritance:

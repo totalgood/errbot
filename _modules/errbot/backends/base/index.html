@@ -1,0 +1,778 @@
+
+<!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.backends.base &mdash; Err 2.0.0-rc2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '2.0.0-rc2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../../../../" />
+    <link rel="up" title="errbot" href="../../" />
+  <link rel="icon" type="image/png" href="../../../../_static/err.png" />
+  <link rel="apple-touch-icon" href="../../../../_static/err.png" />
+  <link rel="stylesheet" href="../../../../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="../../../../_static/fancybox/jquery.fancybox.pack.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-32534172-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+          <li><a href="../../../" >Module code</a> &raquo;</li>
+          <li><a href="../../" accesskey="U">errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for errbot.backends.base</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span><span class="p">,</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">xml.etree</span> <span class="kn">import</span> <span class="n">cElementTree</span> <span class="k">as</span> <span class="n">ET</span>
+<span class="kn">from</span> <span class="nn">xml.etree.cElementTree</span> <span class="kn">import</span> <span class="n">ParseError</span>
+<span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">botcmd</span><span class="p">,</span> <span class="n">PY2</span>
+<span class="kn">import</span> <span class="nn">difflib</span>
+<span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">get_sender_username</span><span class="p">,</span> <span class="n">xhtml2txt</span><span class="p">,</span> <span class="n">utf8</span><span class="p">,</span> <span class="n">parse_jid</span><span class="p">,</span> <span class="n">split_string_after</span>
+<span class="kn">from</span> <span class="nn">errbot.templating</span> <span class="kn">import</span> <span class="n">tenv</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+
+<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">BOT_ADMINS</span><span class="p">,</span> <span class="n">BOT_ASYNC</span><span class="p">,</span> <span class="n">BOT_PREFIX</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">ACCESS_CONTROLS_DEFAULT</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">ACCESS_CONTROLS_DEFAULT</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">ACCESS_CONTROLS</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">ACCESS_CONTROLS</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">HIDE_RESTRICTED_COMMANDS</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">HIDE_RESTRICTED_COMMANDS</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">HIDE_RESTRICTED_ACCESS</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">HIDE_RESTRICTED_ACCESS</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">BOT_PREFIX_OPTIONAL_ON_CHAT</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">BOT_PREFIX_OPTIONAL_ON_CHAT</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">BOT_ALT_PREFIXES</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">BOT_ALT_PREFIXES</span> <span class="o">=</span> <span class="p">()</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">BOT_ALT_PREFIX_SEPARATORS</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">BOT_ALT_PREFIX_SEPARATORS</span> <span class="o">=</span> <span class="p">()</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">BOT_ALT_PREFIX_CASEINSENSITIVE</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">BOT_ALT_PREFIX_CASEINSENSITIVE</span> <span class="o">=</span> <span class="bp">False</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">DIVERT_TO_PRIVATE</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">DIVERT_TO_PRIVATE</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;DIVERT_TO_PRIVATE is missing in config&quot;</span><span class="p">)</span>
+    <span class="k">pass</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">MESSAGE_SIZE_LIMIT</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">MESSAGE_SIZE_LIMIT</span> <span class="o">=</span> <span class="mi">10000</span>  <span class="c"># Corresponds with what HipChat accepts</span>
+
+<span class="k">if</span> <span class="n">BOT_ASYNC</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">errbot.bundled.threadpool</span> <span class="kn">import</span> <span class="n">ThreadPool</span><span class="p">,</span> <span class="n">WorkRequest</span>
+
+
+<div class="viewcode-block" id="Identifier"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Identifier">[docs]</a><span class="k">class</span> <span class="nc">Identifier</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class is the parent and the basic contract of all the ways the backends are identifying a person on their system</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jid</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">resource</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">jid</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource</span> <span class="o">=</span> <span class="n">parse_jid</span><span class="p">(</span><span class="n">jid</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">node</span> <span class="o">=</span> <span class="n">node</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">domain</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">resource</span> <span class="o">=</span> <span class="n">resource</span>
+
+<div class="viewcode-block" id="Identifier.getNode"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Identifier.getNode">[docs]</a>    <span class="k">def</span> <span class="nf">getNode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span>
+</div>
+<div class="viewcode-block" id="Identifier.getDomain"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Identifier.getDomain">[docs]</a>    <span class="k">def</span> <span class="nf">getDomain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span>
+</div>
+<div class="viewcode-block" id="Identifier.bareMatch"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Identifier.bareMatch">[docs]</a>    <span class="k">def</span> <span class="nf">bareMatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">other</span><span class="o">.</span><span class="n">getStripped</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">getStripped</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Identifier.getStripped"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Identifier.getStripped">[docs]</a>    <span class="k">def</span> <span class="nf">getStripped</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span> <span class="o">+</span> <span class="s">&#39;@&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span> <span class="c"># if the backend has no domain notion</span>
+</div>
+<div class="viewcode-block" id="Identifier.getResource"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Identifier.getResource">[docs]</a>    <span class="k">def</span> <span class="nf">getResource</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource</span>
+</div>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getStripped</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource</span><span class="p">:</span>
+            <span class="n">answer</span> <span class="o">+=</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource</span>
+        <span class="k">return</span> <span class="n">answer</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">())</span>
+
+</div>
+<div class="viewcode-block" id="Message"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message">[docs]</a><span class="k">class</span> <span class="nc">Message</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">fr</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="s">&#39;unknown@localhost&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="s">&#39;chat&#39;</span><span class="p">,</span> <span class="n">html</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="c"># it is either unicode or assume it is utf-8</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span> <span class="o">=</span> <span class="n">body</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span> <span class="o">=</span> <span class="n">body</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">html</span> <span class="o">=</span> <span class="n">html</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">typ</span> <span class="o">=</span> <span class="n">typ</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delayed</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mucknick</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="Message.setTo"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.setTo">[docs]</a>    <span class="k">def</span> <span class="nf">setTo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">Identifier</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="n">to</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="n">to</span><span class="p">)</span>  <span class="c"># assume a parseable string</span>
+</div>
+<div class="viewcode-block" id="Message.getTo"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.getTo">[docs]</a>    <span class="k">def</span> <span class="nf">getTo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span>
+</div>
+<div class="viewcode-block" id="Message.setType"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.setType">[docs]</a>    <span class="k">def</span> <span class="nf">setType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">typ</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">typ</span> <span class="o">=</span> <span class="n">typ</span>
+</div>
+<div class="viewcode-block" id="Message.getType"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.getType">[docs]</a>    <span class="k">def</span> <span class="nf">getType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">typ</span>
+</div>
+<div class="viewcode-block" id="Message.getFrom"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.getFrom">[docs]</a>    <span class="k">def</span> <span class="nf">getFrom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fr</span>
+</div>
+<div class="viewcode-block" id="Message.setFrom"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.setFrom">[docs]</a>    <span class="k">def</span> <span class="nf">setFrom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fr</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fr</span><span class="p">,</span> <span class="n">Identifier</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fr</span> <span class="o">=</span> <span class="n">fr</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fr</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="n">fr</span><span class="p">)</span>  <span class="c"># assume a parseable string</span>
+</div>
+<div class="viewcode-block" id="Message.getBody"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.getBody">[docs]</a>    <span class="k">def</span> <span class="nf">getBody</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span>
+</div>
+<div class="viewcode-block" id="Message.getHTML"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.getHTML">[docs]</a>    <span class="k">def</span> <span class="nf">getHTML</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">html</span>
+</div>
+<div class="viewcode-block" id="Message.setHTML"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.setHTML">[docs]</a>    <span class="k">def</span> <span class="nf">setHTML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">html</span> <span class="o">=</span> <span class="n">html</span>
+</div>
+<div class="viewcode-block" id="Message.setDelayed"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.setDelayed">[docs]</a>    <span class="k">def</span> <span class="nf">setDelayed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delayed</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delayed</span> <span class="o">=</span> <span class="n">delayed</span>
+</div>
+<div class="viewcode-block" id="Message.isDelayed"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.isDelayed">[docs]</a>    <span class="k">def</span> <span class="nf">isDelayed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">delayed</span>
+</div>
+<div class="viewcode-block" id="Message.setMuckNick"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.setMuckNick">[docs]</a>    <span class="k">def</span> <span class="nf">setMuckNick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nick</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mucknick</span> <span class="o">=</span> <span class="n">nick</span>
+</div>
+<div class="viewcode-block" id="Message.getMuckNick"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.getMuckNick">[docs]</a>    <span class="k">def</span> <span class="nf">getMuckNick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mucknick</span>
+</div>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span>
+
+</div>
+<div class="viewcode-block" id="Connection"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Connection">[docs]</a><span class="k">class</span> <span class="nc">Connection</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Connection.send_message"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Connection.send_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;It should be implemented specifically for your backend&quot;</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="build_text_html_message_pair"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.build_text_html_message_pair">[docs]</a><span class="k">def</span> <span class="nf">build_text_html_message_pair</span><span class="p">(</span><span class="n">source</span><span class="p">):</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">text_plain</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">XML</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+        <span class="n">text_plain</span> <span class="o">=</span> <span class="n">xhtml2txt</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">ParseError</span> <span class="k">as</span> <span class="n">ee</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">source</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>  <span class="c"># avoids keep alive pollution</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Could not parse [</span><span class="si">%s</span><span class="s">] as XHTML-IM, assume pure text Parsing error = [</span><span class="si">%s</span><span class="s">]&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">ee</span><span class="p">))</span>
+            <span class="n">text_plain</span> <span class="o">=</span> <span class="n">source</span>
+    <span class="k">return</span> <span class="n">text_plain</span><span class="p">,</span> <span class="n">node</span>
+
+</div>
+<div class="viewcode-block" id="build_message"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.build_message">[docs]</a><span class="k">def</span> <span class="nf">build_message</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">message_class</span><span class="p">,</span> <span class="n">conversion_function</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Builds an xhtml message without attributes.</span>
+<span class="sd">    If input is not valid xhtml-im fallback to normal.&quot;&quot;&quot;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># keeps the compiler happy</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">)</span>  <span class="c"># there is a weird chr IRC is sending that we need to filter out</span>
+        <span class="k">if</span> <span class="n">PY2</span><span class="p">:</span>
+            <span class="n">ET</span><span class="o">.</span><span class="n">XML</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">))</span>  <span class="c"># test if is it xml</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ET</span><span class="o">.</span><span class="n">XML</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+        <span class="n">edulcorated_html</span> <span class="o">=</span> <span class="n">conversion_function</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="k">if</span> <span class="n">conversion_function</span> <span class="k">else</span> <span class="n">text</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">text_plain</span><span class="p">,</span> <span class="n">node</span> <span class="o">=</span> <span class="n">build_text_html_message_pair</span><span class="p">(</span><span class="n">edulcorated_html</span><span class="p">)</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="n">message_class</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">text_plain</span><span class="p">)</span>
+            <span class="n">message</span><span class="o">.</span><span class="n">setHTML</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">ET</span><span class="o">.</span><span class="n">ParseError</span> <span class="k">as</span> <span class="n">ee</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Error translating to hipchat [</span><span class="si">%s</span><span class="s">] Parsing error = [</span><span class="si">%s</span><span class="s">]&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">edulcorated_html</span><span class="p">,</span> <span class="n">ee</span><span class="p">))</span>
+    <span class="k">except</span> <span class="n">ET</span><span class="o">.</span><span class="n">ParseError</span> <span class="k">as</span> <span class="n">ee</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>  <span class="c"># avoids keep alive pollution</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Determined that [</span><span class="si">%s</span><span class="s">] is not XHTML-IM (</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">ee</span><span class="p">))</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">message_class</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">message</span>
+
+</div>
+<div class="viewcode-block" id="Backend"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend">[docs]</a><span class="k">class</span> <span class="nc">Backend</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c"># Implements the basic Bot logic (logic independent from the backend) and leave to you to implement the missing parts</span>
+
+    <span class="n">cmd_history</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span> <span class="c">#this will be a per user history</span>
+
+    <span class="n">MSG_ERROR_OCCURRED</span> <span class="o">=</span> <span class="s">&#39;Sorry for your inconvenience. &#39;</span>\
+                         <span class="s">&#39;An unexpected error occurred.&#39;</span>
+    <span class="n">MESSAGE_SIZE_LIMIT</span> <span class="o">=</span> <span class="n">MESSAGE_SIZE_LIMIT</span>
+    <span class="n">MSG_UNKNOWN_COMMAND</span> <span class="o">=</span> <span class="s">&#39;Unknown command: &quot;</span><span class="si">%(command)s</span><span class="s">&quot;. &#39;</span>\
+                          <span class="s">&#39;Type &quot;&#39;</span> <span class="o">+</span> <span class="n">BOT_PREFIX</span> <span class="o">+</span> <span class="s">&#39;help&quot; for available commands.&#39;</span>
+    <span class="n">MSG_HELP_TAIL</span> <span class="o">=</span> <span class="s">&#39;Type help &lt;command name&gt; to get more info &#39;</span>\
+                    <span class="s">&#39;about that specific command.&#39;</span>
+    <span class="n">MSG_HELP_UNDEFINED_COMMAND</span> <span class="o">=</span> <span class="s">&#39;That command is not defined.&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Those arguments will be directly those put in BOT_IDENTITY</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">BOT_ASYNC</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span> <span class="o">=</span> <span class="n">ThreadPool</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;created the thread pool&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">commands</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c"># the dynamically populated list of commands available on the bot</span>
+
+        <span class="k">if</span> <span class="n">BOT_ALT_PREFIX_CASEINSENSITIVE</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bot_alt_prefixes</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">prefix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">BOT_ALT_PREFIXES</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bot_alt_prefixes</span> <span class="o">=</span> <span class="n">BOT_ALT_PREFIXES</span>
+
+<div class="viewcode-block" id="Backend.send_message"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.send_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send a message&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Backend.send_simple_reply"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.send_simple_reply">[docs]</a>    <span class="k">def</span> <span class="nf">send_simple_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">private</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Send a simple response to a message&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">build_reply</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">private</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Backend.build_reply"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.build_reply">[docs]</a>    <span class="k">def</span> <span class="nf">build_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">private</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Build a message for responding to another message.</span>
+<span class="sd">        Message is NOT sent&quot;&quot;&quot;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_message</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">private</span><span class="p">:</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">get_jid_from_message</span><span class="p">(</span><span class="n">mess</span><span class="p">))</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">setType</span><span class="p">(</span><span class="s">&#39;chat&#39;</span><span class="p">)</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">setFrom</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">()</span><span class="o">.</span><span class="n">getStripped</span><span class="p">())</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">setType</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">())</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">setFrom</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span>
+</div>
+<div class="viewcode-block" id="Backend.callback_message"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.callback_message">[docs]</a>    <span class="k">def</span> <span class="nf">callback_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Needs to return False if we want to stop further treatment</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Prepare to handle either private chats or group chats</span>
+        <span class="nb">type</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span>
+        <span class="n">jid</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">()</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">getBody</span><span class="p">()</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">get_sender_username</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
+        <span class="n">user_cmd_history</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmd_history</span><span class="p">[</span><span class="n">username</span><span class="p">];</span>
+
+        <span class="k">if</span> <span class="n">mess</span><span class="o">.</span><span class="n">isDelayed</span><span class="p">():</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Message from history, ignore it&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="k">if</span> <span class="nb">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&quot;groupchat&quot;</span><span class="p">,</span> <span class="s">&quot;chat&quot;</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;unhandled message type </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">mess</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;*** jid = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">jid</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;*** username = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">username</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;*** type = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;*** text = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">text</span><span class="p">)</span>
+
+        <span class="c"># If a message format is not supported (eg. encrypted),</span>
+        <span class="c"># txt will be None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">text</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="n">surpress_cmd_not_found</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="n">tomatch</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">BOT_ALT_PREFIX_CASEINSENSITIVE</span> <span class="k">else</span> <span class="n">text</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">BOT_ALT_PREFIXES</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">tomatch</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bot_alt_prefixes</span><span class="p">):</span>
+            <span class="c"># Yay! We were called by one of our alternate prefixes. Now we just have to find out</span>
+            <span class="c"># which one... (And find the longest matching, in case you have &#39;err&#39; and &#39;errbot&#39; and</span>
+            <span class="c"># someone uses &#39;errbot&#39;, which also matches &#39;err&#39; but would leave &#39;bot&#39; to be taken as</span>
+            <span class="c"># part of the called command in that case)</span>
+            <span class="n">longest</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_alt_prefixes</span><span class="p">:</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">tomatch</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="ow">and</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="n">longest</span><span class="p">:</span>
+                    <span class="n">longest</span> <span class="o">=</span> <span class="n">l</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">longest</span><span class="p">:]</span>
+
+            <span class="c"># Now also remove the separator from the text</span>
+            <span class="k">for</span> <span class="n">sep</span> <span class="ow">in</span> <span class="n">BOT_ALT_PREFIX_SEPARATORS</span><span class="p">:</span>
+                <span class="c"># While unlikely, one may have separators consisting of</span>
+                <span class="c"># more than one character</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sep</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">text</span><span class="p">[:</span><span class="n">l</span><span class="p">]</span> <span class="o">==</span> <span class="n">sep</span><span class="p">:</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">l</span><span class="p">:]</span>
+        <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s">&quot;chat&quot;</span> <span class="ow">and</span> <span class="n">BOT_PREFIX_OPTIONAL_ON_CHAT</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Assuming &#39;</span><span class="si">%s</span><span class="s">&#39; to be a command because BOT_PREFIX_OPTIONAL_ON_CHAT is True&quot;</span> <span class="o">%</span> <span class="n">text</span><span class="p">)</span>
+            <span class="c"># In order to keep noise down we surpress messages about the command</span>
+            <span class="c"># not being found, because it&#39;s possible a plugin will trigger on what</span>
+            <span class="c"># was said with trigger_message.</span>
+            <span class="n">surpress_cmd_not_found</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">BOT_PREFIX</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">if</span> <span class="n">text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">BOT_PREFIX</span><span class="p">):</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">BOT_PREFIX</span><span class="p">):]</span>
+
+        <span class="n">text_split</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">command</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_split</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="p">(</span><span class="n">text_split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">text_split</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">command</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">:</span>
+                <span class="n">cmd</span> <span class="o">=</span> <span class="n">command</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text_split</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cmd</span><span class="p">:</span>
+            <span class="n">command</span> <span class="o">=</span> <span class="n">text_split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text_split</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+            <span class="k">if</span> <span class="n">command</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">:</span>
+                <span class="n">cmd</span> <span class="o">=</span> <span class="n">command</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_split</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">args</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text_split</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+        <span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="n">BOT_PREFIX</span><span class="p">:</span>  <span class="c"># we did &quot;!!&quot; so recall the last command</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_cmd_history</span><span class="p">):</span>
+                <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">user_cmd_history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>  <span class="c"># no command in history</span>
+        <span class="k">elif</span> <span class="n">command</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>  <span class="c"># we did &quot;!#&quot; so we recall the specified command</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_cmd_history</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">index</span><span class="p">:</span>
+                <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">user_cmd_history</span><span class="p">[</span><span class="o">-</span><span class="n">index</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>  <span class="c"># no command in history</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="ow">in</span> <span class="n">user_cmd_history</span><span class="p">:</span>
+            <span class="n">user_cmd_history</span><span class="o">.</span><span class="n">remove</span><span class="p">((</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span>  <span class="c"># we readd it below</span>
+
+        <span class="k">if</span> <span class="n">cmd</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;received command = </span><span class="si">%s</span><span class="s"> matching [</span><span class="si">%s</span><span class="s">] with parameters [</span><span class="si">%s</span><span class="s">]&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span>
+
+            <span class="n">access</span><span class="p">,</span> <span class="n">accessError</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_command_access</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">access</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">HIDE_RESTRICTED_ACCESS</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">send_simple_reply</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">accessError</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">False</span>
+
+            <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_admin_only</span> <span class="ow">and</span> <span class="n">BOT_ASYNC</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c"># If it is an admin command, wait that the queue is completely depleted so we don&#39;t have strange concurrency issues on load/unload/updates etc ...</span>
+
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_historize</span><span class="p">:</span>
+                <span class="n">user_cmd_history</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span>  <span class="c"># add it to the history only if it is authorized to be so</span>
+
+            <span class="c"># Don&#39;t check for None here as None can be a valid argument to split.</span>
+            <span class="c"># &#39;&#39; was chosen as default argument because this isn&#39;t a valid argument to split()</span>
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_split_args_with</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">_err_command_split_args_with</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">BOT_ASYNC</span><span class="p">:</span>
+                <span class="n">wr</span> <span class="o">=</span> <span class="n">WorkRequest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_execute_and_send</span><span class="p">,</span>
+                                 <span class="p">[],</span> <span class="p">{</span><span class="s">&#39;cmd&#39;</span><span class="p">:</span> <span class="n">cmd</span><span class="p">,</span> <span class="s">&#39;args&#39;</span><span class="p">:</span> <span class="n">args</span><span class="p">,</span> <span class="s">&#39;mess&#39;</span><span class="p">:</span> <span class="n">mess</span><span class="p">,</span> <span class="s">&#39;jid&#39;</span><span class="p">:</span> <span class="n">jid</span><span class="p">,</span>
+                                      <span class="s">&#39;template_name&#39;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_template</span><span class="p">})</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span><span class="o">.</span><span class="n">putRequest</span><span class="p">(</span><span class="n">wr</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_admin_only</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c"># Again wait for the completion before accepting a new command that could generate weird concurrency issues</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_execute_and_send</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">mess</span><span class="o">=</span><span class="n">mess</span><span class="p">,</span> <span class="n">jid</span><span class="o">=</span><span class="n">jid</span><span class="p">,</span>
+                                       <span class="n">template_name</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">_err_command_template</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Command not found&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">surpress_cmd_not_found</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Surpressing command not found feedback&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">reply</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">unknown_command</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">reply</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">reply</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MSG_UNKNOWN_COMMAND</span> <span class="o">%</span> <span class="p">{</span><span class="s">&#39;command&#39;</span><span class="p">:</span> <span class="n">command</span><span class="p">}</span>
+                <span class="k">if</span> <span class="n">reply</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">send_simple_reply</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">reply</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">True</span>
+</div>
+    <span class="k">def</span> <span class="nf">_execute_and_send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">jid</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Execute a bot command and send output back to the caller</span>
+
+<span class="sd">        cmd: The command that was given to the bot (after being expanded)</span>
+<span class="sd">        args: Arguments given along with cmd</span>
+<span class="sd">        mess: The message object</span>
+<span class="sd">        jid: The jid of the person executing the command</span>
+<span class="sd">        template_name: The name of the template which should be used to render</span>
+<span class="sd">            html-im output, if any</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">process_reply</span><span class="p">(</span><span class="n">reply</span><span class="p">):</span>
+            <span class="c"># integrated templating</span>
+            <span class="k">if</span> <span class="n">template_name</span><span class="p">:</span>
+                <span class="n">reply</span> <span class="o">=</span> <span class="n">tenv</span><span class="p">()</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="n">template_name</span> <span class="o">+</span> <span class="s">&#39;.html&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="o">**</span><span class="n">reply</span><span class="p">)</span>
+
+            <span class="c"># Reply should be all text at this point (See https://github.com/gbin/err/issues/96)</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">reply</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">send_reply</span><span class="p">(</span><span class="n">reply</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">split_string_after</span><span class="p">(</span><span class="n">reply</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">MESSAGE_SIZE_LIMIT</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">send_simple_reply</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="n">DIVERT_TO_PRIVATE</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isgeneratorfunction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">]):</span>
+                <span class="n">replies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">](</span><span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">reply</span> <span class="ow">in</span> <span class="n">replies</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">reply</span><span class="p">:</span> <span class="n">send_reply</span><span class="p">(</span><span class="n">process_reply</span><span class="p">(</span><span class="n">reply</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">reply</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">](</span><span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">reply</span><span class="p">:</span> <span class="n">send_reply</span><span class="p">(</span><span class="n">process_reply</span><span class="p">(</span><span class="n">reply</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">tb</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&#39;An error happened while processing &#39;</span>
+                              <span class="s">&#39;a message (&quot;</span><span class="si">%s</span><span class="s">&quot;) from </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;&#39;</span> <span class="o">%</span>
+                              <span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getBody</span><span class="p">(),</span> <span class="n">jid</span><span class="p">,</span> <span class="n">tb</span><span class="p">))</span>
+            <span class="n">send_reply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">MSG_ERROR_OCCURRED</span> <span class="o">+</span> <span class="s">&#39;:</span><span class="se">\n</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">e</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Backend.check_command_access"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.check_command_access">[docs]</a>    <span class="k">def</span> <span class="nf">check_command_access</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+        <span class="n">usr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_jid_from_message</span><span class="p">(</span><span class="n">mess</span><span class="p">))</span>
+        <span class="n">typ</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">cmd</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">:</span>
+            <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="o">=</span> <span class="n">ACCESS_CONTROLS_DEFAULT</span>
+
+        <span class="k">if</span> <span class="s">&#39;allowusers&#39;</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="ow">and</span> <span class="n">usr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">][</span><span class="s">&#39;allowusers&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;You&#39;re not allowed to access this command from this user&quot;</span>
+        <span class="k">if</span> <span class="s">&#39;denyusers&#39;</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="ow">and</span> <span class="n">usr</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">][</span><span class="s">&#39;denyusers&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;You&#39;re not allowed to access this command from this user&quot;</span>
+        <span class="k">if</span> <span class="n">typ</span> <span class="o">==</span> <span class="s">&#39;groupchat&#39;</span><span class="p">:</span>
+            <span class="n">stripped</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">()</span><span class="o">.</span><span class="n">getStripped</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s">&#39;allowmuc&#39;</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="ow">and</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">][</span><span class="s">&#39;allowmuc&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;You&#39;re not allowed to access this command from a chatroom&quot;</span>
+            <span class="k">if</span> <span class="s">&#39;allowrooms&#39;</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="ow">and</span> <span class="n">stripped</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">][</span><span class="s">&#39;allowrooms&#39;</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;You&#39;re not allowed to access this command from this room&quot;</span>
+            <span class="k">if</span> <span class="s">&#39;denyrooms&#39;</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="ow">and</span> <span class="n">stripped</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">][</span><span class="s">&#39;denyrooms&#39;</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;You&#39;re not allowed to access this command from this room&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s">&#39;allowprivate&#39;</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="ow">and</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">][</span><span class="s">&#39;allowprivate&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;You&#39;re not allowed to access this command via private message to me&quot;</span>
+
+        <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_admin_only</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">typ</span> <span class="o">==</span> <span class="s">&#39;groupchat&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&#39;You cannot administer the bot from a chatroom, message the bot directly&#39;</span>
+            <span class="k">if</span> <span class="n">usr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">BOT_ADMINS</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&#39;You cannot administer the bot from this user </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="n">usr</span>
+        
+        <span class="k">return</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&quot;&quot;</span>
+</div>
+<div class="viewcode-block" id="Backend.unknown_command"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.unknown_command">[docs]</a>    <span class="k">def</span> <span class="nf">unknown_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Override the default unknown command behavior</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">full_cmd</span> <span class="o">=</span> <span class="n">cmd</span> <span class="o">+</span> <span class="s">&#39; &#39;</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">args</span> <span class="k">else</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="n">full_cmd</span><span class="p">:</span>
+            <span class="n">part1</span> <span class="o">=</span> <span class="s">&#39;Command &quot;</span><span class="si">%s</span><span class="s">&quot; / &quot;</span><span class="si">%s</span><span class="s">&quot; not found.&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">full_cmd</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">part1</span> <span class="o">=</span> <span class="s">&#39;Command &quot;</span><span class="si">%s</span><span class="s">&quot; not found.&#39;</span> <span class="o">%</span> <span class="n">cmd</span>
+        <span class="n">ununderscore_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+        <span class="n">matches</span> <span class="o">=</span> <span class="n">difflib</span><span class="o">.</span><span class="n">get_close_matches</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">ununderscore_keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">full_cmd</span><span class="p">:</span>
+            <span class="n">matches</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">difflib</span><span class="o">.</span><span class="n">get_close_matches</span><span class="p">(</span><span class="n">full_cmd</span><span class="p">,</span> <span class="n">ununderscore_keys</span><span class="p">))</span>
+        <span class="n">matches</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">matches</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">part1</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">Did you mean &quot;&#39;</span> <span class="o">+</span> <span class="n">BOT_PREFIX</span> <span class="o">+</span> <span class="p">(</span><span class="s">&#39;&quot; or &quot;&#39;</span> <span class="o">+</span> <span class="n">BOT_PREFIX</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;&quot; ?&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">part1</span>
+</div>
+<div class="viewcode-block" id="Backend.inject_commands_from"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.inject_commands_from">[docs]</a>    <span class="k">def</span> <span class="nf">inject_commands_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance_to_inject</span><span class="p">):</span>
+        <span class="n">classname</span> <span class="o">=</span> <span class="n">instance_to_inject</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">instance_to_inject</span><span class="p">,</span> <span class="n">inspect</span><span class="o">.</span><span class="n">ismethod</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;_err_command&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;_err_command_name&#39;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">:</span>
+                    <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                    <span class="n">new_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">classname</span> <span class="o">+</span> <span class="s">&#39;-&#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">warn_admins</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s"> clashes with </span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s"> so it has been renamed </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">classname</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">__self__</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">new_name</span> <span class="p">))</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">new_name</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Adding command : </span><span class="si">%s</span><span class="s"> -&gt; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+</div>
+<div class="viewcode-block" id="Backend.remove_commands_from"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.remove_commands_from">[docs]</a>    <span class="k">def</span> <span class="nf">remove_commands_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance_to_inject</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">instance_to_inject</span><span class="p">,</span> <span class="n">inspect</span><span class="o">.</span><span class="n">ismethod</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;_err_command&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;_err_command_name&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">:</span>  <span class="c"># this could happen in premature shutdown</span>
+                    <span class="k">del</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+</div>
+<div class="viewcode-block" id="Backend.warn_admins"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.warn_admins">[docs]</a>    <span class="k">def</span> <span class="nf">warn_admins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">warning</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">admin</span> <span class="ow">in</span> <span class="n">BOT_ADMINS</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">admin</span><span class="p">,</span> <span class="n">warning</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Backend.top_of_help_message"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.top_of_help_message">[docs]</a>    <span class="k">def</span> <span class="nf">top_of_help_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a string that forms the top of the help message</span>
+
+<span class="sd">        Override this method in derived class if you</span>
+<span class="sd">        want to add additional help text at the</span>
+<span class="sd">        beginning of the help message.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s">&quot;&quot;</span>
+</div>
+<div class="viewcode-block" id="Backend.bottom_of_help_message"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.bottom_of_help_message">[docs]</a>    <span class="k">def</span> <span class="nf">bottom_of_help_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a string that forms the bottom of the help message</span>
+
+<span class="sd">        Override this method in derived class if you</span>
+<span class="sd">        want to add additional help text at the end</span>
+<span class="sd">        of the help message.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s">&quot;&quot;</span>
+</div>
+    <span class="nd">@botcmd</span>
+<div class="viewcode-block" id="Backend.help"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.help">[docs]</a>    <span class="k">def</span> <span class="nf">help</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;   Returns a help string listing available options.</span>
+
+<span class="sd">        Automatically assigned to the &quot;help&quot; command.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__doc__</span><span class="p">:</span>
+                <span class="n">description</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__doc__</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">description</span> <span class="o">=</span> <span class="s">&#39;Available commands:&#39;</span>
+
+            <span class="n">usage</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span>
+            <span class="n">BOT_PREFIX</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">command</span><span class="o">.</span><span class="n">__doc__</span> <span class="ow">or</span>
+                                            <span class="s">&#39;(undocumented)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span>\
+            <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s">&#39;help&#39;</span>\
+            <span class="ow">and</span> <span class="ow">not</span> <span class="n">command</span><span class="o">.</span><span class="n">_err_command_hidden</span>
+            <span class="p">]))</span>
+            <span class="n">usage</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="p">[</span><span class="n">usage</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">MSG_HELP_TAIL</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">description</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+            <span class="k">if</span> <span class="n">args</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">:</span>
+                <span class="n">usage</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">args</span><span class="p">]</span><span class="o">.</span><span class="n">__doc__</span> <span class="ow">or</span>
+                         <span class="s">&#39;undocumented&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">usage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MSG_HELP_UNDEFINED_COMMAND</span>
+
+        <span class="n">top</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_of_help_message</span><span class="p">()</span>
+        <span class="n">bottom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottom_of_help_message</span><span class="p">()</span>
+        <span class="k">return</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="p">[</span><span class="n">top</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">usage</span><span class="p">,</span> <span class="n">bottom</span><span class="p">]))</span>
+</div>
+<div class="viewcode-block" id="Backend.send"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">in_reply_to</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">message_type</span><span class="o">=</span><span class="s">&#39;chat&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sends a simple message to the specified user.&quot;&quot;&quot;</span>
+        <span class="n">mess</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_message</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s">&#39;getStripped&#39;</span><span class="p">):</span>
+            <span class="n">mess</span><span class="o">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">getStripped</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mess</span><span class="o">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">in_reply_to</span><span class="p">:</span>
+            <span class="n">mess</span><span class="o">.</span><span class="n">setType</span><span class="p">(</span><span class="n">in_reply_to</span><span class="o">.</span><span class="n">getType</span><span class="p">())</span>
+            <span class="n">mess</span><span class="o">.</span><span class="n">setFrom</span><span class="p">(</span><span class="n">in_reply_to</span><span class="o">.</span><span class="n">getTo</span><span class="p">()</span><span class="o">.</span><span class="n">getStripped</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mess</span><span class="o">.</span><span class="n">setType</span><span class="p">(</span><span class="n">message_type</span><span class="p">)</span>
+            <span class="n">mess</span><span class="o">.</span><span class="n">setFrom</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
+
+
+    <span class="c">###### HERE ARE THE SPECIFICS TO IMPLEMENT PER BACKEND</span>
+</div>
+<div class="viewcode-block" id="Backend.build_message"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.build_message">[docs]</a>    <span class="k">def</span> <span class="nf">build_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;It should be implemented specifically for your backend&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Backend.serve_forever"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.serve_forever">[docs]</a>    <span class="k">def</span> <span class="nf">serve_forever</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;It should be implemented specifically for your backend&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Backend.connect"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Connects the bot to server or returns current connection</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;It should be implemented specifically for your backend&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Backend.join_room"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.join_room">[docs]</a>    <span class="k">def</span> <span class="nf">join_room</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;It should be implemented specifically for your backend&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Backend.shutdown"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.shutdown">[docs]</a>    <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="Backend.connect_callback"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.connect_callback">[docs]</a>    <span class="k">def</span> <span class="nf">connect_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="Backend.disconnect_callback"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.disconnect_callback">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="Backend.mode"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.mode">[docs]</a>    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;It should be implemented specifically for your backend&quot;</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="get_jid_from_message"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.get_jid_from_message">[docs]</a><span class="k">def</span> <span class="nf">get_jid_from_message</span><span class="p">(</span><span class="n">mess</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;chat&#39;</span><span class="p">:</span>
+        <span class="c"># strip the resource for direct chats</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">()</span><span class="o">.</span><span class="n">getStripped</span><span class="p">())</span>
+
+    <span class="c"># this is a standard private XMPP reply in MUC</span>
+    <span class="n">fr</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">()</span>
+    <span class="n">jid</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">fr</span><span class="o">.</span><span class="n">node</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">fr</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="n">resource</span><span class="o">=</span><span class="n">mess</span><span class="o">.</span><span class="n">getMuckNick</span><span class="p">())</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Message from MUC. Replying to: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">jid</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">jid</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../../../../" title="Back to home page">
+        <img class="logo" src="../../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err" />
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../">Homepage</a></li>
+  <li><a href="../../../../genindex/">Index</a></li>
+  <li><a href="../../../../py-modindex/">Module index</a></li>
+  <li><a href="../../../../modules/">API reference</a></li>
+      <li>
+          <a href="../../../">Module code</a>
+          <ul>
+      <li>
+          <a href="../../">errbot</a>
+          <ul>
+          </ul>
+      </li>
+          </ul>
+      </li>
+</ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <script>
+    $(document).ready(function() {
+        $('.fancybox').fancybox({
+            padding : 0,
+            openEffect  : 'elastic'
+        });
+    });
+  </script>
+ <div class="relbar2">
+    
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+          <li><a href="../../../" >Module code</a> &raquo;</li>
+          <li><a href="../../" >errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+ </div>
+  <div class="footer">
+    &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  
+  </body>
+</html>

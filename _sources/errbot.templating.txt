@@ -1,0 +1,7 @@
+errbot.templating module
+========================
+
+.. automodule:: errbot.templating
+    :members:
+    :undoc-members:
+    :show-inheritance:

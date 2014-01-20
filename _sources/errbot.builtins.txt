@@ -1,0 +1,27 @@
+errbot.builtins package
+=======================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    errbot.builtins.templates
+
+Submodules
+----------
+
+.. toctree::
+
+   errbot.builtins.chatRoom
+   errbot.builtins.vcheck
+   errbot.builtins.webserver
+   errbot.builtins.wsview
+
+Module contents
+---------------
+
+.. automodule:: errbot.builtins
+    :members:
+    :undoc-members:
+    :show-inheritance:

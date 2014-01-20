@@ -1,0 +1,7 @@
+errbot.bundled.rocket module
+============================
+
+.. automodule:: errbot.bundled.rocket
+    :members:
+    :undoc-members:
+    :show-inheritance:

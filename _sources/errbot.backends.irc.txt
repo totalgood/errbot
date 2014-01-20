@@ -1,0 +1,7 @@
+errbot.backends.irc module
+==========================
+
+.. automodule:: errbot.backends.irc
+    :members:
+    :undoc-members:
+    :show-inheritance:

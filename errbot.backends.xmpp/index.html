@@ -1,0 +1,291 @@
+
+<!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.backends.xmpp module &mdash; Err 2.0.0-rc2 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.0.0-rc2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../" />
+    <link rel="up" title="errbot.backends package" href="../errbot.backends/" />
+    <link rel="next" title="errbot.builtins package" href="../errbot.builtins/" />
+    <link rel="prev" title="errbot.backends.text module" href="../errbot.backends.text/" />
+  <link rel="icon" type="image/png" href="../_static/err.png" />
+  <link rel="apple-touch-icon" href="../_static/err.png" />
+  <link rel="stylesheet" href="../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="../_static/fancybox/jquery.fancybox.pack.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-32534172-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.builtins/" title="errbot.builtins package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../errbot.backends.text/" title="errbot.backends.text module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li><a href="../errbot.backends/" accesskey="U">errbot.backends package</a> &raquo;</li> 
+      </ul>
+    </div>
+    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-errbot.backends.xmpp">
+<span id="errbot-backends-xmpp-module"></span><h1>errbot.backends.xmpp module<a class="headerlink" href="#module-errbot.backends.xmpp" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="errbot.backends.xmpp.XMPPBackend">
+<em class="property">class </em><tt class="descclassname">errbot.backends.xmpp.</tt><tt class="descname">XMPPBackend</tt><big>(</big><em>username</em>, <em>password</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.errBot/#errbot.errBot.ErrBot" title="errbot.errBot.ErrBot"><tt class="xref py py-class docutils literal"><span class="pre">errbot.errBot.ErrBot</span></tt></a></p>
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.build_message">
+<tt class="descname">build_message</tt><big>(</big><em>text</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.build_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.build_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.connect">
+<tt class="descname">connect</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.connected">
+<tt class="descname">connected</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.connected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.connected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback for connection events</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.create_connection">
+<tt class="descname">create_connection</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.create_connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.create_connection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.disconnected">
+<tt class="descname">disconnected</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.disconnected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.disconnected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback for disconnection events</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.incoming_message">
+<tt class="descname">incoming_message</tt><big>(</big><em>xmppmsg</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.incoming_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.incoming_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback for message events</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.invite_in_room">
+<tt class="descname">invite_in_room</tt><big>(</big><em>room</em>, <em>jids_to_invite</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.invite_in_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.invite_in_room" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.join_room">
+<tt class="descname">join_room</tt><big>(</big><em>room</em>, <em>username=None</em>, <em>password=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.join_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.join_room" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.xmpp.XMPPBackend.mode">
+<tt class="descname">mode</tt><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.serve_forever">
+<tt class="descname">serve_forever</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.serve_forever"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.serve_forever" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.xmpp.XMPPConnection">
+<em class="property">class </em><tt class="descclassname">errbot.backends.xmpp.</tt><tt class="descname">XMPPConnection</tt><big>(</big><em>jid</em>, <em>password</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.backends.base/#errbot.backends.base.Connection" title="errbot.backends.base.Connection"><tt class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.Connection</span></tt></a></p>
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.add_event_handler">
+<tt class="descname">add_event_handler</tt><big>(</big><em>name</em>, <em>cb</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.add_event_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.add_event_handler" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.connect">
+<tt class="descname">connect</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.disconnect">
+<tt class="descname">disconnect</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.disconnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.disconnect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.invite_in_room">
+<tt class="descname">invite_in_room</tt><big>(</big><em>room</em>, <em>jids_to_invite</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.invite_in_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.invite_in_room" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.join_room">
+<tt class="descname">join_room</tt><big>(</big><em>room</em>, <em>username</em>, <em>password</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.join_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.join_room" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.send_message">
+<tt class="descname">send_message</tt><big>(</big><em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.send_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.serve_forever">
+<tt class="descname">serve_forever</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.serve_forever"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.serve_forever" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.session_start">
+<tt class="descname">session_start</tt><big>(</big><em>_</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.session_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.session_start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.ssl_invalid_cert">
+<tt class="descname">ssl_invalid_cert</tt><big>(</big><em>_</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.ssl_invalid_cert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.ssl_invalid_cert" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="errbot.backends.xmpp.verify_gtalk_cert">
+<tt class="descclassname">errbot.backends.xmpp.</tt><tt class="descname">verify_gtalk_cert</tt><big>(</big><em>xmpp_client</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#verify_gtalk_cert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.verify_gtalk_cert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hack specific for google apps domains with SRV entries.
+It needs to fid the SSL certificate of google and not the one for your domain</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../" title="Back to home page">
+        <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err" />
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+  <li><a href="../">Homepage</a></li>
+  <li><a href="../genindex/">Index</a></li>
+  <li><a href="../py-modindex/">Module index</a></li>
+  <li><a href="../modules/">API reference</a></li>
+      <li>
+          <a href="../errbot/">errbot package</a>
+          <ul>
+      <li>
+          <a href="../errbot.backends/">errbot.backends package</a>
+          <ul>
+          <li>Previous: <a href="../errbot.backends.text/" title="previous chapter">errbot.backends.text module</a></li>
+          <li>Next: <a href="../errbot.builtins/" title="next chapter">errbot.builtins package</a></li>
+          </ul>
+      </li>
+          </ul>
+      </li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/errbot.backends.xmpp.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <script>
+    $(document).ready(function() {
+        $('.fancybox').fancybox({
+            padding : 0,
+            openEffect  : 'elastic'
+        });
+    });
+  </script>
+ <div class="relbar2">
+    
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.builtins/" title="errbot.builtins package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../errbot.backends.text/" title="errbot.backends.text module"
+             >previous</a> |</li>
+        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li><a href="../errbot.backends/" >errbot.backends package</a> &raquo;</li> 
+      </ul>
+    </div>
+ </div>
+  <div class="footer">
+    &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  
+  </body>
+</html>

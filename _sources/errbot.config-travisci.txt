@@ -1,0 +1,7 @@
+errbot.config-travisci module
+=============================
+
+.. automodule:: errbot.config-travisci
+    :members:
+    :undoc-members:
+    :show-inheritance:

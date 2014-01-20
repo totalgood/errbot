@@ -1,0 +1,7 @@
+errbot.config-template module
+=============================
+
+.. automodule:: errbot.config-template
+    :members:
+    :undoc-members:
+    :show-inheritance:

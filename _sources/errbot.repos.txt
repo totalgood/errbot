@@ -1,0 +1,7 @@
+errbot.repos module
+===================
+
+.. automodule:: errbot.repos
+    :members:
+    :undoc-members:
+    :show-inheritance:

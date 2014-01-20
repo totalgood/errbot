@@ -1,0 +1,7 @@
+errbot.backends.xmpp module
+===========================
+
+.. automodule:: errbot.backends.xmpp
+    :members:
+    :undoc-members:
+    :show-inheritance:

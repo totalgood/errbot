@@ -1,0 +1,7 @@
+errbot.builtins.chatRoom module
+===============================
+
+.. automodule:: errbot.builtins.chatRoom
+    :members:
+    :undoc-members:
+    :show-inheritance:

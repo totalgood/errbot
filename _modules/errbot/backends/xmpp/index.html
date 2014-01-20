@@ -1,0 +1,354 @@
+
+<!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.backends.xmpp &mdash; Err 2.0.0-rc2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '2.0.0-rc2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../../../../" />
+    <link rel="up" title="errbot" href="../../" />
+  <link rel="icon" type="image/png" href="../../../../_static/err.png" />
+  <link rel="apple-touch-icon" href="../../../../_static/err.png" />
+  <link rel="stylesheet" href="../../../../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="../../../../_static/fancybox/jquery.fancybox.pack.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-32534172-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+          <li><a href="../../../" >Module code</a> &raquo;</li>
+          <li><a href="../../" accesskey="U">errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for errbot.backends.xmpp</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+
+<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">build_message</span><span class="p">,</span> <span class="n">Connection</span>
+<span class="kn">from</span> <span class="nn">errbot.errBot</span> <span class="kn">import</span> <span class="n">ErrBot</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">sleekxmpp</span> <span class="kn">import</span> <span class="n">ClientXMPP</span>
+    <span class="kn">from</span> <span class="nn">sleekxmpp.xmlstream</span> <span class="kn">import</span> <span class="n">resolver</span><span class="p">,</span> <span class="n">cert</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&quot;Could not start the XMPP backend&quot;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">    If you intend to use the XMPP backend please install the python sleekxmpp package:</span>
+<span class="s">    -&gt; On debian-like systems</span>
+<span class="s">    sudo apt-get install python-software-properties</span>
+<span class="s">    sudo apt-get update</span>
+<span class="s">    sudo apt-get install python-sleekxmpp</span>
+<span class="s">    -&gt; On Gentoo</span>
+<span class="s">    sudo layman -a laurentb</span>
+<span class="s">    sudo emerge -av dev-python/sleekxmpp</span>
+<span class="s">    -&gt; Generic</span>
+<span class="s">    pip install sleekxmpp</span>
+<span class="s">    &quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">XMPP_FEATURE_MECHANISMS</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">XMPP_FEATURE_MECHANISMS</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">XMPP_KEEPALIVE_INTERVAL</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">XMPP_KEEPALIVE_INTERVAL</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">XMPP_CA_CERT_FILE</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">XMPP_CA_CERT_FILE</span> <span class="o">=</span> <span class="s">&quot;/etc/ssl/certs/ca-certificates.crt&quot;</span>
+
+<span class="k">if</span> <span class="n">XMPP_CA_CERT_FILE</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">XMPP_CA_CERT_FILE</span><span class="p">):</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span><span class="s">&quot;The CA certificate path set by XMPP_CA_CERT_FILE does not exist. &quot;</span>
+                  <span class="s">&quot;Please set XMPP_CA_CERT_FILE to a valid file, or disable certificate&quot;</span>
+                  <span class="s">&quot;validation by setting it to None (not recommended!).&quot;</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+
+
+<div class="viewcode-block" id="verify_gtalk_cert"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.verify_gtalk_cert">[docs]</a><span class="k">def</span> <span class="nf">verify_gtalk_cert</span><span class="p">(</span><span class="n">xmpp_client</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Hack specific for google apps domains with SRV entries.</span>
+<span class="sd">        It needs to fid the SSL certificate of google and not the one for your domain</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">hosts</span> <span class="o">=</span> <span class="n">resolver</span><span class="o">.</span><span class="n">get_SRV</span><span class="p">(</span><span class="n">xmpp_client</span><span class="o">.</span><span class="n">boundjid</span><span class="o">.</span><span class="n">server</span><span class="p">,</span> <span class="mi">5222</span><span class="p">,</span>
+                             <span class="n">xmpp_client</span><span class="o">.</span><span class="n">dns_service</span><span class="p">,</span>
+                             <span class="n">resolver</span><span class="o">=</span><span class="n">resolver</span><span class="o">.</span><span class="n">default_resolver</span><span class="p">())</span>
+    <span class="n">it_is_google</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">for</span> <span class="n">host</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">hosts</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">host</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;google.com&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">it_is_google</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="k">if</span> <span class="n">it_is_google</span><span class="p">:</span>
+        <span class="n">raw_cert</span> <span class="o">=</span> <span class="n">xmpp_client</span><span class="o">.</span><span class="n">socket</span><span class="o">.</span><span class="n">getpeercert</span><span class="p">(</span><span class="n">binary_form</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cert</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="s">&#39;talk.google.com&#39;</span><span class="p">,</span> <span class="n">raw_cert</span><span class="p">):</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;google cert found for </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">xmpp_client</span><span class="o">.</span><span class="n">boundjid</span><span class="o">.</span><span class="n">server</span><span class="p">)</span>
+                <span class="k">return</span>
+        <span class="k">except</span> <span class="n">cert</span><span class="o">.</span><span class="n">CertificateError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;invalid cert received for </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">xmpp_client</span><span class="o">.</span><span class="n">boundjid</span><span class="o">.</span><span class="n">server</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="XMPPConnection"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPConnection">[docs]</a><span class="k">class</span> <span class="nc">XMPPConnection</span><span class="p">(</span><span class="n">Connection</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jid</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connected</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">ClientXMPP</span><span class="p">(</span><span class="n">jid</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">plugin_config</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;feature_mechanisms&#39;</span><span class="p">:</span> <span class="n">XMPP_FEATURE_MECHANISMS</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">register_plugin</span><span class="p">(</span><span class="s">&#39;xep_0030&#39;</span><span class="p">)</span>  <span class="c"># Service Discovery</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">register_plugin</span><span class="p">(</span><span class="s">&#39;xep_0045&#39;</span><span class="p">)</span>  <span class="c"># Multi-User Chat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">register_plugin</span><span class="p">(</span><span class="s">&#39;old_0004&#39;</span><span class="p">)</span>  <span class="c"># Multi-User Chat backward compability (necessary for join room)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">register_plugin</span><span class="p">(</span><span class="s">&#39;xep_0199&#39;</span><span class="p">)</span>  <span class="c"># XMPP Ping</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">register_plugin</span><span class="p">(</span><span class="s">&#39;xep_0203&#39;</span><span class="p">)</span>  <span class="c"># XMPP Delayed messages</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">register_plugin</span><span class="p">(</span><span class="s">&#39;xep_0249&#39;</span><span class="p">)</span>  <span class="c"># XMPP direct MUC invites</span>
+
+        <span class="k">if</span> <span class="n">XMPP_KEEPALIVE_INTERVAL</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">whitespace_keepalive</span> <span class="o">=</span> <span class="bp">True</span>  <span class="c"># Just in case SleekXMPP&#39;s default changes to False in the future</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">whitespace_keepalive_interval</span> <span class="o">=</span> <span class="n">XMPP_KEEPALIVE_INTERVAL</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">ca_certs</span> <span class="o">=</span> <span class="n">XMPP_CA_CERT_FILE</span>  <span class="c"># Used for TLS certificate validation</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span><span class="s">&quot;session_start&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_start</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span><span class="s">&quot;ssl_invalid_cert&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ssl_invalid_cert</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XMPPConnection.send_message"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPConnection.send_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">mto</span><span class="o">=</span><span class="n">mess</span><span class="o">.</span><span class="n">getTo</span><span class="p">(),</span>
+                                 <span class="n">mbody</span><span class="o">=</span><span class="n">mess</span><span class="o">.</span><span class="n">getBody</span><span class="p">(),</span>
+                                 <span class="n">mtype</span><span class="o">=</span><span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">(),</span>
+                                 <span class="n">mhtml</span><span class="o">=</span><span class="n">mess</span><span class="o">.</span><span class="n">getHTML</span><span class="p">())</span>
+</div>
+<div class="viewcode-block" id="XMPPConnection.session_start"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPConnection.session_start">[docs]</a>    <span class="k">def</span> <span class="nf">session_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">send_presence</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_roster</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="XMPPConnection.ssl_invalid_cert"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPConnection.ssl_invalid_cert">[docs]</a>    <span class="k">def</span> <span class="nf">ssl_invalid_cert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">):</span>
+        <span class="c"># Special quirk for google domains</span>
+        <span class="n">verify_gtalk_cert</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="XMPPConnection.connect"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPConnection.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connected</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</div>
+<div class="viewcode-block" id="XMPPConnection.disconnect"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPConnection.disconnect">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">disconnect</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connected</span> <span class="o">=</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="XMPPConnection.serve_forever"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPConnection.serve_forever">[docs]</a>    <span class="k">def</span> <span class="nf">serve_forever</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="XMPPConnection.add_event_handler"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPConnection.add_event_handler">[docs]</a>    <span class="k">def</span> <span class="nf">add_event_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">cb</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">cb</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="XMPPConnection.join_room"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPConnection.join_room">[docs]</a>    <span class="k">def</span> <span class="nf">join_room</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+        <span class="n">muc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">plugin</span><span class="p">[</span><span class="s">&#39;xep_0045&#39;</span><span class="p">]</span>
+        <span class="n">muc</span><span class="o">.</span><span class="n">joinMUC</span><span class="p">(</span><span class="n">room</span><span class="p">,</span>
+                    <span class="n">username</span><span class="p">,</span>
+                    <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span>
+                    <span class="n">wait</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">muc</span><span class="o">.</span><span class="n">getRoomForm</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">form</span><span class="p">:</span>
+            <span class="n">muc</span><span class="o">.</span><span class="n">configureRoom</span><span class="p">(</span><span class="n">room</span><span class="p">,</span> <span class="n">form</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Error configuring the MUC Room </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">room</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="XMPPConnection.invite_in_room"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPConnection.invite_in_room">[docs]</a>    <span class="k">def</span> <span class="nf">invite_in_room</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">,</span> <span class="n">jids_to_invite</span><span class="p">):</span>
+        <span class="n">muc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">plugin</span><span class="p">[</span><span class="s">&#39;xep_0045&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">jid</span> <span class="ow">in</span> <span class="n">jids_to_invite</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Inviting </span><span class="si">%s</span><span class="s"> to </span><span class="si">%s</span><span class="s">...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">jid</span><span class="p">,</span> <span class="n">room</span><span class="p">))</span>
+            <span class="n">muc</span><span class="o">.</span><span class="n">invite</span><span class="p">(</span><span class="n">room</span><span class="p">,</span> <span class="n">jid</span><span class="p">)</span>
+
+
+</div></div>
+<div class="viewcode-block" id="XMPPBackend"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend">[docs]</a><span class="k">class</span> <span class="nc">XMPPBackend</span><span class="p">(</span><span class="n">ErrBot</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">XMPPBackend</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jid</span> <span class="o">=</span> <span class="n">username</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">password</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_connection</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span><span class="s">&quot;message&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">incoming_message</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span><span class="s">&quot;session_start&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span><span class="s">&quot;disconnected&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">disconnected</span><span class="p">)</span>
+
+<div class="viewcode-block" id="XMPPBackend.create_connection"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.create_connection">[docs]</a>    <span class="k">def</span> <span class="nf">create_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">XMPPConnection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="XMPPBackend.incoming_message"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.incoming_message">[docs]</a>    <span class="k">def</span> <span class="nf">incoming_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xmppmsg</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Callback for message events&quot;&quot;&quot;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">Message</span><span class="p">(</span><span class="n">xmppmsg</span><span class="p">[</span><span class="s">&#39;body&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s">&#39;html&#39;</span> <span class="ow">in</span> <span class="n">xmppmsg</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">msg</span><span class="o">.</span><span class="n">setHTML</span><span class="p">(</span><span class="n">xmppmsg</span><span class="p">[</span><span class="s">&#39;html&#39;</span><span class="p">])</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">setFrom</span><span class="p">(</span><span class="n">xmppmsg</span><span class="p">[</span><span class="s">&#39;from&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">full</span><span class="p">)</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">xmppmsg</span><span class="p">[</span><span class="s">&#39;to&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">full</span><span class="p">)</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">setType</span><span class="p">(</span><span class="n">xmppmsg</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">])</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">setMuckNick</span><span class="p">(</span><span class="n">xmppmsg</span><span class="p">[</span><span class="s">&#39;mucnick&#39;</span><span class="p">])</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">setDelayed</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="n">xmppmsg</span><span class="p">[</span><span class="s">&#39;delay&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_get_attr</span><span class="p">(</span><span class="s">&#39;stamp&#39;</span><span class="p">)))</span>  <span class="c"># this is a bug in sleekxmpp it should be [&#39;from&#39;]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callback_message</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="XMPPBackend.connected"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.connected">[docs]</a>    <span class="k">def</span> <span class="nf">connected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Callback for connection events&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect_callback</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="XMPPBackend.disconnected"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.disconnected">[docs]</a>    <span class="k">def</span> <span class="nf">disconnected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Callback for disconnection events&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disconnect_callback</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="XMPPBackend.serve_forever"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.serve_forever">[docs]</a>    <span class="k">def</span> <span class="nf">serve_forever</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>  <span class="c"># be sure we are &quot;connected&quot; before the first command</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Trigger disconnect callback&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">disconnect_callback</span><span class="p">()</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Trigger shutdown&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="XMPPBackend.connect"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="XMPPBackend.build_message"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.build_message">[docs]</a>    <span class="k">def</span> <span class="nf">build_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">build_message</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">Message</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="XMPPBackend.join_room"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.join_room">[docs]</a>    <span class="k">def</span> <span class="nf">join_room</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">join_room</span><span class="p">(</span><span class="n">room</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="XMPPBackend.invite_in_room"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.invite_in_room">[docs]</a>    <span class="k">def</span> <span class="nf">invite_in_room</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">,</span> <span class="n">jids_to_invite</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">invite_in_room</span><span class="p">(</span><span class="n">room</span><span class="p">,</span> <span class="n">jids_to_invite</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+<div class="viewcode-block" id="XMPPBackend.mode"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.mode">[docs]</a>    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;xmpp&#39;</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../../../../" title="Back to home page">
+        <img class="logo" src="../../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err" />
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../">Homepage</a></li>
+  <li><a href="../../../../genindex/">Index</a></li>
+  <li><a href="../../../../py-modindex/">Module index</a></li>
+  <li><a href="../../../../modules/">API reference</a></li>
+      <li>
+          <a href="../../../">Module code</a>
+          <ul>
+      <li>
+          <a href="../../">errbot</a>
+          <ul>
+          </ul>
+      </li>
+          </ul>
+      </li>
+</ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <script>
+    $(document).ready(function() {
+        $('.fancybox').fancybox({
+            padding : 0,
+            openEffect  : 'elastic'
+        });
+    });
+  </script>
+ <div class="relbar2">
+    
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+          <li><a href="../../../" >Module code</a> &raquo;</li>
+          <li><a href="../../" >errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+ </div>
+  <div class="footer">
+    &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  
+  </body>
+</html>

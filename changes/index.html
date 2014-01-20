@@ -1,0 +1,572 @@
+
+<!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Release history &mdash; Err 2.0.0-rc2 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.0.0-rc2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../" />
+    <link rel="prev" title="errbot.version module" href="../errbot.version/" />
+  <link rel="icon" type="image/png" href="../_static/err.png" />
+  <link rel="apple-touch-icon" href="../_static/err.png" />
+  <link rel="stylesheet" href="../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="../_static/fancybox/jquery.fancybox.pack.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-32534172-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.version/" title="errbot.version module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="release-history">
+<h1>Release history<a class="headerlink" href="#release-history" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="version-2-0-0-rc2-2013-11-28">
+<h2>Version 2.0.0-rc2 (2013-11-28)<a class="headerlink" href="#version-2-0-0-rc2-2013-11-28" title="Permalink to this headline">¶</a></h2>
+<p>Migrated the version checker to github.io</p>
+<p>Bugs:
+- Fix MUC login: Support tuple &amp; add username
+- Language correction (thx daenney)</p>
+</div>
+<div class="section" id="version-2-0-0-rc1-2013-10-03">
+<h2>Version 2.0.0-rc1 (2013-10-03)<a class="headerlink" href="#version-2-0-0-rc1-2013-10-03" title="Permalink to this headline">¶</a></h2>
+<p>Features:
+- Added err-faustbot to the official repo list
+- Added the !room create command for adhoc room creation (google talk)
+- Added sedbot to the official repos
+- Added support for plugin based webviews
+- Add err-agressive-keepalive to the official repos
+- Allow botcmd&#8217;s to yield values
+- Allow configuration of MESSAGE_SIZE_LIMIT</p>
+<p>Bugs:
+- Properly close shelf upon restart (thx Max Wagner)
+- Fix inverted display of repo status (private/official) (thx Max Wagner)
+- Include jid resource in Message.from/to (Thx Kha)
+- Fix messed up display of status and repos commands (thx Max Wagner)
+- fixed the standalone execution with -c parameter
+- corrected the QT backend under python 3
+- hipchat fix
+- missing dependencies for SRV records (google compatibility)
+- bug in the apropos while adding a command to chatroom
+- XMPP: forward HTML of incoming messages (Thx Kha)
+- corrected the linkyfier in the graphic interface
+- corrected the status display of a plugin that failed at activation stage
+- Handle disconnect events correctly</p>
+</div>
+<div class="section" id="version-2-0-0-beta-2013-03-31">
+<h2>Version 2.0.0-beta (2013-03-31)<a class="headerlink" href="#version-2-0-0-beta-2013-03-31" title="Permalink to this headline">¶</a></h2>
+<p>Features:</p>
+<ul class="simple">
+<li>SSL support for webhook callbacks</li>
+<li>JID unicode support</li>
+<li>Per user command history (Thanks to Leonid S. Usov <a class="reference external" href="https://github.com/leonid-s-usov">https://github.com/leonid-s-usov</a>)</li>
+<li>HIDE_RESTRICTED_COMMANDS option added to filter out the non accessoble commands from the help  (Thanks to Leonid S. Usov <a class="reference external" href="https://github.com/leonid-s-usov">https://github.com/leonid-s-usov</a>)</li>
+<li>err-markovbot has been added to the official plugins list (Thanks to Max Wagner <a class="reference external" href="https://github.com/MaxWagner">https://github.com/MaxWagner</a>)</li>
+<li>the version parsing now supports beta, alpha, rc etc ... statuses</li>
+</ul>
+<p>Major refactoring:</p>
+<ul class="simple">
+<li>python 3 compatibility</li>
+<li>xmpp backend has been replaced by sleekxmpp</li>
+<li>flask has been replaced by bottle (sorry flask no py3 support, no future)</li>
+<li>rocket is used as webserver with SSL support</li>
+<li>now the IRC backend uses the smpler python/irc package</li>
+<li>improved unittest coverage</li>
+</ul>
+</div>
+<div class="section" id="version-1-7-1-2012-12-25">
+<h2>Version 1.7.1 (2012-12-25)<a class="headerlink" href="#version-1-7-1-2012-12-25" title="Permalink to this headline">¶</a></h2>
+<p>Bugs:</p>
+<ul class="simple">
+<li>unicode encoding on jabber</li>
+</ul>
+</div>
+<div class="section" id="version-1-7-0-2012-12-24">
+<h2>Version 1.7.0 (2012-12-24)<a class="headerlink" href="#version-1-7-0-2012-12-24" title="Permalink to this headline">¶</a></h2>
+<p>Incompatible changes:</p>
+<p>For this one if your plugin uses PLUGIN_DIR, you will need to change it to self.plugin_dir as it is a runtime value now.</p>
+<p>Bugs:</p>
+<ul class="simple">
+<li>yapsy 1.10 compatibility</li>
+<li>better detection of self in MUC</li>
+<li>force python 2 for shebang lines</li>
+<li>Parses the real nick and the room and put it in the from identity of messages</li>
+<li>fix for JID Instance has no attribute &#8216;__len__&#8217;</li>
+<li>partial support for &#64; in JIDs nodes</li>
+<li>when a plugin was reloaded, it was not connect notified</li>
+</ul>
+<p>Features:</p>
+<ul class="simple">
+<li>botprefix is now optional on one on one chats</li>
+<li>fine grained access control</li>
+<li>better serialization to disk by default (protocol 2)</li>
+<li>configurable separate rate limiting for IRC for public and private chats</li>
+<li>added support for MUC with passwords</li>
+<li>bot prefixes can be of any length</li>
+<li>modular !help command (it lists the plugin list with no parameters instead of the full command list)</li>
+</ul>
+<p>Dev Improvements:</p>
+<ul class="simple">
+<li>better unit tests</li>
+<li>Travis CI</li>
+</ul>
+</div>
+<div class="section" id="version-1-6-7-2012-10-08">
+<h2>Version 1.6.7 (2012-10-08)<a class="headerlink" href="#version-1-6-7-2012-10-08" title="Permalink to this headline">¶</a></h2>
+<p>Bugs:</p>
+<ul class="simple">
+<li>the XMPP from was not removed as it should and broke the gtalk compatibility</li>
+<li>fixed &#8216;jid-malformed&#8217; error with build_reply()</li>
+</ul>
+<p>Features:</p>
+<ul class="simple">
+<li>new plugin : err-dnsutils <a class="reference external" href="https://github.com/zoni/err-dnsutils">https://github.com/zoni/err-dnsutils</a></li>
+<li>Now you can selectively divert chatroom answers from a list of specified commands to a private chat (avoids flooding on IRC for example)</li>
+<li>the logging can be done using sentry</li>
+<li>Err can now login using SSL on IRC (thx to Dan Poirier <a class="reference external" href="https://github.com/poirier">https://github.com/poirier</a>)</li>
+</ul>
+</div>
+<div class="section" id="version-1-6-6-2012-09-27">
+<h2>Version 1.6.6 (2012-09-27)<a class="headerlink" href="#version-1-6-6-2012-09-27" title="Permalink to this headline">¶</a></h2>
+<p>Bugs:</p>
+<ul class="simple">
+<li>bot initiated messages were not correctly callbacked on jabber backend</li>
+<li>!apropos was generating an unicode error thx to <a class="reference external" href="https://github.com/zoni">https://github.com/zoni</a> for the fix</li>
+<li>corrected a serie of issues related to the sharedmiddleware on flask</li>
+<li>fixed a regression on the IRC backend thx to <a class="reference external" href="https://github.com/nvdk">https://github.com/nvdk</a> for helping on those</li>
+</ul>
+<p>Features:</p>
+<ul class="simple">
+<li>added err-mailwatch to the official repo thx to <a class="reference external" href="https://github.com/zoni">https://github.com/zoni</a> for the contribution</li>
+<li>added a &#8220;null&#8221; backend to stabilise the web ui</li>
+</ul>
+</div>
+<div class="section" id="version-1-6-5-2012-09-10">
+<h2>Version 1.6.5 (2012-09-10)<a class="headerlink" href="#version-1-6-5-2012-09-10" title="Permalink to this headline">¶</a></h2>
+<p>Bugs:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/gbin/err/issues/59">https://github.com/gbin/err/issues/59</a> [Thx to <a class="reference external" href="https://github.com/bubba-h57">https://github.com/bubba-h57</a> &amp; <a class="reference external" href="https://github.com/zoni">https://github.com/zoni</a> for helping to diagnose it]</li>
+</ul>
+<p>Features:</p>
+<ul class="simple">
+<li>The graphical backend now uses a multiline chat to better reflect some backends.</li>
+</ul>
+</div>
+<div class="section" id="version-1-6-4-2012-09-04">
+<h2>Version 1.6.4 (2012-09-04)<a class="headerlink" href="#version-1-6-4-2012-09-04" title="Permalink to this headline">¶</a></h2>
+<p>You will need to add 2 new config entries to your config.py. See below for details</p>
+<p>Bugs:</p>
+<ul class="simple">
+<li>Identity stripping problems</li>
+<li>fixed warn_admin that regressed</li>
+<li>close correctly shelves on connection drop [Thx to linux techie <a class="reference external" href="https://github.com/linuxtechie">https://github.com/linuxtechie</a>]</li>
+<li>corrected the !status reporting was incorrect for non configured plugins (label C)</li>
+<li>force a complete reconnection on &#8220;See Other Host&#8221; XMPP message</li>
+</ul>
+<p>Features:</p>
+<ul class="simple">
+<li>You can now change the default prefix of the bot (new config BOT_PREFIX) [Thx to Ciaran Gultnieks <a class="reference external" href="https://github.com/CiaranG">https://github.com/CiaranG</a>]</li>
+<li>Added an optional threadpool to execute commands in parallel (Experimental, new config : BOT_ASYNC)</li>
+<li>Now the bot waits on signal USR1 so you can do a kill -USR1 PID of err to make it spawn a local python console to debug it live</li>
+<li>Now you can have several config_*.py, one per backend (to be able to test specifically a backend without having to reconfigure each time the bot)</li>
+</ul>
+</div>
+<div class="section" id="version-1-6-3-2012-08-26">
+<h2>Version 1.6.3 (2012-08-26)<a class="headerlink" href="#version-1-6-3-2012-08-26" title="Permalink to this headline">¶</a></h2>
+<p>Bugs:</p>
+<ul class="simple">
+<li>!reload was causing a crash on templating</li>
+<li>!update was failing on internal_shelf</li>
+<li>several consistency fixups around Identity and Message, now they should behave almost the same was across all the backends</li>
+<li>corrected several unicode / utf-8 issues across the backends</li>
+<li>unified the standard xmpp and hipchat keep alive, they work the same</li>
+</ul>
+<p>Features:</p>
+<ul class="simple">
+<li>added err-timemachine, an &#8220;history&#8221; plugin that logs and indexes every messages. You can query it with a lucene syntax over specific dates etc ...</li>
+<li>Added a webserver UI from the webserver builtin plugin (disabled by default see !config webserver to enable it)</li>
+<li>Now if a config structure changed or failed, the bot will present you the config you had and the default template so you can adapt your current config easily</li>
+<li>Added the schema for xhtml-im so you can use your favorite xml editor to check what your templates are generating</li>
+</ul>
+</div>
+<div class="section" id="version-1-6-2-2012-08-24">
+<h2>Version 1.6.2 (2012-08-24)<a class="headerlink" href="#version-1-6-2-2012-08-24" title="Permalink to this headline">¶</a></h2>
+<p>Bugs:</p>
+<ul class="simple">
+<li>missing a dependency for python config [thx to Joshua Tobin <a class="reference external" href="https://github.com/joshuatobin">https://github.com/joshuatobin</a>]</li>
+<li>Fixing two logging debug statements that are mixed up [thx to Joshua Tobin <a class="reference external" href="https://github.com/joshuatobin">https://github.com/joshuatobin</a>]</li>
+<li>Removed the URL rewritting from the QT user interface</li>
+</ul>
+<p>Features:</p>
+<ul class="simple">
+<li>Added basic IRC support</li>
+<li>Now the BOT_EXTRA_PLUGIN_DIR can be a list so you can develop several plugins at the same time</li>
+</ul>
+</div>
+<div class="section" id="version-1-6-1-2012-08-22">
+<h2>Version 1.6.1 (2012-08-22)<a class="headerlink" href="#version-1-6-1-2012-08-22" title="Permalink to this headline">¶</a></h2>
+<p>Simplified the installation.</p>
+<p>Bugs:</p>
+<ul class="simple">
+<li>put pyfire as an optional dependency as it is used only for the campfire backend</li>
+<li>put PySide as an optional dependency as it is used only for the QT graphical backend</li>
+</ul>
+</div>
+<div class="section" id="version-1-6-0-2012-08-16">
+<h2>Version 1.6.0 (2012-08-16)<a class="headerlink" href="#version-1-6-0-2012-08-16" title="Permalink to this headline">¶</a></h2>
+<p>Bugs:</p>
+<ul class="simple">
+<li>corrected a threading issue that was preventing err to quit</li>
+<li>the python shebangs lines where not generic</li>
+<li>the config path is not inserted first so we don&#8217;t conflict with other installs</li>
+<li>corrected a corruption of the configs on some persistance stores on shutdown</li>
+</ul>
+<p>Features:</p>
+<ul class="simple">
+<li>Added support for CampFire (see: <a class="reference external" href="https://github.com/gbin/err/wiki/Setup-with-CampFire">https://github.com/gbin/err/wiki/Setup-with-CampFire</a>)</li>
+<li>Added support for Hipchat API with basic html messages (<a class="reference external" href="https://github.com/gbin/err/wiki/Setup-with-Hipchat">https://github.com/gbin/err/wiki/Setup-with-Hipchat</a>)</li>
+<li>Added support for webhooks (see: <a class="reference external" href="https://github.com/gbin/err/wiki/webhooks">https://github.com/gbin/err/wiki/webhooks</a>)</li>
+<li>Independent backends can be implemented</li>
+<li>In order to simplify : now botcmd and BotPlugin are both imported from errbot (we left a big fat warning for the old deprecated spot, they will be removed in next release)</li>
+<li>Better status report from !status (including Errors and non-configured plugins)</li>
+</ul>
+</div>
+<div class="section" id="version-1-5-1-2012-08-11">
+<h2>Version 1.5.1 (2012-08-11)<a class="headerlink" href="#version-1-5-1-2012-08-11" title="Permalink to this headline">¶</a></h2>
+<p>Bugs:</p>
+<ul class="simple">
+<li>the pypi package was not deploying html templates</li>
+</ul>
+</div>
+<div class="section" id="version-1-5-0-2012-08-10">
+<h2>Version 1.5.0 (2012-08-10)<a class="headerlink" href="#version-1-5-0-2012-08-10" title="Permalink to this headline">¶</a></h2>
+<p>Bugs:</p>
+<ul class="simple">
+<li>fix for ExpatError exception handling [Thx to linux techie <a class="reference external" href="https://github.com/linuxtechie">https://github.com/linuxtechie</a>]</li>
+<li>Graphic mode cosmetics enhancement [thx to Paul Labedan <a class="reference external" href="https://github.com/pol51">https://github.com/pol51</a>]</li>
+<li>fix for high CPU usage  [Thx to linux techie <a class="reference external" href="https://github.com/linuxtechie">https://github.com/linuxtechie</a>]</li>
+</ul>
+<p>Features:</p>
+<ul class="simple">
+<li>Added XHTML-IM support with Jinja2 templating see <a class="reference external" href="https://github.com/gbin/err/wiki/xhtml-im-templating">https://github.com/gbin/err/wiki/xhtml-im-templating</a> to get started.</li>
+<li>Better presentation on the !repos command</li>
+<li>load / unload of plugins is now persistent (they are blacklisted when unloaded)</li>
+<li>Better presentation of the !status command : Now you can see loaded, blacklisted and Erroneous plugins from there</li>
+<li>A new !about command with some credits and the current version</li>
+<li>Implemented the history navigation in the graphic test mode (up and down)</li>
+<li>Added an autocomplete in the graphic test mode</li>
+<li>Added the logo in the background of the graphic mode</li>
+</ul>
+</div>
+<div class="section" id="version-1-4-1-2012-07-13">
+<h2>Version 1.4.1 (2012-07-13)<a class="headerlink" href="#version-1-4-1-2012-07-13" title="Permalink to this headline">¶</a></h2>
+<p>Bugs:</p>
+<ul class="simple">
+<li>corrected a vicious bug when you use metaclasses on plugins with botcmd decorator generated with parameters</li>
+<li>don&#8217;t call any callback message if the message is from the chat history</li>
+<li>dependency problem with dnspython, it fixes the compatibility with google apps [Thx to linux techie <a class="reference external" href="https://github.com/linuxtechie">https://github.com/linuxtechie</a>]</li>
+<li>on repos updates, err now recheck the dependencies (you never know if they changed after the update)</li>
+</ul>
+<p>Features:</p>
+<ul>
+<li><p class="first">Added a new check_configuration callback now by default the configuration check is basic and no implementation has to be done on plugin side</p>
+</li>
+<li><p class="first">Warn the admins in case of command name clashes and fix them by prefixing the name of the plugin + -</p>
+</li>
+<li><p class="first">A brand new graphical mode so you can debug with images displayed etc ... (command line option -G) it requires pyside [thx to Paul Labedan <a class="reference external" href="https://github.com/pol51">https://github.com/pol51</a>]</p>
+</li>
+<li><p class="first">A new !apropos command that search a term into the help descriptions [thx to Ben Van Daele <a class="reference external" href="https://github.com/benvd">https://github.com/benvd</a>]</p>
+</li>
+<li><p class="first">Now the bot reconnects in case of bad internet connectivity [Thx to linux techie <a class="reference external" href="https://github.com/linuxtechie">https://github.com/linuxtechie</a>]</p>
+</li>
+<li><dl class="first docutils">
+<dt>The bot now supports a &#8220;remote chatroom relay&#8221; (relay all messages from a MUC to a list of users) on top of a normal relay (from a user to a list of MUC)</dt>
+<dd><p class="first last">With this you can emulate a partychat mode.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">err-music [thx to Ben Van Daele <a class="reference external" href="https://github.com/benvd">https://github.com/benvd</a> and thx to Tali Petrover <a class="reference external" href="https://github.com/atalyad">https://github.com/atalyad</a>]</p>
+</li>
+</ul>
+</div>
+<div class="section" id="version-1-4-0-2012-07-09">
+<h2>Version 1.4.0 (2012-07-09)<a class="headerlink" href="#version-1-4-0-2012-07-09" title="Permalink to this headline">¶</a></h2>
+<p>Bugs:</p>
+<ul class="simple">
+<li>improved the detection of own messages</li>
+<li>automatic rejection if the configuration failed so it the plugin restart with a virgin config</li>
+</ul>
+<p>Features:</p>
+<ul class="simple">
+<li>send a close match tip if the command is not found</li>
+<li>added a polling facility for the plugins</li>
+<li>added loads of plugins to the official repos:
+err-coderwall     [thx to glenbot <a class="reference external" href="https://github.com/glenbot">https://github.com/glenbot</a>]
+err-nettools
+err-topgunbot     [thx to krismolendyke <a class="reference external" href="https://github.com/krismolendyke">https://github.com/krismolendyke</a>]
+err-diehardbot    [thx to krismolendyke <a class="reference external" href="https://github.com/krismolendyke">https://github.com/krismolendyke</a>]
+err-devops_borat  [thx to Vincent Alsteen <a class="reference external" href="https://github.com/valsteen">https://github.com/valsteen</a>]
+err-social
+err-rssfeed       [thx to Tali Petrover <a class="reference external" href="https://github.com/atalyad">https://github.com/atalyad</a>]
+err-translate     [thx to Ben Van Daele <a class="reference external" href="https://github.com/benvd">https://github.com/benvd</a>]
+err-tourney</li>
+</ul>
+</div>
+<div class="section" id="version-1-3-1-2012-07-02">
+<h2>Version 1.3.1 (2012-07-02)<a class="headerlink" href="#version-1-3-1-2012-07-02" title="Permalink to this headline">¶</a></h2>
+<p>Bugs:</p>
+<ul class="simple">
+<li>nicer warning message in case of public admin command</li>
+</ul>
+<p>Features:</p>
+<ul class="simple">
+<li>added a warn_admins api for the plugins to warn the bot admins in case of serious problem</li>
+<li>added err-tv in the official repos list</li>
+<li>added an automatic version check so admins are warned if a new err is out</li>
+<li>now if a repo has a standard requirements.txt it will be checked upon to avoid admins having to dig in the logs (warning: it added setuptools as a new dependency for err itself)</li>
+</ul>
+</div>
+<div class="section" id="version-1-3-0-2012-06-26">
+<h2>Version 1.3.0 (2012-06-26)<a class="headerlink" href="#version-1-3-0-2012-06-26" title="Permalink to this headline">¶</a></h2>
+<p>Bugs:</p>
+<ul class="simple">
+<li>Security fix : the plugin directory permissions were too lax. Thx to Pinkbyte (Sergey Popov)</li>
+<li>Corrected a bug in the exit of test mode, the shelves could loose data</li>
+<li>Added a userfriendly git command check to notify if it is missing</li>
+</ul>
+<p>Features:</p>
+<ul class="simple">
+<li>Added a version check: plugins can define min_err_version and max_err_version to notify their compatibility</li>
+<li>Added an online configuration of the plugins. No need to make your plugin users hack the config.py anymore ! just use the command !config</li>
+<li>Added a minimum Windows support.</li>
+</ul>
+</div>
+<div class="section" id="version-1-2-2-2012-06-21">
+<h2>Version 1.2.2 (2012-06-21)<a class="headerlink" href="#version-1-2-2-2012-06-21" title="Permalink to this headline">¶</a></h2>
+<p>Bugs:</p>
+<ul class="simple">
+<li>Corrected a problem when executing it from the dev tree with ./scripts/err.py</li>
+<li>Corrected the python-daemon dependency</li>
+<li>Corrected the encoding problem from the console to better match what the bot will gives to the plugins on a real XMPP server</li>
+<li>Corrected a bug in the python path for the BOT_EXTRA_PLUGIN_DIR setup parameter</li>
+</ul>
+<p>Features:</p>
+<ul class="simple">
+<li>Added a dictionary mixin for the plugins themselves so you can access you data directly with self[&#8216;entry&#8217;]</li>
+<li>admin_only is now a simple parameter of &#64;botcmd</li>
+<li>Implemented the history commands : !history !! !1 !2 !3</li>
+</ul>
+</div>
+<div class="section" id="version-1-2-1-2012-06-16">
+<h2>Version 1.2.1 (2012-06-16)<a class="headerlink" href="#version-1-2-1-2012-06-16" title="Permalink to this headline">¶</a></h2>
+<p>Bugs:</p>
+<ul class="simple">
+<li>Corrected a crash if the bot could not contact the server</li>
+</ul>
+<p>Features:</p>
+<ul class="simple">
+<li>Added a split_args_with to the botcmd decorator to ease the burden of parsing args on the plugin side (see <a class="reference external" href="https://github.com/gbin/err/wiki/plugin-dev">https://github.com/gbin/err/wiki/plugin-dev</a>)</li>
+<li>Added the pid, uid, gid parameters to the daemon group to be able to package it on linux distributions</li>
+</ul>
+</div>
+<div class="section" id="version-1-2-0-2012-06-14">
+<h2>Version 1.2.0 (2012-06-14)<a class="headerlink" href="#version-1-2-0-2012-06-14" title="Permalink to this headline">¶</a></h2>
+<p>Bugs:</p>
+<ul class="simple">
+<li>Don&#8217;t nag the user for irrelevant settings from the setting-template</li>
+<li>Added a message size security in the framework to avoid getting banned from servers when a plugin spills too much</li>
+</ul>
+<p>Features:</p>
+<ul class="simple">
+<li>Added a test mode (-t) to ease plugin development (no need to have XMPP client / server to install and connect to in order to test the bot)</li>
+<li>Added err-reviewboard a new plugin by Glen Zangirolam <a class="reference external" href="https://github.com/glenbot">https://github.com/glenbot</a> to the repos list</li>
+<li>Added subcommands supports like the function log_tail will match !log tail [args]</li>
+</ul>
+</div>
+<div class="section" id="version-1-1-1-2012-06-12">
+<h2>Version 1.1.1 (2012-06-12)<a class="headerlink" href="#version-1-1-1-2012-06-12" title="Permalink to this headline">¶</a></h2>
+<p>Bugs:</p>
+<ul class="simple">
+<li>Fixed the problem updating the core + restart</li>
+<li>Greatly improved the reporting in case of configuration mistakes.</li>
+<li>Patched the presence for a better Hipchat interop.</li>
+</ul>
+</div>
+<div class="section" id="version-1-1-0-2012-06-10">
+<h2>Version 1.1.0 (2012-06-10)<a class="headerlink" href="#version-1-1-0-2012-06-10" title="Permalink to this headline">¶</a></h2>
+<p>Features:</p>
+<ul class="simple">
+<li>Added the !uptime command</li>
+<li>!uninstall doesn&#8217;t require a full restart anymore</li>
+<li>!update a plugin doesn&#8217;t require a full restart anymore</li>
+<li>Simplified the usage of the asynchronous self.send() by stripping the last part of the JID for chatrooms</li>
+<li>Improved the !restart feature so err.py is standalone now (no need to have a err.sh anymore)</li>
+<li>err.py now takes 2 optional parameters : -d to daemonize it and -c to specify the location of the config file</li>
+</ul>
+</div>
+<div class="section" id="version-1-0-4-2012-06-08">
+<h2>Version 1.0.4 (2012-06-08)<a class="headerlink" href="#version-1-0-4-2012-06-08" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>First real release, fixups for Pypi compliance.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../" title="Back to home page">
+        <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err" />
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div>
+  <h3><a href="../">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Release history</a><ul>
+<li><a class="reference internal" href="#version-2-0-0-rc2-2013-11-28">Version 2.0.0-rc2 (2013-11-28)</a></li>
+<li><a class="reference internal" href="#version-2-0-0-rc1-2013-10-03">Version 2.0.0-rc1 (2013-10-03)</a></li>
+<li><a class="reference internal" href="#version-2-0-0-beta-2013-03-31">Version 2.0.0-beta (2013-03-31)</a></li>
+<li><a class="reference internal" href="#version-1-7-1-2012-12-25">Version 1.7.1 (2012-12-25)</a></li>
+<li><a class="reference internal" href="#version-1-7-0-2012-12-24">Version 1.7.0 (2012-12-24)</a></li>
+<li><a class="reference internal" href="#version-1-6-7-2012-10-08">Version 1.6.7 (2012-10-08)</a></li>
+<li><a class="reference internal" href="#version-1-6-6-2012-09-27">Version 1.6.6 (2012-09-27)</a></li>
+<li><a class="reference internal" href="#version-1-6-5-2012-09-10">Version 1.6.5 (2012-09-10)</a></li>
+<li><a class="reference internal" href="#version-1-6-4-2012-09-04">Version 1.6.4 (2012-09-04)</a></li>
+<li><a class="reference internal" href="#version-1-6-3-2012-08-26">Version 1.6.3 (2012-08-26)</a></li>
+<li><a class="reference internal" href="#version-1-6-2-2012-08-24">Version 1.6.2 (2012-08-24)</a></li>
+<li><a class="reference internal" href="#version-1-6-1-2012-08-22">Version 1.6.1 (2012-08-22)</a></li>
+<li><a class="reference internal" href="#version-1-6-0-2012-08-16">Version 1.6.0 (2012-08-16)</a></li>
+<li><a class="reference internal" href="#version-1-5-1-2012-08-11">Version 1.5.1 (2012-08-11)</a></li>
+<li><a class="reference internal" href="#version-1-5-0-2012-08-10">Version 1.5.0 (2012-08-10)</a></li>
+<li><a class="reference internal" href="#version-1-4-1-2012-07-13">Version 1.4.1 (2012-07-13)</a></li>
+<li><a class="reference internal" href="#version-1-4-0-2012-07-09">Version 1.4.0 (2012-07-09)</a></li>
+<li><a class="reference internal" href="#version-1-3-1-2012-07-02">Version 1.3.1 (2012-07-02)</a></li>
+<li><a class="reference internal" href="#version-1-3-0-2012-06-26">Version 1.3.0 (2012-06-26)</a></li>
+<li><a class="reference internal" href="#version-1-2-2-2012-06-21">Version 1.2.2 (2012-06-21)</a></li>
+<li><a class="reference internal" href="#version-1-2-1-2012-06-16">Version 1.2.1 (2012-06-16)</a></li>
+<li><a class="reference internal" href="#version-1-2-0-2012-06-14">Version 1.2.0 (2012-06-14)</a></li>
+<li><a class="reference internal" href="#version-1-1-1-2012-06-12">Version 1.1.1 (2012-06-12)</a></li>
+<li><a class="reference internal" href="#version-1-1-0-2012-06-10">Version 1.1.0 (2012-06-10)</a></li>
+<li><a class="reference internal" href="#version-1-0-4-2012-06-08">Version 1.0.4 (2012-06-08)</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../">Homepage</a></li>
+  <li><a href="../genindex/">Index</a></li>
+  <li><a href="../py-modindex/">Module index</a></li>
+  <li><a href="../modules/">API reference</a></li>
+          <li>Previous: <a href="../errbot.version/" title="previous chapter">errbot.version module</a></li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/changes.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <script>
+    $(document).ready(function() {
+        $('.fancybox').fancybox({
+            padding : 0,
+            openEffect  : 'elastic'
+        });
+    });
+  </script>
+ <div class="relbar2">
+    
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.version/" title="errbot.version module"
+             >previous</a> |</li>
+        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+ </div>
+  <div class="footer">
+    &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  
+  </body>
+</html>
