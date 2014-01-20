@@ -110,9 +110,7 @@
             <span class="k">if</span> <span class="n">installed_version</span> <span class="o">&lt;</span> <span class="n">current_version</span><span class="p">:</span>
                 <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;A new version </span><span class="si">%s</span><span class="s"> has been found, notify the admins !&#39;</span> <span class="o">%</span> <span class="n">current_version</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">warn_admins</span><span class="p">(</span>
-                    <span class="s">&#39;Version {0} of err is available. http://pypi.python.org/pypi/err/{0}. You can disable this check &#39;</span>
-                    <span class="s">&#39;by doing !unload VersionChecker followed by !blacklist VersionChecker&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_version_txt</span><span class="p">)</span>
-                <span class="p">)</span>
+                    <span class="s">&#39;Version </span><span class="si">%s</span><span class="s"> of err is available. http://pypi.python.org/pypi/err/</span><span class="si">%s</span><span class="s">. You can disable this check by doing !unload VersionChecker&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">current_version_txt</span><span class="p">,</span> <span class="n">current_version_txt</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&#39;Could not version check&#39;</span><span class="p">)</span>
 </div>

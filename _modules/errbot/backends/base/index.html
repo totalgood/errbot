@@ -642,10 +642,10 @@
 <div class="viewcode-block" id="Backend.send"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">in_reply_to</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">message_type</span><span class="o">=</span><span class="s">&#39;chat&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sends a simple message to the specified user.&quot;&quot;&quot;</span>
         <span class="n">mess</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_message</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s">&#39;getStripped&#39;</span><span class="p">):</span>
-            <span class="n">mess</span><span class="o">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">getStripped</span><span class="p">())</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">mess</span><span class="o">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mess</span><span class="o">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">getStripped</span><span class="p">())</span>
 
         <span class="k">if</span> <span class="n">in_reply_to</span><span class="p">:</span>
             <span class="n">mess</span><span class="o">.</span><span class="n">setType</span><span class="p">(</span><span class="n">in_reply_to</span><span class="o">.</span><span class="n">getType</span><span class="p">())</span>

@@ -70,7 +70,7 @@
           <div class="body">
             
   <h1>Source code for errbot.main</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">makedirs</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">getcwd</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">access</span><span class="p">,</span> <span class="n">makedirs</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">getcwd</span><span class="p">,</span> <span class="n">W_OK</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 
@@ -101,6 +101,12 @@
 
         <span class="n">sentryhandler</span> <span class="o">=</span> <span class="n">SentryHandler</span><span class="p">(</span><span class="n">SENTRY_DSN</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">SENTRY_LOGLEVEL</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">sentryhandler</span><span class="p">)</span>
+
+    <span class="n">d</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">BOT_DATA_DIR</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;The data directory </span><span class="si">%s</span><span class="s"> for the bot does not exist&#39;</span> <span class="o">%</span> <span class="n">BOT_DATA_DIR</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">access</span><span class="p">(</span><span class="n">BOT_DATA_DIR</span><span class="p">,</span> <span class="n">W_OK</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;The data directory </span><span class="si">%s</span><span class="s"> should be writable for the bot&#39;</span> <span class="o">%</span> <span class="n">BOT_DATA_DIR</span><span class="p">)</span>
 
     <span class="c"># make the plugins subdir to store the plugin shelves</span>
     <span class="n">d</span> <span class="o">=</span> <span class="n">BOT_DATA_DIR</span> <span class="o">+</span> <span class="n">sep</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PLUGINS_SUBDIR</span><span class="p">)</span>

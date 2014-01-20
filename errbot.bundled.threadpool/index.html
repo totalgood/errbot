@@ -96,16 +96,17 @@ ThreadPool class, added the WorkRequest class and the callback system and
 tweaked the code here and there. Kudos also to Florent Aide for the exception
 handling mechanism.</p>
 <p>Basic usage:</p>
-<div class="highlight-python"><pre>&gt;&gt; pool = ThreadPool(poolsize)
+<div class="highlight-python"><div class="highlight"><pre>&gt;&gt; pool = ThreadPool(poolsize)
 &gt;&gt; requests = makeRequests(some_callable, list_of_args, callback)
 &gt;&gt; [pool.putRequest(req) for req in requests]
-&gt;&gt; pool.wait()</pre>
+&gt;&gt; pool.wait()
+</pre></div>
 </div>
 <p>See the end of the module code for a brief, annotated usage example.</p>
 <p>Website : <a class="reference external" href="http://chrisarndt.de/projects/threadpool/">http://chrisarndt.de/projects/threadpool/</a></p>
 <dl class="function">
 <dt id="errbot.bundled.threadpool.makeRequests">
-<tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">makeRequests</tt><big>(</big><em>callable_</em>, <em>args_list</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x7f77bf960e60&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#makeRequests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.makeRequests" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">makeRequests</tt><big>(</big><em>callable_</em>, <em>args_list</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x2b2bee2299e0&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#makeRequests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.makeRequests" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create several work requests for same callable with different arguments.</p>
 <p>Convenience function for creating several work requests for the same
 callable where each invocation of the callable receives different values
@@ -181,7 +182,7 @@ requests.</p>
 
 <dl class="class">
 <dt id="errbot.bundled.threadpool.WorkRequest">
-<em class="property">class </em><tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">WorkRequest</tt><big>(</big><em>callable_</em>, <em>args=None</em>, <em>kwds=None</em>, <em>requestID=None</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x7f77bf960e60&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkRequest" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">WorkRequest</tt><big>(</big><em>callable_</em>, <em>args=None</em>, <em>kwds=None</em>, <em>requestID=None</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x2b2bee2299e0&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkRequest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
 <p>A request to execute a callable for putting in the request queue later.</p>
 <p>See the module function <tt class="docutils literal"><span class="pre">makeRequests</span></tt> for the common case

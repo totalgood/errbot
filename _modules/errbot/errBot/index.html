@@ -94,6 +94,7 @@
 
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">from</span> <span class="nn">imp</span> <span class="kn">import</span> <span class="nb">reload</span>
 
 <span class="kn">from</span> <span class="nn">tarfile</span> <span class="kn">import</span> <span class="n">TarFile</span>
 <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
@@ -101,11 +102,9 @@
 <span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">botcmd</span><span class="p">,</span> <span class="n">PY2</span>
 <span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">Backend</span><span class="p">,</span> <span class="n">HIDE_RESTRICTED_COMMANDS</span>
 
-<span class="kn">from</span> <span class="nn">errbot.plugin_manager</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">get_all_active_plugin_names</span><span class="p">,</span> <span class="n">deactivate_all_plugins</span><span class="p">,</span> <span class="n">update_plugin_places</span><span class="p">,</span> <span class="n">get_all_active_plugin_objects</span><span class="p">,</span>
-    <span class="n">get_all_plugins</span><span class="p">,</span> <span class="n">global_restart</span><span class="p">,</span> <span class="n">get_all_plugin_names</span><span class="p">,</span> <span class="n">activate_plugin_with_version_check</span><span class="p">,</span> <span class="n">deactivate_plugin_by_name</span><span class="p">,</span>
-    <span class="n">get_plugin_obj_by_name</span><span class="p">,</span> <span class="n">PluginConfigurationException</span><span class="p">,</span> <span class="n">check_dependencies</span><span class="p">,</span> <span class="n">reload_plugin_by_name</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">errbot.plugin_manager</span> <span class="kn">import</span> <span class="n">get_all_active_plugin_names</span><span class="p">,</span> <span class="n">deactivate_all_plugins</span><span class="p">,</span> <span class="n">update_plugin_places</span><span class="p">,</span> <span class="n">get_all_active_plugin_objects</span><span class="p">,</span>\
+    <span class="n">get_all_plugins</span><span class="p">,</span> <span class="n">global_restart</span><span class="p">,</span> <span class="n">get_all_plugin_names</span><span class="p">,</span> <span class="n">activate_plugin_with_version_check</span><span class="p">,</span> <span class="n">deactivate_plugin_by_name</span><span class="p">,</span> <span class="n">get_plugin_obj_by_name</span><span class="p">,</span>\
+    <span class="n">PluginConfigurationException</span><span class="p">,</span> <span class="n">check_dependencies</span>
 
 <span class="kn">from</span> <span class="nn">errbot.storage</span> <span class="kn">import</span> <span class="n">StoreMixin</span>
 <span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">PLUGINS_SUBDIR</span><span class="p">,</span> <span class="n">human_name_for_git_url</span><span class="p">,</span> <span class="n">tail</span><span class="p">,</span> <span class="n">format_timedelta</span><span class="p">,</span> <span class="n">which</span><span class="p">,</span> <span class="n">get_sender_username</span>
@@ -162,20 +161,18 @@
 <div class="viewcode-block" id="ErrBot.blacklist_plugin"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.blacklist_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">blacklist_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_plugin_blacklisted</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> is already blacklisted&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
-            <span class="k">return</span> <span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> is already blacklisted&#39;</span> <span class="o">%</span> <span class="n">name</span>
+            <span class="k">return</span>
         <span class="bp">self</span><span class="p">[</span><span class="n">BL_PLUGINS</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_blacklisted_plugin</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span><span class="n">name</span><span class="p">]</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> is now blacklisted&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> is now blacklisted&#39;</span> <span class="o">%</span> <span class="n">name</span>
 </div>
 <div class="viewcode-block" id="ErrBot.unblacklist_plugin"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.unblacklist_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">unblacklist_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_plugin_blacklisted</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> is not blacklisted&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
-            <span class="k">return</span> <span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> is not blacklisted&#39;</span> <span class="o">%</span> <span class="n">name</span>
+            <span class="k">return</span>
         <span class="n">l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_blacklisted_plugin</span><span class="p">()</span>
         <span class="n">l</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="bp">self</span><span class="p">[</span><span class="n">BL_PLUGINS</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> removed from blacklist&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> removed from blacklist&#39;</span> <span class="o">%</span> <span class="n">name</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> is now unblacklisted&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
 
     <span class="c"># configurations management</span></div>
 <div class="viewcode-block" id="ErrBot.get_plugin_configuration"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.get_plugin_configuration">[docs]</a>    <span class="k">def</span> <span class="nf">get_plugin_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
@@ -263,21 +260,6 @@
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Shutdown.&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">close_storage</span><span class="p">()</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Bye.&#39;</span><span class="p">)</span>
-</div>
-    <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="ErrBot.formatted_plugin_list"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.formatted_plugin_list">[docs]</a>    <span class="k">def</span> <span class="nf">formatted_plugin_list</span><span class="p">(</span><span class="n">active_only</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return a formatted, plain-text list of loaded plugins.</span>
-
-<span class="sd">        When active_only=True, this will only return plugins which</span>
-<span class="sd">        are actually active. Otherwise, it will also include inactive</span>
-<span class="sd">        (blacklisted) plugins.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">active_only</span><span class="p">:</span>
-            <span class="n">all_plugins</span> <span class="o">=</span> <span class="n">get_all_active_plugin_names</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">all_plugins</span> <span class="o">=</span> <span class="n">get_all_plugin_names</span><span class="p">()</span>
-        <span class="k">return</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="s">&quot;• &quot;</span> <span class="o">+</span> <span class="n">plugin</span> <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">all_plugins</span><span class="p">))</span>
 
     <span class="c">#noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
@@ -290,16 +272,13 @@
         <span class="n">plugins_statuses</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">all_attempted</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">all_blacklisted</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">all_loaded</span><span class="p">:</span>
-                    <span class="n">plugins_statuses</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;BL&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">plugins_statuses</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;BU&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+                <span class="n">plugins_statuses</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;B&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
             <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">all_loaded</span><span class="p">:</span>
                 <span class="n">plugins_statuses</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;L&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
             <span class="k">elif</span> <span class="n">get_plugin_obj_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">get_plugin_obj_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">get_configuration_template</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin_configuration</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">plugins_statuses</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;C&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">plugins_statuses</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;U&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+                <span class="n">plugins_statuses</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;E&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
 
         <span class="c">#noinspection PyBroadException</span>
         <span class="k">try</span><span class="p">:</span>
@@ -365,8 +344,8 @@
         <span class="sd">&quot;&quot;&quot; restart the bot &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">(),</span> <span class="s">&quot;Deactivating all the plugins...&quot;</span><span class="p">)</span>
         <span class="n">deactivate_all_plugins</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">(),</span> <span class="s">&quot;Restarting&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">(),</span> <span class="s">&quot;Restarting&quot;</span><span class="p">)</span>
         <span class="n">global_restart</span><span class="p">()</span>
         <span class="k">return</span> <span class="s">&quot;I&#39;m restarting...&quot;</span>
 </div>
@@ -380,7 +359,6 @@
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&quot;Error loading </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
             <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> failed to start : </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
-        <span class="n">get_plugin_obj_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">callback_connect</span><span class="p">()</span>
         <span class="k">return</span> <span class="s">&quot;Plugin </span><span class="si">%s</span><span class="s"> activated&quot;</span> <span class="o">%</span> <span class="n">name</span>
 </div>
 <div class="viewcode-block" id="ErrBot.deactivate_plugin"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.deactivate_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">deactivate_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
@@ -391,73 +369,29 @@
 
     <span class="c">#noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<div class="viewcode-block" id="ErrBot.blacklist"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.blacklist">[docs]</a>    <span class="k">def</span> <span class="nf">blacklist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Blacklist a plugin so that it will not be loaded automatically during bot startup&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">args</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">get_all_plugin_names</span><span class="p">():</span>
-            <span class="k">return</span> <span class="p">(</span><span class="s">&quot;{} isn&#39;t a valid plugin name. The current plugins are:</span><span class="se">\n</span><span class="s">&quot;</span>
-                    <span class="s">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatted_plugin_list</span><span class="p">(</span><span class="n">active_only</span><span class="o">=</span><span class="bp">False</span><span class="p">)))</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">blacklist_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-
-    <span class="c">#noinspection PyUnusedLocal</span></div>
-    <span class="nd">@botcmd</span><span class="p">(</span><span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<div class="viewcode-block" id="ErrBot.unblacklist"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.unblacklist">[docs]</a>    <span class="k">def</span> <span class="nf">unblacklist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Remove a plugin from the blacklist&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">args</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">get_all_plugin_names</span><span class="p">():</span>
-            <span class="k">return</span> <span class="p">(</span><span class="s">&quot;{} isn&#39;t a valid plugin name. The current plugins are:</span><span class="se">\n</span><span class="s">&quot;</span>
-                    <span class="s">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatted_plugin_list</span><span class="p">(</span><span class="n">active_only</span><span class="o">=</span><span class="bp">False</span><span class="p">)))</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">unblacklist_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-
-    <span class="c">#noinspection PyUnusedLocal</span></div>
-    <span class="nd">@botcmd</span><span class="p">(</span><span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.load"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;load a plugin&quot;&quot;&quot;</span>
-        <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">(</span><span class="s">&quot;Please tell me which of the following plugins to reload:</span><span class="se">\n</span><span class="s">&quot;</span>
-                    <span class="s">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">formatted_plugin_list</span><span class="p">(</span><span class="n">active_only</span><span class="o">=</span><span class="bp">False</span><span class="p">)))</span>
-        <span class="k">if</span> <span class="n">args</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">get_all_plugin_names</span><span class="p">():</span>
-            <span class="k">return</span> <span class="p">(</span><span class="s">&quot;{} isn&#39;t a valid plugin name. The current plugins are:</span><span class="se">\n</span><span class="s">&quot;</span>
-                    <span class="s">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatted_plugin_list</span><span class="p">(</span><span class="n">active_only</span><span class="o">=</span><span class="bp">False</span><span class="p">)))</span>
-        <span class="k">if</span> <span class="n">args</span> <span class="ow">in</span> <span class="n">get_all_active_plugin_names</span><span class="p">():</span>
-            <span class="k">return</span> <span class="s">&quot;{} is already loaded&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-
-        <span class="n">reload_plugin_by_name</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">activate_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">r</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unblacklist_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">activate_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
     <span class="c">#noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.unload"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;unload a plugin&quot;&quot;&quot;</span>
-        <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">(</span><span class="s">&quot;Please tell me which of the following plugins to reload:</span><span class="se">\n</span><span class="s">&quot;</span>
-                    <span class="s">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">formatted_plugin_list</span><span class="p">(</span><span class="n">active_only</span><span class="o">=</span><span class="bp">False</span><span class="p">)))</span>
-        <span class="k">if</span> <span class="n">args</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">get_all_plugin_names</span><span class="p">():</span>
-            <span class="k">return</span> <span class="p">(</span><span class="s">&quot;{} isn&#39;t a valid plugin name. The current plugins are:</span><span class="se">\n</span><span class="s">&quot;</span>
-                    <span class="s">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatted_plugin_list</span><span class="p">(</span><span class="n">active_only</span><span class="o">=</span><span class="bp">False</span><span class="p">)))</span>
         <span class="k">if</span> <span class="n">args</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">get_all_active_plugin_names</span><span class="p">():</span>
-            <span class="k">return</span> <span class="s">&quot;{} is not currently loaded&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-
+            <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> in not active&#39;</span> <span class="o">%</span> <span class="n">args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">blacklist_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">deactivate_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
     <span class="c">#noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.reload"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.reload">[docs]</a>    <span class="k">def</span> <span class="nf">reload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;reload a plugin&quot;&quot;&quot;</span>
-        <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="p">(</span><span class="s">&quot;Please tell me which of the following plugins to reload:</span><span class="se">\n</span><span class="s">&quot;</span>
-                    <span class="s">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">formatted_plugin_list</span><span class="p">(</span><span class="n">active_only</span><span class="o">=</span><span class="bp">False</span><span class="p">)))</span>
-            <span class="k">return</span>
-        <span class="k">if</span> <span class="n">args</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">get_all_plugin_names</span><span class="p">():</span>
-            <span class="k">yield</span> <span class="p">(</span><span class="s">&quot;{} isn&#39;t a valid plugin name. The current plugins are:</span><span class="se">\n</span><span class="s">&quot;</span>
-                    <span class="s">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatted_plugin_list</span><span class="p">(</span><span class="n">active_only</span><span class="o">=</span><span class="bp">False</span><span class="p">)))</span>
-            <span class="k">return</span>
-
-        <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">deactivate_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>  <span class="c"># Not needed but keeps the feedback to user consistent</span>
-        <span class="n">reload_plugin_by_name</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-        <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">activate_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_plugin_blacklisted</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">unblacklist_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s"> / </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deactivate_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">activate_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
+        <span class="n">get_plugin_obj_by_name</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">.</span><span class="n">callback_connect</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">result</span>
 </div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.repos_install"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.repos_install">[docs]</a>    <span class="k">def</span> <span class="nf">repos_install</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
@@ -690,9 +624,13 @@
                         <span class="k">if</span> <span class="n">plugin</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="s">&#39;is_activated&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">plugin</span><span class="o">.</span><span class="n">is_activated</span><span class="p">:</span>
                             <span class="n">name</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">name</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">(),</span> <span class="s">&#39;/me is reloading plugin </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
-                            <span class="n">reload_plugin_by_name</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">activate_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">(),</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> reloaded and reactivated&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">deactivate_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>                 <span class="c"># calm the plugin down</span>
+                            <span class="n">module</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c"># find back the main module of the plugin</span>
+                            <span class="nb">reload</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>                                      <span class="c"># reload it</span>
+                            <span class="n">class_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">plugin_object</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span>    <span class="c"># find the original name of the class</span>
+                            <span class="n">newclass</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span>              <span class="c"># retreive the corresponding new class</span>
+                            <span class="n">plugin</span><span class="o">.</span><span class="n">plugin_object</span><span class="o">.</span><span class="n">__class__</span> <span class="o">=</span> <span class="n">newclass</span>           <span class="c"># BAM, declare the instance of the new type</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">activate_plugin</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>                   <span class="c"># wake the plugin up</span>
         <span class="k">if</span> <span class="n">core_to_update</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">restart</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="s">&quot;You have updated the core, I need to restart.&quot;</span>

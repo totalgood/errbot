@@ -121,12 +121,6 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="errbot.errBot.ErrBot.blacklist">
-<tt class="descname">blacklist</tt><big>(</big><em>mess</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.blacklist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.blacklist" title="Permalink to this definition">¶</a></dt>
-<dd><p>Blacklist a plugin so that it will not be loaded automatically during bot startup</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="errbot.errBot.ErrBot.blacklist_plugin">
 <tt class="descname">blacklist_plugin</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.blacklist_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.blacklist_plugin" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -178,15 +172,6 @@ should return :
 <dt id="errbot.errBot.ErrBot.export_configs">
 <tt class="descname">export_configs</tt><big>(</big><em>mess</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.export_configs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.export_configs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns all the configs in form of a string you can backup</p>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="errbot.errBot.ErrBot.formatted_plugin_list">
-<em class="property">static </em><tt class="descname">formatted_plugin_list</tt><big>(</big><em>active_only=True</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.formatted_plugin_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.formatted_plugin_list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a formatted, plain-text list of loaded plugins.</p>
-<p>When active_only=True, this will only return plugins which
-are actually active. Otherwise, it will also include inactive
-(blacklisted) plugins.</p>
 </dd></dl>
 
 <dl class="method">
@@ -326,19 +311,13 @@ to update selectively some repos</p>
 
 <dl class="attribute">
 <dt id="errbot.errBot.ErrBot.startup_time">
-<tt class="descname">startup_time</tt><em class="property"> = datetime.datetime(2014, 1, 19, 17, 29, 11, 477978)</em><a class="headerlink" href="#errbot.errBot.ErrBot.startup_time" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">startup_time</tt><em class="property"> = datetime.datetime(2014, 1, 20, 11, 38, 46, 34649)</em><a class="headerlink" href="#errbot.errBot.ErrBot.startup_time" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.errBot.ErrBot.status">
 <tt class="descname">status</tt><big>(</big><em>mess</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.status" title="Permalink to this definition">¶</a></dt>
 <dd><p>If I am alive I should be able to respond to this one</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="errbot.errBot.ErrBot.unblacklist">
-<tt class="descname">unblacklist</tt><big>(</big><em>mess</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.unblacklist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.unblacklist" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove a plugin from the blacklist</p>
 </dd></dl>
 
 <dl class="method">

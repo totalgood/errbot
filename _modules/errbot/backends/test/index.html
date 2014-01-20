@@ -180,13 +180,13 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">bot_thread</span> <span class="o">=</span> <span class="bp">None</span>
 
-<div class="viewcode-block" id="FullStackTest.setUp"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.FullStackTest.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_test_file</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loglevel</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
+<div class="viewcode-block" id="FullStackTest.setUp"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.FullStackTest.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_test_file</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="c"># reset logging to console</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">format</span><span class="o">=</span><span class="s">&#39;</span><span class="si">%(levelname)s</span><span class="s">:</span><span class="si">%(message)s</span><span class="s">&#39;</span><span class="p">)</span>
         <span class="n">console</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
         <span class="nb">file</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">config_module</span><span class="o">.</span><span class="n">BOT_LOG_FILE</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
         <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">loglevel</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">extra_test_file</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">config</span>

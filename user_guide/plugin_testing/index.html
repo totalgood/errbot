@@ -184,7 +184,7 @@
 <div class="section" id="all-together-now">
 <h2>All together now<a class="headerlink" href="#all-together-now" title="Permalink to this headline">¶</a></h2>
 <p><em>myplugin.py</em>:</p>
-<div class="highlight-python"><pre>from errbot import BotPlugin, botcmd
+<div class="highlight-python"><div class="highlight"><pre>from errbot import BotPlugin, botcmd
 
 class MyPlugin(BotPlugin):
     @botcmd
@@ -200,7 +200,8 @@ class MyPlugin(BotPlugin):
         return &quot;This is my awesome command&quot;
 
     def mycommand_another_helper(self);
-        return &quot;This is another awesome command&quot;</pre>
+        return &quot;This is another awesome command&quot;
+</pre></div>
 </div>
 <p><em>test_myplugin.py</em>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
@@ -277,9 +278,10 @@ class MyPlugin(BotPlugin):
 <p>You also want to know how well your tests cover you code.</p>
 <p>To that end, install coverage: <strong class="command">pip install coverage</strong> and then run your tests like this: <strong class="command">coverage run &#8211;source=myplugin.py test_myplugin.py</strong>.</p>
 <p>You can now have a look at coverage statistics through <strong class="command">coverage report</strong>:</p>
-<div class="highlight-python"><pre>Name        Stmts   Miss  Cover
+<div class="highlight-python"><div class="highlight"><pre>Name        Stmts   Miss  Cover
 -------------------------------
-myplugin      49      0   100%</pre>
+myplugin      49      0   100%
+</pre></div>
 </div>
 <p>It&#8217;s also possible to generate an HTML report with <strong class="command">coverage html</strong> and opening the resulting <cite>htmlcov/index.html</cite>.</p>
 </div>

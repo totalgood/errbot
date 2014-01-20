@@ -86,10 +86,12 @@ it is recommended (but not required) to have a least one MUC for Err to use as w
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>Err may be installed directly from PyPi using <cite>pip</cite> (<cite>easy_install</cite> works too) by issuing:</p>
-<div class="highlight-python"><pre>pip install err</pre>
+<div class="highlight-python"><div class="highlight"><pre>pip install err
+</pre></div>
 </div>
 <p>Or if you wish to try out the latest, bleeding edge version:</p>
-<div class="highlight-python"><pre>pip install https://github.com/gbin/err/archive/master.zip</pre>
+<div class="highlight-python"><div class="highlight"><pre>pip install https://github.com/gbin/err/archive/master.zip
+</pre></div>
 </div>
 <p>However, in these cases, installing into a dedicated <a class="reference external" href="https://pypi.python.org/pypi/virtualenv">virtualenv</a> is recommended.</p>
 <p>On some distributions, Err is available as a package via your usual package manager.
@@ -124,7 +126,8 @@ connect to your chosen XMPP or IRC server.</p>
 <h2>Starting the daemon<a class="headerlink" href="#starting-the-daemon" title="Permalink to this headline">¶</a></h2>
 <p>The first time you start Err, it is recommended to run it in foreground mode. This can
 be done with:</p>
-<div class="highlight-python"><pre>&lt;path_to_install_directory&gt;/scripts/err.py</pre>
+<div class="highlight-python"><div class="highlight"><pre>&lt;path_to_install_directory&gt;/scripts/err.py
+</pre></div>
 </div>
 <p>In many cases, just typing err.py will be enough as it is generally added to the PATH
 automatically. Please pass -h or &#8211;help to err.py to get a list of supported parameters.
@@ -132,7 +135,8 @@ Depending on your situation, you may need to pass &#8211;config or &#8211;backen
 Err.</p>
 <p>If all that worked, you can now use the -d (or &#8211;daemon) parameter to run it in a
 detached mode:</p>
-<div class="highlight-python"><pre>&lt;path_to_install_directory&gt;/scripts/err.py --daemon</pre>
+<div class="highlight-python"><div class="highlight"><pre>&lt;path_to_install_directory&gt;/scripts/err.py --daemon
+</pre></div>
 </div>
 <p>If you are going to run your bot all the time then using some process control system
 such as <a class="reference external" href="http://supervisord.org/">supervisor</a> is highly recommended. Installing and configuring such a system
@@ -145,7 +149,8 @@ to run under Python 2.7 the code is run through 3to2 at install time. This means
 while it is possible to run Err under Python 3.2+ directly from a source checkout, it
 is not possible to do so with Python 2.7. If you wish to develop or test with Err&#8217;s
 code under 2.7, you must run:</p>
-<div class="highlight-python"><pre>python setup.py install</pre>
+<div class="highlight-python"><div class="highlight"><pre>python setup.py install
+</pre></div>
 </div>
 <p>Alternatively, you can also look into the <cite>&#8211;editable</cite> parameter of pip install.</p>
 </div>
