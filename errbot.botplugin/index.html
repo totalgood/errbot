@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.botplugin module &mdash; Err 2.0.0-rc2 documentation</title>
+    <title>errbot.botplugin module &mdash; Err 2.0.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0.0-rc2',
+        VERSION:     '2.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../" />
+    <link rel="top" title="Err 2.0.0 documentation" href="../" />
     <link rel="up" title="errbot package" href="../errbot/" />
     <link rel="next" title="errbot.config-template module" href="../errbot.config-template/" />
     <link rel="prev" title="errbot.templates package" href="../errbot.templates/" />
@@ -65,7 +65,7 @@
         <li class="right" >
           <a href="../errbot.templates/" title="errbot.templates package"
              accesskey="P">previous</a> |</li>
-        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../errbot/" accesskey="U">errbot package</a> &raquo;</li> 
       </ul>
     </div>
@@ -85,7 +85,7 @@
 <dl class="method">
 <dt id="errbot.botplugin.BotPlugin.activate">
 <tt class="descname">activate</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.activate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.activate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override if you want to do something at initialization phase (don&#8217;t forget to super(Gnagna, self).activate())</p>
+<dd><p>Override if you want to do something at initialization phase (don't forget to super(Gnagna, self).activate())</p>
 </dd></dl>
 
 <dl class="method">
@@ -110,10 +110,34 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="errbot.botplugin.BotPlugin.callback_contact_offline">
+<tt class="descname">callback_contact_offline</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.callback_contact_offline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.callback_contact_offline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override to get notified when a contact becomes offline.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.botplugin.BotPlugin.callback_contact_online">
+<tt class="descname">callback_contact_online</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.callback_contact_online"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.callback_contact_online" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override to get a notification when a contact becomes online.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="errbot.botplugin.BotPlugin.callback_message">
 <tt class="descname">callback_message</tt><big>(</big><em>conn</em>, <em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.callback_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.callback_message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Override to get a notified on <em>ANY</em> message.
-If you are interested only by chatting message you can filter for example mess.getType() in (&#8216;groupchat&#8217;, &#8216;chat&#8217;)</p>
+If you are interested only by chatting message you can filter for example mess.getType() in ('groupchat', 'chat')</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.botplugin.BotPlugin.callback_user_joined_chat">
+<tt class="descname">callback_user_joined_chat</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.callback_user_joined_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.callback_user_joined_chat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override to get notified when any user joins a chatroom or an equivalent.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.botplugin.BotPlugin.callback_user_left_chat">
+<tt class="descname">callback_user_left_chat</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.callback_user_left_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.callback_user_left_chat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override to get notified when any user leaves a chatroom or an equivalent.</p>
 </dd></dl>
 
 <dl class="method">
@@ -132,13 +156,13 @@ It means recusively:
 <tt class="descname">configure</tt><big>(</big><em>configuration</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.configure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.configure" title="Permalink to this definition">¶</a></dt>
 <dd><p>By default, it will just store the current configuation in the self.config field of your plugin
 If this plugin has no configuration yet, the framework will call this function anyway with None
-This method will be called before activation so don&#8217;t expect to be activated at that point</p>
+This method will be called before activation so don't expect to be activated at that point</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.botplugin.BotPlugin.deactivate">
 <tt class="descname">deactivate</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.deactivate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.deactivate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override if you want to do something at tear down phase (don&#8217;t forget to super(Gnagna, self).deactivate())</p>
+<dd><p>Override if you want to do something at tear down phase (don't forget to super(Gnagna, self).deactivate())</p>
 </dd></dl>
 
 <dl class="method">
@@ -146,8 +170,8 @@ This method will be called before activation so don&#8217;t expect to be activat
 <tt class="descname">get_configuration_template</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.get_configuration_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.get_configuration_template" title="Permalink to this definition">¶</a></dt>
 <dd><p>If your plugin needs a configuration, override this method and return a configuration template.
 for example a dictionary like:
-return {&#8216;LOGIN&#8217; : <a class="reference external" href="mailto:'example&#37;&#52;&#48;example&#46;com">'example<span>&#64;</span>example<span>&#46;</span>com</a>&#8216;, &#8216;PASSWORD&#8217; : &#8216;password&#8217;}
-Note : if this method returns None, the plugin won&#8217;t be configured</p>
+return {'LOGIN' : <a class="reference external" href="mailto:'example&#37;&#52;&#48;example&#46;com">'example<span>&#64;</span>example<span>&#46;</span>com</a>', 'PASSWORD' : 'password'}
+Note : if this method returns None, the plugin won't be configured</p>
 </dd></dl>
 
 <dl class="method">
@@ -173,7 +197,7 @@ Note : if this method returns None, the plugin won&#8217;t be configured</p>
 <tt class="descname">max_err_version</tt><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.max_err_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.max_err_version" title="Permalink to this definition">¶</a></dt>
 <dd><p>If your plugin has a maximal version of err it needs to be on in order to run, please override accordingly this method.
 returning a string with the dotted maximal version. it MUST be in a 3 dotted numbers format or None
-for example: &#8220;1.2.2&#8221;</p>
+for example: &quot;1.2.2&quot;</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -181,7 +205,7 @@ for example: &#8220;1.2.2&#8221;</p>
 <tt class="descname">min_err_version</tt><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.min_err_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.min_err_version" title="Permalink to this definition">¶</a></dt>
 <dd><p>If your plugin has a minimum version of err it needs to be on in order to run, please override accordingly this method.
 returning a string with the dotted minimum version. it MUST be in a 3 dotted numbers format or None
-for example: &#8220;1.2.2&#8221;</p>
+for example: &quot;1.2.2&quot;</p>
 </dd></dl>
 
 <dl class="method">
@@ -189,7 +213,7 @@ for example: &#8220;1.2.2&#8221;</p>
 <tt class="descname">send</tt><big>(</big><em>user</em>, <em>text</em>, <em>in_reply_to=None</em>, <em>message_type='chat'</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.send" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Sends asynchronously a message a room or a user.</dt>
-<dd>if it is a room message_type needs to by &#8216;groupchat&#8217; and user the room.</dd>
+<dd>if it is a room message_type needs to by 'groupchat' and user the room.</dd>
 </dl>
 </dd></dl>
 
@@ -228,13 +252,13 @@ It is the main contract between the plugins and the bot</p>
 <dl class="method">
 <dt id="errbot.botplugin.BotPluginBase.activate">
 <tt class="descname">activate</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPluginBase.activate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPluginBase.activate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override if you want to do something at initialization phase (don&#8217;t forget to super(Gnagna, self).activate())</p>
+<dd><p>Override if you want to do something at initialization phase (don't forget to super(Gnagna, self).activate())</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.botplugin.BotPluginBase.deactivate">
 <tt class="descname">deactivate</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPluginBase.deactivate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPluginBase.deactivate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override if you want to do something at tear down phase (don&#8217;t forget to super(Gnagna, self).deactivate())</p>
+<dd><p>Override if you want to do something at tear down phase (don't forget to super(Gnagna, self).deactivate())</p>
 </dd></dl>
 
 <dl class="method">
@@ -334,7 +358,7 @@ It is the main contract between the plugins and the bot</p>
         <li class="right" >
           <a href="../errbot.templates/" title="errbot.templates package"
              >previous</a> |</li>
-        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../errbot/" >errbot package</a> &raquo;</li> 
       </ul>
     </div>

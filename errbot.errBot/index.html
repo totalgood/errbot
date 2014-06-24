@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.errBot module &mdash; Err 2.0.0-rc2 documentation</title>
+    <title>errbot.errBot module &mdash; Err 2.0.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0.0-rc2',
+        VERSION:     '2.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,10 +24,10 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../" />
+    <link rel="top" title="Err 2.0.0 documentation" href="../" />
     <link rel="up" title="errbot package" href="../errbot/" />
     <link rel="next" title="errbot.holder module" href="../errbot.holder/" />
-    <link rel="prev" title="errbot.config-travisci module" href="../errbot.config-travisci/" />
+    <link rel="prev" title="errbot.decorators module" href="../errbot.decorators/" />
   <link rel="icon" type="image/png" href="../_static/err.png" />
   <link rel="apple-touch-icon" href="../_static/err.png" />
   <link rel="stylesheet" href="../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
@@ -63,9 +63,9 @@
           <a href="../errbot.holder/" title="errbot.holder module"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../errbot.config-travisci/" title="errbot.config-travisci module"
+          <a href="../errbot.decorators/" title="errbot.decorators module"
              accesskey="P">previous</a> |</li>
-        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../errbot/" accesskey="U">errbot package</a> &raquo;</li> 
       </ul>
     </div>
@@ -117,7 +117,13 @@
 <dt id="errbot.errBot.ErrBot.apropos">
 <tt class="descname">apropos</tt><big>(</big><em>mess</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.apropos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.apropos" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a help string listing available options.</p>
-<p>Automatically assigned to the &#8220;help&#8221; command.</p>
+<p>Automatically assigned to the &quot;help&quot; command.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.blacklist">
+<tt class="descname">blacklist</tt><big>(</big><em>mess</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.blacklist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.blacklist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Blacklist a plugin so that it will not be loaded automatically during bot startup</p>
 </dd></dl>
 
 <dl class="method">
@@ -126,8 +132,28 @@
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="errbot.errBot.ErrBot.callback_contact_offline">
+<tt class="descname">callback_contact_offline</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.callback_contact_offline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.callback_contact_offline" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.callback_contact_online">
+<tt class="descname">callback_contact_online</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.callback_contact_online"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.callback_contact_online" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="errbot.errBot.ErrBot.callback_message">
 <tt class="descname">callback_message</tt><big>(</big><em>conn</em>, <em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.callback_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.callback_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.callback_user_joined_chat">
+<tt class="descname">callback_user_joined_chat</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.callback_user_joined_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.callback_user_joined_chat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.callback_user_left_chat">
+<tt class="descname">callback_user_left_chat</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.callback_user_left_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.callback_user_left_chat" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -137,14 +163,14 @@
 ie.
 !config ExampleBot
 could return a template if it is not configured:
-{&#8216;LOGIN&#8217;: <a class="reference external" href="mailto:'example&#37;&#52;&#48;example&#46;com">'example<span>&#64;</span>example<span>&#46;</span>com</a>&#8216;, &#8216;PASSWORD&#8217;: &#8216;password&#8217;, &#8216;DIRECTORY&#8217;: &#8216;/toto&#8217;}
+{'LOGIN': <a class="reference external" href="mailto:'example&#37;&#52;&#48;example&#46;com">'example<span>&#64;</span>example<span>&#46;</span>com</a>', 'PASSWORD': 'password', 'DIRECTORY': '/toto'}
 Copy paste, adapt so can configure the plugin :
-!config ExampleBot {&#8216;LOGIN&#8217;: <a class="reference external" href="mailto:'my&#37;&#52;&#48;email&#46;com">'my<span>&#64;</span>email<span>&#46;</span>com</a>&#8216;, &#8216;PASSWORD&#8217;: &#8216;myrealpassword&#8217;, &#8216;DIRECTORY&#8217;: &#8216;/tmp&#8217;}
+!config ExampleBot {'LOGIN': <a class="reference external" href="mailto:'my&#37;&#52;&#48;email&#46;com">'my<span>&#64;</span>email<span>&#46;</span>com</a>', 'PASSWORD': 'myrealpassword', 'DIRECTORY': '/tmp'}
 It will then reload the plugin with this config.
 You can at any moment retreive the current values:
 !config ExampleBot
 should return :
-{&#8216;LOGIN&#8217;: <a class="reference external" href="mailto:'my&#37;&#52;&#48;email&#46;com">'my<span>&#64;</span>email<span>&#46;</span>com</a>&#8216;, &#8216;PASSWORD&#8217;: &#8216;myrealpassword&#8217;, &#8216;DIRECTORY&#8217;: &#8216;/tmp&#8217;}</p>
+{'LOGIN': <a class="reference external" href="mailto:'my&#37;&#52;&#48;email&#46;com">'my<span>&#64;</span>email<span>&#46;</span>com</a>', 'PASSWORD': 'myrealpassword', 'DIRECTORY': '/tmp'}</p>
 </dd></dl>
 
 <dl class="method">
@@ -172,6 +198,15 @@ should return :
 <dt id="errbot.errBot.ErrBot.export_configs">
 <tt class="descname">export_configs</tt><big>(</big><em>mess</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.export_configs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.export_configs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns all the configs in form of a string you can backup</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="errbot.errBot.ErrBot.formatted_plugin_list">
+<em class="property">static </em><tt class="descname">formatted_plugin_list</tt><big>(</big><em>active_only=True</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.formatted_plugin_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.formatted_plugin_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a formatted, plain-text list of loaded plugins.</p>
+<p>When active_only=True, this will only return plugins which
+are actually active. Otherwise, it will also include inactive
+(blacklisted) plugins.</p>
 </dd></dl>
 
 <dl class="method">
@@ -204,7 +239,7 @@ should return :
 <dt id="errbot.errBot.ErrBot.help">
 <tt class="descname">help</tt><big>(</big><em>mess</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.help" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a help string listing available options.</p>
-<p>Automatically assigned to the &#8220;help&#8221; command.</p>
+<p>Automatically assigned to the &quot;help&quot; command.</p>
 </dd></dl>
 
 <dl class="method">
@@ -311,13 +346,19 @@ to update selectively some repos</p>
 
 <dl class="attribute">
 <dt id="errbot.errBot.ErrBot.startup_time">
-<tt class="descname">startup_time</tt><em class="property"> = datetime.datetime(2014, 1, 20, 11, 38, 46, 34649)</em><a class="headerlink" href="#errbot.errBot.ErrBot.startup_time" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">startup_time</tt><em class="property"> = datetime.datetime(2014, 6, 25, 0, 41, 40, 948315)</em><a class="headerlink" href="#errbot.errBot.ErrBot.startup_time" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.errBot.ErrBot.status">
 <tt class="descname">status</tt><big>(</big><em>mess</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.status" title="Permalink to this definition">¶</a></dt>
 <dd><p>If I am alive I should be able to respond to this one</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.unblacklist">
+<tt class="descname">unblacklist</tt><big>(</big><em>mess</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/errBot/#ErrBot.unblacklist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.unblacklist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a plugin from the blacklist</p>
 </dd></dl>
 
 <dl class="method">
@@ -378,7 +419,7 @@ to update selectively some repos</p>
       <li>
           <a href="../errbot/">errbot package</a>
           <ul>
-          <li>Previous: <a href="../errbot.config-travisci/" title="previous chapter">errbot.config-travisci module</a></li>
+          <li>Previous: <a href="../errbot.decorators/" title="previous chapter">errbot.decorators module</a></li>
           <li>Next: <a href="../errbot.holder/" title="next chapter">errbot.holder module</a></li>
           </ul>
       </li>
@@ -428,9 +469,9 @@ to update selectively some repos</p>
           <a href="../errbot.holder/" title="errbot.holder module"
              >next</a> |</li>
         <li class="right" >
-          <a href="../errbot.config-travisci/" title="errbot.config-travisci module"
+          <a href="../errbot.decorators/" title="errbot.decorators module"
              >previous</a> |</li>
-        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../errbot/" >errbot package</a> &raquo;</li> 
       </ul>
     </div>

@@ -1,0 +1,7 @@
+errbot.decorators module
+========================
+
+.. automodule:: errbot.decorators
+    :members:
+    :undoc-members:
+    :show-inheritance:

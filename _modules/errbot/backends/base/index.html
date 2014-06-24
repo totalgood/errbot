@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.base &mdash; Err 2.0.0-rc2 documentation</title>
+    <title>errbot.backends.base &mdash; Err 2.0.0 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '2.0.0-rc2',
+        VERSION:     '2.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../../../../" />
+    <link rel="top" title="Err 2.0.0 documentation" href="../../../../" />
     <link rel="up" title="errbot" href="../../" />
   <link rel="icon" type="image/png" href="../../../../_static/err.png" />
   <link rel="apple-touch-icon" href="../../../../_static/err.png" />
@@ -57,7 +57,7 @@
         <li class="right" >
           <a href="../../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../../../../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../../../" >Module code</a> &raquo;</li>
           <li><a href="../../" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
@@ -70,18 +70,18 @@
           <div class="body">
             
   <h1>Source code for errbot.backends.base</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span><span class="p">,</span> <span class="n">defaultdict</span>
 <span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">difflib</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span><span class="p">,</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">xml.etree</span> <span class="kn">import</span> <span class="n">cElementTree</span> <span class="k">as</span> <span class="n">ET</span>
 <span class="kn">from</span> <span class="nn">xml.etree.cElementTree</span> <span class="kn">import</span> <span class="n">ParseError</span>
-<span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">botcmd</span><span class="p">,</span> <span class="n">PY2</span>
-<span class="kn">import</span> <span class="nn">difflib</span>
-<span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">get_sender_username</span><span class="p">,</span> <span class="n">xhtml2txt</span><span class="p">,</span> <span class="n">utf8</span><span class="p">,</span> <span class="n">parse_jid</span><span class="p">,</span> <span class="n">split_string_after</span>
-<span class="kn">from</span> <span class="nn">errbot.templating</span> <span class="kn">import</span> <span class="n">tenv</span>
-<span class="kn">import</span> <span class="nn">traceback</span>
 
-<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">BOT_ADMINS</span><span class="p">,</span> <span class="n">BOT_ASYNC</span><span class="p">,</span> <span class="n">BOT_PREFIX</span>
+<span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">botcmd</span><span class="p">,</span> <span class="n">PY2</span>
+<span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">get_sender_username</span><span class="p">,</span> <span class="n">xhtml2txt</span><span class="p">,</span> <span class="n">parse_jid</span><span class="p">,</span> <span class="n">split_string_after</span>
+<span class="kn">from</span> <span class="nn">errbot.templating</span> <span class="kn">import</span> <span class="n">tenv</span>
+<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">BOT_ADMINS</span><span class="p">,</span> <span class="n">BOT_ASYNC</span><span class="p">,</span> <span class="n">BOT_PREFIX</span><span class="p">,</span> <span class="n">BOT_IDENTITY</span><span class="p">,</span> <span class="n">CHATROOM_FN</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">ACCESS_CONTROLS_DEFAULT</span>
@@ -139,6 +139,11 @@
     <span class="kn">from</span> <span class="nn">errbot.bundled.threadpool</span> <span class="kn">import</span> <span class="n">ThreadPool</span><span class="p">,</span> <span class="n">WorkRequest</span>
 
 
+<div class="viewcode-block" id="ACLViolation"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.ACLViolation">[docs]</a><span class="k">class</span> <span class="nc">ACLViolation</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exceptions raised when user is not allowed to execute given command due to ACLs&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+</div>
 <div class="viewcode-block" id="Identifier"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Identifier">[docs]</a><span class="k">class</span> <span class="nc">Identifier</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class is the parent and the basic contract of all the ways the backends are identifying a person on their system</span>
@@ -179,6 +184,26 @@
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">())</span>
 
 </div>
+<div class="viewcode-block" id="Presence"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Presence">[docs]</a><span class="k">class</span> <span class="nc">Presence</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        An universal class representing protocol agnostic concept</span>
+<span class="sd">        of presence.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">room</span><span class="p">,</span> <span class="n">real_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nick</span> <span class="o">=</span> <span class="n">nick</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">room</span> <span class="o">=</span> <span class="n">room</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">real_id</span> <span class="o">=</span> <span class="n">real_id</span>
+
+<div class="viewcode-block" id="Presence.get_room"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Presence.get_room">[docs]</a>    <span class="k">def</span> <span class="nf">get_room</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">room</span>
+</div>
+<div class="viewcode-block" id="Presence.get_nick"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Presence.get_nick">[docs]</a>    <span class="k">def</span> <span class="nf">get_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nick</span>
+</div>
+<div class="viewcode-block" id="Presence.get_real_name"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Presence.get_real_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_real_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">real_id</span>
+
+</div></div>
 <div class="viewcode-block" id="Message"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message">[docs]</a><span class="k">class</span> <span class="nc">Message</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="n">fr</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="s">&#39;unknown@localhost&#39;</span><span class="p">)</span>
 
@@ -307,6 +332,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span> <span class="o">=</span> <span class="n">ThreadPool</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;created the thread pool&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">commands</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c"># the dynamically populated list of commands available on the bot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c"># the dynamically populated list of regex-based commands available on the bot</span>
 
         <span class="k">if</span> <span class="n">BOT_ALT_PREFIX_CASEINSENSITIVE</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">bot_alt_prefixes</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">prefix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">BOT_ALT_PREFIXES</span><span class="p">)</span>
@@ -325,14 +351,25 @@
         <span class="sd">&quot;&quot;&quot;Build a message for responding to another message.</span>
 <span class="sd">        Message is NOT sent&quot;&quot;&quot;</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_message</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">private</span><span class="p">:</span>
-            <span class="n">response</span><span class="o">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">get_jid_from_message</span><span class="p">(</span><span class="n">mess</span><span class="p">))</span>
-            <span class="n">response</span><span class="o">.</span><span class="n">setType</span><span class="p">(</span><span class="s">&#39;chat&#39;</span><span class="p">)</span>
-            <span class="n">response</span><span class="o">.</span><span class="n">setFrom</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="n">msg_type</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span>
+
+        <span class="n">response</span><span class="o">.</span><span class="n">setFrom</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">msg_type</span> <span class="o">==</span> <span class="s">&#39;groupchat&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">private</span><span class="p">:</span>
+            <span class="c"># getStripped() returns the full bot@conference.domain.tld/chat_username</span>
+            <span class="c"># but in case of a groupchat, we should only try to send to the MUC address</span>
+            <span class="c"># itself (bot@conference.domain.tld)</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">()</span><span class="o">.</span><span class="n">getStripped</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getTo</span><span class="p">())</span> <span class="o">==</span> <span class="n">BOT_IDENTITY</span><span class="p">[</span><span class="s">&#39;username&#39;</span><span class="p">]:</span>
+            <span class="c"># This is a direct private message, not initiated through a MUC. Use</span>
+            <span class="c"># getStripped() to remove the resource so that the response goes to the</span>
+            <span class="c"># client with the highest priority</span>
             <span class="n">response</span><span class="o">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">()</span><span class="o">.</span><span class="n">getStripped</span><span class="p">())</span>
-            <span class="n">response</span><span class="o">.</span><span class="n">setType</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">())</span>
-            <span class="n">response</span><span class="o">.</span><span class="n">setFrom</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># This is a private message that was initiated through a MUC. Don&#39;t use</span>
+            <span class="c"># getStripped() here to retain the resource, else the XMPP server doesn&#39;t</span>
+            <span class="c"># know which user we&#39;re actually responding to.</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">())</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">setType</span><span class="p">(</span><span class="s">&#39;chat&#39;</span> <span class="k">if</span> <span class="n">private</span> <span class="k">else</span> <span class="n">msg_type</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span>
 </div>
 <div class="viewcode-block" id="Backend.callback_message"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.callback_message">[docs]</a>    <span class="k">def</span> <span class="nf">callback_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
@@ -344,7 +381,7 @@
         <span class="n">jid</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">()</span>
         <span class="n">text</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">getBody</span><span class="p">()</span>
         <span class="n">username</span> <span class="o">=</span> <span class="n">get_sender_username</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
-        <span class="n">user_cmd_history</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmd_history</span><span class="p">[</span><span class="n">username</span><span class="p">];</span>
+        <span class="n">user_cmd_history</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmd_history</span><span class="p">[</span><span class="n">username</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">mess</span><span class="o">.</span><span class="n">isDelayed</span><span class="p">():</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Message from history, ignore it&quot;</span><span class="p">)</span>
@@ -352,6 +389,17 @@
 
         <span class="k">if</span> <span class="nb">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&quot;groupchat&quot;</span><span class="p">,</span> <span class="s">&quot;chat&quot;</span><span class="p">):</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;unhandled message type </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">mess</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="c"># Ignore messages from ourselves. Because it isn&#39;t always possible to get the</span>
+        <span class="c"># real JID from a MUC participant (including ourself), matching the JID against</span>
+        <span class="c"># ourselves isn&#39;t enough (see https://github.com/gbin/err/issues/90 for</span>
+        <span class="c"># background discussion on this). Matching against CHATROOM_FN isn&#39;t technically</span>
+        <span class="c"># correct in all cases because a MUC could give us another nickname, but it</span>
+        <span class="c"># covers 99% of the MUC cases, so it should suffice for the time being.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">jid</span><span class="o">.</span><span class="n">bareMatch</span><span class="p">(</span><span class="n">Identifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">))</span> <span class="ow">or</span>
+            <span class="nb">type</span> <span class="o">==</span> <span class="s">&quot;groupchat&quot;</span> <span class="ow">and</span> <span class="n">mess</span><span class="o">.</span><span class="n">getMuckNick</span><span class="p">()</span> <span class="o">==</span> <span class="n">CHATROOM_FN</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Ignoring message from self&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">False</span>
 
         <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;*** jid = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">jid</span><span class="p">)</span>
@@ -366,17 +414,21 @@
 
         <span class="n">surpress_cmd_not_found</span> <span class="o">=</span> <span class="bp">False</span>
 
+        <span class="n">prefixed</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c"># Keeps track whether text was prefixed with a bot prefix</span>
+        <span class="n">only_check_re_command</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c"># Becomes true if text is determed to not be a regular command</span>
         <span class="n">tomatch</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">BOT_ALT_PREFIX_CASEINSENSITIVE</span> <span class="k">else</span> <span class="n">text</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">BOT_ALT_PREFIXES</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">tomatch</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bot_alt_prefixes</span><span class="p">):</span>
             <span class="c"># Yay! We were called by one of our alternate prefixes. Now we just have to find out</span>
             <span class="c"># which one... (And find the longest matching, in case you have &#39;err&#39; and &#39;errbot&#39; and</span>
             <span class="c"># someone uses &#39;errbot&#39;, which also matches &#39;err&#39; but would leave &#39;bot&#39; to be taken as</span>
             <span class="c"># part of the called command in that case)</span>
+            <span class="n">prefixed</span> <span class="o">=</span> <span class="bp">True</span>
             <span class="n">longest</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_alt_prefixes</span><span class="p">:</span>
                 <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">tomatch</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="ow">and</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="n">longest</span><span class="p">:</span>
                     <span class="n">longest</span> <span class="o">=</span> <span class="n">l</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Called with alternate prefix &#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="p">[:</span><span class="n">longest</span><span class="p">]))</span>
             <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">longest</span><span class="p">:]</span>
 
             <span class="c"># Now also remove the separator from the text</span>
@@ -393,76 +445,68 @@
             <span class="c"># was said with trigger_message.</span>
             <span class="n">surpress_cmd_not_found</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="n">text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">BOT_PREFIX</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">True</span>
+            <span class="n">only_check_re_command</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="k">if</span> <span class="n">text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">BOT_PREFIX</span><span class="p">):</span>
             <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">BOT_PREFIX</span><span class="p">):]</span>
+            <span class="n">prefixed</span> <span class="o">=</span> <span class="bp">True</span>
 
-        <span class="n">text_split</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">text_split</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span>
         <span class="n">cmd</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="n">command</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="n">args</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_split</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">command</span> <span class="o">=</span> <span class="p">(</span><span class="n">text_split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">text_split</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">command</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">:</span>
-                <span class="n">cmd</span> <span class="o">=</span> <span class="n">command</span>
-                <span class="n">args</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text_split</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">only_check_re_command</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_split</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">command</span> <span class="o">=</span> <span class="p">(</span><span class="n">text_split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">text_split</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">command</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">:</span>
+                    <span class="n">cmd</span> <span class="o">=</span> <span class="n">command</span>
+                    <span class="n">args</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text_split</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
 
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">cmd</span><span class="p">:</span>
+                <span class="n">command</span> <span class="o">=</span> <span class="n">text_split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text_split</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+                <span class="k">if</span> <span class="n">command</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">:</span>
+                    <span class="n">cmd</span> <span class="o">=</span> <span class="n">command</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_split</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">args</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text_split</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+            <span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="n">BOT_PREFIX</span><span class="p">:</span>  <span class="c"># we did &quot;!!&quot; so recall the last command</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_cmd_history</span><span class="p">):</span>
+                    <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">user_cmd_history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">False</span>  <span class="c"># no command in history</span>
+            <span class="k">elif</span> <span class="n">command</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>  <span class="c"># we did &quot;!#&quot; so we recall the specified command</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_cmd_history</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">index</span><span class="p">:</span>
+                    <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">user_cmd_history</span><span class="p">[</span><span class="o">-</span><span class="n">index</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">False</span>  <span class="c"># no command in history</span>
+
+        <span class="c"># Try to match one of the regex commands if the regular commands produced no match</span>
+        <span class="n">matched_on_re_command</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">cmd</span><span class="p">:</span>
-            <span class="n">command</span> <span class="o">=</span> <span class="n">text_split</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text_split</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-            <span class="k">if</span> <span class="n">command</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">:</span>
-                <span class="n">cmd</span> <span class="o">=</span> <span class="n">command</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text_split</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="n">args</span> <span class="o">=</span> <span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text_split</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-
-        <span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="n">BOT_PREFIX</span><span class="p">:</span>  <span class="c"># we did &quot;!!&quot; so recall the last command</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_cmd_history</span><span class="p">):</span>
-                <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">user_cmd_history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">prefixed</span><span class="p">:</span>
+                <span class="n">commands</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">False</span>  <span class="c"># no command in history</span>
-        <span class="k">elif</span> <span class="n">command</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>  <span class="c"># we did &quot;!#&quot; so we recall the specified command</span>
-            <span class="n">index</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_cmd_history</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">index</span><span class="p">:</span>
-                <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">user_cmd_history</span><span class="p">[</span><span class="o">-</span><span class="n">index</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">False</span>  <span class="c"># no command in history</span>
+                <span class="n">commands</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span>
+                           <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">_err_command_prefix_required</span><span class="p">}</span>
 
-        <span class="k">if</span> <span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="ow">in</span> <span class="n">user_cmd_history</span><span class="p">:</span>
-            <span class="n">user_cmd_history</span><span class="o">.</span><span class="n">remove</span><span class="p">((</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span>  <span class="c"># we readd it below</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span><span class="n">func</span> <span class="ow">in</span> <span class="n">commands</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">match</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="n">_err_command_re_pattern</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Matching &#39;{}&#39; against &#39;{}&#39; produced a match&quot;</span>
+                                  <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">func</span><span class="o">.</span><span class="n">_err_command_re_pattern</span><span class="o">.</span><span class="n">pattern</span><span class="p">))</span>
+                    <span class="n">matched_on_re_command</span> <span class="o">=</span> <span class="bp">True</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_process_command</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">match</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Matching &#39;{}&#39; against &#39;{}&#39; produced no match&quot;</span>
+                                  <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">func</span><span class="o">.</span><span class="n">_err_command_re_pattern</span><span class="o">.</span><span class="n">pattern</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">matched_on_re_command</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
 
         <span class="k">if</span> <span class="n">cmd</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;received command = </span><span class="si">%s</span><span class="s"> matching [</span><span class="si">%s</span><span class="s">] with parameters [</span><span class="si">%s</span><span class="s">]&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span>
-
-            <span class="n">access</span><span class="p">,</span> <span class="n">accessError</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_command_access</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">access</span><span class="p">:</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">HIDE_RESTRICTED_ACCESS</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">send_simple_reply</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">accessError</span><span class="p">)</span>
-                <span class="k">return</span> <span class="bp">False</span>
-
-            <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span>
-
-            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_admin_only</span> <span class="ow">and</span> <span class="n">BOT_ASYNC</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c"># If it is an admin command, wait that the queue is completely depleted so we don&#39;t have strange concurrency issues on load/unload/updates etc ...</span>
-
-            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_historize</span><span class="p">:</span>
-                <span class="n">user_cmd_history</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span>  <span class="c"># add it to the history only if it is authorized to be so</span>
-
-            <span class="c"># Don&#39;t check for None here as None can be a valid argument to split.</span>
-            <span class="c"># &#39;&#39; was chosen as default argument because this isn&#39;t a valid argument to split()</span>
-            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_split_args_with</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
-                <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">_err_command_split_args_with</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">BOT_ASYNC</span><span class="p">:</span>
-                <span class="n">wr</span> <span class="o">=</span> <span class="n">WorkRequest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_execute_and_send</span><span class="p">,</span>
-                                 <span class="p">[],</span> <span class="p">{</span><span class="s">&#39;cmd&#39;</span><span class="p">:</span> <span class="n">cmd</span><span class="p">,</span> <span class="s">&#39;args&#39;</span><span class="p">:</span> <span class="n">args</span><span class="p">,</span> <span class="s">&#39;mess&#39;</span><span class="p">:</span> <span class="n">mess</span><span class="p">,</span> <span class="s">&#39;jid&#39;</span><span class="p">:</span> <span class="n">jid</span><span class="p">,</span>
-                                      <span class="s">&#39;template_name&#39;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_template</span><span class="p">})</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span><span class="o">.</span><span class="n">putRequest</span><span class="p">(</span><span class="n">wr</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_admin_only</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c"># Again wait for the completion before accepting a new command that could generate weird concurrency issues</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_execute_and_send</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">mess</span><span class="o">=</span><span class="n">mess</span><span class="p">,</span> <span class="n">jid</span><span class="o">=</span><span class="n">jid</span><span class="p">,</span>
-                                       <span class="n">template_name</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">_err_command_template</span><span class="p">)</span>
-
-        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_process_command</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="n">only_check_re_command</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Command not found&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">surpress_cmd_not_found</span><span class="p">:</span>
                 <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Surpressing command not found feedback&quot;</span><span class="p">)</span>
@@ -472,14 +516,55 @@
                     <span class="n">reply</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">MSG_UNKNOWN_COMMAND</span> <span class="o">%</span> <span class="p">{</span><span class="s">&#39;command&#39;</span><span class="p">:</span> <span class="n">command</span><span class="p">}</span>
                 <span class="k">if</span> <span class="n">reply</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">send_simple_reply</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">reply</span><span class="p">)</span>
-
         <span class="k">return</span> <span class="bp">True</span>
 </div>
-    <span class="k">def</span> <span class="nf">_execute_and_send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">jid</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_process_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">match</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Process and execute a bot command&quot;&quot;&quot;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Processing command {} with parameters &#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span>
+
+        <span class="n">jid</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">()</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">get_sender_username</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
+        <span class="n">user_cmd_history</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cmd_history</span><span class="p">[</span><span class="n">username</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="ow">in</span> <span class="n">user_cmd_history</span><span class="p">:</span>
+            <span class="n">user_cmd_history</span><span class="o">.</span><span class="n">remove</span><span class="p">((</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span>  <span class="c"># Avoids duplicate history items</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">check_command_access</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">cmd</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">ACLViolation</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">HIDE_RESTRICTED_ACCESS</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">send_simple_reply</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+            <span class="k">return</span>
+
+        <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="k">if</span> <span class="n">match</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_admin_only</span> <span class="ow">and</span> <span class="n">BOT_ASYNC</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c"># If it is an admin command, wait that the queue is completely depleted so we don&#39;t have strange concurrency issues on load/unload/updates etc ...</span>
+
+        <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_historize</span><span class="p">:</span>
+            <span class="n">user_cmd_history</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span>  <span class="c"># add it to the history only if it is authorized to be so</span>
+
+        <span class="c"># Don&#39;t check for None here as None can be a valid argument to split.</span>
+        <span class="c"># &#39;&#39; was chosen as default argument because this isn&#39;t a valid argument to split()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span> <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_split_args_with</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">_err_command_split_args_with</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">BOT_ASYNC</span><span class="p">:</span>
+            <span class="n">wr</span> <span class="o">=</span> <span class="n">WorkRequest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_execute_and_send</span><span class="p">,</span>
+                <span class="p">[],</span> <span class="p">{</span><span class="s">&#39;cmd&#39;</span><span class="p">:</span> <span class="n">cmd</span><span class="p">,</span> <span class="s">&#39;args&#39;</span><span class="p">:</span> <span class="n">args</span><span class="p">,</span> <span class="s">&#39;match&#39;</span><span class="p">:</span> <span class="n">match</span><span class="p">,</span> <span class="s">&#39;mess&#39;</span><span class="p">:</span> <span class="n">mess</span><span class="p">,</span> <span class="s">&#39;jid&#39;</span><span class="p">:</span> <span class="n">jid</span><span class="p">,</span>
+                     <span class="s">&#39;template_name&#39;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_template</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span><span class="o">.</span><span class="n">putRequest</span><span class="p">(</span><span class="n">wr</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_admin_only</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c"># Again wait for the completion before accepting a new command that could generate weird concurrency issues</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_execute_and_send</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="n">match</span><span class="p">,</span> <span class="n">mess</span><span class="o">=</span><span class="n">mess</span><span class="p">,</span> <span class="n">jid</span><span class="o">=</span><span class="n">jid</span><span class="p">,</span>
+                                   <span class="n">template_name</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">_err_command_template</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_execute_and_send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">match</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">jid</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Execute a bot command and send output back to the caller</span>
 
 <span class="sd">        cmd: The command that was given to the bot (after being expanded)</span>
 <span class="sd">        args: Arguments given along with cmd</span>
+<span class="sd">        match: A re.MatchObject if command is coming from a regex-based command, else None</span>
 <span class="sd">        mess: The message object</span>
 <span class="sd">        jid: The jid of the person executing the command</span>
 <span class="sd">        template_name: The name of the template which should be used to render</span>
@@ -499,13 +584,14 @@
             <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">split_string_after</span><span class="p">(</span><span class="n">reply</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">MESSAGE_SIZE_LIMIT</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">send_simple_reply</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="n">DIVERT_TO_PRIVATE</span><span class="p">)</span>
 
+        <span class="n">commands</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span> <span class="k">if</span> <span class="n">match</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isgeneratorfunction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">]):</span>
-                <span class="n">replies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">](</span><span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isgeneratorfunction</span><span class="p">(</span><span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">]):</span>
+                <span class="n">replies</span> <span class="o">=</span> <span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">](</span><span class="n">mess</span><span class="p">,</span> <span class="n">match</span><span class="p">)</span> <span class="k">if</span> <span class="n">match</span> <span class="k">else</span> <span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">](</span><span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">reply</span> <span class="ow">in</span> <span class="n">replies</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">reply</span><span class="p">:</span> <span class="n">send_reply</span><span class="p">(</span><span class="n">process_reply</span><span class="p">(</span><span class="n">reply</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">reply</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">](</span><span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+                <span class="n">reply</span> <span class="o">=</span> <span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">](</span><span class="n">mess</span><span class="p">,</span> <span class="n">match</span><span class="p">)</span> <span class="k">if</span> <span class="n">match</span> <span class="k">else</span> <span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">](</span><span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">reply</span><span class="p">:</span> <span class="n">send_reply</span><span class="p">(</span><span class="n">process_reply</span><span class="p">(</span><span class="n">reply</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">tb</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()</span>
@@ -515,6 +601,11 @@
             <span class="n">send_reply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">MSG_ERROR_OCCURRED</span> <span class="o">+</span> <span class="s">&#39;:</span><span class="se">\n</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">e</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Backend.check_command_access"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.check_command_access">[docs]</a>    <span class="k">def</span> <span class="nf">check_command_access</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check command against ACL rules</span>
+
+<span class="sd">        Raises ACLViolation() if the command may not be executed in the given context</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">usr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">get_jid_from_message</span><span class="p">(</span><span class="n">mess</span><span class="p">))</span>
         <span class="n">typ</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span>
 
@@ -522,30 +613,28 @@
             <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="o">=</span> <span class="n">ACCESS_CONTROLS_DEFAULT</span>
 
         <span class="k">if</span> <span class="s">&#39;allowusers&#39;</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="ow">and</span> <span class="n">usr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">][</span><span class="s">&#39;allowusers&#39;</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;You&#39;re not allowed to access this command from this user&quot;</span>
+            <span class="k">raise</span> <span class="n">ACLViolation</span><span class="p">(</span><span class="s">&quot;You&#39;re not allowed to access this command from this user&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="s">&#39;denyusers&#39;</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="ow">and</span> <span class="n">usr</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">][</span><span class="s">&#39;denyusers&#39;</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;You&#39;re not allowed to access this command from this user&quot;</span>
+            <span class="k">raise</span> <span class="n">ACLViolation</span><span class="p">(</span><span class="s">&quot;You&#39;re not allowed to access this command from this user&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">typ</span> <span class="o">==</span> <span class="s">&#39;groupchat&#39;</span><span class="p">:</span>
             <span class="n">stripped</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">()</span><span class="o">.</span><span class="n">getStripped</span><span class="p">()</span>
             <span class="k">if</span> <span class="s">&#39;allowmuc&#39;</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="ow">and</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">][</span><span class="s">&#39;allowmuc&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;You&#39;re not allowed to access this command from a chatroom&quot;</span>
+                <span class="k">raise</span> <span class="n">ACLViolation</span><span class="p">(</span><span class="s">&quot;You&#39;re not allowed to access this command from a chatroom&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="s">&#39;allowrooms&#39;</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="ow">and</span> <span class="n">stripped</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">][</span><span class="s">&#39;allowrooms&#39;</span><span class="p">]:</span>
-                <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;You&#39;re not allowed to access this command from this room&quot;</span>
+                <span class="k">raise</span> <span class="n">ACLViolation</span><span class="p">(</span><span class="s">&quot;You&#39;re not allowed to access this command from this room&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="s">&#39;denyrooms&#39;</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="ow">and</span> <span class="n">stripped</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">][</span><span class="s">&#39;denyrooms&#39;</span><span class="p">]:</span>
-                <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;You&#39;re not allowed to access this command from this room&quot;</span>
+                <span class="k">raise</span> <span class="n">ACLViolation</span><span class="p">(</span><span class="s">&quot;You&#39;re not allowed to access this command from this room&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="s">&#39;allowprivate&#39;</span> <span class="ow">in</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="ow">and</span> <span class="n">ACCESS_CONTROLS</span><span class="p">[</span><span class="n">cmd</span><span class="p">][</span><span class="s">&#39;allowprivate&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;You&#39;re not allowed to access this command via private message to me&quot;</span>
+                <span class="k">raise</span> <span class="n">ACLViolation</span><span class="p">(</span><span class="s">&quot;You&#39;re not allowed to access this command via private message to me&quot;</span><span class="p">)</span>
 
-        <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="k">if</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_admin_only</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">typ</span> <span class="o">==</span> <span class="s">&#39;groupchat&#39;</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&#39;You cannot administer the bot from a chatroom, message the bot directly&#39;</span>
+                <span class="k">raise</span> <span class="n">ACLViolation</span><span class="p">(</span><span class="s">&quot;You cannot administer the bot from a chatroom, message the bot directly&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">usr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">BOT_ADMINS</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&#39;You cannot administer the bot from this user </span><span class="si">%s</span><span class="s">.&#39;</span> <span class="o">%</span> <span class="n">usr</span>
-        
-        <span class="k">return</span> <span class="bp">True</span><span class="p">,</span> <span class="s">&quot;&quot;</span>
+                <span class="k">raise</span> <span class="n">ACLViolation</span><span class="p">(</span><span class="s">&quot;This command requires bot-admin privileges&quot;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Backend.unknown_command"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.unknown_command">[docs]</a>    <span class="k">def</span> <span class="nf">unknown_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Override the default unknown command behavior</span>
@@ -569,21 +658,30 @@
         <span class="n">classname</span> <span class="o">=</span> <span class="n">instance_to_inject</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">instance_to_inject</span><span class="p">,</span> <span class="n">inspect</span><span class="o">.</span><span class="n">ismethod</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;_err_command&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
+                <span class="n">commands</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;_err_re_command&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span>
                 <span class="n">name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;_err_command_name&#39;</span><span class="p">)</span>
 
-                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">:</span>
-                    <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">commands</span><span class="p">:</span>
+                    <span class="n">f</span> <span class="o">=</span> <span class="n">commands</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
                     <span class="n">new_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">classname</span> <span class="o">+</span> <span class="s">&#39;-&#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">warn_admins</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s"> clashes with </span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s"> so it has been renamed </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">classname</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">__self__</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">new_name</span> <span class="p">))</span>
                     <span class="n">name</span> <span class="o">=</span> <span class="n">new_name</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Adding command : </span><span class="si">%s</span><span class="s"> -&gt; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="n">commands</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+                <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;_err_re_command&#39;</span><span class="p">):</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Adding regex command : </span><span class="si">%s</span><span class="s"> -&gt; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span> <span class="o">=</span> <span class="n">commands</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Adding command : </span><span class="si">%s</span><span class="s"> -&gt; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">commands</span> <span class="o">=</span> <span class="n">commands</span>
 </div>
 <div class="viewcode-block" id="Backend.remove_commands_from"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.remove_commands_from">[docs]</a>    <span class="k">def</span> <span class="nf">remove_commands_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance_to_inject</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">instance_to_inject</span><span class="p">,</span> <span class="n">inspect</span><span class="o">.</span><span class="n">ismethod</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;_err_command&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
                 <span class="n">name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;_err_command_name&#39;</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">:</span>  <span class="c"># this could happen in premature shutdown</span>
+                <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;_err_re_command&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s">&#39;_err_re_command&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">:</span>
                     <span class="k">del</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
 </div>
 <div class="viewcode-block" id="Backend.warn_admins"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.warn_admins">[docs]</a>    <span class="k">def</span> <span class="nf">warn_admins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">warning</span><span class="p">):</span>
@@ -642,10 +740,10 @@
 <div class="viewcode-block" id="Backend.send"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">in_reply_to</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">message_type</span><span class="o">=</span><span class="s">&#39;chat&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Sends a simple message to the specified user.&quot;&quot;&quot;</span>
         <span class="n">mess</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_message</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">mess</span><span class="o">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s">&#39;getStripped&#39;</span><span class="p">):</span>
             <span class="n">mess</span><span class="o">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">getStripped</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mess</span><span class="o">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">in_reply_to</span><span class="p">:</span>
             <span class="n">mess</span><span class="o">.</span><span class="n">setType</span><span class="p">(</span><span class="n">in_reply_to</span><span class="o">.</span><span class="n">getType</span><span class="p">())</span>
@@ -682,6 +780,18 @@
 <div class="viewcode-block" id="Backend.disconnect_callback"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.disconnect_callback">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 </div>
+<div class="viewcode-block" id="Backend.callback_contact_online"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.callback_contact_online">[docs]</a>    <span class="k">def</span> <span class="nf">callback_contact_online</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="Backend.callback_contact_offline"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.callback_contact_offline">[docs]</a>    <span class="k">def</span> <span class="nf">callback_contact_offline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="Backend.callback_user_joined_chat"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.callback_user_joined_chat">[docs]</a>    <span class="k">def</span> <span class="nf">callback_user_joined_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="Backend.callback_user_left_chat"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.callback_user_left_chat">[docs]</a>    <span class="k">def</span> <span class="nf">callback_user_left_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
     <span class="nd">@property</span>
 <div class="viewcode-block" id="Backend.mode"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.mode">[docs]</a>    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;It should be implemented specifically for your backend&quot;</span><span class="p">)</span>
@@ -691,11 +801,8 @@
     <span class="k">if</span> <span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;chat&#39;</span><span class="p">:</span>
         <span class="c"># strip the resource for direct chats</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">()</span><span class="o">.</span><span class="n">getStripped</span><span class="p">())</span>
-
-    <span class="c"># this is a standard private XMPP reply in MUC</span>
     <span class="n">fr</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">()</span>
-    <span class="n">jid</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">fr</span><span class="o">.</span><span class="n">node</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">fr</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="n">resource</span><span class="o">=</span><span class="n">mess</span><span class="o">.</span><span class="n">getMuckNick</span><span class="p">())</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Message from MUC. Replying to: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">jid</span><span class="p">)</span>
+    <span class="n">jid</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">fr</span><span class="o">.</span><span class="n">node</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">fr</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="n">resource</span><span class="o">=</span><span class="n">fr</span><span class="o">.</span><span class="n">resource</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">jid</span></div>
 </pre></div>
 
@@ -763,7 +870,7 @@
         <li class="right" >
           <a href="../../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../../../../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../../../" >Module code</a> &raquo;</li>
           <li><a href="../../" >errbot</a> &raquo;</li> 
       </ul>

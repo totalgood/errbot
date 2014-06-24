@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.plugin_manager &mdash; Err 2.0.0-rc2 documentation</title>
+    <title>errbot.plugin_manager &mdash; Err 2.0.0 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.0.0-rc2',
+        VERSION:     '2.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../../../" />
+    <link rel="top" title="Err 2.0.0 documentation" href="../../../" />
     <link rel="up" title="errbot" href="../" />
   <link rel="icon" type="image/png" href="../../../_static/err.png" />
   <link rel="apple-touch-icon" href="../../../_static/err.png" />
@@ -57,7 +57,7 @@
         <li class="right" >
           <a href="../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../../../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../../" >Module code</a> &raquo;</li>
           <li><a href="../" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
@@ -81,6 +81,7 @@
 <span class="kn">from</span> <span class="nn">errbot.templating</span> <span class="kn">import</span> <span class="n">remove_plugin_templates_path</span><span class="p">,</span> <span class="n">add_plugin_templates_path</span>
 <span class="kn">from</span> <span class="nn">errbot.version</span> <span class="kn">import</span> <span class="n">VERSION</span>
 <span class="kn">from</span> <span class="nn">yapsy.PluginManager</span> <span class="kn">import</span> <span class="n">PluginManager</span>
+<span class="kn">from</span> <span class="nn">imp</span> <span class="kn">import</span> <span class="nb">reload</span>
 
 <span class="c"># hardcoded directory for the system plugins</span>
 <span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">holder</span>
@@ -123,11 +124,16 @@
 <span class="n">init_plugin_manager</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="get_plugin_obj_by_name"><a class="viewcode-back" href="../../../errbot.plugin_manager/#errbot.plugin_manager.get_plugin_obj_by_name">[docs]</a><span class="k">def</span> <span class="nf">get_plugin_obj_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+<div class="viewcode-block" id="get_plugin_by_name"><a class="viewcode-back" href="../../../errbot.plugin_manager/#errbot.plugin_manager.get_plugin_by_name">[docs]</a><span class="k">def</span> <span class="nf">get_plugin_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
     <span class="n">pta_item</span> <span class="o">=</span> <span class="n">simplePluginManager</span><span class="o">.</span><span class="n">getPluginByName</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s">&#39;bots&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">pta_item</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">None</span>
-    <span class="k">return</span> <span class="n">pta_item</span><span class="o">.</span><span class="n">plugin_object</span>
+    <span class="k">return</span> <span class="n">pta_item</span>
+
+</div>
+<div class="viewcode-block" id="get_plugin_obj_by_name"><a class="viewcode-back" href="../../../errbot.plugin_manager/#errbot.plugin_manager.get_plugin_obj_by_name">[docs]</a><span class="k">def</span> <span class="nf">get_plugin_obj_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="n">plugin</span> <span class="o">=</span> <span class="n">get_plugin_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">None</span> <span class="k">if</span> <span class="n">plugin</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">plugin</span><span class="o">.</span><span class="n">plugin_object</span>
 
 </div>
 <div class="viewcode-block" id="populate_doc"><a class="viewcode-back" href="../../../errbot.plugin_manager/#errbot.plugin_manager.populate_doc">[docs]</a><span class="k">def</span> <span class="nf">populate_doc</span><span class="p">(</span><span class="n">plugin</span><span class="p">):</span>
@@ -201,6 +207,24 @@
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
         <span class="n">add_plugin_templates_path</span><span class="p">(</span><span class="n">pta_item</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
         <span class="k">raise</span>
+
+</div>
+<div class="viewcode-block" id="reload_plugin_by_name"><a class="viewcode-back" href="../../../errbot.plugin_manager/#errbot.plugin_manager.reload_plugin_by_name">[docs]</a><span class="k">def</span> <span class="nf">reload_plugin_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Completely reload the given plugin, including reloading of the module&#39;s code</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">get_all_active_plugin_names</span><span class="p">():</span>
+        <span class="n">deactivate_plugin_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="n">plugin</span> <span class="o">=</span> <span class="n">get_plugin_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">plugin</span><span class="p">))</span>
+    <span class="n">module</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="nb">reload</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+
+    <span class="n">class_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">plugin_object</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span>
+    <span class="n">new_class</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span>
+    <span class="n">plugin</span><span class="o">.</span><span class="n">plugin_object</span><span class="o">.</span><span class="n">__class__</span> <span class="o">=</span> <span class="n">new_class</span>
+
 
 </div>
 <div class="viewcode-block" id="update_plugin_places"><a class="viewcode-back" href="../../../errbot.plugin_manager/#errbot.plugin_manager.update_plugin_places">[docs]</a><span class="k">def</span> <span class="nf">update_plugin_places</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
@@ -344,7 +368,7 @@
         <li class="right" >
           <a href="../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../../../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../../" >Module code</a> &raquo;</li>
           <li><a href="../" >errbot</a> &raquo;</li> 
       </ul>

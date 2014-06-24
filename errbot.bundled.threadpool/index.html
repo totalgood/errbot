@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.bundled.threadpool module &mdash; Err 2.0.0-rc2 documentation</title>
+    <title>errbot.bundled.threadpool module &mdash; Err 2.0.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0.0-rc2',
+        VERSION:     '2.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../" />
+    <link rel="top" title="Err 2.0.0 documentation" href="../" />
     <link rel="up" title="errbot.bundled package" href="../errbot.bundled/" />
     <link rel="next" title="errbot.templates package" href="../errbot.templates/" />
     <link rel="prev" title="errbot.bundled.rocket module" href="../errbot.bundled.rocket/" />
@@ -65,7 +65,7 @@
         <li class="right" >
           <a href="../errbot.bundled.rocket/" title="errbot.bundled.rocket module"
              accesskey="P">previous</a> |</li>
-        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../errbot/" >errbot package</a> &raquo;</li>
           <li><a href="../errbot.bundled/" accesskey="U">errbot.bundled package</a> &raquo;</li> 
       </ul>
@@ -87,11 +87,11 @@ next available thread. This then performs the requested operation in the
 background and puts the results in another queue.</p>
 <p>The thread pool object can then collect the results from all threads from
 this queue as soon as they become available or after all threads have
-finished their work. It&#8217;s also possible, to define callbacks to handle
+finished their work. It's also possible, to define callbacks to handle
 each result as it comes in.</p>
-<p>The basic concept and some code was taken from the book &#8220;Python in a Nutshell,
-2nd edition&#8221; by Alex Martelli, O&#8217;Reilly 2006, ISBN 0-596-10046-9, from section
-14.5 &#8220;Threaded Program Architecture&#8221;. I wrapped the main program logic in the
+<p>The basic concept and some code was taken from the book &quot;Python in a Nutshell,
+2nd edition&quot; by Alex Martelli, O'Reilly 2006, ISBN 0-596-10046-9, from section
+14.5 &quot;Threaded Program Architecture&quot;. I wrapped the main program logic in the
 ThreadPool class, added the WorkRequest class and the callback system and
 tweaked the code here and there. Kudos also to Florent Aide for the exception
 handling mechanism.</p>
@@ -106,7 +106,7 @@ handling mechanism.</p>
 <p>Website : <a class="reference external" href="http://chrisarndt.de/projects/threadpool/">http://chrisarndt.de/projects/threadpool/</a></p>
 <dl class="function">
 <dt id="errbot.bundled.threadpool.makeRequests">
-<tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">makeRequests</tt><big>(</big><em>callable_</em>, <em>args_list</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x2b2bee2299e0&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#makeRequests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.makeRequests" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">makeRequests</tt><big>(</big><em>callable_</em>, <em>args_list</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x2af7bfb0b488&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#makeRequests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.makeRequests" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create several work requests for same callable with different arguments.</p>
 <p>Convenience function for creating several work requests for the same
 callable where each invocation of the callable receives different values
@@ -182,7 +182,7 @@ requests.</p>
 
 <dl class="class">
 <dt id="errbot.bundled.threadpool.WorkRequest">
-<em class="property">class </em><tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">WorkRequest</tt><big>(</big><em>callable_</em>, <em>args=None</em>, <em>kwds=None</em>, <em>requestID=None</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x2b2bee2299e0&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkRequest" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">WorkRequest</tt><big>(</big><em>callable_</em>, <em>args=None</em>, <em>kwds=None</em>, <em>requestID=None</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x2af7bfb0b488&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkRequest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
 <p>A request to execute a callable for putting in the request queue later.</p>
 <p>See the module function <tt class="docutils literal"><span class="pre">makeRequests</span></tt> for the common case
@@ -291,7 +291,7 @@ one queue and puts the results in another until it is dismissed.</p>
         <li class="right" >
           <a href="../errbot.bundled.rocket/" title="errbot.bundled.rocket module"
              >previous</a> |</li>
-        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../errbot/" >errbot package</a> &raquo;</li>
           <li><a href="../errbot.bundled/" >errbot.bundled package</a> &raquo;</li> 
       </ul>

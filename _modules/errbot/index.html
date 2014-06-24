@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot &mdash; Err 2.0.0-rc2 documentation</title>
+    <title>errbot &mdash; Err 2.0.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.0.0-rc2',
+        VERSION:     '2.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../../" />
+    <link rel="top" title="Err 2.0.0 documentation" href="../../" />
     <link rel="up" title="Module code" href="../" />
   <link rel="icon" type="image/png" href="../../_static/err.png" />
   <link rel="apple-touch-icon" href="../../_static/err.png" />
@@ -57,7 +57,7 @@
         <li class="right" >
           <a href="../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>
@@ -77,36 +77,14 @@
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;BotPlugin&#39;</span><span class="p">,</span> <span class="s">&#39;webhook&#39;</span><span class="p">,</span> <span class="s">&#39;webroute&#39;</span><span class="p">,</span> <span class="s">&#39;webview&#39;</span><span class="p">]</span>
 
-<span class="kn">from</span> <span class="nn">errbot.botplugin</span> <span class="kn">import</span> <span class="n">BotPlugin</span>  <span class="c"># repeat it here for convenience and coherence with @botcmd</span>
-<span class="kn">from</span> <span class="nn">errbot.builtins.wsview</span> <span class="kn">import</span> <span class="n">webhook</span><span class="p">,</span> <span class="n">route</span><span class="p">,</span> <span class="n">view</span>  <span class="c"># idem repeat here the webhook feature for convenience to expose webhooks</span>
+<span class="c"># Import some stuff here so that it&#39;s easier to access them</span>
+<span class="kn">from</span> <span class="nn">errbot.decorators</span> <span class="kn">import</span> <span class="n">botcmd</span><span class="p">,</span> <span class="n">re_botcmd</span><span class="p">,</span> <span class="n">webhook</span>
+<span class="kn">from</span> <span class="nn">errbot.botplugin</span> <span class="kn">import</span> <span class="n">BotPlugin</span>
+<span class="kn">from</span> <span class="nn">errbot.builtins.wsview</span> <span class="kn">import</span> <span class="n">route</span><span class="p">,</span> <span class="n">view</span>
 
 
 <span class="n">webroute</span> <span class="o">=</span> <span class="n">route</span>  <span class="c"># this allows plugins to expose dynamic webpages on err embedded webserver</span>
 <span class="n">webview</span> <span class="o">=</span> <span class="n">view</span>  <span class="c"># this allows to use the templating system</span>
-
-
-<span class="k">def</span> <span class="nf">botcmd</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Decorator for bot command functions</span>
-<span class="sd">    extra parameters to customize the command:</span>
-<span class="sd">    name : override the command name</span>
-<span class="sd">    split_args_with : prepare the arguments by splitting them by the given character</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">split_args_with</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">admin_only</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">historize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command&#39;</span><span class="p">):</span>  <span class="c"># don&#39;t override generated functions</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_hidden&#39;</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_name&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="ow">or</span> <span class="n">func</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_split_args_with&#39;</span><span class="p">,</span> <span class="n">split_args_with</span><span class="p">)</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_admin_only&#39;</span><span class="p">,</span> <span class="n">admin_only</span><span class="p">)</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_historize&#39;</span><span class="p">,</span> <span class="n">historize</span><span class="p">)</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_template&#39;</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">func</span>
-
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">decorate</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="k">lambda</span> <span class="n">func</span><span class="p">:</span> <span class="n">decorate</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </pre></div>
 
           </div>
@@ -168,7 +146,7 @@
         <li class="right" >
           <a href="../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../" >Module code</a> &raquo;</li> 
       </ul>
     </div>

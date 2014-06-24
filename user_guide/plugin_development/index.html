@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Plugin development &mdash; Err 2.0.0-rc2 documentation</title>
+    <title>Plugin development &mdash; Err 2.0.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.0.0-rc2',
+        VERSION:     '2.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../../" />
+    <link rel="top" title="Err 2.0.0 documentation" href="../../" />
     <link rel="next" title="Testing your plugins" href="../plugin_testing/" />
     <link rel="prev" title="Interacting with the Bot" href="../interaction/" />
   <link rel="icon" type="image/png" href="../../_static/err.png" />
@@ -64,7 +64,7 @@
         <li class="right" >
           <a href="../interaction/" title="Interacting with the Bot"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../">Err 2.0.0-rc2 documentation</a> &raquo;</li> 
+        <li><a href="../../">Err 2.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     
@@ -80,7 +80,7 @@
 <p class="first admonition-title">Note</p>
 <p class="last">These docs are mostly a direct copy of the
 <a class="reference external" href="https://github.com/gbin/err/wiki/plugin-dev/">old documentation</a> up
-on the wiki. A new guide is being worked on, but isn&#8217;t complete enough
+on the wiki. A new guide is being worked on, but isn't complete enough
 yet to be published at this time.</p>
 </div>
 <div class="section" id="tips-before-you-get-started">
@@ -97,7 +97,7 @@ required though, so please feel free to skip ahead.</p>
 </div>
 <div class="section" id="start-the-bot-in-test-mode-optional-but-it-helps">
 <h3>Start the bot in test mode (optional but it helps)<a class="headerlink" href="#start-the-bot-in-test-mode-optional-but-it-helps" title="Permalink to this headline">¶</a></h3>
-<p>You can start the bot with the &#8220;-T&#8221; command line parameter.
+<p>You can start the bot with the &quot;-T&quot; command line parameter.
 It runs the bot in test mode, a kind of single user mode on pure console (no XMPP server involved here).</p>
 <p>It will prompt you:</p>
 <div class="highlight-python"><div class="highlight"><pre>$ err.py -T
@@ -111,7 +111,7 @@ Combine it with the debug mode of an IDE and you have a super snappy environment
 </div>
 <div class="section" id="use-our-plugin-skeleton">
 <h3>Use our plugin skeleton<a class="headerlink" href="#use-our-plugin-skeleton" title="Permalink to this headline">¶</a></h3>
-<p>We&#8217;ve written a <a class="reference external" href="https://github.com/zoni/err-skeleton">minimal plugin</a> which shows
+<p>We've written a <a class="reference external" href="https://github.com/zoni/err-skeleton">minimal plugin</a> which shows
 the basic layout of a simple plugin. Save yourself some time by using this template
 as a starting point.</p>
 </div>
@@ -147,7 +147,7 @@ decorated by <cite>&#64;botcmd</cite> as follows (save this file as <em>hellowor
 <p class="first admonition-title">Note</p>
 <p class="last">Module must match the name of the python module your main class is</p>
 </div>
-<p>That&#8217;s it!
+<p>That's it!
 You can check if the plugin correctly load with the <strong>!status</strong> command.
 Then you can check if the hello command is correctly bound with <strong>!help</strong>.
 Then you can try it: <strong>!hello</strong></p>
@@ -159,8 +159,8 @@ Then you can try it: <strong>!hello</strong></p>
 some feedback to the user that the command is progressing. Instead of using a single
 <cite>return</cite> statement you can use <cite>yield</cite> statements for every line of output you wish
 to send to the user.</p>
-<p>For example, in the following example, the output will be &#8220;Going to sleep&#8221;, followed
-by a 10 second wait, followed by &#8220;Waking up&#8221;.</p>
+<p>For example, in the following example, the output will be &quot;Going to sleep&quot;, followed
+by a 10 second wait, followed by &quot;Waking up&quot;.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span><span class="p">,</span> <span class="n">botcmd</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
 
@@ -225,7 +225,7 @@ It is useful to categorize a feature:</p>
 </div>
 <div class="section" id="version-checking">
 <h2>Version checking<a class="headerlink" href="#version-checking" title="Permalink to this headline">¶</a></h2>
-<p>You can enforce a minimal and maximal version of err if you know that your plugin won&#8217;t be compatible outside the range.
+<p>You can enforce a minimal and maximal version of err if you know that your plugin won't be compatible outside the range.
 You just have to define min_err_version and/or max_err_version as a property or field:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span>
 
@@ -237,7 +237,7 @@ You just have to define min_err_version and/or max_err_version as a property or 
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The version is inclusive.
-It <strong>must</strong> be defined as a string with 3 numbers dotted like &#8216;1.3.0&#8217;</p>
+It <strong>must</strong> be defined as a string with 3 numbers dotted like '1.3.0'</p>
 </div>
 </div>
 <div class="section" id="allow-the-admin-to-configure-your-plugin-from-the-chat">
@@ -257,7 +257,7 @@ for example a plugin requesting a dictionary with 2 entries in there:</p>
 </div>
 <p>Then from the admin you will be able to request the default template with <cite>!config PluginExample</cite>.
 Then it will instruct you to do a
-<cite>!config PluginExample {&#8216;ID_TOKEN&#8217; : &#8216;00112233445566778899aabbccddeeff&#8217;, &#8216;USERNAME&#8217;:&#8217;changeme&#8217;}</cite>
+<cite>!config PluginExample {'ID_TOKEN' : '00112233445566778899aabbccddeeff', 'USERNAME':'changeme'}</cite>
 with the real values in there.</p>
 <p>You will be able to recall the config that is set by issuing <cite>!config PluginExample</cite> again.</p>
 <p>From within your code, your config will be in <cite>self.config</cite>:</p>
@@ -293,7 +293,7 @@ mindful of this situation.</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Don&#8217;t forget to call super() otherwise the framework will not store it.</p>
+<p class="last">Don't forget to call super() otherwise the framework will not store it.</p>
 </div>
 <p>For example:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span>
@@ -465,7 +465,7 @@ do that.</p>
         <li class="right" >
           <a href="../interaction/" title="Interacting with the Bot"
              >previous</a> |</li>
-        <li><a href="../../">Err 2.0.0-rc2 documentation</a> &raquo;</li> 
+        <li><a href="../../">Err 2.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
  </div>

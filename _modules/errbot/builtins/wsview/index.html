@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.builtins.wsview &mdash; Err 2.0.0-rc2 documentation</title>
+    <title>errbot.builtins.wsview &mdash; Err 2.0.0 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '2.0.0-rc2',
+        VERSION:     '2.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../../../../" />
+    <link rel="top" title="Err 2.0.0 documentation" href="../../../../" />
     <link rel="up" title="errbot" href="../../" />
   <link rel="icon" type="image/png" href="../../../../_static/err.png" />
   <link rel="apple-touch-icon" href="../../../../_static/err.png" />
@@ -57,7 +57,7 @@
         <li class="right" >
           <a href="../../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../../../../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../../../" >Module code</a> &raquo;</li>
           <li><a href="../../" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
@@ -79,7 +79,6 @@
 <span class="kn">from</span> <span class="nn">bottle</span> <span class="kn">import</span> <span class="n">jinja2_view</span> <span class="k">as</span> <span class="n">view</span>
 <span class="c"># noinspection PyUnresolvedReferences</span>
 <span class="kn">from</span> <span class="nn">bottle</span> <span class="kn">import</span> <span class="n">jinja2_template</span> <span class="k">as</span> <span class="n">template</span>
-<span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">PY2</span>
 <span class="kn">from</span> <span class="nn">errbot.plugin_manager</span> <span class="kn">import</span> <span class="n">get_all_active_plugin_objects</span>
 
 
@@ -115,8 +114,11 @@
     <span class="n">bottle_app</span> <span class="o">=</span> <span class="n">DynamicBottle</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="WebView"><a class="viewcode-back" href="../../../../errbot.builtins.wsview/#errbot.builtins.wsview.WebView">[docs]</a><span class="k">class</span> <span class="nc">WebView</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">form_param</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">form_param</span><span class="p">,</span> <span class="n">raw</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">form_param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">raw</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Incompatible parameters: form_param cannot be set if raw is True&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">form_param</span> <span class="o">=</span> <span class="n">form_param</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_filter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="nb">object</span><span class="p">:</span> <span class="n">ismethod</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">__name__</span> <span class="o">==</span> <span class="nb">object</span><span class="o">.</span><span class="n">__name__</span>
 
@@ -128,7 +130,9 @@
             <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Matching members </span><span class="si">%s</span><span class="s"> -&gt; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">matching_members</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">matching_members</span><span class="p">:</span>
                 <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="n">matching_members</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">form_param</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="p">:</span> <span class="c"># override and gives the request directly</span>
+                    <span class="n">response</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">form_param</span><span class="p">:</span>
                     <span class="n">content</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">form_param</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">content</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Received a request on a webhook with a form_param defined, &quot;</span>
@@ -149,24 +153,7 @@
                 <span class="k">return</span> <span class="n">response</span> <span class="k">if</span> <span class="n">response</span> <span class="k">else</span> <span class="s">&#39;&#39;</span>  <span class="c"># assume None as an OK response (simplifies the client side)</span>
 
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;Problem finding back the correct Handler for func </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">name_to_find</span><span class="p">)</span>
-
-</div>
-<div class="viewcode-block" id="webhook"><a class="viewcode-back" href="../../../../errbot.builtins.wsview/#errbot.builtins.wsview.webhook">[docs]</a><span class="k">def</span> <span class="nf">webhook</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Simple shortcut for the plugins to be notified on webhooks</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">uri_rule</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;POST&#39;</span><span class="p">,</span> <span class="s">&#39;GET&#39;</span><span class="p">),</span> <span class="n">form_param</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;webhooks:  Bind </span><span class="si">%s</span><span class="s"> to </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">uri_rule</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
-
-        <span class="k">for</span> <span class="n">verb</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
-            <span class="n">bottle_app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="n">uri_rule</span><span class="p">,</span> <span class="n">verb</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">WebView</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">form_param</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">method</span><span class="o">.</span><span class="n">__name__</span> <span class="o">+</span> <span class="s">&#39;_&#39;</span> <span class="o">+</span> <span class="n">verb</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">method</span>
-
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">PY2</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">basestring</span><span class="p">)):</span>
-        <span class="k">return</span> <span class="k">lambda</span> <span class="n">method</span><span class="p">:</span> <span class="n">decorate</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">decorate</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">__name__</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-</pre></div>
+</pre></div></div>
 
           </div>
         </div>
@@ -232,7 +219,7 @@
         <li class="right" >
           <a href="../../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../../../../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../../../" >Module code</a> &raquo;</li>
           <li><a href="../../" >errbot</a> &raquo;</li> 
       </ul>

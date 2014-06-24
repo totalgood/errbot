@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.xmpp module &mdash; Err 2.0.0-rc2 documentation</title>
+    <title>errbot.backends.xmpp module &mdash; Err 2.0.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0.0-rc2',
+        VERSION:     '2.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../" />
+    <link rel="top" title="Err 2.0.0 documentation" href="../" />
     <link rel="up" title="errbot.backends package" href="../errbot.backends/" />
     <link rel="next" title="errbot.builtins package" href="../errbot.builtins/" />
     <link rel="prev" title="errbot.backends.text module" href="../errbot.backends.text/" />
@@ -65,7 +65,7 @@
         <li class="right" >
           <a href="../errbot.backends.text/" title="errbot.backends.text module"
              accesskey="P">previous</a> |</li>
-        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../errbot/" >errbot package</a> &raquo;</li>
           <li><a href="../errbot.backends/" accesskey="U">errbot.backends package</a> &raquo;</li> 
       </ul>
@@ -98,6 +98,16 @@
 <tt class="descname">connected</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.connected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.connected" title="Permalink to this definition">¶</a></dt>
 <dd><p>Callback for connection events</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.contact_offline">
+<tt class="descname">contact_offline</tt><big>(</big><em>stanza</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.contact_offline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.contact_offline" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.contact_online">
+<tt class="descname">contact_online</tt><big>(</big><em>stanza</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.contact_online"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.contact_online" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.create_connection">
@@ -136,6 +146,16 @@
 <tt class="descname">serve_forever</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.serve_forever"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.serve_forever" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.user_joined_chat">
+<tt class="descname">user_joined_chat</tt><big>(</big><em>stanza</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.user_joined_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.user_joined_chat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.user_left_chat">
+<tt class="descname">user_left_chat</tt><big>(</big><em>stanza</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.user_left_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.user_left_chat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -148,8 +168,22 @@
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.configure_room">
+<tt class="descname">configure_room</tt><big>(</big><em>room</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.configure_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.configure_room" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure the given MUC</p>
+<p>Currently this simply sets the default room configuration as
+received by the server. May be extended in the future to set
+a custom room configuration instead.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="errbot.backends.xmpp.XMPPConnection.connect">
 <tt class="descname">connect</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.del_event_handler">
+<tt class="descname">del_event_handler</tt><big>(</big><em>name</em>, <em>cb</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.del_event_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.del_event_handler" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -165,7 +199,8 @@
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPConnection.join_room">
 <tt class="descname">join_room</tt><big>(</big><em>room</em>, <em>username</em>, <em>password</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.join_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.join_room" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Attempt to join the given MUC</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPConnection.send_message">
@@ -276,7 +311,7 @@ It needs to fid the SSL certificate of google and not the one for your domain</p
         <li class="right" >
           <a href="../errbot.backends.text/" title="errbot.backends.text module"
              >previous</a> |</li>
-        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../errbot/" >errbot package</a> &raquo;</li>
           <li><a href="../errbot.backends/" >errbot.backends package</a> &raquo;</li> 
       </ul>

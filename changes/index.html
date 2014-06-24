@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Release history &mdash; Err 2.0.0-rc2 documentation</title>
+    <title>Release history &mdash; Err 2.0.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0.0-rc2',
+        VERSION:     '2.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../" />
+    <link rel="top" title="Err 2.0.0 documentation" href="../" />
     <link rel="prev" title="errbot.version module" href="../errbot.version/" />
   <link rel="icon" type="image/png" href="../_static/err.png" />
   <link rel="apple-touch-icon" href="../_static/err.png" />
@@ -60,7 +60,7 @@
         <li class="right" >
           <a href="../errbot.version/" title="errbot.version module"
              accesskey="P">previous</a> |</li>
-        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li> 
+        <li><a href="../">Err 2.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     
@@ -112,7 +112,7 @@
 <li>Added sedbot to the official repos</li>
 <li>Added support for plugin based webviews</li>
 <li>Add err-agressive-keepalive to the official repos</li>
-<li>Allow botcmd&#8217;s to yield values</li>
+<li>Allow botcmd's to yield values</li>
 <li>Allow configuration of MESSAGE_SIZE_LIMIT</li>
 </ul>
 <p>Bugs:</p>
@@ -170,7 +170,7 @@
 <li>better detection of self in MUC</li>
 <li>force python 2 for shebang lines</li>
 <li>Parses the real nick and the room and put it in the from identity of messages</li>
-<li>fix for JID Instance has no attribute &#8216;__len__&#8217;</li>
+<li>fix for JID Instance has no attribute '__len__'</li>
 <li>partial support for &#64; in JIDs nodes</li>
 <li>when a plugin was reloaded, it was not connect notified</li>
 </ul>
@@ -195,7 +195,7 @@
 <p>Bugs:</p>
 <ul class="simple">
 <li>the XMPP from was not removed as it should and broke the gtalk compatibility</li>
-<li>fixed &#8216;jid-malformed&#8217; error with build_reply()</li>
+<li>fixed 'jid-malformed' error with build_reply()</li>
 </ul>
 <p>Features:</p>
 <ul class="simple">
@@ -217,7 +217,7 @@
 <p>Features:</p>
 <ul class="simple">
 <li>added err-mailwatch to the official repo thx to <a class="reference external" href="https://github.com/zoni">https://github.com/zoni</a> for the contribution</li>
-<li>added a &#8220;null&#8221; backend to stabilise the web ui</li>
+<li>added a &quot;null&quot; backend to stabilise the web ui</li>
 </ul>
 </div>
 <div class="section" id="version-1-6-5-2012-09-10">
@@ -240,7 +240,7 @@
 <li>fixed warn_admin that regressed</li>
 <li>close correctly shelves on connection drop [Thx to linux techie <a class="reference external" href="https://github.com/linuxtechie">https://github.com/linuxtechie</a>]</li>
 <li>corrected the !status reporting was incorrect for non configured plugins (label C)</li>
-<li>force a complete reconnection on &#8220;See Other Host&#8221; XMPP message</li>
+<li>force a complete reconnection on &quot;See Other Host&quot; XMPP message</li>
 </ul>
 <p>Features:</p>
 <ul class="simple">
@@ -262,7 +262,7 @@
 </ul>
 <p>Features:</p>
 <ul class="simple">
-<li>added err-timemachine, an &#8220;history&#8221; plugin that logs and indexes every messages. You can query it with a lucene syntax over specific dates etc ...</li>
+<li>added err-timemachine, an &quot;history&quot; plugin that logs and indexes every messages. You can query it with a lucene syntax over specific dates etc ...</li>
 <li>Added a webserver UI from the webserver builtin plugin (disabled by default see !config webserver to enable it)</li>
 <li>Now if a config structure changed or failed, the bot will present you the config you had and the default template so you can adapt your current config easily</li>
 <li>Added the schema for xhtml-im so you can use your favorite xml editor to check what your templates are generating</li>
@@ -297,7 +297,7 @@
 <ul class="simple">
 <li>corrected a threading issue that was preventing err to quit</li>
 <li>the python shebangs lines where not generic</li>
-<li>the config path is not inserted first so we don&#8217;t conflict with other installs</li>
+<li>the config path is not inserted first so we don't conflict with other installs</li>
 <li>corrected a corruption of the configs on some persistance stores on shutdown</li>
 </ul>
 <p>Features:</p>
@@ -342,7 +342,7 @@
 <p>Bugs:</p>
 <ul class="simple">
 <li>corrected a vicious bug when you use metaclasses on plugins with botcmd decorator generated with parameters</li>
-<li>don&#8217;t call any callback message if the message is from the chat history</li>
+<li>don't call any callback message if the message is from the chat history</li>
 <li>dependency problem with dnspython, it fixes the compatibility with google apps [Thx to linux techie <a class="reference external" href="https://github.com/linuxtechie">https://github.com/linuxtechie</a>]</li>
 <li>on repos updates, err now recheck the dependencies (you never know if they changed after the update)</li>
 </ul>
@@ -359,7 +359,7 @@
 <li><p class="first">Now the bot reconnects in case of bad internet connectivity [Thx to linux techie <a class="reference external" href="https://github.com/linuxtechie">https://github.com/linuxtechie</a>]</p>
 </li>
 <li><dl class="first docutils">
-<dt>The bot now supports a &#8220;remote chatroom relay&#8221; (relay all messages from a MUC to a list of users) on top of a normal relay (from a user to a list of MUC)</dt>
+<dt>The bot now supports a &quot;remote chatroom relay&quot; (relay all messages from a MUC to a list of users) on top of a normal relay (from a user to a list of MUC)</dt>
 <dd><p class="first last">With this you can emulate a partychat mode.</p>
 </dd>
 </dl>
@@ -431,7 +431,7 @@ err-tourney</li>
 </ul>
 <p>Features:</p>
 <ul class="simple">
-<li>Added a dictionary mixin for the plugins themselves so you can access you data directly with self[&#8216;entry&#8217;]</li>
+<li>Added a dictionary mixin for the plugins themselves so you can access you data directly with self['entry']</li>
 <li>admin_only is now a simple parameter of &#64;botcmd</li>
 <li>Implemented the history commands : !history !! !1 !2 !3</li>
 </ul>
@@ -452,7 +452,7 @@ err-tourney</li>
 <h2>Version 1.2.0 (2012-06-14)<a class="headerlink" href="#version-1-2-0-2012-06-14" title="Permalink to this headline">¶</a></h2>
 <p>Bugs:</p>
 <ul class="simple">
-<li>Don&#8217;t nag the user for irrelevant settings from the setting-template</li>
+<li>Don't nag the user for irrelevant settings from the setting-template</li>
 <li>Added a message size security in the framework to avoid getting banned from servers when a plugin spills too much</li>
 </ul>
 <p>Features:</p>
@@ -476,8 +476,8 @@ err-tourney</li>
 <p>Features:</p>
 <ul class="simple">
 <li>Added the !uptime command</li>
-<li>!uninstall doesn&#8217;t require a full restart anymore</li>
-<li>!update a plugin doesn&#8217;t require a full restart anymore</li>
+<li>!uninstall doesn't require a full restart anymore</li>
+<li>!update a plugin doesn't require a full restart anymore</li>
 <li>Simplified the usage of the asynchronous self.send() by stripping the last part of the JID for chatrooms</li>
 <li>Improved the !restart feature so err.py is standalone now (no need to have a err.sh anymore)</li>
 <li>err.py now takes 2 optional parameters : -d to daemonize it and -c to specify the location of the config file</li>
@@ -588,7 +588,7 @@ err-tourney</li>
         <li class="right" >
           <a href="../errbot.version/" title="errbot.version module"
              >previous</a> |</li>
-        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li> 
+        <li><a href="../">Err 2.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
  </div>

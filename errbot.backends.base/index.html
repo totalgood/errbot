@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.base module &mdash; Err 2.0.0-rc2 documentation</title>
+    <title>errbot.backends.base module &mdash; Err 2.0.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0.0-rc2',
+        VERSION:     '2.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../" />
+    <link rel="top" title="Err 2.0.0 documentation" href="../" />
     <link rel="up" title="errbot.backends package" href="../errbot.backends/" />
     <link rel="next" title="errbot.backends.hipchat module" href="../errbot.backends.hipchat/" />
     <link rel="prev" title="errbot.backends package" href="../errbot.backends/" />
@@ -65,7 +65,7 @@
         <li class="right" >
           <a href="../errbot.backends/" title="errbot.backends package"
              accesskey="P">previous</a> |</li>
-        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../errbot/" >errbot package</a> &raquo;</li>
           <li><a href="../errbot.backends/" accesskey="U">errbot.backends package</a> &raquo;</li> 
       </ul>
@@ -79,6 +79,13 @@
             
   <div class="section" id="module-errbot.backends.base">
 <span id="errbot-backends-base-module"></span><h1>errbot.backends.base module<a class="headerlink" href="#module-errbot.backends.base" title="Permalink to this headline">¶</a></h1>
+<dl class="exception">
+<dt id="errbot.backends.base.ACLViolation">
+<em class="property">exception </em><tt class="descclassname">errbot.backends.base.</tt><tt class="descname">ACLViolation</tt><a class="reference internal" href="../_modules/errbot/backends/base/#ACLViolation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.ACLViolation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.Exception</span></tt></p>
+<p>Exceptions raised when user is not allowed to execute given command due to ACLs</p>
+</dd></dl>
+
 <dl class="class">
 <dt id="errbot.backends.base.Backend">
 <em class="property">class </em><tt class="descclassname">errbot.backends.base.</tt><tt class="descname">Backend</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend" title="Permalink to this definition">¶</a></dt>
@@ -130,19 +137,41 @@ Message is NOT sent</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="errbot.backends.base.Backend.callback_contact_offline">
+<tt class="descname">callback_contact_offline</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_contact_offline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_contact_offline" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.Backend.callback_contact_online">
+<tt class="descname">callback_contact_online</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_contact_online"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_contact_online" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="errbot.backends.base.Backend.callback_message">
 <tt class="descname">callback_message</tt><big>(</big><em>conn</em>, <em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Needs to return False if we want to stop further treatment</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="errbot.backends.base.Backend.callback_user_joined_chat">
+<tt class="descname">callback_user_joined_chat</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_user_joined_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_user_joined_chat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.Backend.callback_user_left_chat">
+<tt class="descname">callback_user_left_chat</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_user_left_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_user_left_chat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="errbot.backends.base.Backend.check_command_access">
 <tt class="descname">check_command_access</tt><big>(</big><em>mess</em>, <em>cmd</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.check_command_access"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.check_command_access" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Check command against ACL rules</p>
+<p>Raises ACLViolation() if the command may not be executed in the given context</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="errbot.backends.base.Backend.cmd_history">
-<tt class="descname">cmd_history</tt><em class="property"> = defaultdict(&lt;function Backend.&lt;lambda&gt; at 0x2b2bee2347a0&gt;, {})</em><a class="headerlink" href="#errbot.backends.base.Backend.cmd_history" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">cmd_history</tt><em class="property"> = defaultdict(&lt;function Backend.&lt;lambda&gt; at 0x2af7bfb539d8&gt;, {})</em><a class="headerlink" href="#errbot.backends.base.Backend.cmd_history" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -165,7 +194,7 @@ Message is NOT sent</p>
 <dt id="errbot.backends.base.Backend.help">
 <tt class="descname">help</tt><big>(</big><em>mess</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.help" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a help string listing available options.</p>
-<p>Automatically assigned to the &#8220;help&#8221; command.</p>
+<p>Automatically assigned to the &quot;help&quot; command.</p>
 </dd></dl>
 
 <dl class="method">
@@ -287,7 +316,7 @@ beginning of the help message.</p>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
 <dl class="attribute">
 <dt id="errbot.backends.base.Message.fr">
-<tt class="descname">fr</tt><em class="property"> = &lt;errbot.backends.base.Identifier object at 0x2b2bee1f18d0&gt;</em><a class="headerlink" href="#errbot.backends.base.Message.fr" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">fr</tt><em class="property"> = &lt;errbot.backends.base.Identifier object at 0x2af7bfb812b0&gt;</em><a class="headerlink" href="#errbot.backends.base.Message.fr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -353,6 +382,29 @@ beginning of the help message.</p>
 <dl class="method">
 <dt id="errbot.backends.base.Message.setType">
 <tt class="descname">setType</tt><big>(</big><em>typ</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.setType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.setType" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.base.Presence">
+<em class="property">class </em><tt class="descclassname">errbot.backends.base.</tt><tt class="descname">Presence</tt><big>(</big><em>nick</em>, <em>room</em>, <em>real_id=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<p>An universal class representing protocol agnostic concept
+of presence.</p>
+<dl class="method">
+<dt id="errbot.backends.base.Presence.get_nick">
+<tt class="descname">get_nick</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.get_nick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.get_nick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.Presence.get_real_name">
+<tt class="descname">get_real_name</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.get_real_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.get_real_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.Presence.get_room">
+<tt class="descname">get_room</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.get_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.get_room" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -454,7 +506,7 @@ If input is not valid xhtml-im fallback to normal.</p>
         <li class="right" >
           <a href="../errbot.backends/" title="errbot.backends package"
              >previous</a> |</li>
-        <li><a href="../">Err 2.0.0-rc2 documentation</a> &raquo;</li>
+        <li><a href="../">Err 2.0.0 documentation</a> &raquo;</li>
           <li><a href="../errbot/" >errbot package</a> &raquo;</li>
           <li><a href="../errbot.backends/" >errbot.backends package</a> &raquo;</li> 
       </ul>

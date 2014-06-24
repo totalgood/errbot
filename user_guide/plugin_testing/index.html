@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Testing your plugins &mdash; Err 2.0.0-rc2 documentation</title>
+    <title>Testing your plugins &mdash; Err 2.0.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.0.0-rc2',
+        VERSION:     '2.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../../" />
+    <link rel="top" title="Err 2.0.0 documentation" href="../../" />
     <link rel="next" title="Logging to Sentry" href="../sentry/" />
     <link rel="prev" title="Plugin development" href="../plugin_development/" />
   <link rel="icon" type="image/png" href="../../_static/err.png" />
@@ -64,7 +64,7 @@
         <li class="right" >
           <a href="../plugin_development/" title="Plugin development"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../">Err 2.0.0-rc2 documentation</a> &raquo;</li> 
+        <li><a href="../../">Err 2.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     
@@ -76,8 +76,8 @@
             
   <div class="section" id="testing-your-plugins">
 <h1>Testing your plugins<a class="headerlink" href="#testing-your-plugins" title="Permalink to this headline">¶</a></h1>
-<p>Just as Err has tests that validates that it behaves correctly so should your plugin. Err is tested using Python&#8217;s <a class="reference external" href="http://docs.python.org/3.3/library/unittest.html">unittest</a> module and because we already provide some utilities for that we highly advise you to use <cite>unittest</cite> too.</p>
-<p>We&#8217;re going to write a simple plugin named <cite>myplugin.py</cite> with a <cite>MyPlugin</cite> class. It&#8217;s tests will be stored in <cite>test_myplugin.py</cite> in the same directory.</p>
+<p>Just as Err has tests that validates that it behaves correctly so should your plugin. Err is tested using Python's <a class="reference external" href="http://docs.python.org/3.3/library/unittest.html">unittest</a> module and because we already provide some utilities for that we highly advise you to use <cite>unittest</cite> too.</p>
+<p>We're going to write a simple plugin named <cite>myplugin.py</cite> with a <cite>MyPlugin</cite> class. It's tests will be stored in <cite>test_myplugin.py</cite> in the same directory.</p>
 <div class="section" id="interacting-with-the-bot">
 <h2>Interacting with the bot<a class="headerlink" href="#interacting-with-the-bot" title="Permalink to this headline">¶</a></h2>
 <p>Lets go for an example, <em>myplugin.py</em>:</p>
@@ -108,12 +108,12 @@
 </pre></div>
 </div>
 <p>Lets walk through this line for line. First of all, we import <a class="reference internal" href="../../errbot.backends.test/#errbot.backends.test.FullStackTest" title="errbot.backends.test.FullStackTest"><tt class="xref py py-class docutils literal"><span class="pre">FullStackTest</span></tt></a>, <a class="reference internal" href="../../errbot.backends.test/#errbot.backends.test.pushMessage" title="errbot.backends.test.pushMessage"><tt class="xref py py-func docutils literal"><span class="pre">pushMessage()</span></tt></a> and <a class="reference internal" href="../../errbot.backends.test/#errbot.backends.test.popMessage" title="errbot.backends.test.popMessage"><tt class="xref py py-func docutils literal"><span class="pre">popMessage()</span></tt></a> from the backends tests, there allow us to spin up a bot for testing purposes and interact with the message queue.</p>
-<p>Then we define our own test class subclassing from FullStackTest so we get a bot. We define our own <a class="reference internal" href="../../errbot.backends.test/#errbot.backends.test.FullStackTest.setUp" title="errbot.backends.test.FullStackTest.setUp"><tt class="xref py py-func docutils literal"><span class="pre">setUp()</span></tt></a> method because we need to pass the current directory we&#8217;re executing from to <a class="reference internal" href="../../errbot.backends.test/#errbot.backends.test.FullStackTest" title="errbot.backends.test.FullStackTest"><tt class="xref py py-class docutils literal"><span class="pre">FullStackTest</span></tt></a> so that it knows to add that directory to the bot&#8217;s plugin path.</p>
-<p>After that we define our first <cite>test_</cite> method which simply sends a command to the bot using <a class="reference internal" href="../../errbot.backends.test/#errbot.backends.test.pushMessage" title="errbot.backends.test.pushMessage"><tt class="xref py py-func docutils literal"><span class="pre">pushMessage()</span></tt></a> and then asserts that the response we expect, <em>&#8220;This is my awesome command&#8221;</em> is in the message we receive from the bot which we get by calling <a class="reference internal" href="../../errbot.backends.test/#errbot.backends.test.popMessage" title="errbot.backends.test.popMessage"><tt class="xref py py-func docutils literal"><span class="pre">popMessage()</span></tt></a>.</p>
+<p>Then we define our own test class subclassing from FullStackTest so we get a bot. We define our own <a class="reference internal" href="../../errbot.backends.test/#errbot.backends.test.FullStackTest.setUp" title="errbot.backends.test.FullStackTest.setUp"><tt class="xref py py-func docutils literal"><span class="pre">setUp()</span></tt></a> method because we need to pass the current directory we're executing from to <a class="reference internal" href="../../errbot.backends.test/#errbot.backends.test.FullStackTest" title="errbot.backends.test.FullStackTest"><tt class="xref py py-class docutils literal"><span class="pre">FullStackTest</span></tt></a> so that it knows to add that directory to the bot's plugin path.</p>
+<p>After that we define our first <cite>test_</cite> method which simply sends a command to the bot using <a class="reference internal" href="../../errbot.backends.test/#errbot.backends.test.pushMessage" title="errbot.backends.test.pushMessage"><tt class="xref py py-func docutils literal"><span class="pre">pushMessage()</span></tt></a> and then asserts that the response we expect, <em>&quot;This is my awesome command&quot;</em> is in the message we receive from the bot which we get by calling <a class="reference internal" href="../../errbot.backends.test/#errbot.backends.test.popMessage" title="errbot.backends.test.popMessage"><tt class="xref py py-func docutils literal"><span class="pre">popMessage()</span></tt></a>.</p>
 </div>
 <div class="section" id="helper-methods">
 <h2>Helper methods<a class="headerlink" href="#helper-methods" title="Permalink to this headline">¶</a></h2>
-<p>Often enough you&#8217;ll have methods in your plugins that do things for you that are not decorated with <cite>&#64;botcmd</cite> since the user never calls out to these methods directly.</p>
+<p>Often enough you'll have methods in your plugins that do things for you that are not decorated with <cite>&#64;botcmd</cite> since the user never calls out to these methods directly.</p>
 <p>Such helper methods can be either instance methods, methods that take <cite>self</cite> as the first argument becaus they need access to data stored on the bot or class or static methods, decorated with either <cite>&#64;classmethod</cite> or <cite>&#64;staticmethod</cite>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyPlugin</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
     <span class="nd">@botcmd</span>
@@ -138,7 +138,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Here we simply import <cite>myplugin</cite> and since it&#8217;s a <cite>&#64;staticmethod</cite> we can directly access it through <cite>myplugin.MyPlugin.method()</cite>.</p>
+<p>Here we simply import <cite>myplugin</cite> and since it's a <cite>&#64;staticmethod</cite> we can directly access it through <cite>myplugin.MyPlugin.method()</cite>.</p>
 <p>Sometimes however a helper method needs information stored on the bot or manipulate some of that so you declare an instance method instead:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyPlugin</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
     <span class="nd">@botcmd</span>
@@ -149,8 +149,8 @@
         <span class="k">return</span> <span class="s">&quot;This is my awesome command&quot;</span>
 </pre></div>
 </div>
-<p>Now what? We can&#8217;t access the method directly anymore because we need an instance of the bot and the plugin and we can&#8217;t just send <cite>!mycommand_helper</cite> to the bot, it&#8217;s not a bot command (and if it were it would be <cite>!mycommand helper</cite> anyway).</p>
-<p>What we need now is get access to the instance of our plugin itself. Fortunately for us, there&#8217;s a method that can help us do just that:</p>
+<p>Now what? We can't access the method directly anymore because we need an instance of the bot and the plugin and we can't just send <cite>!mycommand_helper</cite> to the bot, it's not a bot command (and if it were it would be <cite>!mycommand helper</cite> anyway).</p>
+<p>What we need now is get access to the instance of our plugin itself. Fortunately for us, there's a method that can help us do just that:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">FullStackTest</span>
 <span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">plugin_manager</span>
@@ -172,14 +172,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>There we go, we first grab out plugin thanks to a helper method on <a class="reference internal" href="../../errbot.plugin_manager/#module-errbot.plugin_manager" title="errbot.plugin_manager"><tt class="xref py py-mod docutils literal"><span class="pre">plugin_manager</span></tt></a> and then simply execute the method and compare what we get with what we expect. You can also access <cite>&#64;classmethod</cite> or <cite>&#64;staticmethod</cite> methods this way, you just don&#8217;t have to.</p>
+<p>There we go, we first grab out plugin thanks to a helper method on <a class="reference internal" href="../../errbot.plugin_manager/#module-errbot.plugin_manager" title="errbot.plugin_manager"><tt class="xref py py-mod docutils literal"><span class="pre">plugin_manager</span></tt></a> and then simply execute the method and compare what we get with what we expect. You can also access <cite>&#64;classmethod</cite> or <cite>&#64;staticmethod</cite> methods this way, you just don't have to.</p>
 </div>
 <div class="section" id="pattern">
 <h2>Pattern<a class="headerlink" href="#pattern" title="Permalink to this headline">¶</a></h2>
-<p>It&#8217;s a good idea to split up your plugin in two types of methods, those that directly interact with the user and those that do extra stuff you need.</p>
-<p>If you do this the <cite>&#64;botcmd</cite> methods should only concern themselves with giving output back to the user and calling different other functions it needs in order to fulfill the user&#8217;s request.</p>
-<p>Try to keep as many helper methods simple, there&#8217;s nothing wrong with having an extra helper or two to avoid having to nest fifteen if-statements. It becomes more legible, easier to maintain and easier to test.</p>
-<p>If you can, try to make your helper methods <cite>&#64;staticmethod</cite> decorated functions, it&#8217;s easier to test and you don&#8217;t need a full running bot for those tests.</p>
+<p>It's a good idea to split up your plugin in two types of methods, those that directly interact with the user and those that do extra stuff you need.</p>
+<p>If you do this the <cite>&#64;botcmd</cite> methods should only concern themselves with giving output back to the user and calling different other functions it needs in order to fulfill the user's request.</p>
+<p>Try to keep as many helper methods simple, there's nothing wrong with having an extra helper or two to avoid having to nest fifteen if-statements. It becomes more legible, easier to maintain and easier to test.</p>
+<p>If you can, try to make your helper methods <cite>&#64;staticmethod</cite> decorated functions, it's easier to test and you don't need a full running bot for those tests.</p>
 </div>
 <div class="section" id="all-together-now">
 <h2>All together now<a class="headerlink" href="#all-together-now" title="Permalink to this headline">¶</a></h2>
@@ -276,19 +276,19 @@ class MyPlugin(BotPlugin):
 </pre></div>
 </div>
 <p>You also want to know how well your tests cover you code.</p>
-<p>To that end, install coverage: <strong class="command">pip install coverage</strong> and then run your tests like this: <strong class="command">coverage run &#8211;source=myplugin.py test_myplugin.py</strong>.</p>
+<p>To that end, install coverage: <strong class="command">pip install coverage</strong> and then run your tests like this: <strong class="command">coverage run --source=myplugin.py test_myplugin.py</strong>.</p>
 <p>You can now have a look at coverage statistics through <strong class="command">coverage report</strong>:</p>
 <div class="highlight-python"><div class="highlight"><pre>Name        Stmts   Miss  Cover
 -------------------------------
 myplugin      49      0   100%
 </pre></div>
 </div>
-<p>It&#8217;s also possible to generate an HTML report with <strong class="command">coverage html</strong> and opening the resulting <cite>htmlcov/index.html</cite>.</p>
+<p>It's also possible to generate an HTML report with <strong class="command">coverage html</strong> and opening the resulting <cite>htmlcov/index.html</cite>.</p>
 </div>
 <div class="section" id="travis-and-coveralls">
 <h2>Travis and Coveralls<a class="headerlink" href="#travis-and-coveralls" title="Permalink to this headline">¶</a></h2>
 <p>Last but not least, you can run your tests on <a class="reference external" href="https://travis-ci.org">Travis-CI</a> so when you update code or others submit pull requests the tests will automatically run confirming everything still works.</p>
-<p>In order to do that you&#8217;ll need a <cite>.travis.yml</cite> similar to this:</p>
+<p>In order to do that you'll need a <cite>.travis.yml</cite> similar to this:</p>
 <div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">python</span><span class="p-Indicator">:</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">3.3</span>
 <span class="l-Scalar-Plain">install</span><span class="p-Indicator">:</span>
@@ -302,9 +302,9 @@ myplugin      49      0   100%
   <span class="l-Scalar-Plain">email</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">false</span>
 </pre></div>
 </div>
-<p>Most of it is self-explanatory, except for perhaps the <cite>after_success</cite>. The author of this plugin uses <a class="reference external" href="https://coveralls.io">Coveralls.io</a> to keep track of code coverage so after a successful build we call out to coveralls and upload the statistics. It&#8217;s for this reason that we <cite>pip install [..] coveralls [..]</cite> in the <cite>.travis.yml</cite>.</p>
-<p>Also note the that we&#8217;re force-installing a specific <a class="reference external" href="http://yapsy.sourceforge.net">Yapsy</a> version. This is needed because Yapsy&#8217;s choice to append <cite>-python2n3</cite> causes newer versions of pip to consider it a pre-release thus refusing it to install if not explicitly asked to. Unfortunately the previous stable of Yapsy on 1.9.x which pip would pick is not Python 3 compatible.</p>
-<p>The <cite>-q</cite> flag causes pip to be a lot more quiet and <cite>&#8211;use-wheel</cite> will cause pip to use <a class="reference external" href="http://www.python.org/dev/peps/pep-0427/">wheels</a> if available, speeding up your builds if you happen to depend on something that builds a C-extension.</p>
+<p>Most of it is self-explanatory, except for perhaps the <cite>after_success</cite>. The author of this plugin uses <a class="reference external" href="https://coveralls.io">Coveralls.io</a> to keep track of code coverage so after a successful build we call out to coveralls and upload the statistics. It's for this reason that we <cite>pip install [..] coveralls [..]</cite> in the <cite>.travis.yml</cite>.</p>
+<p>Also note the that we're force-installing a specific <a class="reference external" href="http://yapsy.sourceforge.net">Yapsy</a> version. This is needed because Yapsy's choice to append <cite>-python2n3</cite> causes newer versions of pip to consider it a pre-release thus refusing it to install if not explicitly asked to. Unfortunately the previous stable of Yapsy on 1.9.x which pip would pick is not Python 3 compatible.</p>
+<p>The <cite>-q</cite> flag causes pip to be a lot more quiet and <cite>--use-wheel</cite> will cause pip to use <a class="reference external" href="http://www.python.org/dev/peps/pep-0427/">wheels</a> if available, speeding up your builds if you happen to depend on something that builds a C-extension.</p>
 <p>Both Travis-CI and Coveralls easily integrate with Github hosted code.</p>
 </div>
 </div>
@@ -390,7 +390,7 @@ myplugin      49      0   100%
         <li class="right" >
           <a href="../plugin_development/" title="Plugin development"
              >previous</a> |</li>
-        <li><a href="../../">Err 2.0.0-rc2 documentation</a> &raquo;</li> 
+        <li><a href="../../">Err 2.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
  </div>

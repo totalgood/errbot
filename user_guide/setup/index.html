@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Setup &mdash; Err 2.0.0-rc2 documentation</title>
+    <title>Setup &mdash; Err 2.0.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.0.0-rc2',
+        VERSION:     '2.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.0.0-rc2 documentation" href="../../" />
+    <link rel="top" title="Err 2.0.0 documentation" href="../../" />
     <link rel="next" title="Interacting with the Bot" href="../interaction/" />
     <link rel="prev" title="Contributing" href="../../contributing/" />
   <link rel="icon" type="image/png" href="../../_static/err.png" />
@@ -64,7 +64,7 @@
         <li class="right" >
           <a href="../../contributing/" title="Contributing"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../">Err 2.0.0-rc2 documentation</a> &raquo;</li> 
+        <li><a href="../../">Err 2.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     
@@ -95,7 +95,7 @@ it is recommended (but not required) to have a least one MUC for Err to use as w
 </div>
 <p>However, in these cases, installing into a dedicated <a class="reference external" href="https://pypi.python.org/pypi/virtualenv">virtualenv</a> is recommended.</p>
 <p>On some distributions, Err is available as a package via your usual package manager.
-In these cases, it is generally recommended to use your distribution&#8217;s package instead
+In these cases, it is generally recommended to use your distribution's package instead
 of installing from PyPi.</p>
 <div class="section" id="extra-dependencies">
 <h3>Extra dependencies<a class="headerlink" href="#extra-dependencies" title="Permalink to this headline">¶</a></h3>
@@ -130,10 +130,10 @@ be done with:</p>
 </pre></div>
 </div>
 <p>In many cases, just typing err.py will be enough as it is generally added to the PATH
-automatically. Please pass -h or &#8211;help to err.py to get a list of supported parameters.
-Depending on your situation, you may need to pass &#8211;config or &#8211;backend when starting
+automatically. Please pass -h or --help to err.py to get a list of supported parameters.
+Depending on your situation, you may need to pass --config or --backend when starting
 Err.</p>
-<p>If all that worked, you can now use the -d (or &#8211;daemon) parameter to run it in a
+<p>If all that worked, you can now use the -d (or --daemon) parameter to run it in a
 detached mode:</p>
 <div class="highlight-python"><div class="highlight"><pre>&lt;path_to_install_directory&gt;/scripts/err.py --daemon
 </pre></div>
@@ -143,16 +143,16 @@ such as <a class="reference external" href="http://supervisord.org/">supervisor<
 is outside the scope of this document however.</p>
 </div>
 <div class="section" id="hacking-on-err-s-code-directly">
-<h2>Hacking on Err&#8217;s code directly<a class="headerlink" href="#hacking-on-err-s-code-directly" title="Permalink to this headline">¶</a></h2>
-<p>It&#8217;s important to know that as of version 2.0, Err is written for Python 3. In order
+<h2>Hacking on Err's code directly<a class="headerlink" href="#hacking-on-err-s-code-directly" title="Permalink to this headline">¶</a></h2>
+<p>It's important to know that as of version 2.0, Err is written for Python 3. In order
 to run under Python 2.7 the code is run through 3to2 at install time. This means that
 while it is possible to run Err under Python 3.2+ directly from a source checkout, it
-is not possible to do so with Python 2.7. If you wish to develop or test with Err&#8217;s
+is not possible to do so with Python 2.7. If you wish to develop or test with Err's
 code under 2.7, you must run:</p>
 <div class="highlight-python"><div class="highlight"><pre>python setup.py install
 </pre></div>
 </div>
-<p>Alternatively, you can also look into the <cite>&#8211;editable</cite> parameter of pip install.</p>
+<p>Alternatively, you can also look into the <cite>--editable</cite> parameter of pip install.</p>
 </div>
 </div>
 
@@ -179,7 +179,7 @@ code under 2.7, you must run:</p>
 </li>
 <li><a class="reference internal" href="#configuration">Configuration</a></li>
 <li><a class="reference internal" href="#starting-the-daemon">Starting the daemon</a></li>
-<li><a class="reference internal" href="#hacking-on-err-s-code-directly">Hacking on Err&#8217;s code directly</a></li>
+<li><a class="reference internal" href="#hacking-on-err-s-code-directly">Hacking on Err's code directly</a></li>
 </ul>
 </li>
 </ul>
@@ -239,7 +239,7 @@ code under 2.7, you must run:</p>
         <li class="right" >
           <a href="../../contributing/" title="Contributing"
              >previous</a> |</li>
-        <li><a href="../../">Err 2.0.0-rc2 documentation</a> &raquo;</li> 
+        <li><a href="../../">Err 2.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
  </div>

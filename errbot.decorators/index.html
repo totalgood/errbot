@@ -1,0 +1,281 @@
+
+<!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.decorators module &mdash; Err 2.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '2.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Err 2.0.0 documentation" href="../" />
+    <link rel="up" title="errbot package" href="../errbot/" />
+    <link rel="next" title="errbot.errBot module" href="../errbot.errBot/" />
+    <link rel="prev" title="errbot.config-travisci module" href="../errbot.config-travisci/" />
+  <link rel="icon" type="image/png" href="../_static/err.png" />
+  <link rel="apple-touch-icon" href="../_static/err.png" />
+  <link rel="stylesheet" href="../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="../_static/fancybox/jquery.fancybox.pack.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-32534172-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+  </head>
+  <body>
+  
+  
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.errBot/" title="errbot.errBot module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../errbot.config-travisci/" title="errbot.config-travisci module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../">Err 2.0.0 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" accesskey="U">errbot package</a> &raquo;</li> 
+      </ul>
+    </div>
+    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-errbot.decorators">
+<span id="errbot-decorators-module"></span><h1>errbot.decorators module<a class="headerlink" href="#module-errbot.decorators" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="errbot.decorators.botcmd">
+<tt class="descclassname">errbot.decorators.</tt><tt class="descname">botcmd</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/decorators/#botcmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.decorators.botcmd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator for bot command functions</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>hidden</strong> -- Prevents the command from being shown by the built-in help command when <cite>True</cite>.</li>
+<li><strong>name</strong> -- The name to give to the command. Defaults to name of the function itself.</li>
+<li><strong>split_args_with</strong> -- Automatically split arguments on the given separator.
+Behaviour of this argument is identical to <tt class="xref py py-func docutils literal"><span class="pre">str.split()</span></tt></li>
+<li><strong>admin_only</strong> -- Only allow the command to be executed by admins when <cite>True</cite>.</li>
+<li><strong>historize</strong> -- Store the command in the history list (<cite>!history</cite>). This is enabled
+by default.</li>
+<li><strong>template</strong> -- The template to use when using XHTML-IM output</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This decorator should be applied to methods of <a class="reference internal" href="../errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><tt class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></tt></a>
+classes to turn them into commands that can be given to the bot. These methods are
+expected to have a signature like the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@botcmd</span>
+<span class="k">def</span> <span class="nf">some_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>The given <cite>msg</cite> will be the full message object that was received, which includes data
+like sender, receiver, the plain-text and html body (if applicable), etc. <cite>args</cite> will
+be a string or list (depending on your value of <cite>split_args_with</cite>) of parameters that
+were given to the command by the user.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="errbot.decorators.re_botcmd">
+<tt class="descclassname">errbot.decorators.</tt><tt class="descname">re_botcmd</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/decorators/#re_botcmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.decorators.re_botcmd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator for regex-based bot command functions</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pattern</strong> -- The regular expression a message should match against in order to
+trigger the command.</li>
+<li><strong>flags</strong> -- The <cite>flags</cite> parameter which should be passed to <tt class="xref py py-func docutils literal"><span class="pre">re.compile()</span></tt>. This
+allows the expression's behaviour to be modified, such as making it case-insensitive
+for example.</li>
+<li><strong>prefixed</strong> -- Requires user input to start with a bot prefix in order for the pattern
+to be applied when <cite>True</cite> (the default).</li>
+<li><strong>hidden</strong> -- Prevents the command from being shown by the built-in help command when <cite>True</cite>.</li>
+<li><strong>name</strong> -- The name to give to the command. Defaults to name of the function itself.</li>
+<li><strong>admin_only</strong> -- Only allow the command to be executed by admins when <cite>True</cite>.</li>
+<li><strong>historize</strong> -- Store the command in the history list (<cite>!history</cite>). This is enabled
+by default.</li>
+<li><strong>template</strong> -- The template to use when using XHTML-IM output</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This decorator should be applied to methods of <a class="reference internal" href="../errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><tt class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></tt></a>
+classes to turn them into commands that can be given to the bot. These methods are
+expected to have a signature like the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@re_botcmd</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s">r&#39;^some command$&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">some_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">match</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>The given <cite>msg</cite> will be the full message object that was received, which includes data
+like sender, receiver, the plain-text and html body (if applicable), etc. <cite>match</cite> will
+be a <tt class="xref py py-class docutils literal"><span class="pre">re.MatchObject</span></tt> containing the result of applying the regular expression on the
+user's input.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="errbot.decorators.webhook">
+<tt class="descclassname">errbot.decorators.</tt><tt class="descname">webhook</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/decorators/#webhook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.decorators.webhook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator for webhooks</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>uri_rule</strong> -- A regular expression against which the called URL should
+match in order for the webhook to trigger. If left undefined then the URL
+<cite>/&lt;method_name&gt;/</cite> will be used instead.</li>
+<li><strong>methods</strong> -- A tuple of allowed HTTP methods. By default, only GET and POST
+are allowed.</li>
+<li><strong>form_param</strong> -- The key who's contents will be passed to your method's <cite>payload</cite>
+parameter. This is used for example when using the <cite>application/x-www-form-urlencoded</cite>
+mimetype.</li>
+<li><strong>raw</strong> -- Boolean to overrides the request decoding (including form_param) and
+passes the raw http request to your method's <cite>payload</cite>.
+The passed type in payload will provide the BaseRequest interface as defined here : 
+<a class="reference external" href="http://bottlepy.org/docs/dev/api.html#bottle.BaseRequest">http://bottlepy.org/docs/dev/api.html#bottle.BaseRequest</a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>This decorator should be applied to methods of <a class="reference internal" href="../errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><tt class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></tt></a>
+classes to turn them into webhooks which can be reached on Err's built-in webserver.
+The bundled <em>Webserver</em> plugin needs to be configured before these URL's become reachable.</p>
+<p>Methods with this decorator are expected to have a signature like the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@webhook</span>
+<span class="k">def</span> <span class="nf">a_webhook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">payload</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../" title="Back to home page">
+        <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err" />
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+  <li><a href="../">Homepage</a></li>
+  <li><a href="../genindex/">Index</a></li>
+  <li><a href="../py-modindex/">Module index</a></li>
+  <li><a href="../modules/">API reference</a></li>
+      <li>
+          <a href="../errbot/">errbot package</a>
+          <ul>
+          <li>Previous: <a href="../errbot.config-travisci/" title="previous chapter">errbot.config-travisci module</a></li>
+          <li>Next: <a href="../errbot.errBot/" title="next chapter">errbot.errBot module</a></li>
+          </ul>
+      </li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/errbot.decorators.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  <script>
+    $(document).ready(function() {
+        $('.fancybox').fancybox({
+            padding : 0,
+            openEffect  : 'elastic'
+        });
+    });
+  </script>
+ <div class="relbar2">
+    
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.errBot/" title="errbot.errBot module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../errbot.config-travisci/" title="errbot.config-travisci module"
+             >previous</a> |</li>
+        <li><a href="../">Err 2.0.0 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" >errbot package</a> &raquo;</li> 
+      </ul>
+    </div>
+ </div>
+  <div class="footer">
+    &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  
+  </body>
+</html>
