@@ -26,6 +26,14 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="top" title="Err 2.0.0 documentation" href="../../../" />
     <link rel="up" title="errbot" href="../" />
+  <script type="text/javascript">
+      // GitHub pages offers no way to redirect to a canonical location, so we
+      // have to make do with hacky javascript redirection :(
+      if(document.location.protocol != "file:" && document.location.host != "errbot.net") {
+         var path = document.location.pathname.replace('/err/', '/');
+         document.location = "http://errbot.net" + path;
+      }
+  </script>
   <link rel="icon" type="image/png" href="../../../_static/err.png" />
   <link rel="apple-touch-icon" href="../../../_static/err.png" />
   <link rel="stylesheet" href="../../../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
@@ -253,7 +261,7 @@
 
 </div>
 <div class="viewcode-block" id="get_all_plugins"><a class="viewcode-back" href="../../../errbot.plugin_manager/#errbot.plugin_manager.get_all_plugins">[docs]</a><span class="k">def</span> <span class="nf">get_all_plugins</span><span class="p">():</span>
-    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;All plugins: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">simplePluginManager</span><span class="o">.</span><span class="n">getAllPlugins</span><span class="p">())</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;All plugins: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">plug</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">plug</span> <span class="ow">in</span> <span class="n">simplePluginManager</span><span class="o">.</span><span class="n">getAllPlugins</span><span class="p">()]))</span>
     <span class="k">return</span> <span class="n">simplePluginManager</span><span class="o">.</span><span class="n">getAllPlugins</span><span class="p">()</span>
 
 </div>

@@ -27,6 +27,14 @@
     <link rel="top" title="Err 2.0.0 documentation" href="../../" />
     <link rel="next" title="Logging to Sentry" href="../sentry/" />
     <link rel="prev" title="Plugin development" href="../plugin_development/" />
+  <script type="text/javascript">
+      // GitHub pages offers no way to redirect to a canonical location, so we
+      // have to make do with hacky javascript redirection :(
+      if(document.location.protocol != "file:" && document.location.host != "errbot.net") {
+         var path = document.location.pathname.replace('/err/', '/');
+         document.location = "http://errbot.net" + path;
+      }
+  </script>
   <link rel="icon" type="image/png" href="../../_static/err.png" />
   <link rel="apple-touch-icon" href="../../_static/err.png" />
   <link rel="stylesheet" href="../../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
@@ -89,7 +97,16 @@
         <span class="k">return</span> <span class="s">&quot;This is my awesome command&quot;</span>
 </pre></div>
 </div>
-<p>This does absolutely nothing shocking, but how do you test it? We need to interact with the bot somehow, send it <cite>!command</cite> and validate the reply. Fortunatly Err provides some help.</p>
+<p>And <em>myplugin.plug</em>:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[Core]</span>
+<span class="na">Name</span> <span class="o">=</span> <span class="s">MyPlugin</span>
+<span class="na">Module</span> <span class="o">=</span> <span class="s">myplugin</span>
+
+<span class="k">[Documentation]</span>
+<span class="na">Description</span> <span class="o">=</span> <span class="s">my plugin</span>
+</pre></div>
+</div>
+<p>This does absolutely nothing shocking, but how do you test it? We need to interact with the bot somehow, send it <cite>!mycommand</cite> and validate the reply. Fortunatly Err provides some help.</p>
 <p>Our test, <em>test_myplugin.py</em>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">FullStackTest</span><span class="p">,</span> <span class="n">pushMessage</span><span class="p">,</span> <span class="n">popMessage</span>
@@ -103,7 +120,7 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">MyPluginTests</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">setUp</span><span class="p">(</span><span class="n">extra_test_file</span><span class="o">=</span><span class="n">plugin_dir</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">test_command</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">pushMessage</span><span class="p">(</span><span class="s">&#39;!command&#39;</span><span class="p">)</span>
+        <span class="n">pushMessage</span><span class="p">(</span><span class="s">&#39;!mycommand&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;This is my awesome command&#39;</span><span class="p">,</span> <span class="n">popMessage</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -118,7 +135,7 @@
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyPlugin</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
     <span class="nd">@botcmd</span>
     <span class="k">def</span> <span class="nf">mycommand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">mycommand_helper</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mycommand_helper</span><span class="p">()</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">mycommand_helper</span><span class="p">():</span>
@@ -143,7 +160,7 @@
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyPlugin</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
     <span class="nd">@botcmd</span>
     <span class="k">def</span> <span class="nf">mycommand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">mycommand_helper</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mycommand_helper</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">mycommand_helper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&quot;This is my awesome command&quot;</span>
@@ -189,11 +206,11 @@
 class MyPlugin(BotPlugin):
     @botcmd
     def mycommand(self, message, args):
-        return mycommand_helper()
+        return self.mycommand_helper()
 
     @botcmd
     def mycommand_another(self, message, args):
-        return mycommand_another_helper()
+        return self.mycommand_another_helper()
 
     @staticmethod
     def mycommand_helper();
@@ -201,6 +218,15 @@ class MyPlugin(BotPlugin):
 
     def mycommand_another_helper(self);
         return &quot;This is another awesome command&quot;
+</pre></div>
+</div>
+<p><em>myplugin.plug</em>:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[Core]</span>
+<span class="na">Name</span> <span class="o">=</span> <span class="s">MyPlugin</span>
+<span class="na">Module</span> <span class="o">=</span> <span class="s">myplugin</span>
+
+<span class="k">[Documentation]</span>
+<span class="na">Description</span> <span class="o">=</span> <span class="s">my plugin</span>
 </pre></div>
 </div>
 <p><em>test_myplugin.py</em>:</p>
@@ -219,11 +245,11 @@ class MyPlugin(BotPlugin):
         <span class="nb">super</span><span class="p">(</span><span class="n">MyPluginBotTests</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">setUp</span><span class="p">(</span><span class="n">extra_test_file</span><span class="o">=</span><span class="n">plugin_dir</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">test_mycommand</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">pushMessage</span><span class="p">(</span><span class="s">&#39;!command&#39;</span><span class="p">)</span>
+        <span class="n">pushMessage</span><span class="p">(</span><span class="s">&#39;!mycommand&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;This is my awesome command&#39;</span><span class="p">,</span> <span class="n">popMessage</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="nf">test_mycommand_another</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">pushMessage</span><span class="p">(</span><span class="s">&#39;!command another&#39;</span><span class="p">)</span>
+        <span class="n">pushMessage</span><span class="p">(</span><span class="s">&#39;!mycommand another&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;This is another awesome command&#39;</span><span class="p">,</span> <span class="n">popMessage</span><span class="p">())</span>
 
 
@@ -289,11 +315,12 @@ myplugin      49      0   100%
 <h2>Travis and Coveralls<a class="headerlink" href="#travis-and-coveralls" title="Permalink to this headline">¶</a></h2>
 <p>Last but not least, you can run your tests on <a class="reference external" href="https://travis-ci.org">Travis-CI</a> so when you update code or others submit pull requests the tests will automatically run confirming everything still works.</p>
 <p>In order to do that you'll need a <cite>.travis.yml</cite> similar to this:</p>
-<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">python</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">3.3</span>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">python</span>
+<span class="l-Scalar-Plain">python</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="s">&quot;3.3&quot;</span>
 <span class="l-Scalar-Plain">install</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">pip install -q yapsy==1.10.2-pythons2n3 err==2.0.0rc2 --use-wheel</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">pip install -q pep8 coverage coveralls --use-wheel</span>
+  <span class="p-Indicator">-</span> <span class="s">&quot;pip</span><span class="nv"> </span><span class="s">install</span><span class="nv"> </span><span class="s">-q</span><span class="nv"> </span><span class="s">yapsy==1.10.2-pythons2n3</span><span class="nv"> </span><span class="s">err==2.0.0</span><span class="nv"> </span><span class="s">--use-wheel&quot;</span>
+  <span class="p-Indicator">-</span> <span class="s">&quot;pip</span><span class="nv"> </span><span class="s">install</span><span class="nv"> </span><span class="s">-q</span><span class="nv"> </span><span class="s">pep8</span><span class="nv"> </span><span class="s">coverage</span><span class="nv"> </span><span class="s">coveralls</span><span class="nv"> </span><span class="s">--use-wheel&quot;</span>
 <span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">coverage run --source=myplugin.py test_myplugin.py</span>
 <span class="l-Scalar-Plain">after_success</span><span class="p-Indicator">:</span>

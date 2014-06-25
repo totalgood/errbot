@@ -27,6 +27,14 @@
     <link rel="top" title="Err 2.0.0 documentation" href="../../" />
     <link rel="next" title="Testing your plugins" href="../plugin_testing/" />
     <link rel="prev" title="Interacting with the Bot" href="../interaction/" />
+  <script type="text/javascript">
+      // GitHub pages offers no way to redirect to a canonical location, so we
+      // have to make do with hacky javascript redirection :(
+      if(document.location.protocol != "file:" && document.location.host != "errbot.net") {
+         var path = document.location.pathname.replace('/err/', '/');
+         document.location = "http://errbot.net" + path;
+      }
+  </script>
   <link rel="icon" type="image/png" href="../../_static/err.png" />
   <link rel="apple-touch-icon" href="../../_static/err.png" />
   <link rel="stylesheet" href="../../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
@@ -353,7 +361,7 @@ version of python your plugin can run for forward and backward compatibility.</p
 like this:</p>
 <div class="highlight-ini"><div class="highlight"><pre><span class="k">[Core]</span>
 <span class="na">Name</span> <span class="o">=</span> <span class="s">HelloWorld</span>
-<span class="na">Module</span> <span class="o">=</span> <span class="s">helloWorld</span>
+<span class="na">Module</span> <span class="o">=</span> <span class="s">helloworld</span>
 
 <span class="k">[Documentation]</span>
 <span class="na">Description</span> <span class="o">=</span> <span class="s">let&#39;s say hello !</span>

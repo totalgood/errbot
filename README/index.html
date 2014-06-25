@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Overview: module code &mdash; Err 2.0.0 documentation</title>
+    <title>Website and documentation &mdash; Err 2.0.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -74,32 +74,38 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="errbot/">errbot</a></li>
-<ul><li><a href="errbot/backends/base/">errbot.backends.base</a></li>
-<li><a href="errbot/backends/hipchat/">errbot.backends.hipchat</a></li>
-<li><a href="errbot/backends/irc/">errbot.backends.irc</a></li>
-<li><a href="errbot/backends/null/">errbot.backends.null</a></li>
-<li><a href="errbot/backends/test/">errbot.backends.test</a></li>
-<li><a href="errbot/backends/text/">errbot.backends.text</a></li>
-<li><a href="errbot/backends/xmpp/">errbot.backends.xmpp</a></li>
-<li><a href="errbot/botplugin/">errbot.botplugin</a></li>
-<li><a href="errbot/builtins/chatRoom/">errbot.builtins.chatRoom</a></li>
-<li><a href="errbot/builtins/vcheck/">errbot.builtins.vcheck</a></li>
-<li><a href="errbot/builtins/webserver/">errbot.builtins.webserver</a></li>
-<li><a href="errbot/builtins/wsview/">errbot.builtins.wsview</a></li>
-<li><a href="errbot/bundled/exrex/">errbot.bundled.exrex</a></li>
-<li><a href="errbot/bundled/rocket/">errbot.bundled.rocket</a></li>
-<li><a href="errbot/bundled/threadpool/">errbot.bundled.threadpool</a></li>
-<li><a href="errbot/decorators/">errbot.decorators</a></li>
-<li><a href="errbot/errBot/">errbot.errBot</a></li>
-<li><a href="errbot/main/">errbot.main</a></li>
-<li><a href="errbot/pid/">errbot.pid</a></li>
-<li><a href="errbot/plugin_manager/">errbot.plugin_manager</a></li>
-<li><a href="errbot/storage/">errbot.storage</a></li>
-<li><a href="errbot/templating/">errbot.templating</a></li>
-<li><a href="errbot/utils/">errbot.utils</a></li>
-</ul></ul>
+  <div class="section" id="website-and-documentation">
+<h1>Website and documentation<a class="headerlink" href="#website-and-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Err's website and documentation are built using <a class="reference external" href="http://sphinx-doc.org/">Sphinx</a>. Useful references
+when contributing to the docs are the <a class="reference external" href="http://sphinx-doc.org/rest.html">reStructuredText Primer</a> and
+<a class="reference external" href="http://sphinx-doc.org/markup/inline.html">Inline markup</a> documents.</p>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>Documentation <em>must</em> be built using Python 3. Additionally, extra requirements
+must be installed, which may be done through <cite>pip install -r requirements.txt</cite>.</p>
+<p>You must also have make installed in order to use the supplied Makefile.</p>
+</div>
+<div class="section" id="building-and-viewing-locally">
+<h2>Building and viewing locally<a class="headerlink" href="#building-and-viewing-locally" title="Permalink to this headline">¶</a></h2>
+<p>With the necessary requirements installed, the documentation can be built using
+the command <cite>make html</cite>. Once generated, the resulting pages can be viewed by
+opening <cite>_build/html/index.html</cite> in your webbrowser of choice.</p>
+</div>
+<div class="section" id="publishing-to-github-pages">
+<h2>Publishing to GitHub pages<a class="headerlink" href="#publishing-to-github-pages" title="Permalink to this headline">¶</a></h2>
+<p><em>Note: This is only relevant to project maintainers</em></p>
+<p>The <cite>make gh-pages</cite> command can be used to build output for GitHub pages. This
+will pull down a copy of the repository and auto-commit to the gh-pages branch.</p>
+<p>The results of this can then be reviewed before being pushed.</p>
+</div>
+<div class="section" id="including-extra-files-with-github-pages">
+<h2>Including extra files with GitHub pages<a class="headerlink" href="#including-extra-files-with-github-pages" title="Permalink to this headline">¶</a></h2>
+<p>All the files found within the <cite>_extra</cite> directory are copied to the root of
+the output directory (after a successful Sphinx build) during the processing
+of <cite>make gh-pages</cite>.</p>
+</div>
+</div>
+
 
           </div>
         </div>
@@ -112,13 +118,29 @@
     <div class="ghbuttons">
         <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
         <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
-    </div><h3>Related Topics</h3>
+    </div>
+  <h3><a href="../">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Website and documentation</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#building-and-viewing-locally">Building and viewing locally</a></li>
+<li><a class="reference internal" href="#publishing-to-github-pages">Publishing to GitHub pages</a></li>
+<li><a class="reference internal" href="#including-extra-files-with-github-pages">Including extra files with GitHub pages</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
 <ul>
   <li><a href="../">Homepage</a></li>
   <li><a href="../genindex/">Index</a></li>
   <li><a href="../py-modindex/">Module index</a></li>
   <li><a href="../modules/">API reference</a></li>
 </ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/README.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search/" method="get">
