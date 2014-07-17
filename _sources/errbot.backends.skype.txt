@@ -1,7 +1,0 @@
-errbot.backends.skype module
-============================
-
-.. automodule:: errbot.backends.skype
-    :members:
-    :undoc-members:
-    :show-inheritance:

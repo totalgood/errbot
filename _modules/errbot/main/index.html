@@ -1,5 +1,5 @@
 
-<!doctype html>
+    <!doctype html>
 
 
 
@@ -26,35 +26,39 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="top" title="Err 2.0.0 documentation" href="../../../" />
     <link rel="up" title="errbot" href="../" />
-  <script type="text/javascript">
-      // GitHub pages offers no way to redirect to a canonical location, so we
-      // have to make do with hacky javascript redirection :(
-      if(document.location.protocol != "file:" && document.location.host != "errbot.net") {
-         var path = document.location.pathname.replace('/err/', '/');
-         document.location = "http://errbot.net" + path;
-      }
-  </script>
-  <link rel="icon" type="image/png" href="../../../_static/err.png" />
-  <link rel="apple-touch-icon" href="../../../_static/err.png" />
-  <link rel="stylesheet" href="../../../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
-  <script type="text/javascript" src="../../../_static/fancybox/jquery.fancybox.pack.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-32534172-1']);
-    _gaq.push(['_trackPageview']);
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../../_static/err.png"/>
+    <link rel="stylesheet" href="../../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
 
-    (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
 
   </head>
   <body>
-  
-  
+    
+    
 
     <div class="related">
       <h3>Navigation</h3>
@@ -70,7 +74,7 @@
           <li><a href="../" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
     </div>
-    
+      
 
     <div class="document">
       <div class="documentwrapper">
@@ -100,10 +104,12 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">raven.handlers.logging</span> <span class="kn">import</span> <span class="n">SentryHandler</span>
         <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&quot;&quot;&quot;You have BOT_LOG_SENTRY enabled, but I couldn&#39;t import modules needed for Sentry integration.</span>
-<span class="s">            Did you install raven? (See http://raven.readthedocs.org/en/latest/install/index.html for installation instructions)</span>
-
-<span class="s">            &quot;&quot;&quot;</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
+                <span class="s">&quot;You have BOT_LOG_SENTRY enabled, but I couldn&#39;t import modules &quot;</span>
+                <span class="s">&quot;needed for Sentry integration. Did you install raven? &quot;</span>
+                <span class="s">&quot;(See http://raven.readthedocs.org/en/latest/install/index.html &quot;</span>
+                <span class="s">&quot;for installation instructions)&quot;</span>
+            <span class="p">)</span>
             <span class="nb">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">SENTRY_DSN</span><span class="p">,</span> <span class="n">SENTRY_LOGLEVEL</span>
 
@@ -122,6 +128,12 @@
     <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;serve from </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="p">)</span>
     <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span></div>
 </pre></div>
+  <div id="prev_next_links">
+      
+          
+          
+      
+  </div>
 
           </div>
         </div>
@@ -129,27 +141,29 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../" title="Back to home page">
-        <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err" />
+        <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
     </a>
     <div class="ghbuttons">
-        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
-        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
     </div><h3>Related Topics</h3>
 <ul>
-  <li><a href="../../../">Homepage</a></li>
-  <li><a href="../../../genindex/">Index</a></li>
-  <li><a href="../../../py-modindex/">Module index</a></li>
-  <li><a href="../../../modules/">API reference</a></li>
-      <li>
-          <a href="../../">Module code</a>
-          <ul>
-      <li>
-          <a href="../">errbot</a>
-          <ul>
-          </ul>
-      </li>
-          </ul>
-      </li>
+    <li><a href="../../../">Homepage</a></li>
+    <li><a href="../../../genindex/">Index</a></li>
+    <li><a href="../../../py-modindex/">Module index</a></li>
+    <li><a href="../../../modules/">API reference</a></li>
+        <li>
+        <a href="../../">Module code</a>
+        <ul>
+        <li>
+        <a href="../">errbot</a>
+        <ul>
+        </ul>
+        </li>
+        </ul>
+        </li>
 </ul>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
@@ -168,16 +182,16 @@
       </div>
       <div class="clearer"></div>
     </div>
-  <script>
-    $(document).ready(function() {
-        $('.fancybox').fancybox({
-            padding : 0,
-            openEffect  : 'elastic'
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
         });
-    });
-  </script>
- <div class="relbar2">
-    
+    </script>
+    <div class="relbar2">
+        
     <div class="related">
       <h3>Navigation</h3>
       <ul>
@@ -192,11 +206,12 @@
           <li><a href="../" >errbot</a> &raquo;</li> 
       </ul>
     </div>
- </div>
-  <div class="footer">
-    &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
-  </div>
-  
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Jul 17, 2014.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
   </body>
 </html>

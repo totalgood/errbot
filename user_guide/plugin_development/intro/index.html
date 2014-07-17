@@ -1,0 +1,238 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Intro &mdash; Err 2.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '2.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Err 2.0.0 documentation" href="../../../" />
+    <link rel="up" title="Plugin development" href="../" />
+    <link rel="next" title="2. Development environment" href="../development_environment/" />
+    <link rel="prev" title="Plugin development" href="../" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../../_static/err.png"/>
+    <link rel="stylesheet" href="../../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body>
+    
+    
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../development_environment/" title="2. Development environment"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../" title="Plugin development"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../">Err 2.0.0 documentation</a> &raquo;</li>
+          <li><a href="../" accesskey="U">Plugin development</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="intro">
+<h1>1. Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h1>
+<p>Before we get started I would like to make sure you have all the
+necessary requirements installed and give you an idea of which
+knowledge you should already possess in order to follow along
+without difficulty.</p>
+<div class="section" id="xmpp-versus-irc">
+<h2>1.1. XMPP versus IRC<a class="headerlink" href="#xmpp-versus-irc" title="Permalink to this headline">¶</a></h2>
+<p>Err was initially built for <a class="reference external" href="http://xmpp.org/about-xmpp/">XMPP</a>
+networks, with <a class="reference external" href="http://tools.ietf.org/html/rfc2810">IRC</a> support
+being added later. As such, some Jabberisms shine through in the
+various interfaces.</p>
+<p>Most of the contents of this guide apply equally to both the XMPP
+and IRC back-ends. Items that are specific to a certain back-end
+however will have this clearly noted.</p>
+</div>
+<div class="section" id="requirements">
+<h2>1.2. Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>This guide assumes that you've already installed and configured Err
+and have successfully managed to connect it to an XMPP or IRC
+server. See <a class="reference internal" href="../../setup/"><em>Setup</em></a> if you have not yet managed to
+install or start Err.</p>
+</div>
+<div class="section" id="prior-knowledge">
+<h2>1.3. Prior knowledge<a class="headerlink" href="#prior-knowledge" title="Permalink to this headline">¶</a></h2>
+<p>It is assumed that you have some experience with the <a class="reference external" href="http://pytest.org/">Python</a> programming language. You can most definitely
+work with Err if you only have basic Python knowledge, but you
+should know about data structures such as dictionaries, tuples and
+lists, know what docstrings are and have a basic understanding of
+decorators.</p>
+<p>You should also have some basic familiarity with the <a class="reference external" href="http://xmpp.org/about-xmpp/">Extensible
+Messaging and Presence Protocol (XMPP)</a>. Err provides high-level APIs for
+most tasks so if you know what Jabber IDs are, understand how
+resources and priorities relate to each other and have an
+understanding of the concept of Multi User Chatrooms (MUC), you
+should not have any difficulties.</p>
+</div>
+</div>
+
+  <div id="prev_next_links">
+      
+          
+              Previous: <a href="../">Plugin development</a>
+          
+          
+               | 
+              Next: <a href="../development_environment/">2. Development environment</a>
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../../../" title="Back to home page">
+        <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div>
+  <h3><a href="../../../">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1. Intro</a><ul>
+<li><a class="reference internal" href="#xmpp-versus-irc">1.1. XMPP versus IRC</a></li>
+<li><a class="reference internal" href="#requirements">1.2. Requirements</a></li>
+<li><a class="reference internal" href="#prior-knowledge">1.3. Prior knowledge</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+    <li><a href="../../../">Homepage</a></li>
+    <li><a href="../../../genindex/">Index</a></li>
+    <li><a href="../../../py-modindex/">Module index</a></li>
+    <li><a href="../../../modules/">API reference</a></li>
+        <li>
+        <a href="../">Plugin development</a>
+        <ul>
+        <li>Previous: <a href="../" title="previous chapter">Plugin development</a></li>
+        <li>Next: <a href="../development_environment/" title="next chapter">2. Development environment</a></li>
+        </ul>
+        </li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../_sources/user_guide/plugin_development/intro.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../development_environment/" title="2. Development environment"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../" title="Plugin development"
+             >previous</a> |</li>
+        <li><a href="../../../">Err 2.0.0 documentation</a> &raquo;</li>
+          <li><a href="../" >Plugin development</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Jul 17, 2014.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

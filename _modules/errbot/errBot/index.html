@@ -1,5 +1,5 @@
 
-<!doctype html>
+    <!doctype html>
 
 
 
@@ -26,35 +26,39 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="top" title="Err 2.0.0 documentation" href="../../../" />
     <link rel="up" title="errbot" href="../" />
-  <script type="text/javascript">
-      // GitHub pages offers no way to redirect to a canonical location, so we
-      // have to make do with hacky javascript redirection :(
-      if(document.location.protocol != "file:" && document.location.host != "errbot.net") {
-         var path = document.location.pathname.replace('/err/', '/');
-         document.location = "http://errbot.net" + path;
-      }
-  </script>
-  <link rel="icon" type="image/png" href="../../../_static/err.png" />
-  <link rel="apple-touch-icon" href="../../../_static/err.png" />
-  <link rel="stylesheet" href="../../../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
-  <script type="text/javascript" src="../../../_static/fancybox/jquery.fancybox.pack.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-32534172-1']);
-    _gaq.push(['_trackPageview']);
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../../_static/err.png"/>
+    <link rel="stylesheet" href="../../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
 
-    (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
 
   </head>
   <body>
-  
-  
+    
+    
 
     <div class="related">
       <h3>Navigation</h3>
@@ -70,7 +74,7 @@
           <li><a href="../" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
     </div>
-    
+      
 
     <div class="document">
       <div class="documentwrapper">
@@ -112,7 +116,8 @@
 
 <span class="kn">from</span> <span class="nn">errbot.plugin_manager</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">get_all_active_plugin_names</span><span class="p">,</span> <span class="n">deactivate_all_plugins</span><span class="p">,</span> <span class="n">update_plugin_places</span><span class="p">,</span> <span class="n">get_all_active_plugin_objects</span><span class="p">,</span>
-    <span class="n">get_all_plugins</span><span class="p">,</span> <span class="n">global_restart</span><span class="p">,</span> <span class="n">get_all_plugin_names</span><span class="p">,</span> <span class="n">activate_plugin_with_version_check</span><span class="p">,</span> <span class="n">deactivate_plugin_by_name</span><span class="p">,</span>
+    <span class="n">get_all_plugins</span><span class="p">,</span> <span class="n">global_restart</span><span class="p">,</span> <span class="n">get_all_plugin_names</span><span class="p">,</span> <span class="n">activate_plugin_with_version_check</span><span class="p">,</span>
+    <span class="n">deactivate_plugin_by_name</span><span class="p">,</span>
     <span class="n">get_plugin_obj_by_name</span><span class="p">,</span> <span class="n">PluginConfigurationException</span><span class="p">,</span> <span class="n">check_dependencies</span><span class="p">,</span> <span class="n">reload_plugin_by_name</span>
 <span class="p">)</span>
 
@@ -121,15 +126,18 @@
 <span class="kn">from</span> <span class="nn">errbot.repos</span> <span class="kn">import</span> <span class="n">KNOWN_PUBLIC_REPOS</span>
 <span class="kn">from</span> <span class="nn">errbot.version</span> <span class="kn">import</span> <span class="n">VERSION</span>
 
+
 <div class="viewcode-block" id="get_class_that_defined_method"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.get_class_that_defined_method">[docs]</a><span class="k">def</span> <span class="nf">get_class_that_defined_method</span><span class="p">(</span><span class="n">meth</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">cls</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmro</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">meth</span><span class="o">.</span><span class="n">__self__</span><span class="p">)):</span>
         <span class="k">if</span> <span class="n">meth</span><span class="o">.</span><span class="n">__name__</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">__dict__</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">cls</span>
     <span class="k">return</span> <span class="bp">None</span>
+
 </div>
 <span class="n">CONFIGS</span> <span class="o">=</span> <span class="n">b</span><span class="s">&#39;configs&#39;</span> <span class="k">if</span> <span class="n">PY2</span> <span class="k">else</span> <span class="s">&#39;configs&#39;</span>
 <span class="n">REPOS</span> <span class="o">=</span> <span class="n">b</span><span class="s">&#39;repos&#39;</span> <span class="k">if</span> <span class="n">PY2</span> <span class="k">else</span> <span class="s">&#39;repos&#39;</span>
 <span class="n">BL_PLUGINS</span> <span class="o">=</span> <span class="n">b</span><span class="s">&#39;bl_plugins&#39;</span> <span class="k">if</span> <span class="n">PY2</span> <span class="k">else</span> <span class="s">&#39;bl_plugins&#39;</span>
+
 
 <div class="viewcode-block" id="ErrBot"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot">[docs]</a><span class="k">class</span> <span class="nc">ErrBot</span><span class="p">(</span><span class="n">Backend</span><span class="p">,</span> <span class="n">StoreMixin</span><span class="p">):</span>
     <span class="n">__errdoc__</span> <span class="o">=</span> <span class="s">&quot;&quot;&quot; Commands related to the bot administration &quot;&quot;&quot;</span>
@@ -200,7 +208,8 @@
 
     <span class="c"># this will load the plugins the admin has setup at runtime</span></div>
 <div class="viewcode-block" id="ErrBot.update_dynamic_plugins"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.update_dynamic_plugins">[docs]</a>    <span class="k">def</span> <span class="nf">update_dynamic_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">all_candidates</span><span class="p">,</span> <span class="n">errors</span> <span class="o">=</span> <span class="n">update_plugin_places</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">REPOS</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">keys</span><span class="p">()])</span>
+        <span class="n">all_candidates</span><span class="p">,</span> <span class="n">errors</span> <span class="o">=</span> <span class="n">update_plugin_places</span><span class="p">(</span>
+            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">REPOS</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">keys</span><span class="p">()])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">all_candidates</span> <span class="o">=</span> <span class="n">all_candidates</span>
         <span class="k">return</span> <span class="n">errors</span>
 </div>
@@ -208,7 +217,7 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">ErrBot</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
         <span class="c"># Act only in the backend tells us that this message is OK to broadcast</span>
         <span class="k">for</span> <span class="n">bot</span> <span class="ow">in</span> <span class="n">get_all_active_plugin_objects</span><span class="p">():</span>
-            <span class="c">#noinspection PyBroadException</span>
+            <span class="c"># noinspection PyBroadException</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">bot</span><span class="o">.</span><span class="n">callback_botmessage</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
@@ -218,7 +227,7 @@
         <span class="k">if</span> <span class="nb">super</span><span class="p">(</span><span class="n">ErrBot</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">callback_message</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
             <span class="c"># Act only in the backend tells us that this message is OK to broadcast</span>
             <span class="k">for</span> <span class="n">bot</span> <span class="ow">in</span> <span class="n">get_all_active_plugin_objects</span><span class="p">():</span>
-                <span class="c">#noinspection PyBroadException</span>
+                <span class="c"># noinspection PyBroadException</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Callback </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">bot</span><span class="p">)</span>
                     <span class="n">bot</span><span class="o">.</span><span class="n">callback_message</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">mess</span><span class="p">)</span>
@@ -227,7 +236,7 @@
 </div>
 <div class="viewcode-block" id="ErrBot.callback_contact_online"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.callback_contact_online">[docs]</a>    <span class="k">def</span> <span class="nf">callback_contact_online</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">bot</span> <span class="ow">in</span> <span class="n">get_all_active_plugin_objects</span><span class="p">():</span>
-            <span class="c">#noinspection PyBroadException</span>
+            <span class="c"># noinspection PyBroadException</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Callback </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">bot</span><span class="p">)</span>
                 <span class="n">bot</span><span class="o">.</span><span class="n">callback_contact_online</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">)</span>
@@ -236,7 +245,7 @@
 </div>
 <div class="viewcode-block" id="ErrBot.callback_contact_offline"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.callback_contact_offline">[docs]</a>    <span class="k">def</span> <span class="nf">callback_contact_offline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">bot</span> <span class="ow">in</span> <span class="n">get_all_active_plugin_objects</span><span class="p">():</span>
-            <span class="c">#noinspection PyBroadException</span>
+            <span class="c"># noinspection PyBroadException</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Callback </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">bot</span><span class="p">)</span>
                 <span class="n">bot</span><span class="o">.</span><span class="n">callback_contact_offline</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">)</span>
@@ -245,7 +254,7 @@
 </div>
 <div class="viewcode-block" id="ErrBot.callback_user_joined_chat"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.callback_user_joined_chat">[docs]</a>    <span class="k">def</span> <span class="nf">callback_user_joined_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">bot</span> <span class="ow">in</span> <span class="n">get_all_active_plugin_objects</span><span class="p">():</span>
-            <span class="c">#noinspection PyBroadException</span>
+            <span class="c"># noinspection PyBroadException</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Callback </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">bot</span><span class="p">)</span>
                 <span class="n">bot</span><span class="o">.</span><span class="n">callback_user_joined_chat</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">)</span>
@@ -254,7 +263,7 @@
 </div>
 <div class="viewcode-block" id="ErrBot.callback_user_left_chat"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.callback_user_left_chat">[docs]</a>    <span class="k">def</span> <span class="nf">callback_user_left_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">bot</span> <span class="ow">in</span> <span class="n">get_all_active_plugin_objects</span><span class="p">():</span>
-            <span class="c">#noinspection PyBroadException</span>
+            <span class="c"># noinspection PyBroadException</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Callback </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">bot</span><span class="p">)</span>
                 <span class="n">bot</span><span class="o">.</span><span class="n">callback_user_left_chat</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">)</span>
@@ -268,7 +277,8 @@
         <span class="k">for</span> <span class="n">pluginInfo</span> <span class="ow">in</span> <span class="n">get_all_plugins</span><span class="p">():</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_plugin_blacklisted</span><span class="p">(</span><span class="n">pluginInfo</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
-                    <span class="n">errors</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&#39;Notice: </span><span class="si">%s</span><span class="s"> is blacklisted, use &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="s">&#39;load </span><span class="si">%s</span><span class="s"> to unblacklist it</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="n">pluginInfo</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">pluginInfo</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="n">errors</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&#39;Notice: </span><span class="si">%s</span><span class="s"> is blacklisted, use &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="s">&#39;load </span><span class="si">%s</span><span class="s"> to unblacklist it</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span>
+                        <span class="n">pluginInfo</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">pluginInfo</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
                     <span class="k">continue</span>
                 <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pluginInfo</span><span class="p">,</span> <span class="s">&#39;is_activated&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pluginInfo</span><span class="o">.</span><span class="n">is_activated</span><span class="p">:</span>
                     <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Activate plugin: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">pluginInfo</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
@@ -283,7 +293,7 @@
 <div class="viewcode-block" id="ErrBot.signal_connect_to_all_plugins"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.signal_connect_to_all_plugins">[docs]</a>    <span class="k">def</span> <span class="nf">signal_connect_to_all_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">bot</span> <span class="ow">in</span> <span class="n">get_all_active_plugin_objects</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">bot</span><span class="p">,</span> <span class="s">&#39;callback_connect&#39;</span><span class="p">):</span>
-                <span class="c">#noinspection PyBroadException</span>
+                <span class="c"># noinspection PyBroadException</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Callback </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">bot</span><span class="p">)</span>
                     <span class="n">bot</span><span class="o">.</span><span class="n">callback_connect</span><span class="p">()</span>
@@ -324,7 +334,7 @@
             <span class="n">all_plugins</span> <span class="o">=</span> <span class="n">get_all_plugin_names</span><span class="p">()</span>
         <span class="k">return</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="s">&quot;• &quot;</span> <span class="o">+</span> <span class="n">plugin</span> <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">all_plugins</span><span class="p">))</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s">&#39;status&#39;</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.status"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.status">[docs]</a>    <span class="k">def</span> <span class="nf">status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; If I am alive I should be able to respond to this one</span>
@@ -341,12 +351,13 @@
                     <span class="n">plugins_statuses</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;BU&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
             <span class="k">elif</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">all_loaded</span><span class="p">:</span>
                 <span class="n">plugins_statuses</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;L&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
-            <span class="k">elif</span> <span class="n">get_plugin_obj_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">get_plugin_obj_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">get_configuration_template</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin_configuration</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">get_plugin_obj_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">get_plugin_obj_by_name</span><span class="p">(</span>
+                    <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">get_configuration_template</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin_configuration</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">plugins_statuses</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;C&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">plugins_statuses</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s">&#39;U&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
 
-        <span class="c">#noinspection PyBroadException</span>
+        <span class="c"># noinspection PyBroadException</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">posix</span> <span class="kn">import</span> <span class="n">getloadavg</span>
 
@@ -355,28 +366,29 @@
             <span class="n">loads</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="k">return</span> <span class="p">{</span><span class="s">&#39;plugins_statuses&#39;</span><span class="p">:</span> <span class="n">plugins_statuses</span><span class="p">,</span> <span class="s">&#39;loads&#39;</span><span class="p">:</span> <span class="n">loads</span><span class="p">,</span> <span class="s">&#39;gc&#39;</span><span class="p">:</span> <span class="n">gc</span><span class="o">.</span><span class="n">get_count</span><span class="p">()}</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span>
 <div class="viewcode-block" id="ErrBot.echo"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.echo">[docs]</a>    <span class="k">def</span> <span class="nf">echo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; A simple echo command. Useful for encoding tests etc ...</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">args</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span>
 <div class="viewcode-block" id="ErrBot.uptime"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.uptime">[docs]</a>    <span class="k">def</span> <span class="nf">uptime</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return the uptime of the bot</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s">&quot;I&#39;ve been up for </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s"> (since </span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">format_timedelta</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">startup_time</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">startup_time</span><span class="p">,</span> <span class="s">&#39;%A, %b </span><span class="si">%d</span><span class="s"> at %H:%M&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="s">&quot;I&#39;ve been up for </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s"> (since </span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">format_timedelta</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">startup_time</span><span class="p">),</span>
+                                                      <span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">startup_time</span><span class="p">,</span> <span class="s">&#39;%A, %b </span><span class="si">%d</span><span class="s"> at %H:%M&#39;</span><span class="p">))</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.export_configs"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.export_configs">[docs]</a>    <span class="k">def</span> <span class="nf">export_configs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Returns all the configs in form of a string you can backup</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">CONFIGS</span><span class="p">,</span> <span class="p">{}))</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.import_configs"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.import_configs">[docs]</a>    <span class="k">def</span> <span class="nf">import_configs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Restore the configs from an export from !export configs</span>
@@ -389,7 +401,7 @@
         <span class="bp">self</span><span class="p">[</span><span class="n">CONFIGS</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">orig</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">added</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
         <span class="k">return</span> <span class="s">&quot;Import is done correctly, there are </span><span class="si">%i</span><span class="s"> config entries now.&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">CONFIGS</span><span class="p">])</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.zap_configs"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.zap_configs">[docs]</a>    <span class="k">def</span> <span class="nf">zap_configs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; WARNING : Deletes all the configuration of all the plugins</span>
@@ -397,14 +409,14 @@
         <span class="bp">self</span><span class="p">[</span><span class="n">CONFIGS</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">return</span> <span class="s">&quot;Done&quot;</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.repos_export"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.repos_export">[docs]</a>    <span class="k">def</span> <span class="nf">repos_export</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Returns all the repos in form of a string you can backup</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_installed_plugin_repos</span><span class="p">())</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.restart"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.restart">[docs]</a>    <span class="k">def</span> <span class="nf">restart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; restart the bot &quot;&quot;&quot;</span>
@@ -434,7 +446,7 @@
         <span class="n">deactivate_plugin_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="s">&quot;Plugin </span><span class="si">%s</span><span class="s"> deactivated&quot;</span> <span class="o">%</span> <span class="n">name</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.blacklist"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.blacklist">[docs]</a>    <span class="k">def</span> <span class="nf">blacklist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Blacklist a plugin so that it will not be loaded automatically during bot startup&quot;&quot;&quot;</span>
@@ -443,7 +455,7 @@
                     <span class="s">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatted_plugin_list</span><span class="p">(</span><span class="n">active_only</span><span class="o">=</span><span class="bp">False</span><span class="p">)))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">blacklist_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.unblacklist"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.unblacklist">[docs]</a>    <span class="k">def</span> <span class="nf">unblacklist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Remove a plugin from the blacklist&quot;&quot;&quot;</span>
@@ -452,7 +464,7 @@
                     <span class="s">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatted_plugin_list</span><span class="p">(</span><span class="n">active_only</span><span class="o">=</span><span class="bp">False</span><span class="p">)))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">unblacklist_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.load"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;load a plugin&quot;&quot;&quot;</span>
@@ -470,7 +482,7 @@
         <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">activate_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">r</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.unload"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;unload a plugin&quot;&quot;&quot;</span>
@@ -486,18 +498,18 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">deactivate_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.reload"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.reload">[docs]</a>    <span class="k">def</span> <span class="nf">reload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;reload a plugin&quot;&quot;&quot;</span>
         <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="p">:</span>
             <span class="k">yield</span> <span class="p">(</span><span class="s">&quot;Please tell me which of the following plugins to reload:</span><span class="se">\n</span><span class="s">&quot;</span>
-                    <span class="s">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">formatted_plugin_list</span><span class="p">(</span><span class="n">active_only</span><span class="o">=</span><span class="bp">False</span><span class="p">)))</span>
+                   <span class="s">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">formatted_plugin_list</span><span class="p">(</span><span class="n">active_only</span><span class="o">=</span><span class="bp">False</span><span class="p">)))</span>
             <span class="k">return</span>
         <span class="k">if</span> <span class="n">args</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">get_all_plugin_names</span><span class="p">():</span>
             <span class="k">yield</span> <span class="p">(</span><span class="s">&quot;{} isn&#39;t a valid plugin name. The current plugins are:</span><span class="se">\n</span><span class="s">&quot;</span>
-                    <span class="s">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatted_plugin_list</span><span class="p">(</span><span class="n">active_only</span><span class="o">=</span><span class="bp">False</span><span class="p">)))</span>
+                   <span class="s">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatted_plugin_list</span><span class="p">(</span><span class="n">active_only</span><span class="o">=</span><span class="bp">False</span><span class="p">)))</span>
             <span class="k">return</span>
 
         <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">deactivate_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>  <span class="c"># Not needed but keeps the feedback to user consistent</span>
@@ -518,7 +530,8 @@
         <span class="n">git_path</span> <span class="o">=</span> <span class="n">which</span><span class="p">(</span><span class="s">&#39;git&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">git_path</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s">&#39;git command not found: You need to have git installed on your system to by able to install git based plugins.&#39;</span>
+            <span class="k">return</span> <span class="p">(</span><span class="s">&#39;git command not found: You need to have git installed on &#39;</span>
+                    <span class="s">&#39;your system to be able to install git based plugins.&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;tar.gz&#39;</span><span class="p">):</span>
             <span class="n">tar</span> <span class="o">=</span> <span class="n">TarFile</span><span class="p">(</span><span class="n">fileobj</span><span class="o">=</span><span class="n">urlopen</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
@@ -526,7 +539,8 @@
             <span class="n">human_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">7</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">human_name</span> <span class="o">=</span> <span class="n">human_name_for_git_url</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-            <span class="n">p</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="n">git_path</span><span class="p">,</span> <span class="s">&#39;clone&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">human_name</span><span class="p">],</span> <span class="n">cwd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="n">git_path</span><span class="p">,</span> <span class="s">&#39;clone&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">human_name</span><span class="p">],</span> <span class="n">cwd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                                 <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
             <span class="n">feedback</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
             <span class="n">error_feedback</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">wait</span><span class="p">():</span>
@@ -534,9 +548,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">add_plugin_repo</span><span class="p">(</span><span class="n">human_name</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
         <span class="n">errors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_dynamic_plugins</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">(),</span> <span class="s">&#39;Some plugins are generating errors:</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errors</span><span class="p">),</span> <span class="n">message_type</span><span class="o">=</span><span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">(),</span> <span class="s">&#39;Some plugins are generating errors:</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errors</span><span class="p">),</span>
+                      <span class="n">message_type</span><span class="o">=</span><span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">(),</span> <span class="s">&quot;A new plugin repository named </span><span class="si">%s</span><span class="s"> has been installed correctly from </span><span class="si">%s</span><span class="s">. Refreshing the plugins commands...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">human_name</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span> <span class="n">message_type</span><span class="o">=</span><span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
+                <span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">(),</span>
+                <span class="p">(</span><span class="s">&quot;A new plugin repository named </span><span class="si">%s</span><span class="s"> has been installed correctly from &quot;</span>
+                 <span class="s">&quot;</span><span class="si">%s</span><span class="s">. Refreshing the plugins commands...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">human_name</span><span class="p">,</span> <span class="n">args</span><span class="p">)),</span>
+                <span class="n">message_type</span><span class="o">=</span><span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span>
+            <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">activate_non_started_plugins</span><span class="p">()</span>
         <span class="k">return</span> <span class="s">&quot;Plugin reload done.&quot;</span>
 </div>
@@ -562,7 +582,7 @@
 
         <span class="k">return</span> <span class="s">&#39;Plugins unloaded and repo </span><span class="si">%s</span><span class="s"> removed&#39;</span> <span class="o">%</span> <span class="n">args</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s">&#39;repos&#39;</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.repos"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.repos">[docs]</a>    <span class="k">def</span> <span class="nf">repos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; list the current active plugin repositories</span>
@@ -571,9 +591,10 @@
         <span class="n">all_names</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">KNOWN_PUBLIC_REPOS</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">installed_repos</span><span class="p">]))</span>
         <span class="n">max_width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">all_names</span><span class="p">])</span>
         <span class="k">return</span> <span class="p">{</span><span class="s">&#39;repos&#39;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">(</span><span class="n">repo_name</span> <span class="ow">in</span> <span class="n">installed_repos</span><span class="p">,</span> <span class="n">repo_name</span> <span class="ow">in</span> <span class="n">KNOWN_PUBLIC_REPOS</span><span class="p">,</span> <span class="n">repo_name</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">max_width</span><span class="p">),</span> <span class="n">KNOWN_PUBLIC_REPOS</span><span class="p">[</span><span class="n">repo_name</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">repo_name</span> <span class="ow">in</span> <span class="n">KNOWN_PUBLIC_REPOS</span> <span class="k">else</span> <span class="n">installed_repos</span><span class="p">[</span><span class="n">repo_name</span><span class="p">])</span>
-        <span class="k">for</span> <span class="n">repo_name</span> <span class="ow">in</span> <span class="n">all_names</span><span class="p">]}</span>
+            <span class="p">(</span><span class="n">repo_name</span> <span class="ow">in</span> <span class="n">installed_repos</span><span class="p">,</span> <span class="n">repo_name</span> <span class="ow">in</span> <span class="n">KNOWN_PUBLIC_REPOS</span><span class="p">,</span> <span class="n">repo_name</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">max_width</span><span class="p">),</span>
+             <span class="n">KNOWN_PUBLIC_REPOS</span><span class="p">[</span><span class="n">repo_name</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+             <span class="k">if</span> <span class="n">repo_name</span> <span class="ow">in</span> <span class="n">KNOWN_PUBLIC_REPOS</span> <span class="k">else</span> <span class="n">installed_repos</span><span class="p">[</span><span class="n">repo_name</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">repo_name</span> <span class="ow">in</span> <span class="n">all_names</span><span class="p">]}</span>
 </div>
 <div class="viewcode-block" id="ErrBot.get_doc"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.get_doc">[docs]</a>    <span class="k">def</span> <span class="nf">get_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get command documentation</span>
@@ -603,8 +624,10 @@
         <span class="n">usage</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="p">:</span>
             <span class="n">description</span> <span class="o">=</span> <span class="s">&#39;Available help:</span><span class="se">\n</span><span class="s">&#39;</span>
-            <span class="n">command_classes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_command_classes</span><span class="p">()),</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">:</span><span class="n">c</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-            <span class="n">usage</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="s">&#39;help </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">clazz</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">clazz</span><span class="o">.</span><span class="n">__errdoc__</span> <span class="ow">or</span> <span class="s">&#39;(undocumented)&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">clazz</span> <span class="ow">in</span> <span class="n">command_classes</span><span class="p">)</span>
+            <span class="n">command_classes</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_command_classes</span><span class="p">()),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+            <span class="n">usage</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="s">&#39;help </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">clazz</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">clazz</span><span class="o">.</span><span class="n">__errdoc__</span> <span class="ow">or</span> <span class="s">&#39;(undocumented)&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">clazz</span> <span class="ow">in</span>
+                <span class="n">command_classes</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">args</span> <span class="o">==</span> <span class="s">&#39;full&#39;</span><span class="p">:</span>
             <span class="n">description</span> <span class="o">=</span> <span class="s">&#39;Available commands:&#39;</span>
 
@@ -616,26 +639,27 @@
                     <span class="n">commands</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">command</span><span class="p">))</span>
                     <span class="n">clazz_commands</span><span class="p">[</span><span class="n">clazz</span><span class="p">]</span> <span class="o">=</span> <span class="n">commands</span>
 
-            <span class="k">for</span> <span class="n">clazz</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">clazz_commands</span><span class="p">),</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">:</span><span class="n">c</span><span class="o">.</span><span class="n">__name__</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">clazz</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">clazz_commands</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">__name__</span><span class="p">):</span>
                 <span class="n">usage</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">clazz</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">clazz</span><span class="o">.</span><span class="n">__errdoc__</span> <span class="ow">or</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
                 <span class="n">usage</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span>
-                <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-                                                 <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_doc</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
-                <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span> <span class="ow">in</span> <span class="n">clazz_commands</span><span class="p">[</span><span class="n">clazz</span><span class="p">]</span> 
-                    <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s">&#39;help&#39;</span> 
-                    <span class="ow">and</span> <span class="ow">not</span> <span class="n">command</span><span class="o">.</span><span class="n">_err_command_hidden</span> 
+                    <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                                                     <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_doc</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span> <span class="ow">in</span> <span class="n">clazz_commands</span><span class="p">[</span><span class="n">clazz</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s">&#39;help&#39;</span>
+                    <span class="ow">and</span> <span class="ow">not</span> <span class="n">command</span><span class="o">.</span><span class="n">_err_command_hidden</span>
                     <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">HIDE_RESTRICTED_COMMANDS</span> <span class="ow">or</span> <span class="n">may_access_command</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
                 <span class="p">]))</span>
             <span class="n">usage</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span>
         <span class="k">elif</span> <span class="n">args</span> <span class="ow">in</span> <span class="p">(</span><span class="n">clazz</span><span class="o">.</span><span class="n">__name__</span> <span class="k">for</span> <span class="n">clazz</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_command_classes</span><span class="p">()):</span>
             <span class="c"># filter out the commands related to this class</span>
-            <span class="n">commands</span> <span class="o">=</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">get_class_that_defined_method</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span> <span class="o">==</span> <span class="n">args</span><span class="p">]</span>
+            <span class="n">commands</span> <span class="o">=</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span>
+                        <span class="n">get_class_that_defined_method</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span> <span class="o">==</span> <span class="n">args</span><span class="p">]</span>
             <span class="n">description</span> <span class="o">=</span> <span class="s">&#39;Available commands for </span><span class="si">%s</span><span class="s">:</span><span class="se">\n\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">args</span>
             <span class="n">usage</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span>
-            <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-                                             <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_doc</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span> <span class="ow">in</span> <span class="n">commands</span> 
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">command</span><span class="o">.</span><span class="n">_err_command_hidden</span>  
+                <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                                                 <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_doc</span><span class="p">(</span><span class="n">command</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span> <span class="ow">in</span> <span class="n">commands</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">command</span><span class="o">.</span><span class="n">_err_command_hidden</span>
                 <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">HIDE_RESTRICTED_COMMANDS</span> <span class="ow">or</span> <span class="n">may_access_command</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
             <span class="p">]))</span>
         <span class="k">else</span><span class="p">:</span>
@@ -645,7 +669,7 @@
         <span class="n">bottom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bottom_of_help_message</span><span class="p">()</span>
         <span class="k">return</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="p">[</span><span class="n">top</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">usage</span><span class="p">,</span> <span class="n">bottom</span><span class="p">]))</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">historize</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.history"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.history">[docs]</a>    <span class="k">def</span> <span class="nf">history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;display the command history&quot;&quot;&quot;</span>
@@ -657,16 +681,17 @@
             <span class="n">answer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%2i</span><span class="s">:</span><span class="si">%s%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
         <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">answer</span><span class="p">)</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span>
 <div class="viewcode-block" id="ErrBot.about"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.about">[docs]</a>    <span class="k">def</span> <span class="nf">about</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;   Returns some information about this err instance&quot;&quot;&quot;</span>
 
         <span class="n">result</span> <span class="o">=</span> <span class="s">&#39;Err version </span><span class="si">%s</span><span class="s"> </span><span class="se">\n\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">VERSION</span>
-        <span class="n">result</span> <span class="o">+=</span> <span class="s">&#39;Authors: Mondial Telecom, Guillaume BINET, Tali PETROVER, Ben VAN DAELE, Paul LABEDAN and others.</span><span class="se">\n\n</span><span class="s">&#39;</span>
+        <span class="n">result</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&#39;Authors: Mondial Telecom, Guillaume BINET, Tali PETROVER, &#39;</span>
+                   <span class="s">&#39;Ben VAN DAELE, Paul LABEDAN and others.</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span>
 <div class="viewcode-block" id="ErrBot.apropos"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.apropos">[docs]</a>    <span class="k">def</span> <span class="nf">apropos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;   Returns a help string listing available options.</span>
@@ -689,9 +714,16 @@
         <span class="n">usage</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
         <span class="k">for</span> <span class="n">clazz</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">clazz_commands</span><span class="p">):</span>
             <span class="n">usage</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span>
-            <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">command</span><span class="o">.</span><span class="n">__doc__</span> <span class="ow">or</span> <span class="s">&#39;(undocumented)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span> <span class="ow">in</span> <span class="n">clazz_commands</span><span class="p">[</span><span class="n">clazz</span><span class="p">]</span> <span class="k">if</span>
-            <span class="n">args</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">command</span><span class="o">.</span><span class="n">__doc__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">command</span><span class="o">.</span><span class="n">__doc__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="s">&#39;help&#39;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">command</span><span class="o">.</span><span class="n">_err_command_hidden</span>
+                <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                    <span class="p">(</span><span class="n">command</span><span class="o">.</span><span class="n">__doc__</span> <span class="ow">or</span> <span class="s">&#39;(undocumented)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span> <span class="ow">in</span> <span class="n">clazz_commands</span><span class="p">[</span><span class="n">clazz</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+                <span class="ow">and</span> <span class="n">command</span><span class="o">.</span><span class="n">__doc__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span>
+                <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">command</span><span class="o">.</span><span class="n">__doc__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="ow">and</span> <span class="n">name</span> <span class="o">!=</span> <span class="s">&#39;help&#39;</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="n">command</span><span class="o">.</span><span class="n">_err_command_hidden</span>
             <span class="p">]))</span>
         <span class="n">usage</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span>
 
@@ -711,7 +743,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">git_path</span> <span class="o">=</span> <span class="n">which</span><span class="p">(</span><span class="s">&#39;git&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">git_path</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s">&#39;git command not found: You need to have git installed on your system to by able to update git based plugins.&#39;</span>
+            <span class="k">return</span> <span class="p">(</span><span class="s">&#39;git command not found: You need to have git installed on &#39;</span>
+                    <span class="s">&#39;your system to be able to install git based plugins.&#39;</span><span class="p">)</span>
 
         <span class="n">directories</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="n">repos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">REPOS</span><span class="p">,</span> <span class="p">{})</span>
@@ -735,9 +768,11 @@
             <span class="k">if</span> <span class="n">dep_err</span><span class="p">:</span>
                 <span class="n">feedback</span> <span class="o">+=</span> <span class="n">dep_err</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
             <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">wait</span><span class="p">():</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">(),</span> <span class="s">&quot;Update of </span><span class="si">%s</span><span class="s"> failed...</span><span class="se">\n\n</span><span class="si">%s</span><span class="se">\n\n</span><span class="s"> resuming...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">feedback</span><span class="p">),</span> <span class="n">message_type</span><span class="o">=</span><span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">(),</span> <span class="s">&quot;Update of </span><span class="si">%s</span><span class="s"> failed...</span><span class="se">\n\n</span><span class="si">%s</span><span class="se">\n\n</span><span class="s"> resuming...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">feedback</span><span class="p">),</span>
+                          <span class="n">message_type</span><span class="o">=</span><span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">())</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">(),</span> <span class="s">&quot;Update of </span><span class="si">%s</span><span class="s"> succeeded...</span><span class="se">\n\n</span><span class="si">%s</span><span class="se">\n\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">feedback</span><span class="p">),</span> <span class="n">message_type</span><span class="o">=</span><span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getFrom</span><span class="p">(),</span> <span class="s">&quot;Update of </span><span class="si">%s</span><span class="s"> succeeded...</span><span class="se">\n\n</span><span class="si">%s</span><span class="se">\n\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">feedback</span><span class="p">),</span>
+                          <span class="n">message_type</span><span class="o">=</span><span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">())</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">core_to_update</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">get_all_plugins</span><span class="p">():</span>
                         <span class="k">if</span> <span class="n">plugin</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="s">&#39;is_activated&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">plugin</span><span class="o">.</span><span class="n">is_activated</span><span class="p">:</span>
@@ -751,7 +786,7 @@
             <span class="k">return</span> <span class="s">&quot;You have updated the core, I need to restart.&quot;</span>
         <span class="k">return</span> <span class="s">&quot;Done.&quot;</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">split_args_with</span><span class="o">=</span><span class="s">&#39; &#39;</span><span class="p">,</span> <span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <div class="viewcode-block" id="ErrBot.config"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.config">[docs]</a>    <span class="k">def</span> <span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; configure or get the configuration / configuration template for a specific plugin</span>
@@ -781,13 +816,13 @@
             <span class="n">current_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin_configuration</span><span class="p">(</span><span class="n">plugin_name</span><span class="p">)</span>
             <span class="n">response</span> <span class="o">=</span> <span class="p">(</span><span class="s">&quot;Default configuration for this plugin (you can copy and paste &quot;</span>
                         <span class="s">&quot;this directly as a command):</span><span class="se">\n</span><span class="s">{prefix}config {plugin_name} </span><span class="se">\n</span><span class="s">{config}&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                        <span class="n">prefix</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="n">plugin_name</span><span class="o">=</span><span class="n">plugin_name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">pformat</span><span class="p">(</span><span class="n">template_obj</span><span class="p">))</span>
+                <span class="n">prefix</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="n">plugin_name</span><span class="o">=</span><span class="n">plugin_name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">pformat</span><span class="p">(</span><span class="n">template_obj</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">current_config</span><span class="p">:</span>
                 <span class="n">response</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n\n</span><span class="s">Current configuration:</span><span class="se">\n</span><span class="s">{prefix}config {plugin_name} </span><span class="se">\n</span><span class="s">{config}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                            <span class="n">prefix</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="n">plugin_name</span><span class="o">=</span><span class="n">plugin_name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">pformat</span><span class="p">(</span><span class="n">current_config</span><span class="p">))</span>
+                    <span class="n">prefix</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="n">plugin_name</span><span class="o">=</span><span class="n">plugin_name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">pformat</span><span class="p">(</span><span class="n">current_config</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">response</span>
 
-        <span class="c">#noinspection PyBroadException</span>
+        <span class="c"># noinspection PyBroadException</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">real_config_obj</span> <span class="o">=</span> <span class="n">literal_eval</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
@@ -806,13 +841,13 @@
             <span class="k">return</span> <span class="s">&#39;Incorrect plugin configuration: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">ce</span>
         <span class="k">return</span> <span class="s">&#39;Plugin configuration done.&#39;</span>
 
-    <span class="c">#noinspection PyUnusedLocal</span></div>
+    <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span>
 <div class="viewcode-block" id="ErrBot.log_tail"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.log_tail">[docs]</a>    <span class="k">def</span> <span class="nf">log_tail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Display a tail of the log of n lines or 40 by default</span>
 <span class="sd">        use : !log tail 10</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c">#admin_only(mess) # uncomment if paranoid.</span>
+        <span class="c"># admin_only(mess)  # uncomment if paranoid.</span>
         <span class="n">n</span> <span class="o">=</span> <span class="mi">40</span>
         <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
             <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
@@ -823,6 +858,12 @@
                 <span class="k">return</span> <span class="n">tail</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
         <span class="k">return</span> <span class="s">&#39;No log is configured, please define BOT_LOG_FILE in config.py&#39;</span></div></div>
 </pre></div>
+  <div id="prev_next_links">
+      
+          
+          
+      
+  </div>
 
           </div>
         </div>
@@ -830,27 +871,29 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../" title="Back to home page">
-        <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err" />
+        <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
     </a>
     <div class="ghbuttons">
-        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
-        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
     </div><h3>Related Topics</h3>
 <ul>
-  <li><a href="../../../">Homepage</a></li>
-  <li><a href="../../../genindex/">Index</a></li>
-  <li><a href="../../../py-modindex/">Module index</a></li>
-  <li><a href="../../../modules/">API reference</a></li>
-      <li>
-          <a href="../../">Module code</a>
-          <ul>
-      <li>
-          <a href="../">errbot</a>
-          <ul>
-          </ul>
-      </li>
-          </ul>
-      </li>
+    <li><a href="../../../">Homepage</a></li>
+    <li><a href="../../../genindex/">Index</a></li>
+    <li><a href="../../../py-modindex/">Module index</a></li>
+    <li><a href="../../../modules/">API reference</a></li>
+        <li>
+        <a href="../../">Module code</a>
+        <ul>
+        <li>
+        <a href="../">errbot</a>
+        <ul>
+        </ul>
+        </li>
+        </ul>
+        </li>
 </ul>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
@@ -869,16 +912,16 @@
       </div>
       <div class="clearer"></div>
     </div>
-  <script>
-    $(document).ready(function() {
-        $('.fancybox').fancybox({
-            padding : 0,
-            openEffect  : 'elastic'
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
         });
-    });
-  </script>
- <div class="relbar2">
-    
+    </script>
+    <div class="relbar2">
+        
     <div class="related">
       <h3>Navigation</h3>
       <ul>
@@ -893,11 +936,12 @@
           <li><a href="../" >errbot</a> &raquo;</li> 
       </ul>
     </div>
- </div>
-  <div class="footer">
-    &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
-  </div>
-  
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Jul 17, 2014.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
   </body>
 </html>

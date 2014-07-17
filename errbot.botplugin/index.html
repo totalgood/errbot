@@ -1,5 +1,5 @@
 
-<!doctype html>
+    <!doctype html>
 
 
 
@@ -28,35 +28,39 @@
     <link rel="up" title="errbot package" href="../errbot/" />
     <link rel="next" title="errbot.config-template module" href="../errbot.config-template/" />
     <link rel="prev" title="errbot.templates package" href="../errbot.templates/" />
-  <script type="text/javascript">
-      // GitHub pages offers no way to redirect to a canonical location, so we
-      // have to make do with hacky javascript redirection :(
-      if(document.location.protocol != "file:" && document.location.host != "errbot.net") {
-         var path = document.location.pathname.replace('/err/', '/');
-         document.location = "http://errbot.net" + path;
-      }
-  </script>
-  <link rel="icon" type="image/png" href="../_static/err.png" />
-  <link rel="apple-touch-icon" href="../_static/err.png" />
-  <link rel="stylesheet" href="../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
-  <script type="text/javascript" src="../_static/fancybox/jquery.fancybox.pack.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-32534172-1']);
-    _gaq.push(['_trackPageview']);
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../_static/err.png"/>
+    <link rel="stylesheet" href="../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
 
-    (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
 
   </head>
   <body>
-  
-  
+    
+    
 
     <div class="related">
       <h3>Navigation</h3>
@@ -77,7 +81,7 @@
           <li><a href="../errbot/" accesskey="U">errbot package</a> &raquo;</li> 
       </ul>
     </div>
-    
+      
 
     <div class="document">
       <div class="documentwrapper">
@@ -93,7 +97,8 @@
 <dl class="method">
 <dt id="errbot.botplugin.BotPlugin.activate">
 <tt class="descname">activate</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.activate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.activate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override if you want to do something at initialization phase (don't forget to super(Gnagna, self).activate())</p>
+<dd><p>Override if you want to do something at initialization phase (don't forget
+to super(Gnagna, self).activate())</p>
 </dd></dl>
 
 <dl class="method">
@@ -108,7 +113,8 @@
 <dl class="method">
 <dt id="errbot.botplugin.BotPlugin.callback_botmessage">
 <tt class="descname">callback_botmessage</tt><big>(</big><em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.callback_botmessage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.callback_botmessage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override to get a notified on messages from the bot itself (emitted from your plugin sisters and brothers for example).</p>
+<dd><p>Override to get a notified on messages from the bot itself (emitted from
+your plugin sisters and brothers for example).</p>
 </dd></dl>
 
 <dl class="method">
@@ -132,8 +138,9 @@
 <dl class="method">
 <dt id="errbot.botplugin.BotPlugin.callback_message">
 <tt class="descname">callback_message</tt><big>(</big><em>conn</em>, <em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.callback_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.callback_message" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override to get a notified on <em>ANY</em> message.
-If you are interested only by chatting message you can filter for example mess.getType() in ('groupchat', 'chat')</p>
+<dd><p>Override to get a notified on <em>ANY</em> message.</p>
+<p>If you are interested only by chatting message you can filter for example
+mess.getType() in ('groupchat', 'chat')</p>
 </dd></dl>
 
 <dl class="method">
@@ -151,35 +158,46 @@ If you are interested only by chatting message you can filter for example mess.g
 <dl class="method">
 <dt id="errbot.botplugin.BotPlugin.check_configuration">
 <tt class="descname">check_configuration</tt><big>(</big><em>configuration</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.check_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.check_configuration" title="Permalink to this definition">¶</a></dt>
-<dd><p>By default, this method will do only a BASIC check. You need to override it if you want to do more complex checks.
-It will be called before the configure callback. Note if the config_template is None, it will never be called
-It means recusively:
-1. in case of a dictionary, it will check if all the entries and from the same type are there and not more
-2. in case of an array or tuple, it will assume array members of the same type of first element of the template (no mix typed is supported)</p>
+<dd><p>By default, this method will do only a BASIC check. You need to override
+it if you want to do more complex checks. It will be called before the
+configure callback. Note if the config_template is None, it will never
+be called.</p>
+<p>It means recusively:
+1. in case of a dictionary, it will check if all the entries and from</p>
+<blockquote>
+<div>the same type are there and not more.</div></blockquote>
+<ol class="arabic simple" start="2">
+<li>in case of an array or tuple, it will assume array members of the
+same type of first element of the template (no mix typed is supported)</li>
+</ol>
 <p>In case of validation error it should raise a errbot.utils.ValidationException</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.botplugin.BotPlugin.configure">
 <tt class="descname">configure</tt><big>(</big><em>configuration</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.configure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.configure" title="Permalink to this definition">¶</a></dt>
-<dd><p>By default, it will just store the current configuation in the self.config field of your plugin
-If this plugin has no configuration yet, the framework will call this function anyway with None
-This method will be called before activation so don't expect to be activated at that point</p>
+<dd><p>By default, it will just store the current configuation in the self.config
+field of your plugin. If this plugin has no configuration yet, the framework
+will call this function anyway with None.</p>
+<p>This method will be called before activation so don't expect to be activated
+at that point.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.botplugin.BotPlugin.deactivate">
 <tt class="descname">deactivate</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.deactivate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.deactivate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override if you want to do something at tear down phase (don't forget to super(Gnagna, self).deactivate())</p>
+<dd><p>Override if you want to do something at tear down phase (don't forget to
+super(Gnagna, self).deactivate())</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.botplugin.BotPlugin.get_configuration_template">
 <tt class="descname">get_configuration_template</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.get_configuration_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.get_configuration_template" title="Permalink to this definition">¶</a></dt>
-<dd><p>If your plugin needs a configuration, override this method and return a configuration template.
-for example a dictionary like:
-return {'LOGIN' : <a class="reference external" href="mailto:'example&#37;&#52;&#48;example&#46;com">'example<span>&#64;</span>example<span>&#46;</span>com</a>', 'PASSWORD' : 'password'}
-Note : if this method returns None, the plugin won't be configured</p>
+<dd><p>If your plugin needs a configuration, override this method and return
+a configuration template.</p>
+<p>For example a dictionary like:
+return {'LOGIN' : <a class="reference external" href="mailto:'example&#37;&#52;&#48;example&#46;com">'example<span>&#64;</span>example<span>&#46;</span>com</a>', 'PASSWORD' : 'password'}</p>
+<p>Note: if this method returns None, the plugin won't be configured</p>
 </dd></dl>
 
 <dl class="method">
@@ -203,17 +221,19 @@ Note : if this method returns None, the plugin won't be configured</p>
 <dl class="attribute">
 <dt id="errbot.botplugin.BotPlugin.max_err_version">
 <tt class="descname">max_err_version</tt><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.max_err_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.max_err_version" title="Permalink to this definition">¶</a></dt>
-<dd><p>If your plugin has a maximal version of err it needs to be on in order to run, please override accordingly this method.
-returning a string with the dotted maximal version. it MUST be in a 3 dotted numbers format or None
-for example: &quot;1.2.2&quot;</p>
+<dd><p>If your plugin has a maximal version of err it needs to be on in order to run,
+please override accordingly this method, returning a string with the dotted
+maximal version. It MUST be in a 3 dotted numbers format or None</p>
+<p>For example: &quot;1.2.2&quot;</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="errbot.botplugin.BotPlugin.min_err_version">
 <tt class="descname">min_err_version</tt><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.min_err_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.min_err_version" title="Permalink to this definition">¶</a></dt>
-<dd><p>If your plugin has a minimum version of err it needs to be on in order to run, please override accordingly this method.
-returning a string with the dotted minimum version. it MUST be in a 3 dotted numbers format or None
-for example: &quot;1.2.2&quot;</p>
+<dd><p>If your plugin has a minimum version of err it needs to be on in order to run,
+please override accordingly this method, returning a string with the dotted
+minimum version. It MUST be in a 3 dotted numbers format or None</p>
+<p>For example: &quot;1.2.2&quot;</p>
 </dd></dl>
 
 <dl class="method">
@@ -228,8 +248,8 @@ for example: &quot;1.2.2&quot;</p>
 <dl class="method">
 <dt id="errbot.botplugin.BotPlugin.start_poller">
 <tt class="descname">start_poller</tt><big>(</big><em>interval</em>, <em>method</em>, <em>args=None</em>, <em>kwargs=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.start_poller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.start_poller" title="Permalink to this definition">¶</a></dt>
-<dd><p>Start to poll a method at specific interval in seconds.
-Note : it will call the method with the initial interval delay for the first time
+<dd><p>Start to poll a method at specific interval in seconds.</p>
+<p>Note: it will call the method with the initial interval delay for the first time
 Also, you can program
 for example : self.program_poller(self,30, fetch_stuff)
 where you have def fetch_stuff(self) in your plugin</p>
@@ -238,8 +258,8 @@ where you have def fetch_stuff(self) in your plugin</p>
 <dl class="method">
 <dt id="errbot.botplugin.BotPlugin.stop_poller">
 <tt class="descname">stop_poller</tt><big>(</big><em>method=None</em>, <em>args=None</em>, <em>kwargs=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.stop_poller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.stop_poller" title="Permalink to this definition">¶</a></dt>
-<dd><p>stop poller(s).
-if the method equals None -&gt; it stops all the pollers
+<dd><p>stop poller(s).</p>
+<p>If the method equals None -&gt; it stops all the pollers
 you need to regive the same parameters as the original start_poller to match a specific poller to stop</p>
 </dd></dl>
 
@@ -260,7 +280,8 @@ It is the main contract between the plugins and the bot</p>
 <dl class="method">
 <dt id="errbot.botplugin.BotPluginBase.activate">
 <tt class="descname">activate</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPluginBase.activate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPluginBase.activate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override if you want to do something at initialization phase (don't forget to super(Gnagna, self).activate())</p>
+<dd><p>Override if you want to do something at initialization phase (don't forget to
+super(Gnagna, self).activate())</p>
 </dd></dl>
 
 <dl class="method">
@@ -293,6 +314,17 @@ It is the main contract between the plugins and the bot</p>
 
 </div>
 
+  <div id="prev_next_links">
+      
+          
+              Previous: <a href="../errbot.templates/">errbot.templates package</a>
+          
+          
+               | 
+              Next: <a href="../errbot.config-template/">errbot.config-template module</a>
+          
+      
+  </div>
 
           </div>
         </div>
@@ -300,24 +332,26 @@ It is the main contract between the plugins and the bot</p>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../" title="Back to home page">
-        <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err" />
+        <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
     </a>
     <div class="ghbuttons">
-        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
-        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
     </div><h3>Related Topics</h3>
 <ul>
-  <li><a href="../">Homepage</a></li>
-  <li><a href="../genindex/">Index</a></li>
-  <li><a href="../py-modindex/">Module index</a></li>
-  <li><a href="../modules/">API reference</a></li>
-      <li>
-          <a href="../errbot/">errbot package</a>
-          <ul>
-          <li>Previous: <a href="../errbot.templates/" title="previous chapter">errbot.templates package</a></li>
-          <li>Next: <a href="../errbot.config-template/" title="next chapter">errbot.config-template module</a></li>
-          </ul>
-      </li>
+    <li><a href="../">Homepage</a></li>
+    <li><a href="../genindex/">Index</a></li>
+    <li><a href="../py-modindex/">Module index</a></li>
+    <li><a href="../modules/">API reference</a></li>
+        <li>
+        <a href="../errbot/">errbot package</a>
+        <ul>
+        <li>Previous: <a href="../errbot.templates/" title="previous chapter">errbot.templates package</a></li>
+        <li>Next: <a href="../errbot.config-template/" title="next chapter">errbot.config-template module</a></li>
+        </ul>
+        </li>
 </ul>
   <h3>This Page</h3>
   <ul class="this-page-menu">
@@ -341,16 +375,16 @@ It is the main contract between the plugins and the bot</p>
       </div>
       <div class="clearer"></div>
     </div>
-  <script>
-    $(document).ready(function() {
-        $('.fancybox').fancybox({
-            padding : 0,
-            openEffect  : 'elastic'
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
         });
-    });
-  </script>
- <div class="relbar2">
-    
+    </script>
+    <div class="relbar2">
+        
     <div class="related">
       <h3>Navigation</h3>
       <ul>
@@ -370,11 +404,12 @@ It is the main contract between the plugins and the bot</p>
           <li><a href="../errbot/" >errbot package</a> &raquo;</li> 
       </ul>
     </div>
- </div>
-  <div class="footer">
-    &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
-  </div>
-  
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Jul 17, 2014.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
   </body>
 </html>

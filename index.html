@@ -1,5 +1,5 @@
 
-<!doctype html>
+    <!doctype html>
 
 
 
@@ -26,37 +26,41 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Err 2.0.0 documentation" href="#" />
     <link rel="next" title="Multiple server back-ends" href="features/" />
-  <script type="text/javascript">
-      // GitHub pages offers no way to redirect to a canonical location, so we
-      // have to make do with hacky javascript redirection :(
-      if(document.location.protocol != "file:" && document.location.host != "errbot.net") {
-         var path = document.location.pathname.replace('/err/', '/');
-         document.location = "http://errbot.net" + path;
-      }
-  </script>
-  <link rel="icon" type="image/png" href="_static/err.png" />
-  <link rel="apple-touch-icon" href="_static/err.png" />
-  <link rel="stylesheet" href="_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
-  <script type="text/javascript" src="_static/fancybox/jquery.fancybox.pack.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-32534172-1']);
-    _gaq.push(['_trackPageview']);
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="_static/err.png"/>
+    <link rel="apple-touch-icon" href="_static/err.png"/>
+    <link rel="stylesheet" href="_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
 
-    (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
 
   </head>
   <body>
-  
-  
-  <div class=indexwrapper>
-  
+    
+    
+        <div class=indexwrapper>
+    
 
     <div class="related">
       <h3>Navigation</h3>
@@ -73,7 +77,7 @@
         <li><a href="#">Err 2.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
-    
+      
 
     <div class="document">
       <div class="documentwrapper">
@@ -92,7 +96,7 @@ is merely a Python module containing a class derived from
 <a class="reference internal" href="errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><tt class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></tt></a>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span><span class="p">,</span> <span class="n">botcmd</span>
 
-<span class="k">class</span> <span class="nc">Hello</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">HelloWorld</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Example &#39;Hello, world!&#39; plugin for Err&quot;&quot;&quot;</span>
 
     <span class="nd">@botcmd</span>
@@ -184,26 +188,15 @@ news related to the project.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="user_guide/plugin_development/">Plugin development</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/#tips-before-you-get-started">Tips before you get started</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/#writing-a-simple-plugin">Writing a simple plugin</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/#returning-multiple-responses">Returning multiple responses</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/#sending-a-message-to-a-specific-user-or-muc">Sending a message to a specific user or MUC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/#make-err-split-the-arguments-for-you">Make err split the arguments for you</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/#subcommands">Subcommands</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/#version-checking">Version checking</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/#allow-the-admin-to-configure-your-plugin-from-the-chat">Allow the admin to configure your plugin from the chat</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/#implementing-a-callback-to-listen-to-every-message-in-the-chatroom">Implementing a callback to listen to every message in the chatroom</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/#make-the-bot-poll-for-a-specific-function">Make the bot poll for a specific function</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/#specify-the-python-compatibility-of-a-plugin">Specify the python compatibility of a plugin</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="user_guide/plugin_testing/">Testing your plugins</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_testing/#interacting-with-the-bot">Interacting with the bot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_testing/#helper-methods">Helper methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_testing/#pattern">Pattern</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_testing/#all-together-now">All together now</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_testing/#pep-8-and-code-coverage">PEP-8 and code coverage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_testing/#travis-and-coveralls">Travis and Coveralls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/intro/">1. Intro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/development_environment/">2. Development environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/basics/">3. Hello, world!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/botcommands/">4. Advanced bot commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/messaging/">5. Messaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/configuration/">6. Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/scheduling/">7. Scheduling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/webhooks/">8. Webhooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/testing/">9. Testing your plugins</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="user_guide/sentry/">Logging to Sentry</a><ul>
@@ -293,6 +286,9 @@ news related to the project.</p>
 </div>
 </div>
 
+  <div id="prev_next_links">
+      
+  </div>
 
           </div>
         </div>
@@ -300,11 +296,13 @@ news related to the project.</p>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="#" title="Back to home page">
-        <img class="logo" src="_static/err_speech.png" width="220" height="135" alt="Logo of Err" />
+        <img class="logo" src="_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
     </a>
     <div class="ghbuttons">
-        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
-        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
     </div>
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
@@ -324,11 +322,11 @@ news related to the project.</p>
 </ul>
 <h3>Related Topics</h3>
 <ul>
-  <li><a href="#">Homepage</a></li>
-  <li><a href="genindex/">Index</a></li>
-  <li><a href="py-modindex/">Module index</a></li>
-  <li><a href="modules/">API reference</a></li>
-          <li>Next: <a href="features/" title="next chapter">Multiple server back-ends</a></li>
+    <li><a href="#">Homepage</a></li>
+    <li><a href="genindex/">Index</a></li>
+    <li><a href="py-modindex/">Module index</a></li>
+    <li><a href="modules/">API reference</a></li>
+        <li>Next: <a href="features/" title="next chapter">Multiple server back-ends</a></li>
 </ul>
   <h3>This Page</h3>
   <ul class="this-page-menu">
@@ -352,16 +350,16 @@ news related to the project.</p>
       </div>
       <div class="clearer"></div>
     </div>
-  <script>
-    $(document).ready(function() {
-        $('.fancybox').fancybox({
-            padding : 0,
-            openEffect  : 'elastic'
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
         });
-    });
-  </script>
- <div class="relbar2">
-    
+    </script>
+    <div class="relbar2">
+        
     <div class="related">
       <h3>Navigation</h3>
       <ul>
@@ -377,13 +375,14 @@ news related to the project.</p>
         <li><a href="#">Err 2.0.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
- </div>
-  <div class="footer">
-    &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
-  </div>
-  
-  </div>
-  
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Jul 17, 2014.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+        </div>
+    
   </body>
 </html>

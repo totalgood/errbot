@@ -1,0 +1,257 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6. Configuration &mdash; Err 2.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '2.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Err 2.0.0 documentation" href="../../../" />
+    <link rel="up" title="Plugin development" href="../" />
+    <link rel="next" title="7. Scheduling" href="../scheduling/" />
+    <link rel="prev" title="5. Messaging" href="../messaging/" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../../_static/err.png"/>
+    <link rel="stylesheet" href="../../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body>
+    
+    
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../scheduling/" title="7. Scheduling"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../messaging/" title="5. Messaging"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../">Err 2.0.0 documentation</a> &raquo;</li>
+          <li><a href="../" accesskey="U">Plugin development</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="configuration">
+<h1>6. Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="plugin-configuration-through-the-built-in-config-command">
+<h2>6.1. Plugin configuration through the built-in <cite>!config</cite> command<a class="headerlink" href="#plugin-configuration-through-the-built-in-config-command" title="Permalink to this headline">¶</a></h2>
+<p>Err can keep a simple python object for the configuration of your
+plugin. This avoids the need for admins to configure settings in
+some kind of configuration file, instead allowing configuration to
+happen directly through chat commands.</p>
+<p>In order to enable this feature, you need to provide a configuration
+template (ie. a config example) by overriding the
+<a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.get_configuration_template" title="errbot.botplugin.BotPlugin.get_configuration_template"><tt class="xref py py-meth docutils literal"><span class="pre">get_configuration_template()</span></tt></a>
+method. For example, a plugin might request a dictionary with 2
+entries:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span>
+
+<span class="k">class</span> <span class="nc">PluginExample</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get_configuration_template</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s">&#39;ID_TOKEN&#39;</span><span class="p">:</span> <span class="s">&#39;00112233445566778899aabbccddeeff&#39;</span><span class="p">,</span>
+                <span class="s">&#39;USERNAME&#39;</span><span class="p">:</span><span class="s">&#39;changeme&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>With this in place, an admin will be able to request the default
+configuration template with <cite>!config PluginExample</cite>. He or she could
+then give the command
+<cite>!config PluginExample {'ID_TOKEN' : '00112233445566778899aabbccddeeff', 'USERNAME':'changeme'}</cite>
+to enable that configuration.</p>
+<p>It will also be possible to recall the configuration template, as
+well as the config that is actually set, by issuing <cite>!config
+PluginExample</cite> again.</p>
+<p>Within your code, the config that is set will be in <cite>self.config</cite>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@botcmd</span>
+<span class="k">def</span> <span class="nf">mycommand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+    <span class="c"># oh I need my TOKEN !</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s">&#39;ID_TOKEN&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If there is no configuration set yet, <cite>self.config</cite> will be
+<cite>None</cite>.</p>
+</div>
+</div>
+<div class="section" id="using-custom-configuration-checks">
+<h2>6.2. Using custom configuration checks<a class="headerlink" href="#using-custom-configuration-checks" title="Permalink to this headline">¶</a></h2>
+<p>By default, Err will check the supplied configuration against the
+configuration template, and raise an error if the structure of the
+two doesn't match.</p>
+<p>You need to override the <a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.check_configuration" title="errbot.botplugin.BotPlugin.check_configuration"><tt class="xref py py-meth docutils literal"><span class="pre">check_configuration()</span></tt></a>
+method if you wish do some other form of configuration validation.
+This method will be called automatically when an admin configures
+your plugin with the <cite>!config</cite> command.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If there is no configuration set yet, it will pass <cite>None</cite> as
+parameter. Be mindful of this situation.</p>
+</div>
+</div>
+</div>
+
+  <div id="prev_next_links">
+      
+          
+              Previous: <a href="../messaging/">5. Messaging</a>
+          
+          
+               | 
+              Next: <a href="../scheduling/">7. Scheduling</a>
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../../../" title="Back to home page">
+        <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div>
+  <h3><a href="../../../">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">6. Configuration</a><ul>
+<li><a class="reference internal" href="#plugin-configuration-through-the-built-in-config-command">6.1. Plugin configuration through the built-in <cite>!config</cite> command</a></li>
+<li><a class="reference internal" href="#using-custom-configuration-checks">6.2. Using custom configuration checks</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+    <li><a href="../../../">Homepage</a></li>
+    <li><a href="../../../genindex/">Index</a></li>
+    <li><a href="../../../py-modindex/">Module index</a></li>
+    <li><a href="../../../modules/">API reference</a></li>
+        <li>
+        <a href="../">Plugin development</a>
+        <ul>
+        <li>Previous: <a href="../messaging/" title="previous chapter">5. Messaging</a></li>
+        <li>Next: <a href="../scheduling/" title="next chapter">7. Scheduling</a></li>
+        </ul>
+        </li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../_sources/user_guide/plugin_development/configuration.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../scheduling/" title="7. Scheduling"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../messaging/" title="5. Messaging"
+             >previous</a> |</li>
+        <li><a href="../../../">Err 2.0.0 documentation</a> &raquo;</li>
+          <li><a href="../" >Plugin development</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Jul 17, 2014.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

@@ -1,0 +1,369 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3. Hello, world! &mdash; Err 2.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '2.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Err 2.0.0 documentation" href="../../../" />
+    <link rel="up" title="Plugin development" href="../" />
+    <link rel="next" title="4. Advanced bot commands" href="../botcommands/" />
+    <link rel="prev" title="2. Development environment" href="../development_environment/" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../../_static/err.png"/>
+    <link rel="stylesheet" href="../../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body>
+    
+    
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../botcommands/" title="4. Advanced bot commands"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../development_environment/" title="2. Development environment"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../">Err 2.0.0 documentation</a> &raquo;</li>
+          <li><a href="../" accesskey="U">Plugin development</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="hello-world">
+<h1>3. Hello, world!<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h1>
+<p>On the <a class="reference internal" href="../../../"><em>homepage</em></a>, we showed you the following <em>&quot;Hello
+world!&quot;</em> plugin as an example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span><span class="p">,</span> <span class="n">botcmd</span>
+
+<span class="k">class</span> <span class="nc">HelloWorld</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Example &#39;Hello, world!&#39; plugin for Err&quot;&quot;&quot;</span>
+
+    <span class="nd">@botcmd</span>
+    <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Say hello to the world&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s">&quot;Hello, world!&quot;</span>
+</pre></div>
+</div>
+<p>In this chapter, you will learn exactly how this plugin works.</p>
+<p>I will assume you've configured the <cite>BOT_EXTRA_PLUGIN_DIR</cite> as
+described in the previous chapter. To get started, create a new,
+empty directory named <cite>HelloWorld</cite> inside this directory.</p>
+<p>Create a new file called <cite>helloworld.py</cite> inside the <cite>HelloWorld</cite>
+directory you just created. This file contains all the logic for your
+plugin, so copy and paste the above example code into it.</p>
+<div class="section" id="anatomy-of-a-botplugin">
+<h2>3.1. Anatomy of a BotPlugin<a class="headerlink" href="#anatomy-of-a-botplugin" title="Permalink to this headline">¶</a></h2>
+<p>Although this plugin is only 9 lines long, there is already a lot of
+interesting stuff going on here. Lets go through it step by step.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span><span class="p">,</span> <span class="n">botcmd</span>
+</pre></div>
+</div>
+<p>This should be pretty self-explanatory. Here we import the
+<a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><tt class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></tt></a> class and the
+<a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.botcmd" title="errbot.decorators.botcmd"><tt class="xref py py-func docutils literal"><span class="pre">botcmd()</span></tt></a> decorator. These let us build a
+class that can be loaded as a plugin and allow us to mark methods of
+that class as bot commands.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">HelloWorld</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Example &#39;Hello, world!&#39; plugin for Err&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+<p>Here we define the class that makes up our plugin. The name of your
+class, <cite>HelloWorld</cite> in this case, is what will make up the name of
+your plugin. This name will be used in commands such as <cite>!status</cite>,
+<cite>!load</cite> and <cite>!unload</cite></p>
+<p>The class' docstring is used to automatically populate the built-in
+command documentation. It will be visible when issuing the <cite>!help</cite>
+command.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">A plugin should only ever contain a single class inheriting from  <a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><tt class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></tt></a></p>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@botcmd</span>
+<span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Say hello to the world&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s">&quot;Hello, world!&quot;</span>
+</pre></div>
+</div>
+<p>This method, <cite>hello</cite>, is turned into a bot command which can be
+executed because it is decorated with the
+<a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.botcmd" title="errbot.decorators.botcmd"><tt class="xref py py-func docutils literal"><span class="pre">botcmd()</span></tt></a> decorator. Just as with the class
+docstring above, the docstring here is used to populate the <cite>!help</cite>
+command.</p>
+<p>The name of the method, <cite>hello</cite> in this case, will be used as the
+name of the command. That means this method creates the <cite>!hello</cite>
+command.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Should multiple plugins define the same command, they will be
+dynamically renamed (by prefixing them with the plugin name) so
+that they no longer clash with each other.</p>
+</div>
+<p>If we look at the function definition, we see it takes two parameters,
+<cite>msg</cite> and <cite>args</cite>. The first is a <a class="reference internal" href="../../../errbot.backends.base/#errbot.backends.base.Message" title="errbot.backends.base.Message"><tt class="xref py py-class docutils literal"><span class="pre">Message</span></tt></a>
+object, which represents the full message object received by Err. The
+second is a string (or a list, if using the <cite>split_args_with</cite>
+parameter of <a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.botcmd" title="errbot.decorators.botcmd"><tt class="xref py py-func docutils literal"><span class="pre">botcmd()</span></tt></a>) with the arguments
+passed to the command.</p>
+<p>For example, if a user were to say <cite>!hello Mister Err</cite>, <cite>args</cite> would
+be the string <cite>&quot;Mister Err&quot;</cite>.</p>
+<p>Finally, you can see we return with the string <cite>Hello, world!</cite>. This
+defines the response that Err should give. In this case, it makes all
+executions of the <cite>!hello</cite> command return the message <em>Hello, world!</em>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you return <cite>None</cite>, Err will not respond with any kind of
+message when executing the command.</p>
+</div>
+</div>
+<div class="section" id="plugin-metadata">
+<h2>3.2. Plugin metadata<a class="headerlink" href="#plugin-metadata" title="Permalink to this headline">¶</a></h2>
+<p>We have our plugin itself ready, but if you start the bot now, you'll
+see it still won't load your plugin. What gives?</p>
+<p>As it turns out, you need to supply a file with some meta-data
+alongside your actual plugin file. This is a file that ends with the
+extension <cite>.plug</cite> and it is used by Err to identify and load plugins.</p>
+<p>Lets go ahead and create ours. Place the following in a file called
+<cite>helloworld.plug</cite>:</p>
+<div class="highlight-ini"><div class="highlight"><pre><span class="k">[Core]</span>
+<span class="na">Name</span> <span class="o">=</span> <span class="s">HelloWorld</span>
+<span class="na">Module</span> <span class="o">=</span> <span class="s">helloworld</span>
+
+<span class="k">[Python]</span>
+<span class="na">Version</span> <span class="o">=</span> <span class="s">2+</span>
+
+<span class="k">[Documentation]</span>
+<span class="na">Description</span> <span class="o">=</span> <span class="s">Example &quot;Hello, world!&quot; plugin</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This INI-style file is parsed using the Python <a class="reference external" href="https://docs.python.org/3/library/configparser.html">configparser</a> class.
+Make sure to use a <a class="reference external" href="https://docs.python.org/3/library/configparser.html#supported-ini-file-structure">valid</a>
+file structure.</p>
+</div>
+<p>Lets look at what this does. We see three sections, <cite>[Core]</cite> ,
+<cite>[Python]</cite> and <cite>[Documentation]</cite>. The <cite>[Core]</cite> section is what tells
+Err where it can actually find the code for this plugin.</p>
+<p>The key <cite>Module</cite> should point to a module that Python can find and
+import. Typically, this is the name of the file you placed your code
+in with the <cite>.py</cite> suffix removed.</p>
+<p>The key <cite>Name</cite> should be identical to the name you gave to the class
+in your plugin file, which in our case was <cite>HelloWorld</cite>. While these
+names can differ, doing so is not recommended.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you're wondering why you have to specify it when it should be
+the same as the class name anyway, this has to do with technical
+limitations that we won't go into here.</p>
+</div>
+<p>While the items from the <cite>[Core]</cite> section tell Err where to find the
+code, the <cite>[Python]</cite> section tells Err which versions of Python your
+plugin is compatible with. As you are probably aware, Err runs on
+both 2.7 and 3.<em>x</em> versions of Python, but maintaining compatibilty
+to both can take some time and effort however. Effort you might not
+want to put into your own plugins.</p>
+<p>The <cite>Version</cite> key allows you to specify which versions of Python your
+plugin works on. Supported values are <cite>2</cite> for Python 2, <cite>3</cite> for
+Python 3 and <cite>2+</cite> for both Python 2 and 3.</p>
+<p>The <cite>[Documentation]</cite> section will be explained in more detail
+further on in this guide, but you should make sure to at least have
+the <cite>Description</cite> item here with a short description of your plugin.</p>
+</div>
+<div class="section" id="wrapping-up">
+<h2>3.3. Wrapping up<a class="headerlink" href="#wrapping-up" title="Permalink to this headline">¶</a></h2>
+<p>If you've followed along so far, you should now have a working
+<em>Hello, world!</em> plugin for Err. If you start your bot, it should load
+your plugin automatically.</p>
+<p>You can verify this by giving the <cite>!status</cite> command, which should
+respond with something like the following:</p>
+<div class="highlight-python"><div class="highlight"><pre>Yes I am alive...
+With these plugins (L=Loaded, U=Unloaded, B=Blacklisted, C=Needs to be configured):
+[L] ChatRoom
+[L] HelloWorld
+[L] VersionChecker
+[L] Webserver
+</pre></div>
+</div>
+<p>If you don't see your plugin listed or it shows up as unloaded, make
+sure to start your bot with <em>DEBUG</em>-level logging enabled and pay
+close attention to what it reports. You will most likely see an error
+being reported somewhere along the way while Err starts up.</p>
+</div>
+<div class="section" id="next-steps">
+<h2>3.4. Next steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
+<p>You now know enough to create very simple plugins, but we have barely
+scratched the surface of what Err can do. The rest of this guide will
+be a recipe-style set of topics that cover all the advanced features
+Err has to offer.</p>
+</div>
+</div>
+
+  <div id="prev_next_links">
+      
+          
+              Previous: <a href="../development_environment/">2. Development environment</a>
+          
+          
+               | 
+              Next: <a href="../botcommands/">4. Advanced bot commands</a>
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../../../" title="Back to home page">
+        <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div>
+  <h3><a href="../../../">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">3. Hello, world!</a><ul>
+<li><a class="reference internal" href="#anatomy-of-a-botplugin">3.1. Anatomy of a BotPlugin</a></li>
+<li><a class="reference internal" href="#plugin-metadata">3.2. Plugin metadata</a></li>
+<li><a class="reference internal" href="#wrapping-up">3.3. Wrapping up</a></li>
+<li><a class="reference internal" href="#next-steps">3.4. Next steps</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+    <li><a href="../../../">Homepage</a></li>
+    <li><a href="../../../genindex/">Index</a></li>
+    <li><a href="../../../py-modindex/">Module index</a></li>
+    <li><a href="../../../modules/">API reference</a></li>
+        <li>
+        <a href="../">Plugin development</a>
+        <ul>
+        <li>Previous: <a href="../development_environment/" title="previous chapter">2. Development environment</a></li>
+        <li>Next: <a href="../botcommands/" title="next chapter">4. Advanced bot commands</a></li>
+        </ul>
+        </li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../_sources/user_guide/plugin_development/basics.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../botcommands/" title="4. Advanced bot commands"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../development_environment/" title="2. Development environment"
+             >previous</a> |</li>
+        <li><a href="../../../">Err 2.0.0 documentation</a> &raquo;</li>
+          <li><a href="../" >Plugin development</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Jul 17, 2014.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

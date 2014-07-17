@@ -1,5 +1,5 @@
 
-<!doctype html>
+    <!doctype html>
 
 
 
@@ -26,35 +26,39 @@
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
     <link rel="top" title="Err 2.0.0 documentation" href="../../../../" />
     <link rel="up" title="errbot" href="../../" />
-  <script type="text/javascript">
-      // GitHub pages offers no way to redirect to a canonical location, so we
-      // have to make do with hacky javascript redirection :(
-      if(document.location.protocol != "file:" && document.location.host != "errbot.net") {
-         var path = document.location.pathname.replace('/err/', '/');
-         document.location = "http://errbot.net" + path;
-      }
-  </script>
-  <link rel="icon" type="image/png" href="../../../../_static/err.png" />
-  <link rel="apple-touch-icon" href="../../../../_static/err.png" />
-  <link rel="stylesheet" href="../../../../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
-  <script type="text/javascript" src="../../../../_static/fancybox/jquery.fancybox.pack.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-32534172-1']);
-    _gaq.push(['_trackPageview']);
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../../../_static/err.png"/>
+    <link rel="stylesheet" href="../../../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
 
-    (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
 
   </head>
   <body>
-  
-  
+    
+    
 
     <div class="related">
       <h3>Navigation</h3>
@@ -70,7 +74,7 @@
           <li><a href="../../" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
     </div>
-    
+      
 
     <div class="document">
       <div class="documentwrapper">
@@ -99,10 +103,14 @@
 <div class="viewcode-block" id="xhtml2hipchat"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.xhtml2hipchat">[docs]</a><span class="k">def</span> <span class="nf">xhtml2hipchat</span><span class="p">(</span><span class="n">xhtml</span><span class="p">):</span>
     <span class="c"># Hipchat has a really limited html support</span>
     <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">REMOVE_EOL</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">xhtml</span><span class="p">)</span>  <span class="c"># Ignore formatting</span>
-    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">HIPCHAT_EOLS</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&lt;br/&gt;&#39;</span><span class="p">,</span> <span class="n">retarded_hipchat_html_plain</span><span class="p">)</span>  <span class="c"># readd the \n where they probably fit best</span>
-    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">HIPCHAT_BOLS</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">retarded_hipchat_html_plain</span><span class="p">)</span>  <span class="c"># zap every tag left</span>
-    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">HIPCHAT_FORCE_PRE</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&lt;body&gt;&lt;pre&gt;&#39;</span><span class="p">,</span> <span class="n">retarded_hipchat_html_plain</span><span class="p">)</span>  <span class="c"># fixor pre</span>
-    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">HIPCHAT_FORCE_SLASH_PRE</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&lt;/pre&gt;&lt;/body&gt;&#39;</span><span class="p">,</span> <span class="n">retarded_hipchat_html_plain</span><span class="p">)</span>  <span class="c"># fixor /pre</span>
+    <span class="c"># Readd the \n where they probably fit best</span>
+    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">HIPCHAT_EOLS</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&lt;br/&gt;&#39;</span><span class="p">,</span> <span class="n">retarded_hipchat_html_plain</span><span class="p">)</span>
+    <span class="c"># Zap every tag left</span>
+    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">HIPCHAT_BOLS</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">retarded_hipchat_html_plain</span><span class="p">)</span>
+    <span class="c"># Fix pre</span>
+    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">HIPCHAT_FORCE_PRE</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&lt;body&gt;&lt;pre&gt;&#39;</span><span class="p">,</span> <span class="n">retarded_hipchat_html_plain</span><span class="p">)</span>
+    <span class="c"># Fix /pre</span>
+    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">HIPCHAT_FORCE_SLASH_PRE</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&lt;/pre&gt;&lt;/body&gt;&#39;</span><span class="p">,</span> <span class="n">retarded_hipchat_html_plain</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">retarded_hipchat_html_plain</span>
 
 </div>
@@ -128,6 +136,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">super</span><span class="p">(</span><span class="n">HipchatClient</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
 
+
 <span class="c"># It is just a different mode for the moment</span></div></div>
 <div class="viewcode-block" id="HipchatBackend"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatBackend">[docs]</a><span class="k">class</span> <span class="nc">HipchatBackend</span><span class="p">(</span><span class="n">XMPPBackend</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -142,6 +151,12 @@
 <div class="viewcode-block" id="HipchatBackend.mode"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatBackend.mode">[docs]</a>    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&#39;hipchat&#39;</span></div></div>
 </pre></div>
+  <div id="prev_next_links">
+      
+          
+          
+      
+  </div>
 
           </div>
         </div>
@@ -149,27 +164,29 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../../" title="Back to home page">
-        <img class="logo" src="../../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err" />
+        <img class="logo" src="../../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
     </a>
     <div class="ghbuttons">
-        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
-        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
     </div><h3>Related Topics</h3>
 <ul>
-  <li><a href="../../../../">Homepage</a></li>
-  <li><a href="../../../../genindex/">Index</a></li>
-  <li><a href="../../../../py-modindex/">Module index</a></li>
-  <li><a href="../../../../modules/">API reference</a></li>
-      <li>
-          <a href="../../../">Module code</a>
-          <ul>
-      <li>
-          <a href="../../">errbot</a>
-          <ul>
-          </ul>
-      </li>
-          </ul>
-      </li>
+    <li><a href="../../../../">Homepage</a></li>
+    <li><a href="../../../../genindex/">Index</a></li>
+    <li><a href="../../../../py-modindex/">Module index</a></li>
+    <li><a href="../../../../modules/">API reference</a></li>
+        <li>
+        <a href="../../../">Module code</a>
+        <ul>
+        <li>
+        <a href="../../">errbot</a>
+        <ul>
+        </ul>
+        </li>
+        </ul>
+        </li>
 </ul>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
@@ -188,16 +205,16 @@
       </div>
       <div class="clearer"></div>
     </div>
-  <script>
-    $(document).ready(function() {
-        $('.fancybox').fancybox({
-            padding : 0,
-            openEffect  : 'elastic'
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
         });
-    });
-  </script>
- <div class="relbar2">
-    
+    </script>
+    <div class="relbar2">
+        
     <div class="related">
       <h3>Navigation</h3>
       <ul>
@@ -212,11 +229,12 @@
           <li><a href="../../" >errbot</a> &raquo;</li> 
       </ul>
     </div>
- </div>
-  <div class="footer">
-    &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
-  </div>
-  
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Jul 17, 2014.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
   </body>
 </html>

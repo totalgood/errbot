@@ -1,5 +1,5 @@
 
-<!doctype html>
+    <!doctype html>
 
 
 
@@ -26,35 +26,39 @@
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
     <link rel="top" title="Err 2.0.0 documentation" href="../../../../" />
     <link rel="up" title="errbot" href="../../" />
-  <script type="text/javascript">
-      // GitHub pages offers no way to redirect to a canonical location, so we
-      // have to make do with hacky javascript redirection :(
-      if(document.location.protocol != "file:" && document.location.host != "errbot.net") {
-         var path = document.location.pathname.replace('/err/', '/');
-         document.location = "http://errbot.net" + path;
-      }
-  </script>
-  <link rel="icon" type="image/png" href="../../../../_static/err.png" />
-  <link rel="apple-touch-icon" href="../../../../_static/err.png" />
-  <link rel="stylesheet" href="../../../../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
-  <script type="text/javascript" src="../../../../_static/fancybox/jquery.fancybox.pack.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-32534172-1']);
-    _gaq.push(['_trackPageview']);
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../../../_static/err.png"/>
+    <link rel="stylesheet" href="../../../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
 
-    (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
 
   </head>
   <body>
-  
-  
+    
+    
 
     <div class="related">
       <h3>Navigation</h3>
@@ -70,7 +74,7 @@
           <li><a href="../../" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
     </div>
-    
+      
 
     <div class="document">
       <div class="documentwrapper">
@@ -154,7 +158,8 @@
 </div>
 <div class="viewcode-block" id="Identifier"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Identifier">[docs]</a><span class="k">class</span> <span class="nc">Identifier</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class is the parent and the basic contract of all the ways the backends are identifying a person on their system</span>
+<span class="sd">    This class is the parent and the basic contract of all the ways the backends</span>
+<span class="sd">    are identifying a person on their system.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jid</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">resource</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
@@ -177,7 +182,7 @@
 <div class="viewcode-block" id="Identifier.getStripped"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Identifier.getStripped">[docs]</a>    <span class="k">def</span> <span class="nf">getStripped</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span> <span class="o">+</span> <span class="s">&#39;@&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span> <span class="c"># if the backend has no domain notion</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span>  <span class="c"># if the backend has no domain notion</span>
 </div>
 <div class="viewcode-block" id="Identifier.getResource"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Identifier.getResource">[docs]</a>    <span class="k">def</span> <span class="nf">getResource</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">resource</span>
@@ -197,6 +202,7 @@
 <span class="sd">        An universal class representing protocol agnostic concept</span>
 <span class="sd">        of presence.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">room</span><span class="p">,</span> <span class="n">real_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nick</span> <span class="o">=</span> <span class="n">nick</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">room</span> <span class="o">=</span> <span class="n">room</span>
@@ -320,16 +326,19 @@
 
 </div>
 <div class="viewcode-block" id="Backend"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend">[docs]</a><span class="k">class</span> <span class="nc">Backend</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="c"># Implements the basic Bot logic (logic independent from the backend) and leave to you to implement the missing parts</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implements the basic Bot logic (logic independent from the backend) and leaves</span>
+<span class="sd">    you to implement the missing parts</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">cmd_history</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span> <span class="c">#this will be a per user history</span>
+    <span class="n">cmd_history</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>  <span class="c"># this will be a per user history</span>
 
-    <span class="n">MSG_ERROR_OCCURRED</span> <span class="o">=</span> <span class="s">&#39;Sorry for your inconvenience. &#39;</span>\
+    <span class="n">MSG_ERROR_OCCURRED</span> <span class="o">=</span> <span class="s">&#39;Sorry for your inconvenience. &#39;</span> \
                          <span class="s">&#39;An unexpected error occurred.&#39;</span>
     <span class="n">MESSAGE_SIZE_LIMIT</span> <span class="o">=</span> <span class="n">MESSAGE_SIZE_LIMIT</span>
-    <span class="n">MSG_UNKNOWN_COMMAND</span> <span class="o">=</span> <span class="s">&#39;Unknown command: &quot;</span><span class="si">%(command)s</span><span class="s">&quot;. &#39;</span>\
+    <span class="n">MSG_UNKNOWN_COMMAND</span> <span class="o">=</span> <span class="s">&#39;Unknown command: &quot;</span><span class="si">%(command)s</span><span class="s">&quot;. &#39;</span> \
                           <span class="s">&#39;Type &quot;&#39;</span> <span class="o">+</span> <span class="n">BOT_PREFIX</span> <span class="o">+</span> <span class="s">&#39;help&quot; for available commands.&#39;</span>
-    <span class="n">MSG_HELP_TAIL</span> <span class="o">=</span> <span class="s">&#39;Type help &lt;command name&gt; to get more info &#39;</span>\
+    <span class="n">MSG_HELP_TAIL</span> <span class="o">=</span> <span class="s">&#39;Type help &lt;command name&gt; to get more info &#39;</span> \
                     <span class="s">&#39;about that specific command.&#39;</span>
     <span class="n">MSG_HELP_UNDEFINED_COMMAND</span> <span class="o">=</span> <span class="s">&#39;That command is not defined.&#39;</span>
 
@@ -406,9 +415,9 @@
         <span class="c"># correct in all cases because a MUC could give us another nickname, but it</span>
         <span class="c"># covers 99% of the MUC cases, so it should suffice for the time being.</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">jid</span><span class="o">.</span><span class="n">bareMatch</span><span class="p">(</span><span class="n">Identifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">))</span> <span class="ow">or</span>
-            <span class="nb">type</span> <span class="o">==</span> <span class="s">&quot;groupchat&quot;</span> <span class="ow">and</span> <span class="n">mess</span><span class="o">.</span><span class="n">getMuckNick</span><span class="p">()</span> <span class="o">==</span> <span class="n">CHATROOM_FN</span><span class="p">):</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Ignoring message from self&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">False</span>
+            <span class="nb">type</span> <span class="o">==</span> <span class="s">&quot;groupchat&quot;</span> <span class="ow">and</span> <span class="n">mess</span><span class="o">.</span><span class="n">getMuckNick</span><span class="p">()</span> <span class="o">==</span> <span class="n">CHATROOM_FN</span><span class="p">):</span>  <span class="c"># noqa</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Ignoring message from self&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">False</span>
 
         <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;*** jid = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">jid</span><span class="p">)</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;*** username = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">username</span><span class="p">)</span>
@@ -497,9 +506,9 @@
                 <span class="n">commands</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">commands</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span>
-                           <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">_err_command_prefix_required</span><span class="p">}</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">_err_command_prefix_required</span><span class="p">}</span>
 
-            <span class="k">for</span> <span class="n">name</span><span class="p">,</span><span class="n">func</span> <span class="ow">in</span> <span class="n">commands</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">commands</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">match</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="n">_err_command_re_pattern</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
                     <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Matching &#39;{}&#39; against &#39;{}&#39; produced a match&quot;</span>
@@ -547,7 +556,9 @@
         <span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span> <span class="k">if</span> <span class="n">match</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_admin_only</span> <span class="ow">and</span> <span class="n">BOT_ASYNC</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c"># If it is an admin command, wait that the queue is completely depleted so we don&#39;t have strange concurrency issues on load/unload/updates etc ...</span>
+            <span class="c"># If it is an admin command, wait until the queue is completely depleted so</span>
+            <span class="c"># we don&#39;t have strange concurrency issues on load/unload/updates etc...</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_historize</span><span class="p">:</span>
             <span class="n">user_cmd_history</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span>  <span class="c"># add it to the history only if it is authorized to be so</span>
@@ -557,12 +568,17 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span> <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_split_args_with</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
             <span class="n">args</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">_err_command_split_args_with</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">BOT_ASYNC</span><span class="p">:</span>
-            <span class="n">wr</span> <span class="o">=</span> <span class="n">WorkRequest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_execute_and_send</span><span class="p">,</span>
-                <span class="p">[],</span> <span class="p">{</span><span class="s">&#39;cmd&#39;</span><span class="p">:</span> <span class="n">cmd</span><span class="p">,</span> <span class="s">&#39;args&#39;</span><span class="p">:</span> <span class="n">args</span><span class="p">,</span> <span class="s">&#39;match&#39;</span><span class="p">:</span> <span class="n">match</span><span class="p">,</span> <span class="s">&#39;mess&#39;</span><span class="p">:</span> <span class="n">mess</span><span class="p">,</span> <span class="s">&#39;jid&#39;</span><span class="p">:</span> <span class="n">jid</span><span class="p">,</span>
-                     <span class="s">&#39;template_name&#39;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_template</span><span class="p">})</span>
+            <span class="n">wr</span> <span class="o">=</span> <span class="n">WorkRequest</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_execute_and_send</span><span class="p">,</span>
+                <span class="p">[],</span>
+                <span class="p">{</span><span class="s">&#39;cmd&#39;</span><span class="p">:</span> <span class="n">cmd</span><span class="p">,</span> <span class="s">&#39;args&#39;</span><span class="p">:</span> <span class="n">args</span><span class="p">,</span> <span class="s">&#39;match&#39;</span><span class="p">:</span> <span class="n">match</span><span class="p">,</span> <span class="s">&#39;mess&#39;</span><span class="p">:</span> <span class="n">mess</span><span class="p">,</span> <span class="s">&#39;jid&#39;</span><span class="p">:</span> <span class="n">jid</span><span class="p">,</span>
+                 <span class="s">&#39;template_name&#39;</span><span class="p">:</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_template</span><span class="p">}</span>
+            <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span><span class="o">.</span><span class="n">putRequest</span><span class="p">(</span><span class="n">wr</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_admin_only</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>  <span class="c"># Again wait for the completion before accepting a new command that could generate weird concurrency issues</span>
+                <span class="c"># Again, if it is an admin command, wait until the queue is completely</span>
+                <span class="c"># depleted so we don&#39;t have strange concurrency issues.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">thread_pool</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_execute_and_send</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="n">match</span><span class="p">,</span> <span class="n">mess</span><span class="o">=</span><span class="n">mess</span><span class="p">,</span> <span class="n">jid</span><span class="o">=</span><span class="n">jid</span><span class="p">,</span>
                                    <span class="n">template_name</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">_err_command_template</span><span class="p">)</span>
@@ -597,10 +613,12 @@
             <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isgeneratorfunction</span><span class="p">(</span><span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">]):</span>
                 <span class="n">replies</span> <span class="o">=</span> <span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">](</span><span class="n">mess</span><span class="p">,</span> <span class="n">match</span><span class="p">)</span> <span class="k">if</span> <span class="n">match</span> <span class="k">else</span> <span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">](</span><span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">reply</span> <span class="ow">in</span> <span class="n">replies</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">reply</span><span class="p">:</span> <span class="n">send_reply</span><span class="p">(</span><span class="n">process_reply</span><span class="p">(</span><span class="n">reply</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">reply</span><span class="p">:</span>
+                        <span class="n">send_reply</span><span class="p">(</span><span class="n">process_reply</span><span class="p">(</span><span class="n">reply</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">reply</span> <span class="o">=</span> <span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">](</span><span class="n">mess</span><span class="p">,</span> <span class="n">match</span><span class="p">)</span> <span class="k">if</span> <span class="n">match</span> <span class="k">else</span> <span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">](</span><span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">reply</span><span class="p">:</span> <span class="n">send_reply</span><span class="p">(</span><span class="n">process_reply</span><span class="p">(</span><span class="n">reply</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">reply</span><span class="p">:</span>
+                    <span class="n">send_reply</span><span class="p">(</span><span class="n">process_reply</span><span class="p">(</span><span class="n">reply</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">tb</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&#39;An error happened while processing &#39;</span>
@@ -672,7 +690,8 @@
                 <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">commands</span><span class="p">:</span>
                     <span class="n">f</span> <span class="o">=</span> <span class="n">commands</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
                     <span class="n">new_name</span> <span class="o">=</span> <span class="p">(</span><span class="n">classname</span> <span class="o">+</span> <span class="s">&#39;-&#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">warn_admins</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s"> clashes with </span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s"> so it has been renamed </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">classname</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">__self__</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">new_name</span> <span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">warn_admins</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s"> clashes with </span><span class="si">%s</span><span class="s">.</span><span class="si">%s</span><span class="s"> so it has been renamed </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                        <span class="n">classname</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">__self__</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">new_name</span><span class="p">))</span>
                     <span class="n">name</span> <span class="o">=</span> <span class="n">new_name</span>
                 <span class="n">commands</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
@@ -726,11 +745,11 @@
                 <span class="n">description</span> <span class="o">=</span> <span class="s">&#39;Available commands:&#39;</span>
 
             <span class="n">usage</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span>
-            <span class="n">BOT_PREFIX</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">command</span><span class="o">.</span><span class="n">__doc__</span> <span class="ow">or</span>
-                                            <span class="s">&#39;(undocumented)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span>\
-            <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s">&#39;help&#39;</span>\
-            <span class="ow">and</span> <span class="ow">not</span> <span class="n">command</span><span class="o">.</span><span class="n">_err_command_hidden</span>
+                <span class="n">BOT_PREFIX</span> <span class="o">+</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">(</span><span class="n">command</span><span class="o">.</span><span class="n">__doc__</span> <span class="ow">or</span>
+                                                <span class="s">&#39;(undocumented)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">command</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s">&#39;help&#39;</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="n">command</span><span class="o">.</span><span class="n">_err_command_hidden</span>
             <span class="p">]))</span>
             <span class="n">usage</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="p">[</span><span class="n">usage</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">MSG_HELP_TAIL</span><span class="p">]))</span>
         <span class="k">else</span><span class="p">:</span>
@@ -762,8 +781,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
 
-
-    <span class="c">###### HERE ARE THE SPECIFICS TO IMPLEMENT PER BACKEND</span>
+    <span class="c"># ##### HERE ARE THE SPECIFICS TO IMPLEMENT PER BACKEND</span>
 </div>
 <div class="viewcode-block" id="Backend.build_message"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.build_message">[docs]</a>    <span class="k">def</span> <span class="nf">build_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;It should be implemented specifically for your backend&quot;</span><span class="p">)</span>
@@ -813,6 +831,12 @@
     <span class="n">jid</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">fr</span><span class="o">.</span><span class="n">node</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">fr</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="n">resource</span><span class="o">=</span><span class="n">fr</span><span class="o">.</span><span class="n">resource</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">jid</span></div>
 </pre></div>
+  <div id="prev_next_links">
+      
+          
+          
+      
+  </div>
 
           </div>
         </div>
@@ -820,27 +844,29 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../../" title="Back to home page">
-        <img class="logo" src="../../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err" />
+        <img class="logo" src="../../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
     </a>
     <div class="ghbuttons">
-        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
-        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
     </div><h3>Related Topics</h3>
 <ul>
-  <li><a href="../../../../">Homepage</a></li>
-  <li><a href="../../../../genindex/">Index</a></li>
-  <li><a href="../../../../py-modindex/">Module index</a></li>
-  <li><a href="../../../../modules/">API reference</a></li>
-      <li>
-          <a href="../../../">Module code</a>
-          <ul>
-      <li>
-          <a href="../../">errbot</a>
-          <ul>
-          </ul>
-      </li>
-          </ul>
-      </li>
+    <li><a href="../../../../">Homepage</a></li>
+    <li><a href="../../../../genindex/">Index</a></li>
+    <li><a href="../../../../py-modindex/">Module index</a></li>
+    <li><a href="../../../../modules/">API reference</a></li>
+        <li>
+        <a href="../../../">Module code</a>
+        <ul>
+        <li>
+        <a href="../../">errbot</a>
+        <ul>
+        </ul>
+        </li>
+        </ul>
+        </li>
 </ul>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
@@ -859,16 +885,16 @@
       </div>
       <div class="clearer"></div>
     </div>
-  <script>
-    $(document).ready(function() {
-        $('.fancybox').fancybox({
-            padding : 0,
-            openEffect  : 'elastic'
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
         });
-    });
-  </script>
- <div class="relbar2">
-    
+    </script>
+    <div class="relbar2">
+        
     <div class="related">
       <h3>Navigation</h3>
       <ul>
@@ -883,11 +909,12 @@
           <li><a href="../../" >errbot</a> &raquo;</li> 
       </ul>
     </div>
- </div>
-  <div class="footer">
-    &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
-  </div>
-  
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Jul 17, 2014.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
   </body>
 </html>

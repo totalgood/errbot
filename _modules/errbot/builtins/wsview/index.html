@@ -1,5 +1,5 @@
 
-<!doctype html>
+    <!doctype html>
 
 
 
@@ -26,35 +26,39 @@
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
     <link rel="top" title="Err 2.0.0 documentation" href="../../../../" />
     <link rel="up" title="errbot" href="../../" />
-  <script type="text/javascript">
-      // GitHub pages offers no way to redirect to a canonical location, so we
-      // have to make do with hacky javascript redirection :(
-      if(document.location.protocol != "file:" && document.location.host != "errbot.net") {
-         var path = document.location.pathname.replace('/err/', '/');
-         document.location = "http://errbot.net" + path;
-      }
-  </script>
-  <link rel="icon" type="image/png" href="../../../../_static/err.png" />
-  <link rel="apple-touch-icon" href="../../../../_static/err.png" />
-  <link rel="stylesheet" href="../../../../_static/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
-  <script type="text/javascript" src="../../../../_static/fancybox/jquery.fancybox.pack.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-32534172-1']);
-    _gaq.push(['_trackPageview']);
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../../../_static/err.png"/>
+    <link rel="stylesheet" href="../../../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
 
-    (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
 
   </head>
   <body>
-  
-  
+    
+    
 
     <div class="related">
       <h3>Navigation</h3>
@@ -70,7 +74,7 @@
           <li><a href="../../" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
     </div>
-    
+      
 
     <div class="document">
       <div class="documentwrapper">
@@ -107,6 +111,7 @@
 
 <span class="n">route</span> <span class="o">=</span> <span class="n">bottle_app</span><span class="o">.</span><span class="n">route</span>  <span class="c"># make that the default</span>
 
+
 <div class="viewcode-block" id="try_decode_json"><a class="viewcode-back" href="../../../../errbot.builtins.wsview/#errbot.builtins.wsview.try_decode_json">[docs]</a><span class="k">def</span> <span class="nf">try_decode_json</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
@@ -120,6 +125,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">global</span> <span class="n">bottle_app</span>
     <span class="n">bottle_app</span> <span class="o">=</span> <span class="n">DynamicBottle</span><span class="p">()</span>
+
 </div>
 <div class="viewcode-block" id="WebView"><a class="viewcode-back" href="../../../../errbot.builtins.wsview/#errbot.builtins.wsview.WebView">[docs]</a><span class="k">class</span> <span class="nc">WebView</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">form_param</span><span class="p">,</span> <span class="n">raw</span><span class="p">):</span>
@@ -133,12 +139,14 @@
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">name_to_find</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">__name__</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;All active plugin objects </span><span class="si">%s</span><span class="s"> &#39;</span> <span class="o">%</span> <span class="n">get_all_active_plugin_objects</span><span class="p">())</span>
-        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">get_all_active_plugin_objects</span><span class="p">():</span>  <span class="c"># horrible hack to find back the bound method from the unbound function the decorator was able to give us</span>
+        <span class="c"># Horrible hack to find the bound method from the unbound function the decorator</span>
+        <span class="c"># was able to give us:</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">get_all_active_plugin_objects</span><span class="p">():</span>
             <span class="n">matching_members</span> <span class="o">=</span> <span class="n">getmembers</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">method_filter</span><span class="p">)</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Matching members </span><span class="si">%s</span><span class="s"> -&gt; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">matching_members</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">matching_members</span><span class="p">:</span>
                 <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="o">=</span> <span class="n">matching_members</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="p">:</span> <span class="c"># override and gives the request directly</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw</span><span class="p">:</span>  <span class="c"># override and gives the request directly</span>
                     <span class="n">response</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">form_param</span><span class="p">:</span>
                     <span class="n">content</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">forms</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">form_param</span><span class="p">)</span>
@@ -160,8 +168,14 @@
                     <span class="n">response</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">response</span> <span class="k">if</span> <span class="n">response</span> <span class="k">else</span> <span class="s">&#39;&#39;</span>  <span class="c"># assume None as an OK response (simplifies the client side)</span>
 
-        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;Problem finding back the correct Handler for func </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">name_to_find</span><span class="p">)</span>
-</pre></div></div>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;Problem finding back the correct Handler for func </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">name_to_find</span><span class="p">)</span></div>
+</pre></div>
+  <div id="prev_next_links">
+      
+          
+          
+      
+  </div>
 
           </div>
         </div>
@@ -169,27 +183,29 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../../" title="Back to home page">
-        <img class="logo" src="../../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err" />
+        <img class="logo" src="../../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
     </a>
     <div class="ghbuttons">
-        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
-        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
     </div><h3>Related Topics</h3>
 <ul>
-  <li><a href="../../../../">Homepage</a></li>
-  <li><a href="../../../../genindex/">Index</a></li>
-  <li><a href="../../../../py-modindex/">Module index</a></li>
-  <li><a href="../../../../modules/">API reference</a></li>
-      <li>
-          <a href="../../../">Module code</a>
-          <ul>
-      <li>
-          <a href="../../">errbot</a>
-          <ul>
-          </ul>
-      </li>
-          </ul>
-      </li>
+    <li><a href="../../../../">Homepage</a></li>
+    <li><a href="../../../../genindex/">Index</a></li>
+    <li><a href="../../../../py-modindex/">Module index</a></li>
+    <li><a href="../../../../modules/">API reference</a></li>
+        <li>
+        <a href="../../../">Module code</a>
+        <ul>
+        <li>
+        <a href="../../">errbot</a>
+        <ul>
+        </ul>
+        </li>
+        </ul>
+        </li>
 </ul>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
@@ -208,16 +224,16 @@
       </div>
       <div class="clearer"></div>
     </div>
-  <script>
-    $(document).ready(function() {
-        $('.fancybox').fancybox({
-            padding : 0,
-            openEffect  : 'elastic'
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
         });
-    });
-  </script>
- <div class="relbar2">
-    
+    </script>
+    <div class="relbar2">
+        
     <div class="related">
       <h3>Navigation</h3>
       <ul>
@@ -232,11 +248,12 @@
           <li><a href="../../" >errbot</a> &raquo;</li> 
       </ul>
     </div>
- </div>
-  <div class="footer">
-    &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
-  </div>
-  
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Jul 17, 2014.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
   </body>
 </html>
