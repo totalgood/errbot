@@ -128,14 +128,14 @@
 
 </div>
 <div class="viewcode-block" id="WebView"><a class="viewcode-back" href="../../../../errbot.builtins.wsview/#errbot.builtins.wsview.WebView">[docs]</a><span class="k">class</span> <span class="nc">WebView</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">form_param</span><span class="p">,</span> <span class="n">raw</span><span class="p">):</span>
+<div class="viewcode-block" id="WebView.__init__"><a class="viewcode-back" href="../../../../errbot.builtins.wsview/#errbot.builtins.wsview.WebView.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">form_param</span><span class="p">,</span> <span class="n">raw</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">form_param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">raw</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Incompatible parameters: form_param cannot be set if raw is True&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">form_param</span> <span class="o">=</span> <span class="n">form_param</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">method_filter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="nb">object</span><span class="p">:</span> <span class="n">ismethod</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">__name__</span> <span class="o">==</span> <span class="nb">object</span><span class="o">.</span><span class="n">__name__</span>
-
+</div>
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">name_to_find</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">__name__</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;All active plugin objects </span><span class="si">%s</span><span class="s"> &#39;</span> <span class="o">%</span> <span class="n">get_all_active_plugin_objects</span><span class="p">())</span>
@@ -251,7 +251,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Jul 17, 2014.
+          Last updated on Jul 24, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

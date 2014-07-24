@@ -96,13 +96,13 @@
 <span class="sd">     It is the main contract between the plugins and the bot</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BotPluginBase.__init__"><a class="viewcode-back" href="../../../errbot.botplugin/#errbot.botplugin.BotPluginBase.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span> <span class="o">=</span> <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">plugin_dir</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_activated</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_pollers</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_timers</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">BotPluginBase</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
-
+</div>
 <div class="viewcode-block" id="BotPluginBase.activate"><a class="viewcode-back" href="../../../errbot.botplugin/#errbot.botplugin.BotPluginBase.activate">[docs]</a>    <span class="k">def</span> <span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Override if you want to do something at initialization phase (don&#39;t forget to</span>
@@ -451,7 +451,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Jul 17, 2014.
+          Last updated on Jul 24, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

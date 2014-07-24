@@ -82,14 +82,16 @@
           <div class="body">
             
   <h1>Source code for errbot.backends.test</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">queue</span> <span class="kn">import</span> <span class="n">Queue</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">sep</span><span class="p">,</span> <span class="n">abspath</span>
 <span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">sep</span><span class="p">,</span> <span class="n">abspath</span>
+<span class="kn">from</span> <span class="nn">queue</span> <span class="kn">import</span> <span class="n">Queue</span>
 <span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">mkdtemp</span>
 <span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span>
-<span class="kn">import</span> <span class="nn">unittest</span>
-<span class="kn">from</span> <span class="nn">errbot.main</span> <span class="kn">import</span> <span class="n">main</span>
 
 <span class="nb">__import__</span><span class="p">(</span><span class="s">&#39;errbot.config-template&#39;</span><span class="p">)</span>
 <span class="n">config_module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s">&#39;errbot.config-template&#39;</span><span class="p">]</span>
@@ -101,9 +103,12 @@
 <span class="n">config_module</span><span class="o">.</span><span class="n">BOT_EXTRA_PLUGIN_DIR</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">config_module</span><span class="o">.</span><span class="n">BOT_LOG_LEVEL</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span>
 
+<span class="c"># Errbot machinery must not be imported before this point</span>
+<span class="c"># because of the import hackery above.</span>
 <span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">build_message</span>
-<span class="kn">from</span> <span class="nn">errbot.errBot</span> <span class="kn">import</span> <span class="n">ErrBot</span>
 <span class="kn">from</span> <span class="nn">errbot.builtins.wsview</span> <span class="kn">import</span> <span class="n">reset_app</span>
+<span class="kn">from</span> <span class="nn">errbot.errBot</span> <span class="kn">import</span> <span class="n">ErrBot</span>
+<span class="kn">from</span> <span class="nn">errbot.main</span> <span class="kn">import</span> <span class="n">main</span>
 
 <span class="n">incoming_stanza_queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
 <span class="n">outgoing_message_queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
@@ -180,22 +185,22 @@
         <span class="k">return</span> <span class="s">&#39;text&#39;</span>
 
 </div></div>
-<div class="viewcode-block" id="popMessage"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.popMessage">[docs]</a><span class="k">def</span> <span class="nf">popMessage</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="pop_message"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.pop_message">[docs]</a><span class="k">def</span> <span class="nf">pop_message</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">outgoing_message_queue</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="pushMessage"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.pushMessage">[docs]</a><span class="k">def</span> <span class="nf">pushMessage</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+<div class="viewcode-block" id="push_message"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.push_message">[docs]</a><span class="k">def</span> <span class="nf">push_message</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
     <span class="n">incoming_stanza_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">STZ_MSG</span><span class="p">,</span> <span class="n">msg</span><span class="p">),</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="pushPresence"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.pushPresence">[docs]</a><span class="k">def</span> <span class="nf">pushPresence</span><span class="p">(</span><span class="n">stanza</span><span class="p">):</span>
+<div class="viewcode-block" id="push_presence"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.push_presence">[docs]</a><span class="k">def</span> <span class="nf">push_presence</span><span class="p">(</span><span class="n">stanza</span><span class="p">):</span>
     <span class="k">pass</span>
 
 
 <span class="c"># def pushIQ(stanza):</span>
 <span class="c">#    pass</span>
 </div>
-<div class="viewcode-block" id="zapQueues"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.zapQueues">[docs]</a><span class="k">def</span> <span class="nf">zapQueues</span><span class="p">():</span>
+<div class="viewcode-block" id="zap_queues"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.zap_queues">[docs]</a><span class="k">def</span> <span class="nf">zap_queues</span><span class="p">():</span>
     <span class="k">while</span> <span class="ow">not</span> <span class="n">incoming_stanza_queue</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="n">incoming_stanza_queue</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Message left in the incoming queue during a test : </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">msg</span><span class="p">)</span>
@@ -205,41 +210,179 @@
         <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Message left in the outgoing queue during a test : </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">msg</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="FullStackTest"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.FullStackTest">[docs]</a><span class="k">class</span> <span class="nc">FullStackTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; This class starts a full bot with a test backend so you can add unit tests on an almost complete bot</span>
+<div class="viewcode-block" id="TestBot"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBot">[docs]</a><span class="k">class</span> <span class="nc">TestBot</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A minimal bot utilizing the TestBackend, for use with unit testing.</span>
+
+<span class="sd">    Only one instance of this class should globally be active at any one</span>
+<span class="sd">    time.</span>
+
+<span class="sd">    End-users should not use this class directly. Use</span>
+<span class="sd">    :func:`~errbot.backends.test.testbot` or</span>
+<span class="sd">    :class:`~errbot.backends.test.FullStackTest` instead, which use this</span>
+<span class="sd">    class under the hood.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">bot_thread</span> <span class="o">=</span> <span class="bp">None</span>
 
-<div class="viewcode-block" id="FullStackTest.setUp"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.FullStackTest.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_test_file</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loglevel</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
+<div class="viewcode-block" id="TestBot.__init__"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBot.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_plugin_dir</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loglevel</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param extra_plugin_dir: Path to a directory from which additional</span>
+<span class="sd">            plugins should be loaded.</span>
+<span class="sd">        :param loglevel: Logging verbosity. Expects one of the constants</span>
+<span class="sd">            defined by the logging module.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># reset logging to console</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">format</span><span class="o">=</span><span class="s">&#39;</span><span class="si">%(levelname)s</span><span class="s">:</span><span class="si">%(message)s</span><span class="s">&#39;</span><span class="p">)</span>
-        <span class="n">console</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
         <span class="nb">file</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">config_module</span><span class="o">.</span><span class="n">BOT_LOG_FILE</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
-        <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">loglevel</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">extra_test_file</span><span class="p">:</span>
-            <span class="kn">import</span> <span class="nn">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">loglevel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
 
-            <span class="n">config</span><span class="o">.</span><span class="n">BOT_EXTRA_PLUGIN_DIR</span> <span class="o">=</span> <span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">abspath</span><span class="p">(</span><span class="n">extra_test_file</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bot_thread</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">main</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;Test Bot Thread&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">TestBackend</span><span class="p">,</span> <span class="n">logger</span><span class="p">))</span>
+        <span class="kn">import</span> <span class="nn">config</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">BOT_EXTRA_PLUGIN_DIR</span> <span class="o">=</span> <span class="n">extra_plugin_dir</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">BOT_LOG_LEVEL</span> <span class="o">=</span> <span class="n">loglevel</span>
+</div>
+<div class="viewcode-block" id="TestBot.start"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBot.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start the bot</span>
+
+<span class="sd">        Calling this method when the bot has already started will result</span>
+<span class="sd">        in an Exception being raised.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_thread</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Bot has already been started&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot_thread</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">main</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;TestBot main thread&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">TestBackend</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bot_thread</span><span class="o">.</span><span class="n">setDaemon</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bot_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="FullStackTest.tearDown"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.FullStackTest.tearDown">[docs]</a>    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">pushMessage</span><span class="p">(</span><span class="n">QUIT_MESSAGE</span><span class="p">)</span>
+<div class="viewcode-block" id="TestBot.stop"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBot.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stop the bot</span>
+
+<span class="sd">        Calling this method before the bot has started will result in an</span>
+<span class="sd">        Exception being raised.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_thread</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Bot has not yet been started&quot;</span><span class="p">)</span>
+        <span class="n">push_message</span><span class="p">(</span><span class="n">QUIT_MESSAGE</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bot_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
         <span class="n">reset_app</span><span class="p">()</span>  <span class="c"># empty the bottle ... hips!</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Main bot thread quits&quot;</span><span class="p">)</span>
-        <span class="n">zapQueues</span><span class="p">()</span>
+        <span class="n">zap_queues</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot_thread</span> <span class="o">=</span> <span class="bp">None</span>
+
+</div></div>
+<div class="viewcode-block" id="FullStackTest"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.FullStackTest">[docs]</a><span class="k">class</span> <span class="nc">FullStackTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">,</span> <span class="n">TestBot</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test class for use with Python&#39;s unittest module to write tests</span>
+<span class="sd">    against a fully functioning bot.</span>
+
+<span class="sd">    For example, if you wanted to test the builtin `!about` command,</span>
+<span class="sd">    you could write a test file with the following::</span>
+
+<span class="sd">        from errbot.backends.test import FullStackTest, pushMessage, popMessage</span>
+
+<span class="sd">        class TestCommands(FullStackTest):</span>
+<span class="sd">            def test_about(self):</span>
+<span class="sd">                pushMessage(&#39;!about&#39;)</span>
+<span class="sd">                self.assertIn(&#39;Err version&#39;, popMessage())</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="FullStackTest.setUp"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.FullStackTest.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_test_file</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loglevel</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">extra_test_file</span><span class="p">:</span>
+            <span class="n">extra_plugin_dir</span> <span class="o">=</span> <span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">abspath</span><span class="p">(</span><span class="n">extra_test_file</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">extra_plugin_dir</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">TestBot</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_plugin_dir</span><span class="o">=</span><span class="n">extra_plugin_dir</span><span class="p">,</span> <span class="n">loglevel</span><span class="o">=</span><span class="n">loglevel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="FullStackTest.tearDown"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.FullStackTest.tearDown">[docs]</a>    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="FullStackTest.assertCommand"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.FullStackTest.assertCommand">[docs]</a>    <span class="k">def</span> <span class="nf">assertCommand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
-        <span class="n">pushMessage</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;Assert the given command returns the given response&quot;&quot;&quot;</span>
+        <span class="n">push_message</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">popMessage</span><span class="p">(),</span> <span class="n">timeout</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="FullStackTest.assertCommandFound"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.FullStackTest.assertCommandFound">[docs]</a>    <span class="k">def</span> <span class="nf">assertCommandFound</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
-        <span class="n">pushMessage</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotIn</span><span class="p">(</span><span class="s">&#39;not found&#39;</span><span class="p">,</span> <span class="n">popMessage</span><span class="p">(),</span> <span class="n">timeout</span><span class="p">)</span></div></div>
+        <span class="sd">&quot;&quot;&quot;Assert the given command does not exist&quot;&quot;&quot;</span>
+        <span class="n">push_message</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotIn</span><span class="p">(</span><span class="s">&#39;not found&#39;</span><span class="p">,</span> <span class="n">popMessage</span><span class="p">(),</span> <span class="n">timeout</span><span class="p">)</span>
+
+</div></div>
+<span class="nd">@pytest.fixture</span>
+<div class="viewcode-block" id="testbot"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.testbot">[docs]</a><span class="k">def</span> <span class="nf">testbot</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pytest fixture to write tests against a fully functioning bot.</span>
+
+<span class="sd">    For example, if you wanted to test the builtin `!about` command,</span>
+<span class="sd">    you could write a test file with the following::</span>
+
+<span class="sd">        from errbot.backends.test import testbot, pushMessage, popMessage</span>
+
+<span class="sd">        def test_about(testbot):</span>
+<span class="sd">            pushMessage(&#39;!about&#39;)</span>
+<span class="sd">            assert &quot;Err version&quot; in popMessage()</span>
+
+<span class="sd">    It&#39;s possible to provide additional configuration to this fixture,</span>
+<span class="sd">    by setting variables at module level or as class attributes (the</span>
+<span class="sd">    latter taking precedence over the former). For example::</span>
+
+<span class="sd">        from errbot.backends.test import testbot, pushMessage, popMessage</span>
+
+<span class="sd">        extra_plugin_dir = &#39;/foo/bar&#39;</span>
+
+<span class="sd">        def test_about(testbot):</span>
+<span class="sd">            pushMessage(&#39;!about&#39;)</span>
+<span class="sd">            assert &quot;Err version&quot; in popMessage()</span>
+
+<span class="sd">    ..or::</span>
+
+<span class="sd">        from errbot.backends.test import testbot, pushMessage, popMessage</span>
+
+<span class="sd">        extra_plugin_dir = &#39;/foo/bar&#39;</span>
+
+<span class="sd">        class Tests(object):</span>
+<span class="sd">            # Wins over `extra_plugin_dir = &#39;/foo/bar&#39;` above</span>
+<span class="sd">            extra_plugin_dir = &#39;/foo/baz&#39;</span>
+
+<span class="sd">            def test_about(self, testbot):</span>
+<span class="sd">                pushMessage(&#39;!about&#39;)</span>
+<span class="sd">                assert &quot;Err version&quot; in popMessage()</span>
+
+<span class="sd">    ..to load additional plugins from the directory `/foo/bar` or</span>
+<span class="sd">    `/foo/baz` respectively. This works for the following items, which are</span>
+<span class="sd">    passed to the constructor of :class:`~errbot.backends.test.TestBot`:</span>
+
+<span class="sd">    * `extra_plugin_dir`</span>
+<span class="sd">    * `loglevel`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">on_finish</span><span class="p">():</span>
+        <span class="n">bot</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">attr</span><span class="p">,</span> <span class="n">default</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s">&#39;extra_plugin_dir&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;loglevel&#39;</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">),</span>
+    <span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;instance&#39;</span><span class="p">):</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">instance</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">module</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
+
+    <span class="n">bot</span> <span class="o">=</span> <span class="n">TestBot</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">bot</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">addfinalizer</span><span class="p">(</span><span class="n">on_finish</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bot</span>
+
+
+<span class="c"># Backward compatibility</span></div>
+<span class="n">popMessage</span> <span class="o">=</span> <span class="n">pop_message</span>
+<span class="n">pushMessage</span> <span class="o">=</span> <span class="n">push_message</span>
+<span class="n">pushPresence</span> <span class="o">=</span> <span class="n">push_presence</span>
+<span class="n">zapQueues</span> <span class="o">=</span> <span class="n">zap_queues</span>
 </pre></div>
   <div id="prev_next_links">
       
@@ -322,7 +465,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Jul 17, 2014.
+          Last updated on Jul 24, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

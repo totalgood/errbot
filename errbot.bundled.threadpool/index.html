@@ -118,7 +118,7 @@ handling mechanism.</p>
 <p>Website : <a class="reference external" href="http://chrisarndt.de/projects/threadpool/">http://chrisarndt.de/projects/threadpool/</a></p>
 <dl class="function">
 <dt id="errbot.bundled.threadpool.makeRequests">
-<tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">makeRequests</tt><big>(</big><em>callable_</em>, <em>args_list</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x2b667827e158&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#makeRequests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.makeRequests" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">makeRequests</tt><big>(</big><em>callable_</em>, <em>args_list</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x2ae075f6e048&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#makeRequests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.makeRequests" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create several work requests for same callable with different arguments.</p>
 <p>Convenience function for creating several work requests for the same
 callable where each invocation of the callable receives different values
@@ -151,6 +151,20 @@ non-tuple argument.</p>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
 <p>A thread pool, distributing work requests and collecting results.</p>
 <p>See the module docstring for more information.</p>
+<dl class="method">
+<dt id="errbot.bundled.threadpool.ThreadPool.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>num_workers</em>, <em>q_size=0</em>, <em>resq_size=0</em>, <em>poll_timeout=5</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up the thread pool and start num_workers worker threads.</p>
+<p><tt class="docutils literal"><span class="pre">num_workers</span></tt> is the number of worker threads to start initially.</p>
+<p>If <tt class="docutils literal"><span class="pre">q_size</span> <span class="pre">&gt;</span> <span class="pre">0</span></tt> the size of the work <em>request queue</em> is limited and
+the thread pool blocks when the queue is full and it tries to put
+more work requests in it (see <tt class="docutils literal"><span class="pre">putRequest</span></tt> method), unless you also
+use a positive <tt class="docutils literal"><span class="pre">timeout</span></tt> value for <tt class="docutils literal"><span class="pre">putRequest</span></tt>.</p>
+<p>If <tt class="docutils literal"><span class="pre">resq_size</span> <span class="pre">&gt;</span> <span class="pre">0</span></tt> the size of the <em>results queue</em> is limited and the
+worker threads will block when the queue is full and they try to put
+new results in it.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="errbot.bundled.threadpool.ThreadPool.createWorkers">
 <tt class="descname">createWorkers</tt><big>(</big><em>num_workers</em>, <em>poll_timeout=5</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.createWorkers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.createWorkers" title="Permalink to this definition">¶</a></dt>
@@ -194,12 +208,36 @@ requests.</p>
 
 <dl class="class">
 <dt id="errbot.bundled.threadpool.WorkRequest">
-<em class="property">class </em><tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">WorkRequest</tt><big>(</big><em>callable_</em>, <em>args=None</em>, <em>kwds=None</em>, <em>requestID=None</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x2b667827e158&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkRequest" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">WorkRequest</tt><big>(</big><em>callable_</em>, <em>args=None</em>, <em>kwds=None</em>, <em>requestID=None</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x2ae075f6e048&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkRequest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
 <p>A request to execute a callable for putting in the request queue later.</p>
 <p>See the module function <tt class="docutils literal"><span class="pre">makeRequests</span></tt> for the common case
 where you want to build several <tt class="docutils literal"><span class="pre">WorkRequest</span></tt> objects for the same
 callable but with different arguments for each call.</p>
+<dl class="method">
+<dt id="errbot.bundled.threadpool.WorkRequest.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>callable_</em>, <em>args=None</em>, <em>kwds=None</em>, <em>requestID=None</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x2ae075f6e048&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkRequest.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkRequest.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a work request for a callable and attach callbacks.</p>
+<p>A work request consists of the a callable to be executed by a
+worker thread, a list of positional arguments, a dictionary
+of keyword arguments.</p>
+<p>A <tt class="docutils literal"><span class="pre">callback</span></tt> function can be specified, that is called when the
+results of the request are picked up from the result queue. It must
+accept two anonymous arguments, the <tt class="docutils literal"><span class="pre">WorkRequest</span></tt> object and the
+results of the callable, in that order. If you want to pass additional
+information to the callback, just stick it on the request object.</p>
+<p>You can also give custom callback for when an exception occurs with
+the <tt class="docutils literal"><span class="pre">exc_callback</span></tt> keyword parameter. It should also accept two
+anonymous arguments, the <tt class="docutils literal"><span class="pre">WorkRequest</span></tt> and a tuple with the exception
+details as returned by <tt class="docutils literal"><span class="pre">sys.exc_info()</span></tt>. The default implementation
+of this callback just prints the exception info via
+<tt class="docutils literal"><span class="pre">traceback.print_exception</span></tt>. If you want no exception handler
+callback, just pass in <tt class="docutils literal"><span class="pre">None</span></tt>.</p>
+<p><tt class="docutils literal"><span class="pre">requestID</span></tt>, if given, must be hashable since it is used by
+<tt class="docutils literal"><span class="pre">ThreadPool</span></tt> object to store the results of that work request in a
+dictionary. It defaults to the return value of <tt class="docutils literal"><span class="pre">id(self)</span></tt>.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -209,6 +247,15 @@ callable but with different arguments for each call.</p>
 <p>Background thread connected to the requests/results queues.</p>
 <p>A worker thread sits in the background and picks up work requests from
 one queue and puts the results in another until it is dismissed.</p>
+<dl class="method">
+<dt id="errbot.bundled.threadpool.WorkerThread.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>requests_queue</em>, <em>results_queue</em>, <em>poll_timeout=5</em>, <em>**kwds</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkerThread.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkerThread.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up thread in daemonic mode and start it immediatedly.</p>
+<p><tt class="docutils literal"><span class="pre">requests_queue</span></tt> and <tt class="docutils literal"><span class="pre">results_queue</span></tt> are instances of
+<tt class="docutils literal"><span class="pre">Queue.Queue</span></tt> passed by the <tt class="docutils literal"><span class="pre">ThreadPool</span></tt> class when it creates a new
+worker thread.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="errbot.bundled.threadpool.WorkerThread.dismiss">
 <tt class="descname">dismiss</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkerThread.dismiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkerThread.dismiss" title="Permalink to this definition">¶</a></dt>
@@ -324,7 +371,7 @@ one queue and puts the results in another until it is dismissed.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Jul 17, 2014.
+          Last updated on Jul 24, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

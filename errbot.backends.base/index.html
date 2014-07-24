@@ -130,6 +130,12 @@ you to implement the missing parts</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="errbot.backends.base.Backend.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Those arguments will be directly those put in BOT_IDENTITY</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="errbot.backends.base.Backend.bottom_of_help_message">
 <tt class="descname">bottom_of_help_message</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.bottom_of_help_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.bottom_of_help_message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a string that forms the bottom of the help message</p>
@@ -185,7 +191,7 @@ Message is NOT sent</p>
 
 <dl class="attribute">
 <dt id="errbot.backends.base.Backend.cmd_history">
-<tt class="descname">cmd_history</tt><em class="property"> = defaultdict(&lt;function Backend.&lt;lambda&gt; at 0x2b66782ec840&gt;, {})</em><a class="headerlink" href="#errbot.backends.base.Backend.cmd_history" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">cmd_history</tt><em class="property"> = defaultdict(&lt;function Backend.&lt;lambda&gt; at 0x2ae075fd27b8&gt;, {})</em><a class="headerlink" href="#errbot.backends.base.Backend.cmd_history" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -299,6 +305,11 @@ beginning of the help message.</p>
 <p>This class is the parent and the basic contract of all the ways the backends
 are identifying a person on their system.</p>
 <dl class="method">
+<dt id="errbot.backends.base.Identifier.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>jid=None</em>, <em>node=''</em>, <em>domain=''</em>, <em>resource=''</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Identifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Identifier.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="errbot.backends.base.Identifier.bareMatch">
 <tt class="descname">bareMatch</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Identifier.bareMatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Identifier.bareMatch" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -329,9 +340,14 @@ are identifying a person on their system.</p>
 <dt id="errbot.backends.base.Message">
 <em class="property">class </em><tt class="descclassname">errbot.backends.base.</tt><tt class="descname">Message</tt><big>(</big><em>body</em>, <em>typ='chat'</em>, <em>html=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="errbot.backends.base.Message.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>body</em>, <em>typ='chat'</em>, <em>html=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="errbot.backends.base.Message.fr">
-<tt class="descname">fr</tt><em class="property"> = &lt;errbot.backends.base.Identifier object at 0x2b66782b4d30&gt;</em><a class="headerlink" href="#errbot.backends.base.Message.fr" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">fr</tt><em class="property"> = &lt;errbot.backends.base.Identifier object at 0x2ae075e24c50&gt;</em><a class="headerlink" href="#errbot.backends.base.Message.fr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -407,6 +423,11 @@ are identifying a person on their system.</p>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
 <p>An universal class representing protocol agnostic concept
 of presence.</p>
+<dl class="method">
+<dt id="errbot.backends.base.Presence.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>nick</em>, <em>room</em>, <em>real_id=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="errbot.backends.base.Presence.get_nick">
 <tt class="descname">get_nick</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.get_nick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.get_nick" title="Permalink to this definition">¶</a></dt>
@@ -542,7 +563,7 @@ If input is not valid xhtml-im fallback to normal.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Jul 17, 2014.
+          Last updated on Jul 24, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

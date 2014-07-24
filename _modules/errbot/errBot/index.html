@@ -145,7 +145,7 @@
     <span class="n">MSG_UNKNOWN_COMMAND</span> <span class="o">=</span> <span class="s">&#39;Unknown command: &quot;</span><span class="si">%(command)s</span><span class="s">&quot;. &#39;</span>
     <span class="n">startup_time</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="ErrBot.__init__"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">BOT_DATA_DIR</span><span class="p">,</span> <span class="n">BOT_PREFIX</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span> <span class="o">=</span> <span class="n">BOT_DATA_DIR</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="n">PLUGINS_SUBDIR</span>
@@ -157,7 +157,7 @@
             <span class="bp">self</span><span class="p">[</span><span class="n">CONFIGS</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ErrBot</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="c"># Repo management</span>
+    <span class="c"># Repo management</span></div>
 <div class="viewcode-block" id="ErrBot.get_installed_plugin_repos"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.get_installed_plugin_repos">[docs]</a>    <span class="k">def</span> <span class="nf">get_installed_plugin_repos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">REPOS</span><span class="p">,</span> <span class="p">{})</span>
 </div>
@@ -939,7 +939,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Jul 17, 2014.
+          Last updated on Jul 24, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

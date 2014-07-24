@@ -110,13 +110,13 @@
 
 
 <div class="viewcode-block" id="IRCConnection"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCConnection">[docs]</a><span class="k">class</span> <span class="nc">IRCConnection</span><span class="p">(</span><span class="n">SingleServerIRCBot</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">nickname</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6667</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="IRCConnection.__init__"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCConnection.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">nickname</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6667</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">use_ssl</span> <span class="o">=</span> <span class="n">ssl</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span>
         <span class="k">if</span> <span class="n">username</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">username</span> <span class="o">=</span> <span class="n">nickname</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">([(</span><span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">password</span><span class="p">)],</span> <span class="n">nickname</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
-
+</div>
     <span class="k">def</span> <span class="nf">_dispatcher</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_dispatcher</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
 
@@ -168,11 +168,11 @@
 
 </div></div>
 <div class="viewcode-block" id="IRCBackend"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCBackend">[docs]</a><span class="k">class</span> <span class="nc">IRCBackend</span><span class="p">(</span><span class="n">ErrBot</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nickname</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6667</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="IRCBackend.__init__"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCBackend.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nickname</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6667</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">jid</span> <span class="o">=</span> <span class="n">nickname</span> <span class="o">+</span> <span class="s">&#39;@&#39;</span> <span class="o">+</span> <span class="n">server</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">IRCBackend</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="n">IRCConnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nickname</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">ssl</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
-
+</div>
 <div class="viewcode-block" id="IRCBackend.serve_forever"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCBackend.serve_forever">[docs]</a>    <span class="k">def</span> <span class="nf">serve_forever</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
@@ -279,7 +279,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Jul 17, 2014.
+          Last updated on Jul 24, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

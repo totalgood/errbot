@@ -206,7 +206,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">requests_queue</span><span class="p">,</span> <span class="n">results_queue</span><span class="p">,</span> <span class="n">poll_timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+<div class="viewcode-block" id="WorkerThread.__init__"><a class="viewcode-back" href="../../../../errbot.bundled.threadpool/#errbot.bundled.threadpool.WorkerThread.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">requests_queue</span><span class="p">,</span> <span class="n">results_queue</span><span class="p">,</span> <span class="n">poll_timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set up thread in daemonic mode and start it immediatedly.</span>
 
 <span class="sd">        ``requests_queue`` and ``results_queue`` are instances of</span>
@@ -221,7 +221,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_poll_timeout</span> <span class="o">=</span> <span class="n">poll_timeout</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dismissed</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-
+</div>
 <div class="viewcode-block" id="WorkerThread.run"><a class="viewcode-back" href="../../../../errbot.bundled.threadpool/#errbot.bundled.threadpool.WorkerThread.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Repeatedly process the job queue until told to exit.&quot;&quot;&quot;</span>
         <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
@@ -263,7 +263,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callable_</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">kwds</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">requestID</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<div class="viewcode-block" id="WorkRequest.__init__"><a class="viewcode-back" href="../../../../errbot.bundled.threadpool/#errbot.bundled.threadpool.WorkRequest.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callable_</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">kwds</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">requestID</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                  <span class="n">callback</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">exc_callback</span><span class="o">=</span><span class="n">_handle_thread_exception</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Create a work request for a callable and attach callbacks.</span>
 
@@ -303,7 +303,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">callable</span> <span class="o">=</span> <span class="n">callable_</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span> <span class="ow">or</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">kwds</span> <span class="o">=</span> <span class="n">kwds</span> <span class="ow">or</span> <span class="p">{}</span>
-
+</div>
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&quot;&lt;WorkRequest id=</span><span class="si">%s</span><span class="s"> args=</span><span class="si">%r</span><span class="s"> kwargs=</span><span class="si">%r</span><span class="s"> exception=</span><span class="si">%s</span><span class="s">&gt;&quot;</span> <span class="o">%</span>\
                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">requestID</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwds</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exception</span><span class="p">)</span>
@@ -316,7 +316,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_workers</span><span class="p">,</span> <span class="n">q_size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">resq_size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">poll_timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<div class="viewcode-block" id="ThreadPool.__init__"><a class="viewcode-back" href="../../../../errbot.bundled.threadpool/#errbot.bundled.threadpool.ThreadPool.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_workers</span><span class="p">,</span> <span class="n">q_size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">resq_size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">poll_timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Set up the thread pool and start num_workers worker threads.</span>
 
 <span class="sd">        ``num_workers`` is the number of worker threads to start initially.</span>
@@ -344,7 +344,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">dismissedWorkers</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">workRequests</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">createWorkers</span><span class="p">(</span><span class="n">num_workers</span><span class="p">,</span> <span class="n">poll_timeout</span><span class="p">)</span>
-
+</div>
 <div class="viewcode-block" id="ThreadPool.createWorkers"><a class="viewcode-back" href="../../../../errbot.bundled.threadpool/#errbot.bundled.threadpool.ThreadPool.createWorkers">[docs]</a>    <span class="k">def</span> <span class="nf">createWorkers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_workers</span><span class="p">,</span> <span class="n">poll_timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Add num_workers worker threads to the pool.</span>
 
@@ -497,7 +497,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Jul 17, 2014.
+          Last updated on Jul 24, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     
