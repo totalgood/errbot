@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Release history &mdash; Err 2.0.0 documentation</title>
+    <title>Release history &mdash; Err 2.1.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.0.0',
+        VERSION:     '2.1.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.0.0 documentation" href="../" />
+    <link rel="top" title="Err 2.1.0 documentation" href="../" />
     <link rel="prev" title="errbot.version module" href="../errbot.version/" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
@@ -72,7 +72,7 @@
         <li class="right" >
           <a href="../errbot.version/" title="errbot.version module"
              accesskey="P">previous</a> |</li>
-        <li><a href="../">Err 2.0.0 documentation</a> &raquo;</li> 
+        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -84,6 +84,38 @@
             
   <div class="section" id="release-history">
 <h1>Release history<a class="headerlink" href="#release-history" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="version-2-1-0-2014-07-24">
+<h2>Version 2.1.0 (2014-07-24)<a class="headerlink" href="#version-2-1-0-2014-07-24" title="Permalink to this headline">¶</a></h2>
+<p>New features:</p>
+<ul class="simple">
+<li>Various changes to the test backend:<ul>
+<li><a class="reference external" href="http://errbot.net/errbot.backends.test/#errbot.backends.test.FullStackTest.setUp">setUp</a>
+method of <cite>FullStackTest</cite> now takes an <cite>extra_plugin_dir</cite> argument, deprecating the
+<cite>extra_test_file</cite> argument.</li>
+<li><cite>popMessage</cite> and <cite>pushMessage</cite> are now more pythonically called <cite>pop_message</cite> and
+<cite>push_message</cite>, though the old names continue to work.</li>
+<li>New <a class="reference external" href="http://errbot.net/errbot.backends.test/#errbot.backends.test.testbot">testbot</a> fixture
+to write tests using <a class="reference external" href="http://pytest.org/">pytest</a>.</li>
+</ul>
+</li>
+<li>Better display of active plugins in debug info (#262).</li>
+<li>Allow optional username for IRC backend (#256).</li>
+<li><em>Raw</em> option for the webhook API.</li>
+<li><a class="reference external" href="http://errbot.net/errbot.decorators/#errbot.decorators.re_botcmd">Regex-based</a> bot commands.</li>
+<li>Pretty-printed output of the !config command.</li>
+</ul>
+<p>Bugs fixed:</p>
+<ul class="simple">
+<li>Fix make_ssl_certificate on Python 2.</li>
+<li>Newer version of Rocket, fixing an issue with releasing ports on OSX (#268).</li>
+<li>Only run 3to2 during actual install steps (#232).</li>
+<li>Ignore messages from self (#247).</li>
+<li>Import <cite>irc.connection</cite> within try/except block (#245).</li>
+<li>Better message recipient setting in XMPP MUC responses.</li>
+<li>Only configure XMPP MUC when having owner affiliation.</li>
+<li>Use SleekXMPP plugin <cite>xep_0004</cite> instead of deprecated <cite>old_0004</cite> (#236).</li>
+</ul>
+</div>
 <div class="section" id="version-2-0-0-2014-01-05">
 <h2>Version 2.0.0 (2014-01-05)<a class="headerlink" href="#version-2-0-0-2014-01-05" title="Permalink to this headline">¶</a></h2>
 <p>Features:</p>
@@ -529,6 +561,7 @@ err-tourney</li>
   <h3><a href="../">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Release history</a><ul>
+<li><a class="reference internal" href="#version-2-1-0-2014-07-24">Version 2.1.0 (2014-07-24)</a></li>
 <li><a class="reference internal" href="#version-2-0-0-2014-01-05">Version 2.0.0 (2014-01-05)</a></li>
 <li><a class="reference internal" href="#version-2-0-0-rc2-2013-11-28">Version 2.0.0-rc2 (2013-11-28)</a></li>
 <li><a class="reference internal" href="#version-2-0-0-rc1-2013-10-03">Version 2.0.0-rc1 (2013-10-03)</a></li>
@@ -610,7 +643,7 @@ err-tourney</li>
         <li class="right" >
           <a href="../errbot.version/" title="errbot.version module"
              >previous</a> |</li>
-        <li><a href="../">Err 2.0.0 documentation</a> &raquo;</li> 
+        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     </div>
