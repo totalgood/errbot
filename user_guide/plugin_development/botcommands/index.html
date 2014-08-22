@@ -95,7 +95,7 @@
 <p>With the <cite>split_args_with</cite> argument to <a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.botcmd" title="errbot.decorators.botcmd"><tt class="xref py py-func docutils literal"><span class="pre">botcmd()</span></tt></a>,
 you can specify a delimiter of the arguments and it will give you an
 array of strings instead of a string:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@botcmd</span><span class="p">(</span><span class="n">split_args_with</span><span class="o">=</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@botcmd</span><span class="p">(</span><span class="n">split_args_with</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="c"># if you send it !action one two three</span>
     <span class="c"># args will be [&#39;one&#39;, &#39;two&#39;, &#39;three&#39;]</span>
@@ -103,10 +103,11 @@ array of strings instead of a string:</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><cite>split_args_with</cite> behaves exactly like <tt class="xref py py-func docutils literal"><span class="pre">str.split()</span></tt>, so you
-can use the value <cite>None</cite> to split on any type of whitespace, such
+<p class="last"><cite>split_args_with</cite> behaves exactly like <tt class="xref py py-func docutils literal"><span class="pre">str.split()</span></tt>, therefore
+the value <cite>None</cite> can be used to split on any type of whitespace, such
 as multiple spaces, tabs, etc. This is recommended over <cite>' '</cite> for
-general use cases.</p>
+general use cases but you're free to use whatever argument you see
+fit.</p>
 </div>
 </div>
 <div class="section" id="subcommands">
@@ -234,7 +235,7 @@ that belong to each other together.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Jul 29, 2014.
+          Last updated on Aug 22, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     
