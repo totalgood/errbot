@@ -172,8 +172,27 @@ a <em>payload</em> parameter:</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="the-raw-request">
+<h2>8.3. The raw request<a class="headerlink" href="#the-raw-request" title="Permalink to this headline">¶</a></h2>
+<p>The above webhooks are convenient for simple tasks, but sometimes
+you might wish to have more power and have access to the actual
+request itself. By setting the <cite>raw</cite> parameter of the
+<a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.webhook" title="errbot.decorators.webhook"><tt class="xref py py-func docutils literal"><span class="pre">webhook()</span></tt></a> decorator to <cite>True</cite>, you will
+be able to get the
+<a class="reference external" href="http://bottlepy.org/docs/dev/api.html#bottle.BaseRequest">bottle.BaseRequest</a>
+which contains all the details about the actual request:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span><span class="p">,</span> <span class="n">webhook</span>
+
+<span class="k">class</span> <span class="nc">PluginExample</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
+    <span class="nd">@webhook</span><span class="p">(</span><span class="n">raw</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="n">user_agent</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_header</span><span class="p">(</span><span class="s">&quot;user-agent&quot;</span><span class="p">,</span> <span class="s">&quot;Unknown&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s">&quot;Your user-agent is {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user_agent</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="testing-a-webhook-through-chat">
-<h2>8.3. Testing a webhook through chat<a class="headerlink" href="#testing-a-webhook-through-chat" title="Permalink to this headline">¶</a></h2>
+<h2>8.4. Testing a webhook through chat<a class="headerlink" href="#testing-a-webhook-through-chat" title="Permalink to this headline">¶</a></h2>
 <p>You can use the <cite>!webhook</cite> command to test webhooks without making
 an actual HTTP request, using the following format: <cite>!webhook test
 [endpoint] [post_content]</cite></p>
@@ -220,7 +239,8 @@ command.</p>
 <li><a class="reference internal" href="#">8. Webhooks</a><ul>
 <li><a class="reference internal" href="#simple-webhooks">8.1. Simple webhooks</a></li>
 <li><a class="reference internal" href="#handling-form-encoded-requests">8.2. Handling form-encoded requests</a></li>
-<li><a class="reference internal" href="#testing-a-webhook-through-chat">8.3. Testing a webhook through chat</a></li>
+<li><a class="reference internal" href="#the-raw-request">8.3. The raw request</a></li>
+<li><a class="reference internal" href="#testing-a-webhook-through-chat">8.4. Testing a webhook through chat</a></li>
 </ul>
 </li>
 </ul>
