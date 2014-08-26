@@ -247,61 +247,65 @@
 </div>
 <div class="viewcode-block" id="BotPlugin.activate"><a class="viewcode-back" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.activate">[docs]</a>    <span class="k">def</span> <span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Override if you want to do something at initialization phase (don&#39;t forget</span>
-<span class="sd">            to super(Gnagna, self).activate())</span>
+<span class="sd">            Triggered on plugin activation.</span>
+
+<span class="sd">            Override this method if you want to do something at initialization phase</span>
+<span class="sd">            (don&#39;t forget to `super().activate()`).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="BotPlugin.deactivate"><a class="viewcode-back" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.deactivate">[docs]</a>    <span class="k">def</span> <span class="nf">deactivate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Override if you want to do something at tear down phase (don&#39;t forget to</span>
-<span class="sd">            super(Gnagna, self).deactivate())</span>
+<span class="sd">            Triggered on plugin deactivation.</span>
+
+<span class="sd">            Override this method if you want to do something at tear-down phase</span>
+<span class="sd">            (don&#39;t forget to `super().deactivate()`).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="BotPlugin.callback_connect"><a class="viewcode-back" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.callback_connect">[docs]</a>    <span class="k">def</span> <span class="nf">callback_connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Override to get a notified when the bot is connected</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">pass</span>
-</div>
-<div class="viewcode-block" id="BotPlugin.callback_message"><a class="viewcode-back" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.callback_message">[docs]</a>    <span class="k">def</span> <span class="nf">callback_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Override to get a notified on *ANY* message.</span>
+<span class="sd">            Triggered when the bot has successfully connected to the chat network.</span>
 
-<span class="sd">            If you are interested only by chatting message you can filter for example</span>
-<span class="sd">            mess.getType() in (&#39;groupchat&#39;, &#39;chat&#39;)</span>
+<span class="sd">            Override this method to get notified when the bot is connected.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
 </div>
-<div class="viewcode-block" id="BotPlugin.callback_botmessage"><a class="viewcode-back" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.callback_botmessage">[docs]</a>    <span class="k">def</span> <span class="nf">callback_botmessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
+<div class="viewcode-block" id="BotPlugin.callback_message"><a class="viewcode-back" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.callback_message">[docs]</a>    <span class="k">def</span> <span class="nf">callback_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Override to get a notified on messages from the bot itself (emitted from</span>
-<span class="sd">            your plugin sisters and brothers for example).</span>
+<span class="sd">            Triggered on every message not coming from the bot itself.</span>
+
+<span class="sd">            Override this method to get notified on *ANY* message.</span>
+
+<span class="sd">            :param message:</span>
+<span class="sd">                An instance of :class:`~errbot.backends.base.Message`</span>
+<span class="sd">                representing the message that was received.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
 </div>
-<div class="viewcode-block" id="BotPlugin.callback_contact_online"><a class="viewcode-back" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.callback_contact_online">[docs]</a>    <span class="k">def</span> <span class="nf">callback_contact_online</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
+<div class="viewcode-block" id="BotPlugin.callback_botmessage"><a class="viewcode-back" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.callback_botmessage">[docs]</a>    <span class="k">def</span> <span class="nf">callback_botmessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Override to get a notification when a contact becomes online.</span>
+<span class="sd">            Triggered on every message coming from the bot itself.</span>
+
+<span class="sd">            Override this method to get notified on all messages coming from</span>
+<span class="sd">            the bot itself (including those from other plugins).</span>
+
+<span class="sd">            :param message:</span>
+<span class="sd">                An instance of :class:`~errbot.backends.base.Message`</span>
+<span class="sd">                representing the message that was received.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
 </div>
-<div class="viewcode-block" id="BotPlugin.callback_contact_offline"><a class="viewcode-back" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.callback_contact_offline">[docs]</a>    <span class="k">def</span> <span class="nf">callback_contact_offline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
+<div class="viewcode-block" id="BotPlugin.callback_presence"><a class="viewcode-back" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.callback_presence">[docs]</a>    <span class="k">def</span> <span class="nf">callback_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">presence</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Override to get notified when a contact becomes offline.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">pass</span>
-</div>
-<div class="viewcode-block" id="BotPlugin.callback_user_joined_chat"><a class="viewcode-back" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.callback_user_joined_chat">[docs]</a>    <span class="k">def</span> <span class="nf">callback_user_joined_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Override to get notified when any user joins a chatroom or an equivalent.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">pass</span>
-</div>
-<div class="viewcode-block" id="BotPlugin.callback_user_left_chat"><a class="viewcode-back" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.callback_user_left_chat">[docs]</a>    <span class="k">def</span> <span class="nf">callback_user_left_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Override to get notified when any user leaves a chatroom or an equivalent.</span>
+<span class="sd">            Triggered on every presence change event.</span>
+
+<span class="sd">            Override to get a notification when a contact changes its presence</span>
+<span class="sd">            status.</span>
+
+<span class="sd">            :param presence:</span>
+<span class="sd">                An instance of :class:`~errbot.backends.base.Presence`</span>
+<span class="sd">                representing the presence that was received.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
 
@@ -451,7 +455,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Aug 26, 2014.
+          Last updated on Aug 27, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

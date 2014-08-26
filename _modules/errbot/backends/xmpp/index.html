@@ -87,6 +87,7 @@
 <span class="kn">import</span> <span class="nn">os.path</span>
 
 <span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">Presence</span><span class="p">,</span> <span class="n">build_message</span><span class="p">,</span> <span class="n">Connection</span><span class="p">,</span> <span class="n">Identifier</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">ONLINE</span><span class="p">,</span> <span class="n">OFFLINE</span><span class="p">,</span> <span class="n">AWAY</span><span class="p">,</span> <span class="n">DND</span>
 <span class="kn">from</span> <span class="nn">errbot.errBot</span> <span class="kn">import</span> <span class="n">ErrBot</span>
 <span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
@@ -258,8 +259,13 @@
         <span class="k">for</span> <span class="n">jid</span> <span class="ow">in</span> <span class="n">jids_to_invite</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Inviting </span><span class="si">%s</span><span class="s"> to </span><span class="si">%s</span><span class="s">...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">jid</span><span class="p">,</span> <span class="n">room</span><span class="p">))</span>
             <span class="n">muc</span><span class="o">.</span><span class="n">invite</span><span class="p">(</span><span class="n">room</span><span class="p">,</span> <span class="n">jid</span><span class="p">)</span>
-
 </div></div>
+<span class="n">XMPP_TO_ERR_STATUS</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;available&#39;</span><span class="p">:</span> <span class="n">ONLINE</span><span class="p">,</span>
+                      <span class="s">&#39;away&#39;</span><span class="p">:</span> <span class="n">AWAY</span><span class="p">,</span>
+                      <span class="s">&#39;dnd&#39;</span><span class="p">:</span> <span class="n">DND</span><span class="p">,</span>
+                      <span class="s">&#39;unavailable&#39;</span><span class="p">:</span> <span class="n">OFFLINE</span><span class="p">}</span>
+
+
 <div class="viewcode-block" id="XMPPBackend"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend">[docs]</a><span class="k">class</span> <span class="nc">XMPPBackend</span><span class="p">(</span><span class="n">ErrBot</span><span class="p">):</span>
 <div class="viewcode-block" id="XMPPBackend.__init__"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">XMPPBackend</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -272,6 +278,7 @@
         <span class="c"># presence related handlers</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span><span class="s">&quot;got_online&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">contact_online</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span><span class="s">&quot;got_offline&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">contact_offline</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span><span class="s">&quot;changed_status&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_changed_status</span><span class="p">)</span>
         <span class="c"># NOTE: for now we will register the handlers this way</span>
         <span class="n">e_muc_online</span> <span class="o">=</span> <span class="s">&quot;muc::{}::got_online&quot;</span>
         <span class="n">e_muc_offline</span> <span class="o">=</span> <span class="s">&quot;muc::{}::got_offline&quot;</span>
@@ -298,17 +305,44 @@
         <span class="n">msg</span><span class="o">.</span><span class="n">setDelayed</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="n">xmppmsg</span><span class="p">[</span><span class="s">&#39;delay&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">_get_attr</span><span class="p">(</span><span class="s">&#39;stamp&#39;</span><span class="p">)))</span>  <span class="c"># this is a bug in sleekxmpp it should be [&#39;from&#39;]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">callback_message</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="XMPPBackend.contact_online"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.contact_online">[docs]</a>    <span class="k">def</span> <span class="nf">contact_online</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stanza</span><span class="p">):</span>
-        <span class="k">pass</span>
+<div class="viewcode-block" id="XMPPBackend.contact_online"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.contact_online">[docs]</a>    <span class="k">def</span> <span class="nf">contact_online</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;contact_online </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">event</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">Presence</span><span class="p">(</span><span class="n">identifier</span><span class="o">=</span><span class="n">Identifier</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="p">[</span><span class="s">&#39;from&#39;</span><span class="p">])),</span>
+                     <span class="n">status</span><span class="o">=</span><span class="n">ONLINE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callback_presence</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="XMPPBackend.contact_offline"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.contact_offline">[docs]</a>    <span class="k">def</span> <span class="nf">contact_offline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stanza</span><span class="p">):</span>
-        <span class="k">pass</span>
+<div class="viewcode-block" id="XMPPBackend.contact_offline"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.contact_offline">[docs]</a>    <span class="k">def</span> <span class="nf">contact_offline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;contact_offline </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">event</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">Presence</span><span class="p">(</span><span class="n">identifier</span><span class="o">=</span><span class="n">Identifier</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="p">[</span><span class="s">&#39;from&#39;</span><span class="p">])),</span>
+                     <span class="n">status</span><span class="o">=</span><span class="n">OFFLINE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callback_presence</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="XMPPBackend.user_joined_chat"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.user_joined_chat">[docs]</a>    <span class="k">def</span> <span class="nf">user_joined_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stanza</span><span class="p">):</span>
-        <span class="k">pass</span>
+<div class="viewcode-block" id="XMPPBackend.user_joined_chat"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.user_joined_chat">[docs]</a>    <span class="k">def</span> <span class="nf">user_joined_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;user_join_chat </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">event</span><span class="p">)</span>
+        <span class="n">idd</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="p">[</span><span class="s">&#39;from&#39;</span><span class="p">]))</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">Presence</span><span class="p">(</span><span class="n">chatroom</span><span class="o">=</span><span class="n">idd</span><span class="p">,</span>
+                     <span class="n">nick</span><span class="o">=</span><span class="n">idd</span><span class="o">.</span><span class="n">getResource</span><span class="p">(),</span>
+                     <span class="n">status</span><span class="o">=</span><span class="n">ONLINE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callback_presence</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="XMPPBackend.user_left_chat"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.user_left_chat">[docs]</a>    <span class="k">def</span> <span class="nf">user_left_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stanza</span><span class="p">):</span>
-        <span class="k">pass</span>
+<div class="viewcode-block" id="XMPPBackend.user_left_chat"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.user_left_chat">[docs]</a>    <span class="k">def</span> <span class="nf">user_left_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;user_left_chat </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">event</span><span class="p">)</span>
+        <span class="n">idd</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="p">[</span><span class="s">&#39;from&#39;</span><span class="p">]))</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">Presence</span><span class="p">(</span><span class="n">chatroom</span><span class="o">=</span><span class="n">idd</span><span class="p">,</span>
+                     <span class="n">nick</span><span class="o">=</span><span class="n">idd</span><span class="o">.</span><span class="n">getResource</span><span class="p">(),</span>
+                     <span class="n">status</span><span class="o">=</span><span class="n">OFFLINE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callback_presence</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="XMPPBackend.user_changed_status"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.user_changed_status">[docs]</a>    <span class="k">def</span> <span class="nf">user_changed_status</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;user_changed_status </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">event</span><span class="p">)</span>
+        <span class="n">errstatus</span> <span class="o">=</span> <span class="n">XMPP_TO_ERR_STATUS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">event</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">],</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">event</span><span class="p">[</span><span class="s">&#39;status&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">errstatus</span><span class="p">:</span>
+            <span class="n">errstatus</span> <span class="o">=</span> <span class="n">event</span><span class="p">[</span><span class="s">&#39;type&#39;</span><span class="p">]</span>
+
+        <span class="n">p</span> <span class="o">=</span> <span class="n">Presence</span><span class="p">(</span><span class="n">identifier</span><span class="o">=</span><span class="n">Identifier</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="p">[</span><span class="s">&#39;from&#39;</span><span class="p">])),</span>
+                     <span class="n">status</span><span class="o">=</span><span class="n">errstatus</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callback_presence</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="XMPPBackend.connected"><a class="viewcode-back" href="../../../../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend.connected">[docs]</a>    <span class="k">def</span> <span class="nf">connected</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Callback for connection events&quot;&quot;&quot;</span>
@@ -426,7 +460,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Aug 26, 2014.
+          Last updated on Aug 27, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

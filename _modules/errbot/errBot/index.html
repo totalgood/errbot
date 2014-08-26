@@ -234,41 +234,14 @@
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
                     <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&quot;Crash in a callback_message handler&quot;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="ErrBot.callback_contact_online"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.callback_contact_online">[docs]</a>    <span class="k">def</span> <span class="nf">callback_contact_online</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
+<div class="viewcode-block" id="ErrBot.callback_presence"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.callback_presence">[docs]</a>    <span class="k">def</span> <span class="nf">callback_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">bot</span> <span class="ow">in</span> <span class="n">get_all_active_plugin_objects</span><span class="p">():</span>
             <span class="c"># noinspection PyBroadException</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Callback </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">bot</span><span class="p">)</span>
-                <span class="n">bot</span><span class="o">.</span><span class="n">callback_contact_online</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">)</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Callback presence </span><span class="si">%s</span><span class="s"> with </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">bot</span><span class="p">,</span> <span class="n">pres</span><span class="p">))</span>
+                <span class="n">bot</span><span class="o">.</span><span class="n">callback_presence</span><span class="p">(</span><span class="n">pres</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&#39;Crash in the callback_contact_online handler.&#39;</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="ErrBot.callback_contact_offline"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.callback_contact_offline">[docs]</a>    <span class="k">def</span> <span class="nf">callback_contact_offline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">bot</span> <span class="ow">in</span> <span class="n">get_all_active_plugin_objects</span><span class="p">():</span>
-            <span class="c"># noinspection PyBroadException</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Callback </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">bot</span><span class="p">)</span>
-                <span class="n">bot</span><span class="o">.</span><span class="n">callback_contact_offline</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&#39;Crash in the callback_contact_offline handler.&#39;</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="ErrBot.callback_user_joined_chat"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.callback_user_joined_chat">[docs]</a>    <span class="k">def</span> <span class="nf">callback_user_joined_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">bot</span> <span class="ow">in</span> <span class="n">get_all_active_plugin_objects</span><span class="p">():</span>
-            <span class="c"># noinspection PyBroadException</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Callback </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">bot</span><span class="p">)</span>
-                <span class="n">bot</span><span class="o">.</span><span class="n">callback_user_joined_chat</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&#39;Crash in the callback_user_joined_chat handler.&#39;</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="ErrBot.callback_user_left_chat"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.callback_user_left_chat">[docs]</a>    <span class="k">def</span> <span class="nf">callback_user_left_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">bot</span> <span class="ow">in</span> <span class="n">get_all_active_plugin_objects</span><span class="p">():</span>
-            <span class="c"># noinspection PyBroadException</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Callback </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">bot</span><span class="p">)</span>
-                <span class="n">bot</span><span class="o">.</span><span class="n">callback_user_left_chat</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&#39;Crash in the callback_user_left_chat handler.&#39;</span><span class="p">)</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&#39;Crash in the callback_presence handler.&#39;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="ErrBot.activate_non_started_plugins"><a class="viewcode-back" href="../../../errbot.errBot/#errbot.errBot.ErrBot.activate_non_started_plugins">[docs]</a>    <span class="k">def</span> <span class="nf">activate_non_started_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Activating all the plugins...&#39;</span><span class="p">)</span>
@@ -939,7 +912,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Aug 26, 2014.
+          Last updated on Aug 27, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

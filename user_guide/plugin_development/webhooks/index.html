@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>8. Webhooks &mdash; Err 2.1.0 documentation</title>
+    <title>9. Webhooks &mdash; Err 2.1.0 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -26,8 +26,8 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="top" title="Err 2.1.0 documentation" href="../../../" />
     <link rel="up" title="Plugin development" href="../" />
-    <link rel="next" title="9. Testing your plugins" href="../testing/" />
-    <link rel="prev" title="7. Scheduling" href="../scheduling/" />
+    <link rel="next" title="10. Testing your plugins" href="../testing/" />
+    <link rel="prev" title="8. Scheduling" href="../scheduling/" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -72,10 +72,10 @@
           <a href="../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../testing/" title="9. Testing your plugins"
+          <a href="../testing/" title="10. Testing your plugins"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../scheduling/" title="7. Scheduling"
+          <a href="../scheduling/" title="8. Scheduling"
              accesskey="P">previous</a> |</li>
         <li><a href="../../../">Err 2.1.0 documentation</a> &raquo;</li>
           <li><a href="../" accesskey="U">Plugin development</a> &raquo;</li> 
@@ -89,7 +89,7 @@
           <div class="body">
             
   <div class="section" id="webhooks">
-<h1>8. Webhooks<a class="headerlink" href="#webhooks" title="Permalink to this headline">¶</a></h1>
+<h1>9. Webhooks<a class="headerlink" href="#webhooks" title="Permalink to this headline">¶</a></h1>
 <p>Err has a small integrated webserver that is capable of hooking up
 endpoints to methods inside your plugins.</p>
 <p>You must configure the <em>Webserver</em> plugin before this functionality
@@ -109,7 +109,7 @@ network. Instead, we recommend placing it behind a webserver
 such as <a class="reference external" href="http://nginx.org/">nginx</a> or <a class="reference external" href="https://httpd.apache.org/">Apache</a>.</p>
 </div>
 <div class="section" id="simple-webhooks">
-<h2>8.1. Simple webhooks<a class="headerlink" href="#simple-webhooks" title="Permalink to this headline">¶</a></h2>
+<h2>9.1. Simple webhooks<a class="headerlink" href="#simple-webhooks" title="Permalink to this headline">¶</a></h2>
 <p>All you need to do for a plugin of yours to listen to a specific URI
 is to apply the <a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.webhook" title="errbot.decorators.webhook"><tt class="xref py py-func docutils literal"><span class="pre">webhook()</span></tt></a> decorator to your
 method. Whatever it returns will be returned in response to the
@@ -151,7 +151,7 @@ dictionary of the JSON data.</p>
 </div>
 </div>
 <div class="section" id="handling-form-encoded-requests">
-<h2>8.2. Handling form-encoded requests<a class="headerlink" href="#handling-form-encoded-requests" title="Permalink to this headline">¶</a></h2>
+<h2>9.2. Handling form-encoded requests<a class="headerlink" href="#handling-form-encoded-requests" title="Permalink to this headline">¶</a></h2>
 <p>Form-encoded requests (those with an
 <em>application/x-www-form-urlencoded</em> mimetype) are very simple to
 handle as well, you just need to specify the <cite>form_param</cite> parameter.</p>
@@ -173,7 +173,7 @@ a <em>payload</em> parameter:</p>
 </div>
 </div>
 <div class="section" id="the-raw-request">
-<h2>8.3. The raw request<a class="headerlink" href="#the-raw-request" title="Permalink to this headline">¶</a></h2>
+<h2>9.3. The raw request<a class="headerlink" href="#the-raw-request" title="Permalink to this headline">¶</a></h2>
 <p>The above webhooks are convenient for simple tasks, but sometimes
 you might wish to have more power and have access to the actual
 request itself. By setting the <cite>raw</cite> parameter of the
@@ -192,7 +192,7 @@ which contains all the details about the actual request:</p>
 </div>
 </div>
 <div class="section" id="returning-custom-headers-and-status-codes">
-<h2>8.4. Returning custom headers and status codes<a class="headerlink" href="#returning-custom-headers-and-status-codes" title="Permalink to this headline">¶</a></h2>
+<h2>9.4. Returning custom headers and status codes<a class="headerlink" href="#returning-custom-headers-and-status-codes" title="Permalink to this headline">¶</a></h2>
 <p>Adjusting the response headers, setting cookies or returning a
 different status code can all be done by manipulating the
 <a class="reference external" href="http://bottlepy.org/docs/dev/api.html#bottle.response">bottle.response</a>
@@ -223,7 +223,7 @@ response like so:</p>
 </div>
 </div>
 <div class="section" id="testing-a-webhook-through-chat">
-<h2>8.5. Testing a webhook through chat<a class="headerlink" href="#testing-a-webhook-through-chat" title="Permalink to this headline">¶</a></h2>
+<h2>9.5. Testing a webhook through chat<a class="headerlink" href="#testing-a-webhook-through-chat" title="Permalink to this headline">¶</a></h2>
 <p>You can use the <cite>!webhook</cite> command to test webhooks without making
 an actual HTTP request, using the following format: <cite>!webhook test
 [endpoint] [post_content]</cite></p>
@@ -242,11 +242,11 @@ command.</p>
   <div id="prev_next_links">
       
           
-              Previous: <a href="../scheduling/">7. Scheduling</a>
+              Previous: <a href="../scheduling/">8. Scheduling</a>
           
           
                | 
-              Next: <a href="../testing/">9. Testing your plugins</a>
+              Next: <a href="../testing/">10. Testing your plugins</a>
           
       
   </div>
@@ -267,12 +267,12 @@ command.</p>
     </div>
   <h3><a href="../../../">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">8. Webhooks</a><ul>
-<li><a class="reference internal" href="#simple-webhooks">8.1. Simple webhooks</a></li>
-<li><a class="reference internal" href="#handling-form-encoded-requests">8.2. Handling form-encoded requests</a></li>
-<li><a class="reference internal" href="#the-raw-request">8.3. The raw request</a></li>
-<li><a class="reference internal" href="#returning-custom-headers-and-status-codes">8.4. Returning custom headers and status codes</a></li>
-<li><a class="reference internal" href="#testing-a-webhook-through-chat">8.5. Testing a webhook through chat</a></li>
+<li><a class="reference internal" href="#">9. Webhooks</a><ul>
+<li><a class="reference internal" href="#simple-webhooks">9.1. Simple webhooks</a></li>
+<li><a class="reference internal" href="#handling-form-encoded-requests">9.2. Handling form-encoded requests</a></li>
+<li><a class="reference internal" href="#the-raw-request">9.3. The raw request</a></li>
+<li><a class="reference internal" href="#returning-custom-headers-and-status-codes">9.4. Returning custom headers and status codes</a></li>
+<li><a class="reference internal" href="#testing-a-webhook-through-chat">9.5. Testing a webhook through chat</a></li>
 </ul>
 </li>
 </ul>
@@ -285,8 +285,8 @@ command.</p>
         <li>
         <a href="../">Plugin development</a>
         <ul>
-        <li>Previous: <a href="../scheduling/" title="previous chapter">7. Scheduling</a></li>
-        <li>Next: <a href="../testing/" title="next chapter">9. Testing your plugins</a></li>
+        <li>Previous: <a href="../scheduling/" title="previous chapter">8. Scheduling</a></li>
+        <li>Next: <a href="../testing/" title="next chapter">10. Testing your plugins</a></li>
         </ul>
         </li>
 </ul>
@@ -332,10 +332,10 @@ command.</p>
           <a href="../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../testing/" title="9. Testing your plugins"
+          <a href="../testing/" title="10. Testing your plugins"
              >next</a> |</li>
         <li class="right" >
-          <a href="../scheduling/" title="7. Scheduling"
+          <a href="../scheduling/" title="8. Scheduling"
              >previous</a> |</li>
         <li><a href="../../../">Err 2.1.0 documentation</a> &raquo;</li>
           <li><a href="../" >Plugin development</a> &raquo;</li> 
@@ -344,7 +344,7 @@ command.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Aug 26, 2014.
+          Last updated on Aug 27, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

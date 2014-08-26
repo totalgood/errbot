@@ -151,6 +151,7 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">callback_message</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">stanza_type</span> <span class="ow">is</span> <span class="n">STZ_PRE</span><span class="p">:</span>
                     <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Presence stanza received.&quot;</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">callback_presence</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">stanza_type</span> <span class="ow">is</span> <span class="n">STZ_IQ</span><span class="p">:</span>
                     <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;IQ stanza received.&quot;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -193,8 +194,10 @@
     <span class="n">incoming_stanza_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">STZ_MSG</span><span class="p">,</span> <span class="n">msg</span><span class="p">),</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="push_presence"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.push_presence">[docs]</a><span class="k">def</span> <span class="nf">push_presence</span><span class="p">(</span><span class="n">stanza</span><span class="p">):</span>
-    <span class="k">pass</span>
+<div class="viewcode-block" id="push_presence"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.push_presence">[docs]</a><span class="k">def</span> <span class="nf">push_presence</span><span class="p">(</span><span class="n">presence</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; presence must at least duck type base.Presence</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">incoming_stanza_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">STZ_PRE</span><span class="p">,</span> <span class="n">presence</span><span class="p">),</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
 
 <span class="c"># def pushIQ(stanza):</span>
@@ -477,7 +480,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Aug 26, 2014.
+          Last updated on Aug 27, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

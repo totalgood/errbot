@@ -97,8 +97,9 @@
 <dl class="method">
 <dt id="errbot.botplugin.BotPlugin.activate">
 <tt class="descname">activate</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.activate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.activate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override if you want to do something at initialization phase (don't forget
-to super(Gnagna, self).activate())</p>
+<dd><p>Triggered on plugin activation.</p>
+<p>Override this method if you want to do something at initialization phase
+(don't forget to <cite>super().activate()</cite>).</p>
 </dd></dl>
 
 <dl class="method">
@@ -112,47 +113,59 @@ to super(Gnagna, self).activate())</p>
 
 <dl class="method">
 <dt id="errbot.botplugin.BotPlugin.callback_botmessage">
-<tt class="descname">callback_botmessage</tt><big>(</big><em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.callback_botmessage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.callback_botmessage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override to get a notified on messages from the bot itself (emitted from
-your plugin sisters and brothers for example).</p>
+<tt class="descname">callback_botmessage</tt><big>(</big><em>message</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.callback_botmessage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.callback_botmessage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Triggered on every message coming from the bot itself.</p>
+<p>Override this method to get notified on all messages coming from
+the bot itself (including those from other plugins).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>message</strong> -- An instance of <a class="reference internal" href="../errbot.backends.base/#errbot.backends.base.Message" title="errbot.backends.base.Message"><tt class="xref py py-class docutils literal"><span class="pre">Message</span></tt></a>
+representing the message that was received.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.botplugin.BotPlugin.callback_connect">
 <tt class="descname">callback_connect</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.callback_connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.callback_connect" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override to get a notified when the bot is connected</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="errbot.botplugin.BotPlugin.callback_contact_offline">
-<tt class="descname">callback_contact_offline</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.callback_contact_offline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.callback_contact_offline" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override to get notified when a contact becomes offline.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="errbot.botplugin.BotPlugin.callback_contact_online">
-<tt class="descname">callback_contact_online</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.callback_contact_online"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.callback_contact_online" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override to get a notification when a contact becomes online.</p>
+<dd><p>Triggered when the bot has successfully connected to the chat network.</p>
+<p>Override this method to get notified when the bot is connected.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.botplugin.BotPlugin.callback_message">
-<tt class="descname">callback_message</tt><big>(</big><em>conn</em>, <em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.callback_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.callback_message" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override to get a notified on <em>ANY</em> message.</p>
-<p>If you are interested only by chatting message you can filter for example
-mess.getType() in ('groupchat', 'chat')</p>
+<tt class="descname">callback_message</tt><big>(</big><em>conn</em>, <em>message</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.callback_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.callback_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Triggered on every message not coming from the bot itself.</p>
+<p>Override this method to get notified on <em>ANY</em> message.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>message</strong> -- An instance of <a class="reference internal" href="../errbot.backends.base/#errbot.backends.base.Message" title="errbot.backends.base.Message"><tt class="xref py py-class docutils literal"><span class="pre">Message</span></tt></a>
+representing the message that was received.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
-<dt id="errbot.botplugin.BotPlugin.callback_user_joined_chat">
-<tt class="descname">callback_user_joined_chat</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.callback_user_joined_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.callback_user_joined_chat" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override to get notified when any user joins a chatroom or an equivalent.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="errbot.botplugin.BotPlugin.callback_user_left_chat">
-<tt class="descname">callback_user_left_chat</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.callback_user_left_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.callback_user_left_chat" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override to get notified when any user leaves a chatroom or an equivalent.</p>
+<dt id="errbot.botplugin.BotPlugin.callback_presence">
+<tt class="descname">callback_presence</tt><big>(</big><em>presence</em><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.callback_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.callback_presence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Triggered on every presence change event.</p>
+<p>Override to get a notification when a contact changes its presence
+status.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>presence</strong> -- An instance of <a class="reference internal" href="../errbot.backends.base/#errbot.backends.base.Presence" title="errbot.backends.base.Presence"><tt class="xref py py-class docutils literal"><span class="pre">Presence</span></tt></a>
+representing the presence that was received.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -186,8 +199,9 @@ at that point.</p>
 <dl class="method">
 <dt id="errbot.botplugin.BotPlugin.deactivate">
 <tt class="descname">deactivate</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/botplugin/#BotPlugin.deactivate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botplugin.BotPlugin.deactivate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Override if you want to do something at tear down phase (don't forget to
-super(Gnagna, self).deactivate())</p>
+<dd><p>Triggered on plugin deactivation.</p>
+<p>Override this method if you want to do something at tear-down phase
+(don't forget to <cite>super().deactivate()</cite>).</p>
 </dd></dl>
 
 <dl class="method">
@@ -412,7 +426,7 @@ super(Gnagna, self).activate())</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Aug 26, 2014.
+          Last updated on Aug 27, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

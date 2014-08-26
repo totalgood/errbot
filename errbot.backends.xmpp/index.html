@@ -118,12 +118,12 @@
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.contact_offline">
-<tt class="descname">contact_offline</tt><big>(</big><em>stanza</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.contact_offline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.contact_offline" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">contact_offline</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.contact_offline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.contact_offline" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.contact_online">
-<tt class="descname">contact_online</tt><big>(</big><em>stanza</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.contact_online"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.contact_online" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">contact_online</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.contact_online"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.contact_online" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -164,13 +164,18 @@
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.user_changed_status">
+<tt class="descname">user_changed_status</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.user_changed_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.user_changed_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.user_joined_chat">
-<tt class="descname">user_joined_chat</tt><big>(</big><em>stanza</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.user_joined_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.user_joined_chat" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">user_joined_chat</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.user_joined_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.user_joined_chat" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.user_left_chat">
-<tt class="descname">user_left_chat</tt><big>(</big><em>stanza</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.user_left_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.user_left_chat" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">user_left_chat</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.user_left_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.user_left_chat" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -354,7 +359,7 @@ It needs to fid the SSL certificate of google and not the one for your domain</p
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Aug 26, 2014.
+          Last updated on Aug 27, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     
