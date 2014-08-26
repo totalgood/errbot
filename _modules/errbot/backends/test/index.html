@@ -105,7 +105,7 @@
 
 <span class="c"># Errbot machinery must not be imported before this point</span>
 <span class="c"># because of the import hackery above.</span>
-<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">build_message</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">build_message</span><span class="p">,</span> <span class="n">Identifier</span>
 <span class="kn">from</span> <span class="nn">errbot.builtins.wsview</span> <span class="kn">import</span> <span class="n">reset_app</span>
 <span class="kn">from</span> <span class="nn">errbot.errBot</span> <span class="kn">import</span> <span class="n">ErrBot</span>
 <span class="kn">from</span> <span class="nn">errbot.main</span> <span class="kn">import</span> <span class="n">main</span>
@@ -134,7 +134,7 @@
 <div class="viewcode-block" id="TestBackend.serve_forever"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBackend.serve_forever">[docs]</a>    <span class="k">def</span> <span class="nf">serve_forever</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="kn">import</span> <span class="nn">config</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">jid</span> <span class="o">=</span> <span class="s">&#39;Err@localhost&#39;</span>  <span class="c"># whatever</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jid</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="s">&#39;Err&#39;</span><span class="p">)</span>  <span class="c"># whatever</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>  <span class="c"># be sure we are &quot;connected&quot; before the first command</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connect_callback</span><span class="p">()</span>  <span class="c"># notify that the connection occured</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sender</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">BOT_ADMINS</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c"># By default, assume this is the admin talking</span>
@@ -477,7 +477,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Aug 22, 2014.
+          Last updated on Aug 26, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

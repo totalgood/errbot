@@ -104,7 +104,7 @@
     <span class="n">conn</span> <span class="o">=</span> <span class="n">ConnectionMock</span><span class="p">()</span>
 
 <div class="viewcode-block" id="TextBackend.serve_forever"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextBackend.serve_forever">[docs]</a>    <span class="k">def</span> <span class="nf">serve_forever</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">jid</span> <span class="o">=</span> <span class="s">&#39;Err@localhost&#39;</span>  <span class="c"># whatever</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jid</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="s">&#39;Err&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>  <span class="c"># be sure we are &quot;connected&quot; before the first command</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connect_callback</span><span class="p">()</span>  <span class="c"># notify that the connection occured</span>
         <span class="k">try</span><span class="p">:</span>
@@ -223,7 +223,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Aug 22, 2014.
+          Last updated on Aug 26, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

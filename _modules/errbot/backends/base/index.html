@@ -414,7 +414,7 @@
         <span class="c"># background discussion on this). Matching against CHATROOM_FN isn&#39;t technically</span>
         <span class="c"># correct in all cases because a MUC could give us another nickname, but it</span>
         <span class="c"># covers 99% of the MUC cases, so it should suffice for the time being.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">jid</span><span class="o">.</span><span class="n">bareMatch</span><span class="p">(</span><span class="n">Identifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">))</span> <span class="ow">or</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">jid</span><span class="o">.</span><span class="n">bareMatch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">)</span> <span class="ow">or</span>
             <span class="nb">type</span> <span class="o">==</span> <span class="s">&quot;groupchat&quot;</span> <span class="ow">and</span> <span class="n">mess</span><span class="o">.</span><span class="n">getMuckNick</span><span class="p">()</span> <span class="o">==</span> <span class="n">CHATROOM_FN</span><span class="p">):</span>  <span class="c"># noqa</span>
                 <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Ignoring message from self&quot;</span><span class="p">)</span>
                 <span class="k">return</span> <span class="bp">False</span>
@@ -626,6 +626,12 @@
                               <span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getBody</span><span class="p">(),</span> <span class="n">jid</span><span class="p">,</span> <span class="n">tb</span><span class="p">))</span>
             <span class="n">send_reply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">MSG_ERROR_OCCURRED</span> <span class="o">+</span> <span class="s">&#39;:</span><span class="se">\n</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">e</span><span class="p">)</span>
 
+<div class="viewcode-block" id="Backend.is_admin"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.is_admin">[docs]</a>    <span class="k">def</span> <span class="nf">is_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        an overridable check to see if a user is an administrator</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">usr</span> <span class="ow">in</span> <span class="n">BOT_ADMINS</span>
+</div>
 <div class="viewcode-block" id="Backend.check_command_access"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.check_command_access">[docs]</a>    <span class="k">def</span> <span class="nf">check_command_access</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check command against ACL rules</span>
@@ -659,7 +665,7 @@
         <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_admin_only</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">typ</span> <span class="o">==</span> <span class="s">&#39;groupchat&#39;</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ACLViolation</span><span class="p">(</span><span class="s">&quot;You cannot administer the bot from a chatroom, message the bot directly&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">usr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">BOT_ADMINS</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_admin</span><span class="p">(</span><span class="n">usr</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="n">ACLViolation</span><span class="p">(</span><span class="s">&quot;This command requires bot-admin privileges&quot;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Backend.unknown_command"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.unknown_command">[docs]</a>    <span class="k">def</span> <span class="nf">unknown_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
@@ -912,7 +918,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Aug 22, 2014.
+          Last updated on Aug 26, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     
