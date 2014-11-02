@@ -157,16 +157,30 @@ Message is NOT sent</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="errbot.backends.base.Backend.callback_contact_offline">
+<tt class="descname">callback_contact_offline</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_contact_offline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_contact_offline" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.Backend.callback_contact_online">
+<tt class="descname">callback_contact_online</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_contact_online"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_contact_online" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="errbot.backends.base.Backend.callback_message">
 <tt class="descname">callback_message</tt><big>(</big><em>conn</em>, <em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Needs to return False if we want to stop further treatment</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.base.Backend.callback_presence">
-<tt class="descname">callback_presence</tt><big>(</big><em>conn</em>, <em>presence</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_presence" title="Permalink to this definition">¶</a></dt>
-<dd><p>Implemented by errBot.</p>
-</dd></dl>
+<dt id="errbot.backends.base.Backend.callback_user_joined_chat">
+<tt class="descname">callback_user_joined_chat</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_user_joined_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_user_joined_chat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.Backend.callback_user_left_chat">
+<tt class="descname">callback_user_left_chat</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_user_left_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_user_left_chat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.check_command_access">
@@ -177,7 +191,7 @@ Message is NOT sent</p>
 
 <dl class="attribute">
 <dt id="errbot.backends.base.Backend.cmd_history">
-<tt class="descname">cmd_history</tt><em class="property"> = defaultdict(&lt;function Backend.&lt;lambda&gt; at 0x2b55df224d08&gt;, {})</em><a class="headerlink" href="#errbot.backends.base.Backend.cmd_history" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">cmd_history</tt><em class="property"> = defaultdict(&lt;function Backend.&lt;lambda&gt; at 0x7ff6ba0fe2f0&gt;, {})</em><a class="headerlink" href="#errbot.backends.base.Backend.cmd_history" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -207,12 +221,6 @@ Message is NOT sent</p>
 <dt id="errbot.backends.base.Backend.inject_commands_from">
 <tt class="descname">inject_commands_from</tt><big>(</big><em>instance_to_inject</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.inject_commands_from"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.inject_commands_from" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="method">
-<dt id="errbot.backends.base.Backend.is_admin">
-<tt class="descname">is_admin</tt><big>(</big><em>usr</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.is_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.is_admin" title="Permalink to this definition">¶</a></dt>
-<dd><p>an overridable check to see if a user is an administrator</p>
-</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.join_room">
@@ -332,76 +340,30 @@ are identifying a person on their system.</p>
 <dt id="errbot.backends.base.Message">
 <em class="property">class </em><tt class="descclassname">errbot.backends.base.</tt><tt class="descname">Message</tt><big>(</big><em>body</em>, <em>typ='chat'</em>, <em>html=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<p>A chat message.</p>
-<p>This class represents chat messages that are sent or received by
-the bot. It is modeled after XMPP messages so not all methods
-make sense in the context of other back-ends.</p>
 <dl class="method">
 <dt id="errbot.backends.base.Message.__init__">
 <tt class="descname">__init__</tt><big>(</big><em>body</em>, <em>typ='chat'</em>, <em>html=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>body</strong> -- The plaintext body of the message.</li>
-<li><strong>typ</strong> -- The type of message (generally one of either 'chat' or 'groupchat').</li>
-<li><strong>html</strong> -- An optional HTML representation of the body.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="errbot.backends.base.Message.fr">
-<tt class="descname">fr</tt><em class="property"> = &lt;errbot.backends.base.Identifier object at 0x2b55df0ef978&gt;</em><a class="headerlink" href="#errbot.backends.base.Message.fr" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">fr</tt><em class="property"> = &lt;errbot.backends.base.Identifier object at 0x7ff6ba146898&gt;</em><a class="headerlink" href="#errbot.backends.base.Message.fr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.getBody">
 <tt class="descname">getBody</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.getBody"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.getBody" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the plaintext body of the message.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The body as a string.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.getFrom">
 <tt class="descname">getFrom</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.getFrom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.getFrom" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the sender of the message.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An <a class="reference internal" href="#errbot.backends.base.Identifier" title="errbot.backends.base.Identifier"><tt class="xref py py-class docutils literal"><span class="pre">Identifier</span></tt></a> identifying
-the sender.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.getHTML">
 <tt class="descname">getHTML</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.getHTML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.getHTML" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the HTML representation of the message.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A string containing the HTML message or <cite>None</cite> when there
-is none.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.getMuckNick">
@@ -411,32 +373,12 @@ is none.</td>
 <dl class="method">
 <dt id="errbot.backends.base.Message.getTo">
 <tt class="descname">getTo</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.getTo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.getTo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the recipient of the message.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An <a class="reference internal" href="#errbot.backends.base.Identifier" title="errbot.backends.base.Identifier"><tt class="xref py py-class docutils literal"><span class="pre">Identifier</span></tt></a> identifying
-the recipient.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.getType">
 <tt class="descname">getType</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.getType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.getType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the type of the message.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The message type as a string (generally one of either
-'chat' or 'groupchat')</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.isDelayed">
@@ -451,31 +393,12 @@ the recipient.</td>
 <dl class="method">
 <dt id="errbot.backends.base.Message.setFrom">
 <tt class="descname">setFrom</tt><big>(</big><em>fr</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.setFrom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.setFrom" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the sender of the message.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fr</strong> -- An <a class="reference internal" href="#errbot.backends.base.Identifier" title="errbot.backends.base.Identifier"><tt class="xref py py-class docutils literal"><span class="pre">Identifier</span></tt></a>, or string which may
-be parsed as one, identifying the sender.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.setHTML">
 <tt class="descname">setHTML</tt><big>(</big><em>html</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.setHTML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.setHTML" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the HTML representation of the message</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>html</strong> -- The HTML message.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.setMuckNick">
@@ -485,86 +408,40 @@ be parsed as one, identifying the sender.</td>
 <dl class="method">
 <dt id="errbot.backends.base.Message.setTo">
 <tt class="descname">setTo</tt><big>(</big><em>to</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.setTo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.setTo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the recipient of the message.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>to</strong> -- An <a class="reference internal" href="#errbot.backends.base.Identifier" title="errbot.backends.base.Identifier"><tt class="xref py py-class docutils literal"><span class="pre">Identifier</span></tt></a>, or string which may
-be parsed as one, identifying the recipient.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.setType">
 <tt class="descname">setType</tt><big>(</big><em>typ</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.setType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.setType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the type of the message.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>typ</strong> -- The message type (generally one of either 'chat'
-or 'groupchat').</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="errbot.backends.base.Presence">
-<em class="property">class </em><tt class="descclassname">errbot.backends.base.</tt><tt class="descname">Presence</tt><big>(</big><em>nick=None</em>, <em>identifier=None</em>, <em>status=None</em>, <em>chatroom=None</em>, <em>message=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">errbot.backends.base.</tt><tt class="descname">Presence</tt><big>(</big><em>nick</em>, <em>room</em>, <em>real_id=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<p>This class represents a presence change for a user or a user in a chatroom.</p>
-<p>Instances of this class are passed to <a class="reference internal" href="../errbot.botplugin/#errbot.botplugin.BotPlugin.callback_presence" title="errbot.botplugin.BotPlugin.callback_presence"><tt class="xref py py-meth docutils literal"><span class="pre">callback_presence()</span></tt></a>
-when the presence of people changes.</p>
+<p>An universal class representing protocol agnostic concept
+of presence.</p>
 <dl class="method">
 <dt id="errbot.backends.base.Presence.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>nick=None</em>, <em>identifier=None</em>, <em>status=None</em>, <em>chatroom=None</em>, <em>message=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.__init__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__init__</tt><big>(</big><em>nick</em>, <em>room</em>, <em>real_id=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="method">
-<dt id="errbot.backends.base.Presence.get_chatroom">
-<tt class="descname">get_chatroom</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.get_chatroom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.get_chatroom" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the Identifier pointing the room in which the event occurred.
-If it returns None, the event occurred outside of a chatroom.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="errbot.backends.base.Presence.get_identifier">
-<tt class="descname">get_identifier</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.get_identifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.get_identifier" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the identifier of the event.
-Can be None <em>only</em> if chatroom is not None</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="errbot.backends.base.Presence.get_message">
-<tt class="descname">get_message</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.get_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.get_message" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a human readable message associated with the status if any.
-like : &quot;BRB, washing the dishes&quot;
-It can be None if it is only a general status update (see get_status)</p>
-</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Presence.get_nick">
 <tt class="descname">get_nick</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.get_nick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.get_nick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a plain string of the presence nick.
-(In some chatroom implementations, you cannot know the real identifier
-of a person in it).
-Can return None but then identifier won't be None.</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.base.Presence.get_status">
-<tt class="descname">get_status</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.get_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.get_status" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the status of the presence change.
-It can be one of the constants ONLINE, OFFLINE, AWAY, DND, but
-can also be custom statuses depending on backends.
-It can be None if it is just an update of the status message (see get_message)</p>
-</dd></dl>
+<dt id="errbot.backends.base.Presence.get_real_name">
+<tt class="descname">get_real_name</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.get_real_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.get_real_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.Presence.get_room">
+<tt class="descname">get_room</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.get_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.get_room" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -686,7 +563,7 @@ If input is not valid xhtml-im fallback to normal.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Aug 27, 2014.
+          Last updated on Nov 02, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

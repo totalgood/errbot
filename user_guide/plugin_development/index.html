@@ -113,6 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="botcommands/">4. Advanced bot commands</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="botcommands/#automatic-argument-splitting">4.1. Automatic argument splitting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="botcommands/#subcommands">4.2. Subcommands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="botcommands/#commands-using-regular-expressions">4.3. Commands using regular expressions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="messaging/">5. Messaging</a><ul>
@@ -122,35 +123,29 @@
 <li class="toctree-l2"><a class="reference internal" href="messaging/#trigger-a-callback-with-every-message-received">5.4. Trigger a callback with every message received</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="presence/">6. Presence</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="presence/#callbacks-for-presence-changes">6.1. Callbacks for presence changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration/">6. Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration/#plugin-configuration-through-the-built-in-config-command">6.1. Plugin configuration through the built-in <cite>!config</cite> command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/#using-custom-configuration-checks">6.2. Using custom configuration checks</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="configuration/">7. Configuration</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="configuration/#plugin-configuration-through-the-built-in-config-command">7.1. Plugin configuration through the built-in <cite>!config</cite> command</a></li>
-<li class="toctree-l2"><a class="reference internal" href="configuration/#supplying-partial-configuration">7.2. Supplying partial configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="configuration/#using-custom-configuration-checks">7.3. Using custom configuration checks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scheduling/">7. Scheduling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scheduling/#calling-a-function-at-a-regular-interval">7.1. Calling a function at a regular interval</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scheduling/">8. Scheduling</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scheduling/#calling-a-function-at-a-regular-interval">8.1. Calling a function at a regular interval</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webhooks/">8. Webhooks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="webhooks/#simple-webhooks">8.1. Simple webhooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webhooks/#handling-form-encoded-requests">8.2. Handling form-encoded requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webhooks/#the-raw-request">8.3. The raw request</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webhooks/#testing-a-webhook-through-chat">8.4. Testing a webhook through chat</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="webhooks/">9. Webhooks</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="webhooks/#simple-webhooks">9.1. Simple webhooks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="webhooks/#handling-form-encoded-requests">9.2. Handling form-encoded requests</a></li>
-<li class="toctree-l2"><a class="reference internal" href="webhooks/#the-raw-request">9.3. The raw request</a></li>
-<li class="toctree-l2"><a class="reference internal" href="webhooks/#returning-custom-headers-and-status-codes">9.4. Returning custom headers and status codes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="webhooks/#testing-a-webhook-through-chat">9.5. Testing a webhook through chat</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="testing/">10. Testing your plugins</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="testing/#interacting-with-the-bot">10.1. Interacting with the bot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testing/#helper-methods">10.2. Helper methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testing/#pattern">10.3. Pattern</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testing/#all-together-now">10.4. All together now</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testing/#pep-8-and-code-coverage">10.5. PEP-8 and code coverage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testing/#travis-and-coveralls">10.6. Travis and Coveralls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing/">9. Testing your plugins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="testing/#interacting-with-the-bot">9.1. Interacting with the bot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing/#helper-methods">9.2. Helper methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing/#pattern">9.3. Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing/#all-together-now">9.4. All together now</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing/#pep-8-and-code-coverage">9.5. PEP-8 and code coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing/#travis-and-coveralls">9.6. Travis and Coveralls</a></li>
 </ul>
 </li>
 </ul>
@@ -244,7 +239,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Aug 27, 2014.
+          Last updated on Nov 02, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

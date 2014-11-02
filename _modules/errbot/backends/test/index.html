@@ -105,7 +105,7 @@
 
 <span class="c"># Errbot machinery must not be imported before this point</span>
 <span class="c"># because of the import hackery above.</span>
-<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">build_message</span><span class="p">,</span> <span class="n">Identifier</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">build_message</span>
 <span class="kn">from</span> <span class="nn">errbot.builtins.wsview</span> <span class="kn">import</span> <span class="n">reset_app</span>
 <span class="kn">from</span> <span class="nn">errbot.errBot</span> <span class="kn">import</span> <span class="n">ErrBot</span>
 <span class="kn">from</span> <span class="nn">errbot.main</span> <span class="kn">import</span> <span class="n">main</span>
@@ -134,7 +134,7 @@
 <div class="viewcode-block" id="TestBackend.serve_forever"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBackend.serve_forever">[docs]</a>    <span class="k">def</span> <span class="nf">serve_forever</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="kn">import</span> <span class="nn">config</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">jid</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="s">&#39;Err&#39;</span><span class="p">)</span>  <span class="c"># whatever</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jid</span> <span class="o">=</span> <span class="s">&#39;Err@localhost&#39;</span>  <span class="c"># whatever</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>  <span class="c"># be sure we are &quot;connected&quot; before the first command</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connect_callback</span><span class="p">()</span>  <span class="c"># notify that the connection occured</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sender</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">BOT_ADMINS</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c"># By default, assume this is the admin talking</span>
@@ -151,7 +151,6 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">callback_message</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">stanza_type</span> <span class="ow">is</span> <span class="n">STZ_PRE</span><span class="p">:</span>
                     <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Presence stanza received.&quot;</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">callback_presence</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">stanza_type</span> <span class="ow">is</span> <span class="n">STZ_IQ</span><span class="p">:</span>
                     <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;IQ stanza received.&quot;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -194,10 +193,8 @@
     <span class="n">incoming_stanza_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">STZ_MSG</span><span class="p">,</span> <span class="n">msg</span><span class="p">),</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="push_presence"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.push_presence">[docs]</a><span class="k">def</span> <span class="nf">push_presence</span><span class="p">(</span><span class="n">presence</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; presence must at least duck type base.Presence</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">incoming_stanza_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">STZ_PRE</span><span class="p">,</span> <span class="n">presence</span><span class="p">),</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<div class="viewcode-block" id="push_presence"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.push_presence">[docs]</a><span class="k">def</span> <span class="nf">push_presence</span><span class="p">(</span><span class="n">stanza</span><span class="p">):</span>
+    <span class="k">pass</span>
 
 
 <span class="c"># def pushIQ(stanza):</span>
@@ -480,7 +477,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Aug 27, 2014.
+          Last updated on Nov 02, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

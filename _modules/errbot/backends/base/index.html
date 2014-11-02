@@ -197,26 +197,31 @@
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">())</span>
 
 </div>
-<div class="viewcode-block" id="Message"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message">[docs]</a><span class="k">class</span> <span class="nc">Message</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Presence"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Presence">[docs]</a><span class="k">class</span> <span class="nc">Presence</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A chat message.</span>
-
-<span class="sd">    This class represents chat messages that are sent or received by</span>
-<span class="sd">    the bot. It is modeled after XMPP messages so not all methods</span>
-<span class="sd">    make sense in the context of other back-ends.</span>
+<span class="sd">        An universal class representing protocol agnostic concept</span>
+<span class="sd">        of presence.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+<div class="viewcode-block" id="Presence.__init__"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Presence.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">room</span><span class="p">,</span> <span class="n">real_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nick</span> <span class="o">=</span> <span class="n">nick</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">room</span> <span class="o">=</span> <span class="n">room</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">real_id</span> <span class="o">=</span> <span class="n">real_id</span>
+</div>
+<div class="viewcode-block" id="Presence.get_room"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Presence.get_room">[docs]</a>    <span class="k">def</span> <span class="nf">get_room</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">room</span>
+</div>
+<div class="viewcode-block" id="Presence.get_nick"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Presence.get_nick">[docs]</a>    <span class="k">def</span> <span class="nf">get_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nick</span>
+</div>
+<div class="viewcode-block" id="Presence.get_real_name"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Presence.get_real_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_real_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">real_id</span>
+
+</div></div>
+<div class="viewcode-block" id="Message"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message">[docs]</a><span class="k">class</span> <span class="nc">Message</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="n">fr</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="s">&#39;unknown@localhost&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Message.__init__"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="p">,</span> <span class="n">typ</span><span class="o">=</span><span class="s">&#39;chat&#39;</span><span class="p">,</span> <span class="n">html</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :param body:</span>
-<span class="sd">            The plaintext body of the message.</span>
-<span class="sd">        :param typ:</span>
-<span class="sd">            The type of message (generally one of either &#39;chat&#39; or &#39;groupchat&#39;).</span>
-<span class="sd">        :param html:</span>
-<span class="sd">            An optional HTML representation of the body.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># it is either unicode or assume it is utf-8</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">body</span> <span class="o">=</span> <span class="n">body</span>
@@ -228,97 +233,36 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mucknick</span> <span class="o">=</span> <span class="bp">None</span>
 </div>
 <div class="viewcode-block" id="Message.setTo"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.setTo">[docs]</a>    <span class="k">def</span> <span class="nf">setTo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the recipient of the message.</span>
-
-<span class="sd">        :param to:</span>
-<span class="sd">            An :class:`~errbot.backends.base.Identifier`, or string which may</span>
-<span class="sd">            be parsed as one, identifying the recipient.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">Identifier</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="n">to</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="n">to</span><span class="p">)</span>  <span class="c"># assume a parseable string</span>
 </div>
 <div class="viewcode-block" id="Message.getTo"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.getTo">[docs]</a>    <span class="k">def</span> <span class="nf">getTo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the recipient of the message.</span>
-
-<span class="sd">        :returns:</span>
-<span class="sd">            An :class:`~errbot.backends.base.Identifier` identifying</span>
-<span class="sd">            the recipient.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to</span>
 </div>
 <div class="viewcode-block" id="Message.setType"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.setType">[docs]</a>    <span class="k">def</span> <span class="nf">setType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">typ</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the type of the message.</span>
-
-<span class="sd">        :param typ:</span>
-<span class="sd">            The message type (generally one of either &#39;chat&#39;</span>
-<span class="sd">            or &#39;groupchat&#39;).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typ</span> <span class="o">=</span> <span class="n">typ</span>
 </div>
 <div class="viewcode-block" id="Message.getType"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.getType">[docs]</a>    <span class="k">def</span> <span class="nf">getType</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the type of the message.</span>
-
-<span class="sd">        :returns:</span>
-<span class="sd">            The message type as a string (generally one of either</span>
-<span class="sd">            &#39;chat&#39; or &#39;groupchat&#39;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">typ</span>
 </div>
 <div class="viewcode-block" id="Message.getFrom"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.getFrom">[docs]</a>    <span class="k">def</span> <span class="nf">getFrom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the sender of the message.</span>
-
-<span class="sd">        :returns:</span>
-<span class="sd">            An :class:`~errbot.backends.base.Identifier` identifying</span>
-<span class="sd">            the sender.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fr</span>
 </div>
 <div class="viewcode-block" id="Message.setFrom"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.setFrom">[docs]</a>    <span class="k">def</span> <span class="nf">setFrom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fr</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the sender of the message.</span>
-
-<span class="sd">        :param fr:</span>
-<span class="sd">            An :class:`~errbot.backends.base.Identifier`, or string which may</span>
-<span class="sd">            be parsed as one, identifying the sender.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fr</span><span class="p">,</span> <span class="n">Identifier</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fr</span> <span class="o">=</span> <span class="n">fr</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fr</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="n">fr</span><span class="p">)</span>  <span class="c"># assume a parseable string</span>
 </div>
 <div class="viewcode-block" id="Message.getBody"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.getBody">[docs]</a>    <span class="k">def</span> <span class="nf">getBody</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the plaintext body of the message.</span>
-
-<span class="sd">        :returns:</span>
-<span class="sd">            The body as a string.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span>
 </div>
 <div class="viewcode-block" id="Message.getHTML"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.getHTML">[docs]</a>    <span class="k">def</span> <span class="nf">getHTML</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the HTML representation of the message.</span>
-
-<span class="sd">        :returns:</span>
-<span class="sd">            A string containing the HTML message or `None` when there</span>
-<span class="sd">            is none.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">html</span>
 </div>
 <div class="viewcode-block" id="Message.setHTML"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.setHTML">[docs]</a>    <span class="k">def</span> <span class="nf">setHTML</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">html</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the HTML representation of the message</span>
-
-<span class="sd">        :param html:</span>
-<span class="sd">            The HTML message.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">html</span> <span class="o">=</span> <span class="n">html</span>
 </div>
 <div class="viewcode-block" id="Message.setDelayed"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Message.setDelayed">[docs]</a>    <span class="k">def</span> <span class="nf">setDelayed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delayed</span><span class="p">):</span>
@@ -335,78 +279,6 @@
 </div>
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span>
-</div>
-<span class="n">ONLINE</span> <span class="o">=</span> <span class="s">&#39;online&#39;</span>
-<span class="n">OFFLINE</span> <span class="o">=</span> <span class="s">&#39;offline&#39;</span>
-<span class="n">AWAY</span> <span class="o">=</span> <span class="s">&#39;away&#39;</span>
-<span class="n">DND</span> <span class="o">=</span> <span class="s">&#39;dnd&#39;</span>
-
-
-<div class="viewcode-block" id="Presence"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Presence">[docs]</a><span class="k">class</span> <span class="nc">Presence</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">       This class represents a presence change for a user or a user in a chatroom.</span>
-
-<span class="sd">       Instances of this class are passed to :meth:`~errbot.botplugin.BotPlugin.callback_presence`</span>
-<span class="sd">       when the presence of people changes.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="Presence.__init__"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Presence.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nick</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">identifier</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">chatroom</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">nick</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">identifier</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Presence: nick and identifiers are both None&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">nick</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">chatroom</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Presence: nick is None when chatroom is not&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">status</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">message</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Presence: at least a new status or a new status message mustbe present&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nick</span> <span class="o">=</span> <span class="n">nick</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span> <span class="o">=</span> <span class="n">identifier</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">chatroom</span> <span class="o">=</span> <span class="n">chatroom</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">status</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
-</div>
-<div class="viewcode-block" id="Presence.get_chatroom"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Presence.get_chatroom">[docs]</a>    <span class="k">def</span> <span class="nf">get_chatroom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns the Identifier pointing the room in which the event occurred.</span>
-<span class="sd">            If it returns None, the event occurred outside of a chatroom.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chatroom</span>
-</div>
-<div class="viewcode-block" id="Presence.get_nick"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Presence.get_nick">[docs]</a>    <span class="k">def</span> <span class="nf">get_nick</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns a plain string of the presence nick.</span>
-<span class="sd">            (In some chatroom implementations, you cannot know the real identifier</span>
-<span class="sd">            of a person in it).</span>
-<span class="sd">            Can return None but then identifier won&#39;t be None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nick</span>
-</div>
-<div class="viewcode-block" id="Presence.get_identifier"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Presence.get_identifier">[docs]</a>    <span class="k">def</span> <span class="nf">get_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns the identifier of the event.</span>
-<span class="sd">            Can be None *only* if chatroom is not None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span>
-</div>
-<div class="viewcode-block" id="Presence.get_status"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Presence.get_status">[docs]</a>    <span class="k">def</span> <span class="nf">get_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns the status of the presence change.</span>
-<span class="sd">            It can be one of the constants ONLINE, OFFLINE, AWAY, DND, but</span>
-<span class="sd">            can also be custom statuses depending on backends.</span>
-<span class="sd">            It can be None if it is just an update of the status message (see get_message)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">status</span>
-</div>
-<div class="viewcode-block" id="Presence.get_message"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Presence.get_message">[docs]</a>    <span class="k">def</span> <span class="nf">get_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns a human readable message associated with the status if any.</span>
-<span class="sd">            like : &quot;BRB, washing the dishes&quot;</span>
-<span class="sd">            It can be None if it is only a general status update (see get_status)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span>
-</div>
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">&quot;Presence:</span><span class="se">\n</span><span class="s"> nick </span><span class="si">%s</span><span class="se">\n</span><span class="s"> idd </span><span class="si">%s</span><span class="se">\n</span><span class="s"> status </span><span class="si">%s</span><span class="se">\n</span><span class="s"> chatroom </span><span class="si">%s</span><span class="se">\n</span><span class="s"> message </span><span class="si">%s</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nick</span><span class="p">,</span>
-                                                                                          <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span>
-                                                                                          <span class="bp">self</span><span class="o">.</span><span class="n">status</span><span class="p">,</span>
-                                                                                          <span class="bp">self</span><span class="o">.</span><span class="n">chatroom</span><span class="p">,</span>
-                                                                                          <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__str__</span><span class="p">())</span>
 
 </div>
 <div class="viewcode-block" id="Connection"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Connection">[docs]</a><span class="k">class</span> <span class="nc">Connection</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -517,12 +389,6 @@
         <span class="n">response</span><span class="o">.</span><span class="n">setType</span><span class="p">(</span><span class="s">&#39;chat&#39;</span> <span class="k">if</span> <span class="n">private</span> <span class="k">else</span> <span class="n">msg_type</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">response</span>
 </div>
-<div class="viewcode-block" id="Backend.callback_presence"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.callback_presence">[docs]</a>    <span class="k">def</span> <span class="nf">callback_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">presence</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">           Implemented by errBot.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">pass</span>
-</div>
 <div class="viewcode-block" id="Backend.callback_message"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.callback_message">[docs]</a>    <span class="k">def</span> <span class="nf">callback_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Needs to return False if we want to stop further treatment</span>
@@ -548,7 +414,7 @@
         <span class="c"># background discussion on this). Matching against CHATROOM_FN isn&#39;t technically</span>
         <span class="c"># correct in all cases because a MUC could give us another nickname, but it</span>
         <span class="c"># covers 99% of the MUC cases, so it should suffice for the time being.</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">jid</span><span class="o">.</span><span class="n">bareMatch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">)</span> <span class="ow">or</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">jid</span><span class="o">.</span><span class="n">bareMatch</span><span class="p">(</span><span class="n">Identifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">))</span> <span class="ow">or</span>
             <span class="nb">type</span> <span class="o">==</span> <span class="s">&quot;groupchat&quot;</span> <span class="ow">and</span> <span class="n">mess</span><span class="o">.</span><span class="n">getMuckNick</span><span class="p">()</span> <span class="o">==</span> <span class="n">CHATROOM_FN</span><span class="p">):</span>  <span class="c"># noqa</span>
                 <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Ignoring message from self&quot;</span><span class="p">)</span>
                 <span class="k">return</span> <span class="bp">False</span>
@@ -760,12 +626,6 @@
                               <span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getBody</span><span class="p">(),</span> <span class="n">jid</span><span class="p">,</span> <span class="n">tb</span><span class="p">))</span>
             <span class="n">send_reply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">MSG_ERROR_OCCURRED</span> <span class="o">+</span> <span class="s">&#39;:</span><span class="se">\n</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">e</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Backend.is_admin"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.is_admin">[docs]</a>    <span class="k">def</span> <span class="nf">is_admin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">usr</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        an overridable check to see if a user is an administrator</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">usr</span> <span class="ow">in</span> <span class="n">BOT_ADMINS</span>
-</div>
 <div class="viewcode-block" id="Backend.check_command_access"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.check_command_access">[docs]</a>    <span class="k">def</span> <span class="nf">check_command_access</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check command against ACL rules</span>
@@ -799,7 +659,7 @@
         <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_err_command_admin_only</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">typ</span> <span class="o">==</span> <span class="s">&#39;groupchat&#39;</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ACLViolation</span><span class="p">(</span><span class="s">&quot;You cannot administer the bot from a chatroom, message the bot directly&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_admin</span><span class="p">(</span><span class="n">usr</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">usr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">BOT_ADMINS</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ACLViolation</span><span class="p">(</span><span class="s">&quot;This command requires bot-admin privileges&quot;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Backend.unknown_command"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.unknown_command">[docs]</a>    <span class="k">def</span> <span class="nf">unknown_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
@@ -946,6 +806,18 @@
 <div class="viewcode-block" id="Backend.disconnect_callback"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.disconnect_callback">[docs]</a>    <span class="k">def</span> <span class="nf">disconnect_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 </div>
+<div class="viewcode-block" id="Backend.callback_contact_online"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.callback_contact_online">[docs]</a>    <span class="k">def</span> <span class="nf">callback_contact_online</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="Backend.callback_contact_offline"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.callback_contact_offline">[docs]</a>    <span class="k">def</span> <span class="nf">callback_contact_offline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="Backend.callback_user_joined_chat"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.callback_user_joined_chat">[docs]</a>    <span class="k">def</span> <span class="nf">callback_user_joined_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="Backend.callback_user_left_chat"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.callback_user_left_chat">[docs]</a>    <span class="k">def</span> <span class="nf">callback_user_left_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
+        <span class="k">pass</span>
+</div>
     <span class="nd">@property</span>
 <div class="viewcode-block" id="Backend.mode"><a class="viewcode-back" href="../../../../errbot.backends.base/#errbot.backends.base.Backend.mode">[docs]</a>    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s">&quot;It should be implemented specifically for your backend&quot;</span><span class="p">)</span>
@@ -1040,7 +912,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Aug 27, 2014.
+          Last updated on Nov 02, 2014.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

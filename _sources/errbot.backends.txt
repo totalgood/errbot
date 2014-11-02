@@ -14,7 +14,6 @@ Submodules
    errbot.backends.null
    errbot.backends.test
    errbot.backends.text
-   errbot.backends.tox
    errbot.backends.xmpp
 
 Module contents
