@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.storage module &mdash; Err 2.1.0 documentation</title>
+    <title>errbot.storage module &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,9 +24,9 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../" />
     <link rel="up" title="errbot package" href="../errbot/" />
-    <link rel="next" title="errbot.templating module" href="../errbot.templating/" />
+    <link rel="next" title="errbot.streaming module" href="../errbot.streaming/" />
     <link rel="prev" title="errbot.repos module" href="../errbot.repos/" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
@@ -58,11 +58,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -72,13 +72,13 @@
           <a href="../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../errbot.templating/" title="errbot.templating module"
+          <a href="../errbot.streaming/" title="errbot.streaming module"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="../errbot.repos/" title="errbot.repos module"
              accesskey="P">previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" accesskey="U">errbot package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" accesskey="U">errbot package</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -86,48 +86,53 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-errbot.storage">
 <span id="errbot-storage-module"></span><h1>errbot.storage module<a class="headerlink" href="#module-errbot.storage" title="Permalink to this headline">¶</a></h1>
 <dl class="exception">
 <dt id="errbot.storage.StoreAlreadyOpenError">
-<em class="property">exception </em><tt class="descclassname">errbot.storage.</tt><tt class="descname">StoreAlreadyOpenError</tt><a class="reference internal" href="../_modules/errbot/storage/#StoreAlreadyOpenError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.storage.StoreAlreadyOpenError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#errbot.storage.StoreException" title="errbot.storage.StoreException"><tt class="xref py py-class docutils literal"><span class="pre">errbot.storage.StoreException</span></tt></a></p>
+<em class="property">exception </em><code class="descclassname">errbot.storage.</code><code class="descname">StoreAlreadyOpenError</code><a class="reference internal" href="../_modules/errbot/storage/#StoreAlreadyOpenError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.storage.StoreAlreadyOpenError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#errbot.storage.StoreException" title="errbot.storage.StoreException"><code class="xref py py-class docutils literal"><span class="pre">errbot.storage.StoreException</span></code></a></p>
 </dd></dl>
 
 <dl class="exception">
 <dt id="errbot.storage.StoreException">
-<em class="property">exception </em><tt class="descclassname">errbot.storage.</tt><tt class="descname">StoreException</tt><a class="reference internal" href="../_modules/errbot/storage/#StoreException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.storage.StoreException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.Exception</span></tt></p>
+<em class="property">exception </em><code class="descclassname">errbot.storage.</code><code class="descname">StoreException</code><a class="reference internal" href="../_modules/errbot/storage/#StoreException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.storage.StoreException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
 </dd></dl>
 
 <dl class="class">
 <dt id="errbot.storage.StoreMixin">
-<em class="property">class </em><tt class="descclassname">errbot.storage.</tt><tt class="descname">StoreMixin</tt><a class="reference internal" href="../_modules/errbot/storage/#StoreMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.storage.StoreMixin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">collections.abc.MutableMapping</span></tt></p>
+<em class="property">class </em><code class="descclassname">errbot.storage.</code><code class="descname">StoreMixin</code><a class="reference internal" href="../_modules/errbot/storage/#StoreMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.storage.StoreMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">collections.abc.MutableMapping</span></code></p>
 <p>This class handle the basic needs of bot plugins and core like loading, unloading and creating a storage</p>
 <dl class="method">
+<dt id="errbot.storage.StoreMixin.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/storage/#StoreMixin.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.storage.StoreMixin.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="errbot.storage.StoreMixin.close_storage">
-<tt class="descname">close_storage</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/storage/#StoreMixin.close_storage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.storage.StoreMixin.close_storage" title="Permalink to this definition">¶</a></dt>
+<code class="descname">close_storage</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/storage/#StoreMixin.close_storage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.storage.StoreMixin.close_storage" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.storage.StoreMixin.keys">
-<tt class="descname">keys</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/storage/#StoreMixin.keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.storage.StoreMixin.keys" title="Permalink to this definition">¶</a></dt>
+<code class="descname">keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/storage/#StoreMixin.keys"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.storage.StoreMixin.keys" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.storage.StoreMixin.open_storage">
-<tt class="descname">open_storage</tt><big>(</big><em>path</em><big>)</big><a class="reference internal" href="../_modules/errbot/storage/#StoreMixin.open_storage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.storage.StoreMixin.open_storage" title="Permalink to this definition">¶</a></dt>
+<code class="descname">open_storage</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/storage/#StoreMixin.open_storage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.storage.StoreMixin.open_storage" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="exception">
 <dt id="errbot.storage.StoreNotOpenError">
-<em class="property">exception </em><tt class="descclassname">errbot.storage.</tt><tt class="descname">StoreNotOpenError</tt><a class="reference internal" href="../_modules/errbot/storage/#StoreNotOpenError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.storage.StoreNotOpenError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#errbot.storage.StoreException" title="errbot.storage.StoreException"><tt class="xref py py-class docutils literal"><span class="pre">errbot.storage.StoreException</span></tt></a></p>
+<em class="property">exception </em><code class="descclassname">errbot.storage.</code><code class="descname">StoreNotOpenError</code><a class="reference internal" href="../_modules/errbot/storage/#StoreNotOpenError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.storage.StoreNotOpenError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#errbot.storage.StoreException" title="errbot.storage.StoreException"><code class="xref py py-class docutils literal"><span class="pre">errbot.storage.StoreException</span></code></a></p>
 </dd></dl>
 
 </div>
@@ -139,7 +144,7 @@
           
           
                | 
-              Next: <a href="../errbot.templating/">errbot.templating module</a>
+              Next: <a href="../errbot.streaming/">errbot.streaming module</a>
           
       
   </div>
@@ -147,7 +152,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../" title="Back to home page">
         <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -167,16 +172,18 @@
         <a href="../errbot/">errbot package</a>
         <ul>
         <li>Previous: <a href="../errbot.repos/" title="previous chapter">errbot.repos module</a></li>
-        <li>Next: <a href="../errbot.templating/" title="next chapter">errbot.templating module</a></li>
+        <li>Next: <a href="../errbot.streaming/" title="next chapter">errbot.streaming module</a></li>
         </ul>
         </li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/errbot.storage.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/errbot.storage.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search/" method="get">
       <input type="text" name="q" />
@@ -203,7 +210,7 @@
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -213,19 +220,19 @@
           <a href="../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../errbot.templating/" title="errbot.templating module"
+          <a href="../errbot.streaming/" title="errbot.streaming module"
              >next</a> |</li>
         <li class="right" >
           <a href="../errbot.repos/" title="errbot.repos module"
              >previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" >errbot package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>9. Testing your plugins &mdash; Err 2.1.0 documentation</title>
+    <title>10. Testing your plugins &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,10 +24,10 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../../../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../../../" />
     <link rel="up" title="Plugin development" href="../" />
     <link rel="next" title="Logging to Sentry" href="../../sentry/" />
-    <link rel="prev" title="8. Webhooks" href="../webhooks/" />
+    <link rel="prev" title="9. Webhooks" href="../webhooks/" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -58,11 +58,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -75,10 +75,10 @@
           <a href="../../sentry/" title="Logging to Sentry"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../webhooks/" title="8. Webhooks"
+          <a href="../webhooks/" title="9. Webhooks"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../" accesskey="U">Plugin development</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../" accesskey="U">Plugin development</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -86,14 +86,14 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="testing-your-plugins">
-<h1>9. Testing your plugins<a class="headerlink" href="#testing-your-plugins" title="Permalink to this headline">¶</a></h1>
-<p>Just as Err has tests that validates that it behaves correctly so should your plugin. Err is tested using Python's <a class="reference external" href="http://docs.python.org/3.3/library/unittest.html">unittest</a> module and because we already provide some utilities for that we highly advise you to use <cite>unittest</cite> too.</p>
+<h1>10. Testing your plugins<a class="headerlink" href="#testing-your-plugins" title="Permalink to this headline">¶</a></h1>
+<p>Just as Err has tests that validates that it behaves correctly so should your plugin. Err is tested using Python's <a class="reference external" href="http://pytest.org">py.test</a> module and because we already provide some utilities for that we highly advise you to use <cite>py.test</cite> too.</p>
 <p>We're going to write a simple plugin named <cite>myplugin.py</cite> with a <cite>MyPlugin</cite> class. It's tests will be stored in <cite>test_myplugin.py</cite> in the same directory.</p>
 <div class="section" id="interacting-with-the-bot">
-<h2>9.1. Interacting with the bot<a class="headerlink" href="#interacting-with-the-bot" title="Permalink to this headline">¶</a></h2>
+<h2>10.1. Interacting with the bot<a class="headerlink" href="#interacting-with-the-bot" title="Permalink to this headline">¶</a></h2>
 <p>Lets go for an example, <em>myplugin.py</em>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span><span class="p">,</span> <span class="n">botcmd</span>
 
@@ -115,29 +115,25 @@
 <p>This does absolutely nothing shocking, but how do you test it? We need to interact with the bot somehow, send it <cite>!mycommand</cite> and validate the reply. Fortunatly Err provides some help.</p>
 <p>Our test, <em>test_myplugin.py</em>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">FullStackTest</span><span class="p">,</span> <span class="n">pushMessage</span><span class="p">,</span> <span class="n">popMessage</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">testbot</span><span class="p">,</span> <span class="n">push_message</span><span class="p">,</span> <span class="n">pop_message</span>
 
-<span class="k">class</span> <span class="nc">MyPluginTests</span><span class="p">(</span><span class="n">FullStackTest</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">me</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)))</span>
-        <span class="c"># Adding /la/bla to path is needed because of the path mangling</span>
-        <span class="c"># FullStackTest does on extra_test_file.</span>
-        <span class="n">plugin_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">me</span><span class="p">,</span> <span class="s">&#39;la&#39;</span><span class="p">,</span> <span class="s">&#39;bla&#39;</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">MyPluginTests</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">setUp</span><span class="p">(</span><span class="n">extra_test_file</span><span class="o">=</span><span class="n">plugin_dir</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">test_command</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">pushMessage</span><span class="p">(</span><span class="s">&#39;!mycommand&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;This is my awesome command&#39;</span><span class="p">,</span> <span class="n">popMessage</span><span class="p">())</span>
+<span class="k">class</span> <span class="nc">TestMyPlugin</span><span class="p">(</span><span class="n">oject</span><span class="p">):</span>
+    <span class="n">extra_plugin_dir</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span>
+
+    <span class="k">def</span> <span class="nf">test_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testbot</span><span class="p">):</span>
+        <span class="n">push_message</span><span class="p">(</span><span class="s">&#39;!mycommand&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="s">&#39;This is my awesome command&#39;</span> <span class="ow">in</span> <span class="n">pop_message</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Lets walk through this line for line. First of all, we import <a class="reference internal" href="../../../errbot.backends.test/#errbot.backends.test.FullStackTest" title="errbot.backends.test.FullStackTest"><tt class="xref py py-class docutils literal"><span class="pre">FullStackTest</span></tt></a>, <a class="reference internal" href="../../../errbot.backends.test/#errbot.backends.test.pushMessage" title="errbot.backends.test.pushMessage"><tt class="xref py py-func docutils literal"><span class="pre">pushMessage()</span></tt></a> and <a class="reference internal" href="../../../errbot.backends.test/#errbot.backends.test.popMessage" title="errbot.backends.test.popMessage"><tt class="xref py py-func docutils literal"><span class="pre">popMessage()</span></tt></a> from the backends tests, there allow us to spin up a bot for testing purposes and interact with the message queue.</p>
-<p>Then we define our own test class subclassing from FullStackTest so we get a bot. We define our own <a class="reference internal" href="../../../errbot.backends.test/#errbot.backends.test.FullStackTest.setUp" title="errbot.backends.test.FullStackTest.setUp"><tt class="xref py py-func docutils literal"><span class="pre">setUp()</span></tt></a> method because we need to pass the current directory we're executing from to <a class="reference internal" href="../../../errbot.backends.test/#errbot.backends.test.FullStackTest" title="errbot.backends.test.FullStackTest"><tt class="xref py py-class docutils literal"><span class="pre">FullStackTest</span></tt></a> so that it knows to add that directory to the bot's plugin path.</p>
-<p>After that we define our first <cite>test_</cite> method which simply sends a command to the bot using <a class="reference internal" href="../../../errbot.backends.test/#errbot.backends.test.pushMessage" title="errbot.backends.test.pushMessage"><tt class="xref py py-func docutils literal"><span class="pre">pushMessage()</span></tt></a> and then asserts that the response we expect, <em>&quot;This is my awesome command&quot;</em> is in the message we receive from the bot which we get by calling <a class="reference internal" href="../../../errbot.backends.test/#errbot.backends.test.popMessage" title="errbot.backends.test.popMessage"><tt class="xref py py-func docutils literal"><span class="pre">popMessage()</span></tt></a>.</p>
+<p>Lets walk through this line for line. First of all, we import <code class="xref py py-class docutils literal"><span class="pre">testbot</span></code>, <code class="xref py py-func docutils literal"><span class="pre">push_message()</span></code> and <code class="xref py py-func docutils literal"><span class="pre">pop_message()</span></code> from the backends tests, there allow us to spin up a bot for testing purposes and interact with the message queue.</p>
+<p>Then we define our own test class and inside of it we set <cite>extra_plugin_dir</cite> to <cite>.</cite>, the current directory so that the test bot will pick up on your plugin.</p>
+<p>After that we define our first <cite>test_</cite> method which simply sends a command to the bot using <code class="xref py py-func docutils literal"><span class="pre">push_message()</span></code> and then asserts that the response we expect, <em>&quot;This is my awesome command&quot;</em> is in the message we receive from the bot which we get by calling <code class="xref py py-func docutils literal"><span class="pre">pop_message()</span></code>.</p>
 </div>
 <div class="section" id="helper-methods">
-<h2>9.2. Helper methods<a class="headerlink" href="#helper-methods" title="Permalink to this headline">¶</a></h2>
+<h2>10.2. Helper methods<a class="headerlink" href="#helper-methods" title="Permalink to this headline">¶</a></h2>
 <p>Often enough you'll have methods in your plugins that do things for you that are not decorated with <cite>&#64;botcmd</cite> since the user never calls out to these methods directly.</p>
-<p>Such helper methods can be either instance methods, methods that take <cite>self</cite> as the first argument becaus they need access to data stored on the bot or class or static methods, decorated with either <cite>&#64;classmethod</cite> or <cite>&#64;staticmethod</cite>:</p>
+<p>Such helper methods can be either instance methods, methods that take <cite>self</cite> as the first argument because they need access to data stored on the bot or class or static methods, decorated with either <cite>&#64;classmethod</cite> or <cite>&#64;staticmethod</cite>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyPlugin</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
     <span class="nd">@botcmd</span>
     <span class="k">def</span> <span class="nf">mycommand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
@@ -150,15 +146,14 @@
 </div>
 <p>The <cite>mycommand_helper</cite> method does not need any information stored on the bot whatsoever or any other bot state. It can function standalone but it makes sense organisation-wise to have it be a member of the <cite>MyPlugin</cite> class.</p>
 <p>Such methods can be tested very easily, without needing a bot:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">unittest</span>
-<span class="kn">import</span> <span class="nn">myplugin</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">myplugin</span>
 
-<span class="k">class</span> <span class="nc">MyPluginTests</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">TestMyPlugin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">test_mycommand_helper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">expected</span> <span class="o">=</span> <span class="s">&quot;This is my awesome command&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">myplugin</span><span class="o">.</span><span class="n">MyPlugin</span><span class="o">.</span><span class="n">mycommand_helper</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="n">expected</span>
 </pre></div>
 </div>
 <p>Here we simply import <cite>myplugin</cite> and since it's a <cite>&#64;staticmethod</cite> we can directly access it through <cite>myplugin.MyPlugin.method()</cite>.</p>
@@ -175,55 +170,48 @@
 <p>Now what? We can't access the method directly anymore because we need an instance of the bot and the plugin and we can't just send <cite>!mycommand_helper</cite> to the bot, it's not a bot command (and if it were it would be <cite>!mycommand helper</cite> anyway).</p>
 <p>What we need now is get access to the instance of our plugin itself. Fortunately for us, there's a method that can help us do just that:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">FullStackTest</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">testbot</span>
 <span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">plugin_manager</span>
 
-<span class="k">class</span> <span class="nc">MyPluginTests</span><span class="p">(</span><span class="n">FullStackTest</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">me</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)))</span>
-        <span class="c"># Adding /la/bla to path is needed because of the path mangling</span>
-        <span class="c"># FullStackTest does on extra_test_file.</span>
-        <span class="n">plugin_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">me</span><span class="p">,</span> <span class="s">&#39;la&#39;</span><span class="p">,</span> <span class="s">&#39;bla&#39;</span><span class="p">)</span>
-        <span class="c"># Call our parent&#39;s setUp() method but pass our directory to</span>
-        <span class="c"># extra_test_file so our plugin is loaded.</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">MyPluginTests</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">setUp</span><span class="p">(</span><span class="n">extra_test_file</span><span class="o">=</span><span class="n">plugin_dir</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">TestMyPlugin</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+    <span class="n">extra_plugin_dir</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span>
 
-    <span class="k">def</span> <span class="nf">test_mycommand_helper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_mycommand_helper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testbot</span><span class="p">):</span>
         <span class="n">plugin</span> <span class="o">=</span> <span class="n">plugin_manager</span><span class="o">.</span><span class="n">get_plugin_obj_by_name</span><span class="p">(</span><span class="s">&#39;MyPlugin&#39;</span><span class="p">)</span>
         <span class="n">expected</span> <span class="o">=</span> <span class="s">&quot;This is my awesome command&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">mycommand_helper</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="n">expected</span>
 </pre></div>
 </div>
-<p>There we go, we first grab out plugin thanks to a helper method on <a class="reference internal" href="../../../errbot.plugin_manager/#module-errbot.plugin_manager" title="errbot.plugin_manager"><tt class="xref py py-mod docutils literal"><span class="pre">plugin_manager</span></tt></a> and then simply execute the method and compare what we get with what we expect. You can also access <cite>&#64;classmethod</cite> or <cite>&#64;staticmethod</cite> methods this way, you just don't have to.</p>
+<p>There we go, we first grab out plugin thanks to a helper method on <a class="reference internal" href="../../../errbot.plugin_manager/#module-errbot.plugin_manager" title="errbot.plugin_manager"><code class="xref py py-mod docutils literal"><span class="pre">plugin_manager</span></code></a> and then simply execute the method and compare what we get with what we expect. You can also access <cite>&#64;classmethod</cite> or <cite>&#64;staticmethod</cite> methods this way, you just don't have to.</p>
 </div>
 <div class="section" id="pattern">
-<h2>9.3. Pattern<a class="headerlink" href="#pattern" title="Permalink to this headline">¶</a></h2>
+<h2>10.3. Pattern<a class="headerlink" href="#pattern" title="Permalink to this headline">¶</a></h2>
 <p>It's a good idea to split up your plugin in two types of methods, those that directly interact with the user and those that do extra stuff you need.</p>
 <p>If you do this the <cite>&#64;botcmd</cite> methods should only concern themselves with giving output back to the user and calling different other functions it needs in order to fulfill the user's request.</p>
 <p>Try to keep as many helper methods simple, there's nothing wrong with having an extra helper or two to avoid having to nest fifteen if-statements. It becomes more legible, easier to maintain and easier to test.</p>
 <p>If you can, try to make your helper methods <cite>&#64;staticmethod</cite> decorated functions, it's easier to test and you don't need a full running bot for those tests.</p>
 </div>
 <div class="section" id="all-together-now">
-<h2>9.4. All together now<a class="headerlink" href="#all-together-now" title="Permalink to this headline">¶</a></h2>
+<h2>10.4. All together now<a class="headerlink" href="#all-together-now" title="Permalink to this headline">¶</a></h2>
 <p><em>myplugin.py</em>:</p>
-<div class="highlight-python"><div class="highlight"><pre>from errbot import BotPlugin, botcmd
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span><span class="p">,</span> <span class="n">botcmd</span>
 
-class MyPlugin(BotPlugin):
-    @botcmd
-    def mycommand(self, message, args):
-        return self.mycommand_helper()
+<span class="k">class</span> <span class="nc">MyPlugin</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
+    <span class="nd">@botcmd</span>
+    <span class="k">def</span> <span class="nf">mycommand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mycommand_helper</span><span class="p">()</span>
 
-    @botcmd
-    def mycommand_another(self, message, args):
-        return self.mycommand_another_helper()
+    <span class="nd">@botcmd</span>
+    <span class="k">def</span> <span class="nf">mycommand_another</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mycommand_another_helper</span><span class="p">()</span>
 
-    @staticmethod
-    def mycommand_helper();
-        return &quot;This is my awesome command&quot;
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">mycommand_helper</span><span class="p">();</span>
+        <span class="k">return</span> <span class="s">&quot;This is my awesome command&quot;</span>
 
-    def mycommand_another_helper(self);
-        return &quot;This is another awesome command&quot;
+    <span class="k">def</span> <span class="nf">mycommand_another_helper</span><span class="p">(</span><span class="bp">self</span><span class="p">);</span>
+        <span class="k">return</span> <span class="s">&quot;This is another awesome command&quot;</span>
 </pre></div>
 </div>
 <p><em>myplugin.plug</em>:</p>
@@ -239,76 +227,48 @@ class MyPlugin(BotPlugin):
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">unittest</span>
 <span class="kn">import</span> <span class="nn">myplugin</span>
-<span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">FullStackTest</span><span class="p">,</span> <span class="n">pushMessage</span><span class="p">,</span> <span class="n">popMessage</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">testbot</span><span class="p">,</span> <span class="n">push_message</span><span class="p">,</span> <span class="n">pop_message</span>
 <span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">plugin_manager</span>
 
-<span class="k">class</span> <span class="nc">MyPluginBotTests</span><span class="p">(</span><span class="n">FullStackTest</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">me</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)))</span>
-        <span class="c"># Adding /la/bla to path is needed because of the path mangling</span>
-        <span class="c"># FullStackTest does on extra_test_file.</span>
-        <span class="n">plugin_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">me</span><span class="p">,</span> <span class="s">&#39;la&#39;</span><span class="p">,</span> <span class="s">&#39;bla&#39;</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">MyPluginBotTests</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">setUp</span><span class="p">(</span><span class="n">extra_test_file</span><span class="o">=</span><span class="n">plugin_dir</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">TestMyPluginBot</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">extra_plugin_dir</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span>
 
-    <span class="k">def</span> <span class="nf">test_mycommand</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">pushMessage</span><span class="p">(</span><span class="s">&#39;!mycommand&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;This is my awesome command&#39;</span><span class="p">,</span> <span class="n">popMessage</span><span class="p">())</span>
+    <span class="k">def</span> <span class="nf">test_mycommand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testbot</span><span class="p">):</span>
+        <span class="n">push_message</span><span class="p">(</span><span class="s">&#39;!mycommand&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="s">&#39;This is my awesome command&#39;</span> <span class="ow">in</span> <span class="n">pop_message</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">test_mycommand_another</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">pushMessage</span><span class="p">(</span><span class="s">&#39;!mycommand another&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;This is another awesome command&#39;</span><span class="p">,</span> <span class="n">popMessage</span><span class="p">())</span>
+    <span class="k">def</span> <span class="nf">test_mycommand_another</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testbot</span><span class="p">):</span>
+        <span class="n">push_message</span><span class="p">(</span><span class="s">&#39;!mycommand another&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="s">&#39;This is another awesome command&#39;</span> <span class="ow">in</span> <span class="n">pop_message</span><span class="p">()</span>
 
 
-<span class="k">class</span> <span class="nc">MyPluginStaticMethodTests</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">TestMyPluginStaticMethods</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">test_mycommand_helper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">expected</span> <span class="o">=</span> <span class="s">&quot;This is my awesome command&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">myplugin</span><span class="o">.</span><span class="n">MyPlugin</span><span class="o">.</span><span class="n">mycommand_helper</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="n">expected</span>
 
 
-<span class="k">class</span> <span class="nc">MyPluginInstanceMethodTests</span><span class="p">(</span><span class="n">FullStackTest</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">me</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)))</span>
-        <span class="c"># Adding /la/bla to path is needed because of the path mangling</span>
-        <span class="c"># FullStackTest does on extra_test_file.</span>
-        <span class="n">plugin_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">me</span><span class="p">,</span> <span class="s">&#39;la&#39;</span><span class="p">,</span> <span class="s">&#39;bla&#39;</span><span class="p">)</span>
-        <span class="c"># Call our parent&#39;s setUp() method but pass our directory to</span>
-        <span class="c"># extra_test_file so our plugin is loaded.</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">MyPluginInstanceMethodTests</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">setUp</span><span class="p">(</span><span class="n">extra_test_file</span><span class="o">=</span><span class="n">plugin_dir</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">TestMyPluginInstanceMethods</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">extra_plugin_dir</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span>
 
     <span class="k">def</span> <span class="nf">test_mycommand_another_helper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">plugin</span> <span class="o">=</span> <span class="n">plugin_manager</span><span class="o">.</span><span class="n">get_plugin_obj_by_name</span><span class="p">(</span><span class="s">&#39;MyPlugin&#39;</span><span class="p">)</span>
         <span class="n">expected</span> <span class="o">=</span> <span class="s">&quot;This is another awesome command&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">mycommand_another_helper</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">expected</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
-        <span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">result</span> <span class="o">==</span> <span class="n">expected</span>
 </pre></div>
 </div>
-<p>You can now simply run <strong class="command">python test_myplugin.py</strong> to execute the tests.</p>
+<p>You can now simply run <strong class="command">py.test</strong> to execute the tests.</p>
 </div>
 <div class="section" id="pep-8-and-code-coverage">
-<h2>9.5. PEP-8 and code coverage<a class="headerlink" href="#pep-8-and-code-coverage" title="Permalink to this headline">¶</a></h2>
+<h2>10.5. PEP-8 and code coverage<a class="headerlink" href="#pep-8-and-code-coverage" title="Permalink to this headline">¶</a></h2>
 <p>If you feel like it you can also add syntax checkers like <cite>pep8</cite> into the mix to validate your code behaves to certain stylistic best practices set out in PEP-8.</p>
-<p>First, install pep8: <strong class="command">pip install pep8</strong></p>
-<p>Then, add this to your <cite>test_myplugin.py</cite>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">pep8</span>
-
-<span class="k">class</span> <span class="nc">TestCodeFormat</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Test suite that validates our code adheres to certain standards.&quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">test_pep8_conformance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Test that we conform to PEP8.&quot;&quot;&quot;</span>
-        <span class="n">pep8style</span> <span class="o">=</span> <span class="n">pep8</span><span class="o">.</span><span class="n">StyleGuide</span><span class="p">(</span><span class="n">quiet</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">pep8style</span><span class="o">.</span><span class="n">check_files</span><span class="p">([</span><span class="s">&#39;myplugin.py&#39;</span><span class="p">,</span> <span class="s">&#39;test_myplugin.py&#39;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">total_errors</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
-                         <span class="s">&quot;Found code style errors (and warnings).&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
+<p>First, install the pep8 for <a class="reference external" href="http://pytest.org">py.test</a>: <strong class="command">pip instal pytest-pep8</strong>.</p>
+<p>Then, simply add <cite>--pep8</cite> to the test invocation command: <cite>py.test --pep8</cite>.</p>
 <p>You also want to know how well your tests cover you code.</p>
-<p>To that end, install coverage: <strong class="command">pip install coverage</strong> and then run your tests like this: <strong class="command">coverage run --source=myplugin.py test_myplugin.py</strong>.</p>
+<p>To that end, install coverage: <strong class="command">pip install coverage</strong> and then run your tests like this: <strong class="command">coverage run --source myplugin -m py.test --pep8</strong>.</p>
 <p>You can now have a look at coverage statistics through <strong class="command">coverage report</strong>:</p>
 <div class="highlight-python"><div class="highlight"><pre>Name        Stmts   Miss  Cover
 -------------------------------
@@ -318,17 +278,19 @@ myplugin      49      0   100%
 <p>It's also possible to generate an HTML report with <strong class="command">coverage html</strong> and opening the resulting <cite>htmlcov/index.html</cite>.</p>
 </div>
 <div class="section" id="travis-and-coveralls">
-<h2>9.6. Travis and Coveralls<a class="headerlink" href="#travis-and-coveralls" title="Permalink to this headline">¶</a></h2>
+<h2>10.6. Travis and Coveralls<a class="headerlink" href="#travis-and-coveralls" title="Permalink to this headline">¶</a></h2>
 <p>Last but not least, you can run your tests on <a class="reference external" href="https://travis-ci.org">Travis-CI</a> so when you update code or others submit pull requests the tests will automatically run confirming everything still works.</p>
 <p>In order to do that you'll need a <cite>.travis.yml</cite> similar to this:</p>
 <div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">python</span>
 <span class="l-Scalar-Plain">python</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="s">&quot;3.3&quot;</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">2.7</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">3.3</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">3.4</span>
 <span class="l-Scalar-Plain">install</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="s">&quot;pip</span><span class="nv"> </span><span class="s">install</span><span class="nv"> </span><span class="s">-q</span><span class="nv"> </span><span class="s">yapsy==1.10.2-pythons2n3</span><span class="nv"> </span><span class="s">err==2.0.0</span><span class="nv"> </span><span class="s">--use-wheel&quot;</span>
-  <span class="p-Indicator">-</span> <span class="s">&quot;pip</span><span class="nv"> </span><span class="s">install</span><span class="nv"> </span><span class="s">-q</span><span class="nv"> </span><span class="s">pep8</span><span class="nv"> </span><span class="s">coverage</span><span class="nv"> </span><span class="s">coveralls</span><span class="nv"> </span><span class="s">--use-wheel&quot;</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">pip instal -q err pytest pytest-pep8 --use-wheel</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">pip install -q coverage coveralls --use-wheel</span>
 <span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">coverage run --source=myplugin.py test_myplugin.py</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">coverage run --source myplugin -m py.test --pep8</span>
 <span class="l-Scalar-Plain">after_success</span><span class="p-Indicator">:</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">coveralls</span>
 <span class="l-Scalar-Plain">notifications</span><span class="p-Indicator">:</span>
@@ -336,7 +298,6 @@ myplugin      49      0   100%
 </pre></div>
 </div>
 <p>Most of it is self-explanatory, except for perhaps the <cite>after_success</cite>. The author of this plugin uses <a class="reference external" href="https://coveralls.io">Coveralls.io</a> to keep track of code coverage so after a successful build we call out to coveralls and upload the statistics. It's for this reason that we <cite>pip install [..] coveralls [..]</cite> in the <cite>.travis.yml</cite>.</p>
-<p>Also note the that we're force-installing a specific <a class="reference external" href="http://yapsy.sourceforge.net">Yapsy</a> version. This is needed because Yapsy's choice to append <cite>-python2n3</cite> causes newer versions of pip to consider it a pre-release thus refusing it to install if not explicitly asked to. Unfortunately the previous stable of Yapsy on 1.9.x which pip would pick is not Python 3 compatible.</p>
 <p>The <cite>-q</cite> flag causes pip to be a lot more quiet and <cite>--use-wheel</cite> will cause pip to use <a class="reference external" href="http://www.python.org/dev/peps/pep-0427/">wheels</a> if available, speeding up your builds if you happen to depend on something that builds a C-extension.</p>
 <p>Both Travis-CI and Coveralls easily integrate with Github hosted code.</p>
 </div>
@@ -345,7 +306,7 @@ myplugin      49      0   100%
   <div id="prev_next_links">
       
           
-              Previous: <a href="../webhooks/">8. Webhooks</a>
+              Previous: <a href="../webhooks/">9. Webhooks</a>
           
           
                | 
@@ -357,7 +318,7 @@ myplugin      49      0   100%
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../" title="Back to home page">
         <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -370,13 +331,13 @@ myplugin      49      0   100%
     </div>
   <h3><a href="../../../">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">9. Testing your plugins</a><ul>
-<li><a class="reference internal" href="#interacting-with-the-bot">9.1. Interacting with the bot</a></li>
-<li><a class="reference internal" href="#helper-methods">9.2. Helper methods</a></li>
-<li><a class="reference internal" href="#pattern">9.3. Pattern</a></li>
-<li><a class="reference internal" href="#all-together-now">9.4. All together now</a></li>
-<li><a class="reference internal" href="#pep-8-and-code-coverage">9.5. PEP-8 and code coverage</a></li>
-<li><a class="reference internal" href="#travis-and-coveralls">9.6. Travis and Coveralls</a></li>
+<li><a class="reference internal" href="#">10. Testing your plugins</a><ul>
+<li><a class="reference internal" href="#interacting-with-the-bot">10.1. Interacting with the bot</a></li>
+<li><a class="reference internal" href="#helper-methods">10.2. Helper methods</a></li>
+<li><a class="reference internal" href="#pattern">10.3. Pattern</a></li>
+<li><a class="reference internal" href="#all-together-now">10.4. All together now</a></li>
+<li><a class="reference internal" href="#pep-8-and-code-coverage">10.5. PEP-8 and code coverage</a></li>
+<li><a class="reference internal" href="#travis-and-coveralls">10.6. Travis and Coveralls</a></li>
 </ul>
 </li>
 </ul>
@@ -389,17 +350,19 @@ myplugin      49      0   100%
         <li>
         <a href="../">Plugin development</a>
         <ul>
-        <li>Previous: <a href="../webhooks/" title="previous chapter">8. Webhooks</a></li>
+        <li>Previous: <a href="../webhooks/" title="previous chapter">9. Webhooks</a></li>
         <li>Next: <a href="../../sentry/" title="next chapter">Logging to Sentry</a></li>
         </ul>
         </li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../../../_sources/user_guide/plugin_development/testing.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/user_guide/plugin_development/testing.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search/" method="get">
       <input type="text" name="q" />
@@ -426,7 +389,7 @@ myplugin      49      0   100%
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -439,16 +402,16 @@ myplugin      49      0   100%
           <a href="../../sentry/" title="Logging to Sentry"
              >next</a> |</li>
         <li class="right" >
-          <a href="../webhooks/" title="8. Webhooks"
+          <a href="../webhooks/" title="9. Webhooks"
              >previous</a> |</li>
-        <li><a href="../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../" >Plugin development</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../" >Plugin development</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

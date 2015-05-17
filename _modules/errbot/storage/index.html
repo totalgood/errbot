@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.storage &mdash; Err 2.1.0 documentation</title>
+    <title>errbot.storage &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../../../" />
-    <link rel="up" title="errbot" href="../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../../../" />
+    <link rel="up" title="Module code" href="../../" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -56,11 +56,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -69,9 +69,8 @@
         <li class="right" >
           <a href="../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../../" >Module code</a> &raquo;</li>
-          <li><a href="../" accesskey="U">errbot</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -79,14 +78,14 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for errbot.storage</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">MutableMapping</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">shelve</span>
 
-<span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">PY2</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">PY2</span>
 
 
 <div class="viewcode-block" id="StoreException"><a class="viewcode-back" href="../../../errbot.storage/#errbot.storage.StoreException">[docs]</a><span class="k">class</span> <span class="nc">StoreException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
@@ -106,6 +105,9 @@
 <span class="sd">     This class handle the basic needs of bot plugins and core like loading, unloading and creating a storage</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+<div class="viewcode-block" id="StoreMixin.__init__"><a class="viewcode-back" href="../../../errbot.storage/#errbot.storage.StoreMixin.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shelf</span> <span class="o">=</span> <span class="bp">None</span>
+</div>
 <div class="viewcode-block" id="StoreMixin.open_storage"><a class="viewcode-back" href="../../../errbot.storage/#errbot.storage.StoreMixin.open_storage">[docs]</a>    <span class="k">def</span> <span class="nf">open_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s">&#39;shelf&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">shelf</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">StoreAlreadyOpenError</span><span class="p">(</span><span class="s">&quot;Storage appears to be opened already&quot;</span><span class="p">)</span>
@@ -157,7 +159,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../" title="Back to home page">
         <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -176,15 +178,10 @@
         <li>
         <a href="../../">Module code</a>
         <ul>
-        <li>
-        <a href="../">errbot</a>
-        <ul>
-        </ul>
-        </li>
         </ul>
         </li>
 </ul>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search/" method="get">
       <input type="text" name="q" />
@@ -211,7 +208,7 @@
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -220,15 +217,14 @@
         <li class="right" >
           <a href="../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../../" >Module code</a> &raquo;</li>
-          <li><a href="../" >errbot</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

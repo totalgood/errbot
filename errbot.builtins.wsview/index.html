@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.builtins.wsview module &mdash; Err 2.1.0 documentation</title>
+    <title>errbot.builtins.wsview module &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../" />
     <link rel="up" title="errbot.builtins package" href="../errbot.builtins/" />
     <link rel="next" title="errbot.bundled package" href="../errbot.bundled/" />
     <link rel="prev" title="errbot.builtins.webserver module" href="../errbot.builtins.webserver/" />
@@ -58,11 +58,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -77,9 +77,9 @@
         <li class="right" >
           <a href="../errbot.builtins.webserver/" title="errbot.builtins.webserver module"
              accesskey="P">previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
-          <li><a href="../errbot.builtins/" accesskey="U">errbot.builtins package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.builtins/" accesskey="U">errbot.builtins package</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -87,41 +87,41 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-errbot.builtins.wsview">
 <span id="errbot-builtins-wsview-module"></span><h1>errbot.builtins.wsview module<a class="headerlink" href="#module-errbot.builtins.wsview" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="errbot.builtins.wsview.DynamicBottle">
-<em class="property">class </em><tt class="descclassname">errbot.builtins.wsview.</tt><tt class="descname">DynamicBottle</tt><big>(</big><em>catchall=True</em>, <em>autojson=True</em><big>)</big><a class="reference internal" href="../_modules/errbot/builtins/wsview/#DynamicBottle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.builtins.wsview.DynamicBottle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">bottle.Bottle</span></tt></p>
+<em class="property">class </em><code class="descclassname">errbot.builtins.wsview.</code><code class="descname">DynamicBottle</code><span class="sig-paren">(</span><em>catchall=True</em>, <em>autojson=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/builtins/wsview/#DynamicBottle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.builtins.wsview.DynamicBottle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">bottle.Bottle</span></code></p>
 <dl class="method">
 <dt id="errbot.builtins.wsview.DynamicBottle.del_route">
-<tt class="descname">del_route</tt><big>(</big><em>route_name</em><big>)</big><a class="reference internal" href="../_modules/errbot/builtins/wsview/#DynamicBottle.del_route"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.builtins.wsview.DynamicBottle.del_route" title="Permalink to this definition">¶</a></dt>
+<code class="descname">del_route</code><span class="sig-paren">(</span><em>route_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/builtins/wsview/#DynamicBottle.del_route"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.builtins.wsview.DynamicBottle.del_route" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="errbot.builtins.wsview.WebView">
-<em class="property">class </em><tt class="descclassname">errbot.builtins.wsview.</tt><tt class="descname">WebView</tt><big>(</big><em>func</em>, <em>form_param</em>, <em>raw</em><big>)</big><a class="reference internal" href="../_modules/errbot/builtins/wsview/#WebView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.builtins.wsview.WebView" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<em class="property">class </em><code class="descclassname">errbot.builtins.wsview.</code><code class="descname">WebView</code><span class="sig-paren">(</span><em>func</em>, <em>form_param</em>, <em>raw</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/builtins/wsview/#WebView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.builtins.wsview.WebView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <dl class="method">
 <dt id="errbot.builtins.wsview.WebView.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>func</em>, <em>form_param</em>, <em>raw</em><big>)</big><a class="reference internal" href="../_modules/errbot/builtins/wsview/#WebView.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.builtins.wsview.WebView.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>func</em>, <em>form_param</em>, <em>raw</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/builtins/wsview/#WebView.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.builtins.wsview.WebView.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="errbot.builtins.wsview.reset_app">
-<tt class="descclassname">errbot.builtins.wsview.</tt><tt class="descname">reset_app</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/builtins/wsview/#reset_app"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.builtins.wsview.reset_app" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.builtins.wsview.</code><code class="descname">reset_app</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/builtins/wsview/#reset_app"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.builtins.wsview.reset_app" title="Permalink to this definition">¶</a></dt>
 <dd><p>Zap everything here, useful for unit tests</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="errbot.builtins.wsview.try_decode_json">
-<tt class="descclassname">errbot.builtins.wsview.</tt><tt class="descname">try_decode_json</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="../_modules/errbot/builtins/wsview/#try_decode_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.builtins.wsview.try_decode_json" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.builtins.wsview.</code><code class="descname">try_decode_json</code><span class="sig-paren">(</span><em>req</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/builtins/wsview/#try_decode_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.builtins.wsview.try_decode_json" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -141,7 +141,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../" title="Back to home page">
         <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -170,12 +170,14 @@
         </ul>
         </li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/errbot.builtins.wsview.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/errbot.builtins.wsview.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search/" method="get">
       <input type="text" name="q" />
@@ -202,7 +204,7 @@
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -217,15 +219,15 @@
         <li class="right" >
           <a href="../errbot.builtins.webserver/" title="errbot.builtins.webserver module"
              >previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
-          <li><a href="../errbot.builtins/" >errbot.builtins package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.builtins/" >errbot.builtins package</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

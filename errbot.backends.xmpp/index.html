@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.xmpp module &mdash; Err 2.1.0 documentation</title>
+    <title>errbot.backends.xmpp module &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../" />
     <link rel="up" title="errbot.backends package" href="../errbot.backends/" />
     <link rel="next" title="errbot.builtins package" href="../errbot.builtins/" />
     <link rel="prev" title="errbot.backends.text module" href="../errbot.backends.text/" />
@@ -58,11 +58,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -77,9 +77,9 @@
         <li class="right" >
           <a href="../errbot.backends.text/" title="errbot.backends.text module"
              accesskey="P">previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
-          <li><a href="../errbot.backends/" accesskey="U">errbot.backends package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.backends/" accesskey="U">errbot.backends package</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -87,168 +87,357 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-errbot.backends.xmpp">
 <span id="errbot-backends-xmpp-module"></span><h1>errbot.backends.xmpp module<a class="headerlink" href="#module-errbot.backends.xmpp" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="errbot.backends.xmpp.XMPPBackend">
-<em class="property">class </em><tt class="descclassname">errbot.backends.xmpp.</tt><tt class="descname">XMPPBackend</tt><big>(</big><em>username</em>, <em>password</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../errbot.errBot/#errbot.errBot.ErrBot" title="errbot.errBot.ErrBot"><tt class="xref py py-class docutils literal"><span class="pre">errbot.errBot.ErrBot</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">errbot.backends.xmpp.</code><code class="descname">XMPPBackend</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.errBot/#errbot.errBot.ErrBot" title="errbot.errBot.ErrBot"><code class="xref py py-class docutils literal"><span class="pre">errbot.errBot.ErrBot</span></code></a></p>
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>username</em>, <em>password</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.build_message">
-<tt class="descname">build_message</tt><big>(</big><em>text</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.build_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.build_message" title="Permalink to this definition">¶</a></dt>
+<code class="descname">build_message</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.build_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.build_message" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.xmpp.XMPPBackend.connect">
-<tt class="descname">connect</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.connect" title="Permalink to this definition">¶</a></dt>
+<dt id="errbot.backends.xmpp.XMPPBackend.chat_topic">
+<code class="descname">chat_topic</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.chat_topic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.chat_topic" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.connected">
-<tt class="descname">connected</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.connected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.connected" title="Permalink to this definition">¶</a></dt>
+<code class="descname">connected</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.connected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.connected" title="Permalink to this definition">¶</a></dt>
 <dd><p>Callback for connection events</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.contact_offline">
-<tt class="descname">contact_offline</tt><big>(</big><em>stanza</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.contact_offline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.contact_offline" title="Permalink to this definition">¶</a></dt>
+<code class="descname">contact_offline</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.contact_offline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.contact_offline" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.contact_online">
-<tt class="descname">contact_online</tt><big>(</big><em>stanza</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.contact_online"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.contact_online" title="Permalink to this definition">¶</a></dt>
+<code class="descname">contact_online</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.contact_online"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.contact_online" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.create_connection">
-<tt class="descname">create_connection</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.create_connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.create_connection" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_connection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.create_connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.create_connection" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.disconnected">
-<tt class="descname">disconnected</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.disconnected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.disconnected" title="Permalink to this definition">¶</a></dt>
+<code class="descname">disconnected</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.disconnected"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.disconnected" title="Permalink to this definition">¶</a></dt>
 <dd><p>Callback for disconnection events</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.groupchat_reply_format">
+<code class="descname">groupchat_reply_format</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.groupchat_reply_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.groupchat_reply_format" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.incoming_message">
-<tt class="descname">incoming_message</tt><big>(</big><em>xmppmsg</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.incoming_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.incoming_message" title="Permalink to this definition">¶</a></dt>
+<code class="descname">incoming_message</code><span class="sig-paren">(</span><em>xmppmsg</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.incoming_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.incoming_message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Callback for message events</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.invite_in_room">
-<tt class="descname">invite_in_room</tt><big>(</big><em>room</em>, <em>jids_to_invite</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.invite_in_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.invite_in_room" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="errbot.backends.xmpp.XMPPBackend.join_room">
-<tt class="descname">join_room</tt><big>(</big><em>room</em>, <em>username=None</em>, <em>password=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.join_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.join_room" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">invite_in_room</code><span class="sig-paren">(</span><em>room</em>, <em>jids_to_invite</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.invite_in_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.invite_in_room" title="Permalink to this definition">¶</a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 2.2.0: </span>Use the methods on <a class="reference internal" href="#errbot.backends.xmpp.XMPPMUCRoom" title="errbot.backends.xmpp.XMPPMUCRoom"><code class="xref py py-class docutils literal"><span class="pre">XMPPMUCRoom</span></code></a> instead.</p>
+</div>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="errbot.backends.xmpp.XMPPBackend.mode">
-<tt class="descname">mode</tt><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.mode" title="Permalink to this definition">¶</a></dt>
+<code class="descname">mode</code><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.query_room">
+<code class="descname">query_room</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.query_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.query_room" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query a room for information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>room</strong> -- The JID/identifier of the room to query for.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">An instance of <a class="reference internal" href="#errbot.backends.xmpp.XMPPMUCRoom" title="errbot.backends.xmpp.XMPPMUCRoom"><code class="xref py py-class docutils literal"><span class="pre">XMPPMUCRoom</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.rooms">
+<code class="descname">rooms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.rooms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.rooms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of rooms the bot is currently in.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of <code class="xref py py-class docutils literal"><span class="pre">XMPPMUCRoom</span></code> instances.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.send_message">
+<code class="descname">send_message</code><span class="sig-paren">(</span><em>mess</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.send_message" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.serve_forever">
-<tt class="descname">serve_forever</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.serve_forever"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.serve_forever" title="Permalink to this definition">¶</a></dt>
+<code class="descname">serve_forever</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.serve_forever"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.serve_forever" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.user_changed_status">
+<code class="descname">user_changed_status</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.user_changed_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.user_changed_status" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.user_joined_chat">
-<tt class="descname">user_joined_chat</tt><big>(</big><em>stanza</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.user_joined_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.user_joined_chat" title="Permalink to this definition">¶</a></dt>
+<code class="descname">user_joined_chat</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.user_joined_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.user_joined_chat" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.user_left_chat">
-<tt class="descname">user_left_chat</tt><big>(</big><em>stanza</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.user_left_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.user_left_chat" title="Permalink to this definition">¶</a></dt>
+<code class="descname">user_left_chat</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPBackend.user_left_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.user_left_chat" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="errbot.backends.xmpp.XMPPConnection">
-<em class="property">class </em><tt class="descclassname">errbot.backends.xmpp.</tt><tt class="descname">XMPPConnection</tt><big>(</big><em>jid</em>, <em>password</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../errbot.backends.base/#errbot.backends.base.Connection" title="errbot.backends.base.Connection"><tt class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.Connection</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">errbot.backends.xmpp.</code><code class="descname">XMPPConnection</code><span class="sig-paren">(</span><em>jid</em>, <em>password</em>, <em>feature=None</em>, <em>keepalive=None</em>, <em>ca_cert=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPConnection.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>jid</em>, <em>password</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>jid</em>, <em>password</em>, <em>feature=None</em>, <em>keepalive=None</em>, <em>ca_cert=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPConnection.add_event_handler">
-<tt class="descname">add_event_handler</tt><big>(</big><em>name</em>, <em>cb</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.add_event_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.add_event_handler" title="Permalink to this definition">¶</a></dt>
+<code class="descname">add_event_handler</code><span class="sig-paren">(</span><em>name</em>, <em>cb</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.add_event_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.add_event_handler" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPConnection.configure_room">
-<tt class="descname">configure_room</tt><big>(</big><em>room</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.configure_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.configure_room" title="Permalink to this definition">¶</a></dt>
+<code class="descname">configure_room</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.configure_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.configure_room" title="Permalink to this definition">¶</a></dt>
 <dd><p>Configure the given MUC</p>
+<p>Currently this simply sets the default room configuration as
+received by the server. May be extended in the future to set
+a custom room configuration instead.</p>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 2.2.0: </span>Use the methods on <a class="reference internal" href="#errbot.backends.xmpp.XMPPMUCRoom" title="errbot.backends.xmpp.XMPPMUCRoom"><code class="xref py py-class docutils literal"><span class="pre">XMPPMUCRoom</span></code></a> instead.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.connect">
+<code class="descname">connect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.del_event_handler">
+<code class="descname">del_event_handler</code><span class="sig-paren">(</span><em>name</em>, <em>cb</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.del_event_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.del_event_handler" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.disconnect">
+<code class="descname">disconnect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.disconnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.disconnect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.invite_in_room">
+<code class="descname">invite_in_room</code><span class="sig-paren">(</span><em>room</em>, <em>jids_to_invite</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.invite_in_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.invite_in_room" title="Permalink to this definition">¶</a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 2.2.0: </span>Use the methods on <a class="reference internal" href="#errbot.backends.xmpp.XMPPMUCRoom" title="errbot.backends.xmpp.XMPPMUCRoom"><code class="xref py py-class docutils literal"><span class="pre">XMPPMUCRoom</span></code></a> instead.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.join_room">
+<code class="descname">join_room</code><span class="sig-paren">(</span><em>room</em>, <em>username</em>, <em>password</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.join_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.join_room" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempt to join the given MUC</p>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 2.2.0: </span>Use the methods on <a class="reference internal" href="#errbot.backends.xmpp.XMPPMUCRoom" title="errbot.backends.xmpp.XMPPMUCRoom"><code class="xref py py-class docutils literal"><span class="pre">XMPPMUCRoom</span></code></a> instead.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.serve_forever">
+<code class="descname">serve_forever</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.serve_forever"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.serve_forever" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.session_start">
+<code class="descname">session_start</code><span class="sig-paren">(</span><em>_</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.session_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.session_start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPConnection.ssl_invalid_cert">
+<code class="descname">ssl_invalid_cert</code><span class="sig-paren">(</span><em>_</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.ssl_invalid_cert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.ssl_invalid_cert" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.xmpp.XMPPMUCOccupant">
+<em class="property">class </em><code class="descclassname">errbot.backends.xmpp.</code><code class="descname">XMPPMUCOccupant</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPMUCOccupant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPMUCOccupant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.backends.base/#errbot.backends.base.MUCOccupant" title="errbot.backends.base.MUCOccupant"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.MUCOccupant</span></code></a></p>
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPMUCOccupant.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPMUCOccupant.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPMUCOccupant.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.xmpp.XMPPMUCRoom">
+<em class="property">class </em><code class="descclassname">errbot.backends.xmpp.</code><code class="descname">XMPPMUCRoom</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPMUCRoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPMUCRoom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.backends.base/#errbot.backends.base.MUCRoom" title="errbot.backends.base.MUCRoom"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.MUCRoom</span></code></a></p>
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPMUCRoom.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPMUCRoom.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPMUCRoom.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPMUCRoom.configure">
+<code class="descname">configure</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPMUCRoom.configure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPMUCRoom.configure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure the room.</p>
 <p>Currently this simply sets the default room configuration as
 received by the server. May be extended in the future to set
 a custom room configuration instead.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.xmpp.XMPPConnection.connect">
-<tt class="descname">connect</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.connect" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="errbot.backends.xmpp.XMPPConnection.del_event_handler">
-<tt class="descname">del_event_handler</tt><big>(</big><em>name</em>, <em>cb</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.del_event_handler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.del_event_handler" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="errbot.backends.xmpp.XMPPConnection.disconnect">
-<tt class="descname">disconnect</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.disconnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.disconnect" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="errbot.backends.xmpp.XMPPConnection.invite_in_room">
-<tt class="descname">invite_in_room</tt><big>(</big><em>room</em>, <em>jids_to_invite</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.invite_in_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.invite_in_room" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="errbot.backends.xmpp.XMPPConnection.join_room">
-<tt class="descname">join_room</tt><big>(</big><em>room</em>, <em>username</em>, <em>password</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.join_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.join_room" title="Permalink to this definition">¶</a></dt>
-<dd><p>Attempt to join the given MUC</p>
+<dt id="errbot.backends.xmpp.XMPPMUCRoom.create">
+<code class="descname">create</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPMUCRoom.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPMUCRoom.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Not supported on this back-end (SleekXMPP doesn't support it).
+Will join the room to ensure it exists, instead.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.xmpp.XMPPConnection.send_message">
-<tt class="descname">send_message</tt><big>(</big><em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.send_message" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="errbot.backends.xmpp.XMPPMUCRoom.destroy">
+<code class="descname">destroy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPMUCRoom.destroy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPMUCRoom.destroy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Destroy the room.</p>
+<p>Calling this on a non-existing room is a no-op.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.xmpp.XMPPMUCRoom.exists">
+<code class="descname">exists</code><a class="headerlink" href="#errbot.backends.xmpp.XMPPMUCRoom.exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean indicating whether this room already exists or not.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Getter:</th><td class="field-body">Returns <cite>True</cite> if the room exists, <cite>False</cite> otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.xmpp.XMPPConnection.serve_forever">
-<tt class="descname">serve_forever</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.serve_forever"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.serve_forever" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="errbot.backends.xmpp.XMPPMUCRoom.invite">
+<code class="descname">invite</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPMUCRoom.invite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPMUCRoom.invite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invite one or more people into the room.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">*argsargs:</th><td class="field-body">One or more JID's to invite into the room.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.xmpp.XMPPConnection.session_start">
-<tt class="descname">session_start</tt><big>(</big><em>_</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.session_start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.session_start" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="errbot.backends.xmpp.XMPPMUCRoom.join">
+<code class="descname">join</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPMUCRoom.join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPMUCRoom.join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Join the room.</p>
+<p>If the room does not exist yet, this will automatically call
+<a class="reference internal" href="#errbot.backends.xmpp.XMPPMUCRoom.create" title="errbot.backends.xmpp.XMPPMUCRoom.create"><code class="xref py py-meth docutils literal"><span class="pre">create()</span></code></a> on it first.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.xmpp.XMPPMUCRoom.joined">
+<code class="descname">joined</code><a class="headerlink" href="#errbot.backends.xmpp.XMPPMUCRoom.joined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean indicating whether this room has already been joined.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Getter:</th><td class="field-body">Returns <cite>True</cite> if the room has been joined, <cite>False</cite> otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.xmpp.XMPPConnection.ssl_invalid_cert">
-<tt class="descname">ssl_invalid_cert</tt><big>(</big><em>_</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPConnection.ssl_invalid_cert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPConnection.ssl_invalid_cert" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="errbot.backends.xmpp.XMPPMUCRoom.leave">
+<code class="descname">leave</code><span class="sig-paren">(</span><em>reason=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#XMPPMUCRoom.leave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPMUCRoom.leave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Leave the room.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>reason</strong> -- An optional string explaining the reason for leaving the room</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.xmpp.XMPPMUCRoom.occupants">
+<code class="descname">occupants</code><a class="headerlink" href="#errbot.backends.xmpp.XMPPMUCRoom.occupants" title="Permalink to this definition">¶</a></dt>
+<dd><p>The room's occupants.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Getter:</th><td class="field-body">Returns a list of <a class="reference internal" href="../errbot.backends.base/#errbot.backends.base.MUCOccupant" title="errbot.backends.base.MUCOccupant"><code class="xref py py-class docutils literal"><span class="pre">MUCOccupant</span></code></a> instances.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">MUCNotJoinedError</span></code> if the room has not yet been joined.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.xmpp.XMPPMUCRoom.topic">
+<code class="descname">topic</code><a class="headerlink" href="#errbot.backends.xmpp.XMPPMUCRoom.topic" title="Permalink to this definition">¶</a></dt>
+<dd><p>The room topic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Getter:</th><td class="field-body">Returns the topic (a string) if one is set, <cite>None</cite> if no
+topic has been set at all.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">RoomNotJoinedError</span></code> if the room has not yet been joined.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="errbot.backends.xmpp.verify_gtalk_cert">
-<tt class="descclassname">errbot.backends.xmpp.</tt><tt class="descname">verify_gtalk_cert</tt><big>(</big><em>xmpp_client</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/xmpp/#verify_gtalk_cert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.verify_gtalk_cert" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.backends.xmpp.</code><code class="descname">verify_gtalk_cert</code><span class="sig-paren">(</span><em>xmpp_client</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/xmpp/#verify_gtalk_cert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.verify_gtalk_cert" title="Permalink to this definition">¶</a></dt>
 <dd><p>Hack specific for google apps domains with SRV entries.
 It needs to fid the SSL certificate of google and not the one for your domain</p>
 </dd></dl>
@@ -270,7 +459,7 @@ It needs to fid the SSL certificate of google and not the one for your domain</p
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../" title="Back to home page">
         <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -299,12 +488,14 @@ It needs to fid the SSL certificate of google and not the one for your domain</p
         </ul>
         </li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/errbot.backends.xmpp.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/errbot.backends.xmpp.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search/" method="get">
       <input type="text" name="q" />
@@ -331,7 +522,7 @@ It needs to fid the SSL certificate of google and not the one for your domain</p
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -346,15 +537,15 @@ It needs to fid the SSL certificate of google and not the one for your domain</p
         <li class="right" >
           <a href="../errbot.backends.text/" title="errbot.backends.text module"
              >previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
-          <li><a href="../errbot.backends/" >errbot.backends package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.backends/" >errbot.backends package</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

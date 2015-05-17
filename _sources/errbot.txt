@@ -27,6 +27,7 @@ Submodules
    errbot.plugin_manager
    errbot.repos
    errbot.storage
+   errbot.streaming
    errbot.templating
    errbot.utils
    errbot.version

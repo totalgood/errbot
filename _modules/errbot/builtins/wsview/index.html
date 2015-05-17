@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.builtins.wsview &mdash; Err 2.1.0 documentation</title>
+    <title>errbot.builtins.wsview &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../../../../" />
-    <link rel="up" title="errbot" href="../../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../../../../" />
+    <link rel="up" title="Module code" href="../../../" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -56,11 +56,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -69,9 +69,8 @@
         <li class="right" >
           <a href="../../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../../../" >Module code</a> &raquo;</li>
-          <li><a href="../../" accesskey="U">errbot</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../../" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -79,7 +78,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for errbot.builtins.wsview</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">getmembers</span><span class="p">,</span> <span class="n">ismethod</span>
@@ -97,10 +96,10 @@
 <div class="viewcode-block" id="DynamicBottle"><a class="viewcode-back" href="../../../../errbot.builtins.wsview/#errbot.builtins.wsview.DynamicBottle">[docs]</a><span class="k">class</span> <span class="nc">DynamicBottle</span><span class="p">(</span><span class="n">Bottle</span><span class="p">):</span>
 <div class="viewcode-block" id="DynamicBottle.del_route"><a class="viewcode-back" href="../../../../errbot.builtins.wsview/#errbot.builtins.wsview.DynamicBottle.del_route">[docs]</a>    <span class="k">def</span> <span class="nf">del_route</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">route_name</span><span class="p">):</span>
         <span class="n">deleted_route</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="k">for</span> <span class="n">route</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">routes</span><span class="p">[:]:</span>
-            <span class="k">if</span> <span class="n">route</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">route_name</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">route</span><span class="p">)</span>
-                <span class="n">deleted_route</span> <span class="o">=</span> <span class="n">route</span>
+        <span class="k">for</span> <span class="n">route_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">routes</span><span class="p">[:]:</span>
+            <span class="k">if</span> <span class="n">route_</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">route_name</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">route_</span><span class="p">)</span>
+                <span class="n">deleted_route</span> <span class="o">=</span> <span class="n">route_</span>
                 <span class="k">break</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">deleted_route</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;Cannot find the route </span><span class="si">%s</span><span class="s"> to delete&#39;</span> <span class="o">%</span> <span class="n">route_name</span><span class="p">)</span>
@@ -112,8 +111,8 @@
 <span class="n">route</span> <span class="o">=</span> <span class="n">bottle_app</span><span class="o">.</span><span class="n">route</span>  <span class="c"># make that the default</span>
 
 
-<div class="viewcode-block" id="try_decode_json"><a class="viewcode-back" href="../../../../errbot.builtins.wsview/#errbot.builtins.wsview.try_decode_json">[docs]</a><span class="k">def</span> <span class="nf">try_decode_json</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+<div class="viewcode-block" id="try_decode_json"><a class="viewcode-back" href="../../../../errbot.builtins.wsview/#errbot.builtins.wsview.try_decode_json">[docs]</a><span class="k">def</span> <span class="nf">try_decode_json</span><span class="p">(</span><span class="n">req</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
@@ -134,7 +133,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">raw</span> <span class="o">=</span> <span class="n">raw</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">form_param</span> <span class="o">=</span> <span class="n">form_param</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">method_filter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="nb">object</span><span class="p">:</span> <span class="n">ismethod</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">__name__</span> <span class="o">==</span> <span class="nb">object</span><span class="o">.</span><span class="n">__name__</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method_filter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="n">ismethod</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">__name__</span> <span class="o">==</span> <span class="n">obj</span><span class="o">.</span><span class="n">__name__</span>
 </div>
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">name_to_find</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">__name__</span>
@@ -180,7 +179,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../../" title="Back to home page">
         <img class="logo" src="../../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -199,15 +198,10 @@
         <li>
         <a href="../../../">Module code</a>
         <ul>
-        <li>
-        <a href="../../">errbot</a>
-        <ul>
-        </ul>
-        </li>
         </ul>
         </li>
 </ul>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../../search/" method="get">
       <input type="text" name="q" />
@@ -234,7 +228,7 @@
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -243,15 +237,14 @@
         <li class="right" >
           <a href="../../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../../../" >Module code</a> &raquo;</li>
-          <li><a href="../../" >errbot</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../../" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

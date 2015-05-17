@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.utils module &mdash; Err 2.1.0 documentation</title>
+    <title>errbot.utils module &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../" />
     <link rel="up" title="errbot package" href="../errbot/" />
     <link rel="next" title="errbot.version module" href="../errbot.version/" />
     <link rel="prev" title="errbot.templating module" href="../errbot.templating/" />
@@ -58,11 +58,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -77,8 +77,8 @@
         <li class="right" >
           <a href="../errbot.templating/" title="errbot.templating module"
              accesskey="P">previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" accesskey="U">errbot package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" accesskey="U">errbot package</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -86,76 +86,95 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-errbot.utils">
 <span id="errbot-utils-module"></span><h1>errbot.utils module<a class="headerlink" href="#module-errbot.utils" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="errbot.utils.RateLimited">
-<tt class="descclassname">errbot.utils.</tt><tt class="descname">RateLimited</tt><big>(</big><em>minInterval</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#RateLimited"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.RateLimited" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.utils.</code><code class="descname">RateLimited</code><span class="sig-paren">(</span><em>minInterval</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#RateLimited"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.RateLimited" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="exception">
 <dt id="errbot.utils.ValidationException">
-<em class="property">exception </em><tt class="descclassname">errbot.utils.</tt><tt class="descname">ValidationException</tt><a class="reference internal" href="../_modules/errbot/utils/#ValidationException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.ValidationException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.Exception</span></tt></p>
+<em class="property">exception </em><code class="descclassname">errbot.utils.</code><code class="descname">ValidationException</code><a class="reference internal" href="../_modules/errbot/utils/#ValidationException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.ValidationException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.utils.deprecated">
+<em class="property">class </em><code class="descclassname">errbot.utils.</code><code class="descname">deprecated</code><span class="sig-paren">(</span><em>new=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#deprecated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.deprecated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>deprecated decorator. emits a warning on a call on an old method and call the new method anyway</p>
+<dl class="method">
+<dt id="errbot.utils.deprecated.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>new=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#deprecated.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.deprecated.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="function">
 <dt id="errbot.utils.drawbar">
-<tt class="descclassname">errbot.utils.</tt><tt class="descname">drawbar</tt><big>(</big><em>value</em>, <em>max</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#drawbar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.drawbar" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.utils.</code><code class="descname">drawbar</code><span class="sig-paren">(</span><em>value</em>, <em>max</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#drawbar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.drawbar" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="errbot.utils.format_timedelta">
-<tt class="descclassname">errbot.utils.</tt><tt class="descname">format_timedelta</tt><big>(</big><em>timedelta</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#format_timedelta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.format_timedelta" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.utils.</code><code class="descname">format_timedelta</code><span class="sig-paren">(</span><em>timedelta</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#format_timedelta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.format_timedelta" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="errbot.utils.get_class_for_method">
-<tt class="descclassname">errbot.utils.</tt><tt class="descname">get_class_for_method</tt><big>(</big><em>meth</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#get_class_for_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.get_class_for_method" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.utils.</code><code class="descname">get_class_for_method</code><span class="sig-paren">(</span><em>meth</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#get_class_for_method"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.get_class_for_method" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="errbot.utils.get_sender_username">
-<tt class="descclassname">errbot.utils.</tt><tt class="descname">get_sender_username</tt><big>(</big><em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#get_sender_username"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.get_sender_username" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.utils.</code><code class="descname">get_sender_username</code><span class="sig-paren">(</span><em>mess</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#get_sender_username"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.get_sender_username" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract the sender's user name from a message</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="errbot.utils.human_name_for_git_url">
-<tt class="descclassname">errbot.utils.</tt><tt class="descname">human_name_for_git_url</tt><big>(</big><em>url</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#human_name_for_git_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.human_name_for_git_url" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.utils.</code><code class="descname">human_name_for_git_url</code><span class="sig-paren">(</span><em>url</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#human_name_for_git_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.human_name_for_git_url" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="errbot.utils.mess_2_embeddablehtml">
-<tt class="descclassname">errbot.utils.</tt><tt class="descname">mess_2_embeddablehtml</tt><big>(</big><em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#mess_2_embeddablehtml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.mess_2_embeddablehtml" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.utils.</code><code class="descname">mess_2_embeddablehtml</code><span class="sig-paren">(</span><em>mess</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#mess_2_embeddablehtml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.mess_2_embeddablehtml" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="errbot.utils.parse_jid">
-<tt class="descclassname">errbot.utils.</tt><tt class="descname">parse_jid</tt><big>(</big><em>jid</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#parse_jid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.parse_jid" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.utils.</code><code class="descname">parse_jid</code><span class="sig-paren">(</span><em>jid</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#parse_jid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.parse_jid" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="errbot.utils.recurse_check_structure">
-<tt class="descclassname">errbot.utils.</tt><tt class="descname">recurse_check_structure</tt><big>(</big><em>sample</em>, <em>to_check</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#recurse_check_structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.recurse_check_structure" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.utils.</code><code class="descname">recurse_check_structure</code><span class="sig-paren">(</span><em>sample</em>, <em>to_check</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#recurse_check_structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.recurse_check_structure" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
+<dt id="errbot.utils.repeatfunc">
+<code class="descclassname">errbot.utils.</code><code class="descname">repeatfunc</code><span class="sig-paren">(</span><em>func</em>, <em>times=None</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#repeatfunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.repeatfunc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Repeat calls to func with specified arguments.</p>
+<p>Example:  repeatfunc(random.random)</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="errbot.utils.split_string_after">
-<tt class="descclassname">errbot.utils.</tt><tt class="descname">split_string_after</tt><big>(</big><em>str_</em>, <em>n</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#split_string_after"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.split_string_after" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.utils.</code><code class="descname">split_string_after</code><span class="sig-paren">(</span><em>str_</em>, <em>n</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#split_string_after"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.split_string_after" title="Permalink to this definition">¶</a></dt>
 <dd><p>Yield chunks of length <cite>n</cite> from the given string</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="errbot.utils.tail">
-<tt class="descclassname">errbot.utils.</tt><tt class="descname">tail</tt><big>(</big><em>f</em>, <em>window=20</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#tail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.tail" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.utils.</code><code class="descname">tail</code><span class="sig-paren">(</span><em>f</em>, <em>window=20</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#tail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.tail" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="errbot.utils.unescape_xml">
-<tt class="descclassname">errbot.utils.</tt><tt class="descname">unescape_xml</tt><big>(</big><em>text</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#unescape_xml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.unescape_xml" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.utils.</code><code class="descname">unescape_xml</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#unescape_xml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.unescape_xml" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes HTML or XML character references and entities from a text string.
 &#64;param text The HTML (or XML) source text.
 &#64;return The plain text, as a Unicode string, if necessary.</p>
@@ -163,22 +182,22 @@
 
 <dl class="function">
 <dt id="errbot.utils.utf8">
-<tt class="descclassname">errbot.utils.</tt><tt class="descname">utf8</tt><big>(</big><em>key</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#utf8"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.utf8" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.utils.</code><code class="descname">utf8</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#utf8"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.utf8" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="errbot.utils.version2array">
-<tt class="descclassname">errbot.utils.</tt><tt class="descname">version2array</tt><big>(</big><em>version</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#version2array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.version2array" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.utils.</code><code class="descname">version2array</code><span class="sig-paren">(</span><em>version</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#version2array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.version2array" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="errbot.utils.which">
-<tt class="descclassname">errbot.utils.</tt><tt class="descname">which</tt><big>(</big><em>program</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#which"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.which" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.utils.</code><code class="descname">which</code><span class="sig-paren">(</span><em>program</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#which"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.which" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="errbot.utils.xhtml2txt">
-<tt class="descclassname">errbot.utils.</tt><tt class="descname">xhtml2txt</tt><big>(</big><em>xhtml</em><big>)</big><a class="reference internal" href="../_modules/errbot/utils/#xhtml2txt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.xhtml2txt" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.utils.</code><code class="descname">xhtml2txt</code><span class="sig-paren">(</span><em>xhtml</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/utils/#xhtml2txt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.xhtml2txt" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -198,7 +217,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../" title="Back to home page">
         <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -222,12 +241,14 @@
         </ul>
         </li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/errbot.utils.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/errbot.utils.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search/" method="get">
       <input type="text" name="q" />
@@ -254,7 +275,7 @@
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -269,14 +290,14 @@
         <li class="right" >
           <a href="../errbot.templating/" title="errbot.templating module"
              >previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" >errbot package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

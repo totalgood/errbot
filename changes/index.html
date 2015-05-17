@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Release history &mdash; Err 2.1.0 documentation</title>
+    <title>Release history &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../" />
     <link rel="prev" title="errbot.version module" href="../errbot.version/" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
@@ -56,11 +56,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -72,7 +72,7 @@
         <li class="right" >
           <a href="../errbot.version/" title="errbot.version module"
              accesskey="P">previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -80,10 +80,57 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="release-history">
 <h1>Release history<a class="headerlink" href="#release-history" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="version-2-2-1-2015-05-16">
+<h2>Version 2.2.1 (2015-05-16)<a class="headerlink" href="#version-2-2-1-2015-05-16" title="Permalink to this headline">¶</a></h2>
+<p>Bug fixed:</p>
+<ul class="simple">
+<li>hipchat keepalive</li>
+</ul>
+</div>
+<div class="section" id="version-2-2-0-2015-05-16">
+<h2>Version 2.2.0 (2015-05-16)<a class="headerlink" href="#version-2-2-0-2015-05-16" title="Permalink to this headline">¶</a></h2>
+<p>New features:</p>
+<ul class="simple">
+<li>New AUTOINSTALL_DEPS config to autoinstall the dependencies required for plugins</li>
+</ul>
+<p>Bug fixed:</p>
+<ul class="simple">
+<li>Don't 3to2 the config template</li>
+<li>version pinned yapsy because of an incompatibility with the last version</li>
+<li>added timeout to the version check builtin</li>
+</ul>
+</div>
+<div class="section" id="version-2-2-0-beta-2015-02-16">
+<h2>Version 2.2.0-beta (2015-02-16)<a class="headerlink" href="#version-2-2-0-beta-2015-02-16" title="Permalink to this headline">¶</a></h2>
+<p>New features:</p>
+<ul class="simple">
+<li>New serverless tox backend (see <a class="reference external" href="http://tox.im">http://tox.im</a> for more info)</li>
+<li>New Presence callbacks with status messages etc.</li>
+<li>New file transfert support (upload and downloads) for selected backends</li>
+<li>New MUC management API</li>
+<li>added err-githubhook to the official repo list (thx Daniele Sluijters)</li>
+<li>added err-linksBot to the official repo list (thx Arnaud Vazard)</li>
+<li>added err-stash to the official repo list (thx Charles Gomes)</li>
+<li>shlex.split on split_args_with</li>
+<li>improved !status command (Thx Sijis Aviles)</li>
+<li>colorized log output</li>
+<li>configuration access improvements, it is now a property accessible from the plugins (self.bot_configuration) and the backends.</li>
+<li>bot can optionally name people it replies to in mucs with local conventions toto: or &#64;toto etc... (thx Sijis Aviles)</li>
+</ul>
+<p>Bug fixed:</p>
+<ul class="simple">
+<li>complete pass &amp; fixes with a static analyser</li>
+<li>better feedback when config.py is borken</li>
+<li>hipchat has been rewritten and goes through the API</li>
+<li>more consistency on properties versus setters/getters</li>
+<li>mac osx fixes (thx Andrii Kostenko)</li>
+<li>unicode fix on irc backend (thx Sijis Aviles)</li>
+</ul>
+</div>
 <div class="section" id="version-2-1-0-2014-07-24">
 <h2>Version 2.1.0 (2014-07-24)<a class="headerlink" href="#version-2-1-0-2014-07-24" title="Permalink to this headline">¶</a></h2>
 <p>New features:</p>
@@ -547,7 +594,7 @@ err-tourney</li>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../" title="Back to home page">
         <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -561,6 +608,9 @@ err-tourney</li>
   <h3><a href="../">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Release history</a><ul>
+<li><a class="reference internal" href="#version-2-2-1-2015-05-16">Version 2.2.1 (2015-05-16)</a></li>
+<li><a class="reference internal" href="#version-2-2-0-2015-05-16">Version 2.2.0 (2015-05-16)</a></li>
+<li><a class="reference internal" href="#version-2-2-0-beta-2015-02-16">Version 2.2.0-beta (2015-02-16)</a></li>
 <li><a class="reference internal" href="#version-2-1-0-2014-07-24">Version 2.1.0 (2014-07-24)</a></li>
 <li><a class="reference internal" href="#version-2-0-0-2014-01-05">Version 2.0.0 (2014-01-05)</a></li>
 <li><a class="reference internal" href="#version-2-0-0-rc2-2013-11-28">Version 2.0.0-rc2 (2013-11-28)</a></li>
@@ -599,12 +649,14 @@ err-tourney</li>
     <li><a href="../modules/">API reference</a></li>
         <li>Previous: <a href="../errbot.version/" title="previous chapter">errbot.version module</a></li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/changes.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/changes.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search/" method="get">
       <input type="text" name="q" />
@@ -631,7 +683,7 @@ err-tourney</li>
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -643,13 +695,13 @@ err-tourney</li>
         <li class="right" >
           <a href="../errbot.version/" title="errbot.version module"
              >previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

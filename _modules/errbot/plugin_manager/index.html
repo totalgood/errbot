@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.plugin_manager &mdash; Err 2.1.0 documentation</title>
+    <title>errbot.plugin_manager &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../../../" />
-    <link rel="up" title="errbot" href="../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../../../" />
+    <link rel="up" title="Module code" href="../../" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -56,11 +56,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -69,9 +69,8 @@
         <li class="right" >
           <a href="../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../../" >Module code</a> &raquo;</li>
-          <li><a href="../" accesskey="U">errbot</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -79,28 +78,33 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for errbot.plugin_manager</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">configparser</span> <span class="kn">import</span> <span class="n">NoSectionError</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+<span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">import</span> <span class="nn">fnmatch</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">PY2</span>
-<span class="kn">from</span> <span class="nn">errbot.botplugin</span> <span class="kn">import</span> <span class="n">BotPlugin</span>
-<span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">version2array</span><span class="p">,</span> <span class="n">PY3</span>
-<span class="kn">from</span> <span class="nn">errbot.templating</span> <span class="kn">import</span> <span class="n">remove_plugin_templates_path</span><span class="p">,</span> <span class="n">add_plugin_templates_path</span>
-<span class="kn">from</span> <span class="nn">errbot.version</span> <span class="kn">import</span> <span class="n">VERSION</span>
+<span class="kn">import</span> <span class="nn">pip</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">PY2</span>
+<span class="kn">from</span> <span class="nn">.botplugin</span> <span class="kn">import</span> <span class="n">BotPlugin</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">version2array</span><span class="p">,</span> <span class="n">PY3</span>
+<span class="kn">from</span> <span class="nn">.templating</span> <span class="kn">import</span> <span class="n">remove_plugin_templates_path</span><span class="p">,</span> <span class="n">add_plugin_templates_path</span>
+<span class="kn">from</span> <span class="nn">.version</span> <span class="kn">import</span> <span class="n">VERSION</span>
 <span class="kn">from</span> <span class="nn">yapsy.PluginManager</span> <span class="kn">import</span> <span class="n">PluginManager</span>
-<span class="kn">from</span> <span class="nn">imp</span> <span class="kn">import</span> <span class="nb">reload</span>
 
 <span class="c"># hardcoded directory for the system plugins</span>
-<span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">holder</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">holder</span>
 
-<span class="n">BUILTIN</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)))</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="s">&#39;builtins&#39;</span>
-<span class="k">if</span> <span class="n">PY2</span><span class="p">:</span>  <span class="c"># keys needs to be byte strings en shelves under python 2</span>
-    <span class="n">BUILTIN</span> <span class="o">=</span> <span class="n">BUILTIN</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+<span class="n">BUILTIN</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)),</span> <span class="s">&#39;builtins&#39;</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">importlib</span> <span class="kn">import</span> <span class="nb">reload</span>  <span class="c"># new in python 3.4</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">imp</span> <span class="kn">import</span> <span class="nb">reload</span>
 
 
 <div class="viewcode-block" id="IncompatiblePluginException"><a class="viewcode-back" href="../../../errbot.plugin_manager/#errbot.plugin_manager.IncompatiblePluginException">[docs]</a><span class="k">class</span> <span class="nc">IncompatiblePluginException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
@@ -111,21 +115,35 @@
     <span class="k">pass</span>
 
 </div>
-<div class="viewcode-block" id="get_builtins"><a class="viewcode-back" href="../../../errbot.plugin_manager/#errbot.plugin_manager.get_builtins">[docs]</a><span class="k">def</span> <span class="nf">get_builtins</span><span class="p">(</span><span class="n">extra</span><span class="p">):</span>
+<div class="viewcode-block" id="find_plugin_roots"><a class="viewcode-back" href="../../../errbot.plugin_manager/#errbot.plugin_manager.find_plugin_roots">[docs]</a><span class="k">def</span> <span class="nf">find_plugin_roots</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Recursively find the plugins from the given path.</span>
+<span class="sd">    It is usefull so you can give a root directory of checked out plugins and</span>
+<span class="sd">    it will discover them automatically.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plugin_roots</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>  <span class="c"># you can have several .plug per directory.</span>
+    <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">fnmatch</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="s">&#39;*.plug&#39;</span><span class="p">):</span>
+            <span class="n">plugin_roots</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">filename</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">plugin_roots</span>
+
+</div>
+<div class="viewcode-block" id="get_preloaded_plugins"><a class="viewcode-back" href="../../../errbot.plugin_manager/#errbot.plugin_manager.get_preloaded_plugins">[docs]</a><span class="k">def</span> <span class="nf">get_preloaded_plugins</span><span class="p">(</span><span class="n">extra</span><span class="p">):</span>
     <span class="c"># adds the extra plugin dir from the setup for developers convenience</span>
+    <span class="n">all_builtins_and_extra</span> <span class="o">=</span> <span class="p">[</span><span class="n">BUILTIN</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">extra</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">extra</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">[</span><span class="n">BUILTIN</span><span class="p">]</span> <span class="o">+</span> <span class="n">extra</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">BUILTIN</span><span class="p">,</span> <span class="n">extra</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">BUILTIN</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">extra</span><span class="p">:</span>
+                <span class="n">all_builtins_and_extra</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">find_plugin_roots</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">all_builtins_and_extra</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">find_plugin_roots</span><span class="p">(</span><span class="n">extra</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">all_builtins_and_extra</span>
 
 </div>
 <div class="viewcode-block" id="init_plugin_manager"><a class="viewcode-back" href="../../../errbot.plugin_manager/#errbot.plugin_manager.init_plugin_manager">[docs]</a><span class="k">def</span> <span class="nf">init_plugin_manager</span><span class="p">():</span>
     <span class="k">global</span> <span class="n">simplePluginManager</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">holder</span><span class="o">.</span><span class="n">plugin_manager</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;init plugin manager&#39;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;init plugin manager&#39;</span><span class="p">)</span>
         <span class="n">simplePluginManager</span> <span class="o">=</span> <span class="n">PluginManager</span><span class="p">(</span><span class="n">categories_filter</span><span class="o">=</span><span class="p">{</span><span class="s">&quot;bots&quot;</span><span class="p">:</span> <span class="n">BotPlugin</span><span class="p">})</span>
         <span class="n">simplePluginManager</span><span class="o">.</span><span class="n">setPluginInfoExtension</span><span class="p">(</span><span class="s">&#39;plug&#39;</span><span class="p">)</span>
         <span class="n">holder</span><span class="o">.</span><span class="n">plugin_manager</span> <span class="o">=</span> <span class="n">simplePluginManager</span>
@@ -254,17 +272,36 @@
     <span class="n">plugin</span><span class="o">.</span><span class="n">plugin_object</span><span class="o">.</span><span class="n">__class__</span> <span class="o">=</span> <span class="n">new_class</span>
 
 </div>
-<div class="viewcode-block" id="update_plugin_places"><a class="viewcode-back" href="../../../errbot.plugin_manager/#errbot.plugin_manager.update_plugin_places">[docs]</a><span class="k">def</span> <span class="nf">update_plugin_places</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">BOT_EXTRA_PLUGIN_DIR</span>
+<div class="viewcode-block" id="install_package"><a class="viewcode-back" href="../../../errbot.plugin_manager/#errbot.plugin_manager.install_package">[docs]</a><span class="k">def</span> <span class="nf">install_package</span><span class="p">(</span><span class="n">package</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="s">&#39;real_prefix&#39;</span><span class="p">):</span>
+        <span class="c"># this is a virtualenv, so we can use it directly</span>
+        <span class="n">pip</span><span class="o">.</span><span class="n">main</span><span class="p">([</span><span class="s">&#39;install&#39;</span><span class="p">,</span> <span class="n">package</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># otherwise only install it as a user package</span>
+        <span class="n">pip</span><span class="o">.</span><span class="n">main</span><span class="p">([</span><span class="s">&#39;install&#39;</span><span class="p">,</span> <span class="s">&#39;--user&#39;</span><span class="p">,</span> <span class="n">package</span><span class="p">])</span>
+    <span class="nb">globals</span><span class="p">()[</span><span class="n">package</span><span class="p">]</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
 
-    <span class="n">builtins</span> <span class="o">=</span> <span class="n">get_builtins</span><span class="p">(</span><span class="n">BOT_EXTRA_PLUGIN_DIR</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">(</span><span class="n">builtins</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+</div>
+<div class="viewcode-block" id="update_plugin_places"><a class="viewcode-back" href="../../../errbot.plugin_manager/#errbot.plugin_manager.update_plugin_places">[docs]</a><span class="k">def</span> <span class="nf">update_plugin_places</span><span class="p">(</span><span class="n">path_list</span><span class="p">,</span> <span class="n">extra_plugin_dir</span><span class="p">,</span> <span class="n">autoinstall_deps</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="n">builtins</span> <span class="o">=</span> <span class="n">get_preloaded_plugins</span><span class="p">(</span><span class="n">extra_plugin_dir</span><span class="p">)</span>
+    <span class="n">paths</span> <span class="o">=</span> <span class="n">builtins</span> <span class="o">+</span> <span class="n">path_list</span>
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">entry</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>  <span class="c"># so the plugins can relatively import their submodules</span>
-
-    <span class="n">errors</span> <span class="o">=</span> <span class="p">[</span><span class="n">check_dependencies</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">]</span>
-    <span class="n">errors</span> <span class="o">=</span> <span class="p">[</span><span class="n">error</span> <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">errors</span> <span class="k">if</span> <span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
-    <span class="n">simplePluginManager</span><span class="o">.</span><span class="n">setPluginPlaces</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="n">builtins</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>  <span class="c"># so plugins can relatively import their submodules</span>
+    <span class="n">dependencies_result</span> <span class="o">=</span> <span class="p">[</span><span class="n">check_dependencies</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">]</span>
+    <span class="n">deps_to_install</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">autoinstall_deps</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">dependencies_result</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+                <span class="n">deps_to_install</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">deps_to_install</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">deps_to_install</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Trying to install an unmet dependency: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">dep</span><span class="p">)</span>
+                <span class="n">install_package</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">dependencies_result</span> <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
+    <span class="n">simplePluginManager</span><span class="o">.</span><span class="n">setPluginPlaces</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="n">builtins</span><span class="p">,</span> <span class="n">path_list</span><span class="p">))</span>
     <span class="n">all_candidates</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">def</span> <span class="nf">add_candidate</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
@@ -308,6 +345,10 @@
 
 </div>
 <div class="viewcode-block" id="check_dependencies"><a class="viewcode-back" href="../../../errbot.plugin_manager/#errbot.plugin_manager.check_dependencies">[docs]</a><span class="k">def</span> <span class="nf">check_dependencies</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This methods returns a pair of (message, packages missing).</span>
+<span class="sd">    Or None if everything is OK.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;check dependencies of </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
     <span class="c"># noinspection PyBroadException</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">get_distribution</span>
@@ -326,10 +367,11 @@
                 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
                     <span class="n">missing_pkg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stripped</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">missing_pkg</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">(</span><span class="s">&#39;You need those dependencies for </span><span class="si">%s</span><span class="s">: &#39;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing_pkg</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">((</span><span class="s">&#39;You need those dependencies for </span><span class="si">%s</span><span class="s">: &#39;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing_pkg</span><span class="p">),</span>
+                    <span class="n">missing_pkg</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">None</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s">&#39;You need to have setuptools installed for the dependency check of the plugins&#39;</span></div>
+        <span class="k">return</span> <span class="p">(</span><span class="s">&#39;You need to have setuptools installed for the dependency check of the plugins&#39;</span><span class="p">,</span> <span class="p">[])</span></div>
 </pre></div>
   <div id="prev_next_links">
       
@@ -341,7 +383,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../" title="Back to home page">
         <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -360,15 +402,10 @@
         <li>
         <a href="../../">Module code</a>
         <ul>
-        <li>
-        <a href="../">errbot</a>
-        <ul>
-        </ul>
-        </li>
         </ul>
         </li>
 </ul>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search/" method="get">
       <input type="text" name="q" />
@@ -395,7 +432,7 @@
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -404,15 +441,14 @@
         <li class="right" >
           <a href="../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../../" >Module code</a> &raquo;</li>
-          <li><a href="../" >errbot</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

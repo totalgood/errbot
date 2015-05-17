@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>4. Advanced bot commands &mdash; Err 2.1.0 documentation</title>
+    <title>4. Advanced bot commands &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../../../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../../../" />
     <link rel="up" title="Plugin development" href="../" />
     <link rel="next" title="5. Messaging" href="../messaging/" />
     <link rel="prev" title="3. Hello, world!" href="../basics/" />
@@ -58,11 +58,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -77,8 +77,8 @@
         <li class="right" >
           <a href="../basics/" title="3. Hello, world!"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../" accesskey="U">Plugin development</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../" accesskey="U">Plugin development</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -86,16 +86,16 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="advanced-bot-commands">
 <h1>4. Advanced bot commands<a class="headerlink" href="#advanced-bot-commands" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="automatic-argument-splitting">
 <h2>4.1. Automatic argument splitting<a class="headerlink" href="#automatic-argument-splitting" title="Permalink to this headline">¶</a></h2>
-<p>With the <cite>split_args_with</cite> argument to <a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.botcmd" title="errbot.decorators.botcmd"><tt class="xref py py-func docutils literal"><span class="pre">botcmd()</span></tt></a>,
+<p>With the <cite>split_args_with</cite> argument to <a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.botcmd" title="errbot.decorators.botcmd"><code class="xref py py-func docutils literal"><span class="pre">botcmd()</span></code></a>,
 you can specify a delimiter of the arguments and it will give you an
 array of strings instead of a string:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@botcmd</span><span class="p">(</span><span class="n">split_args_with</span><span class="o">=</span><span class="s">&#39; &#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@botcmd</span><span class="p">(</span><span class="n">split_args_with</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="c"># if you send it !action one two three</span>
     <span class="c"># args will be [&#39;one&#39;, &#39;two&#39;, &#39;three&#39;]</span>
@@ -103,10 +103,11 @@ array of strings instead of a string:</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><cite>split_args_with</cite> behaves exactly like <tt class="xref py py-func docutils literal"><span class="pre">str.split()</span></tt>, so you
-can use the value <cite>None</cite> to split on any type of whitespace, such
+<p class="last"><cite>split_args_with</cite> behaves exactly like <code class="xref py py-func docutils literal"><span class="pre">str.split()</span></code>, therefore
+the value <cite>None</cite> can be used to split on any type of whitespace, such
 as multiple spaces, tabs, etc. This is recommended over <cite>' '</cite> for
-general use cases.</p>
+general use cases but you're free to use whatever argument you see
+fit.</p>
 </div>
 </div>
 <div class="section" id="subcommands">
@@ -132,14 +133,21 @@ that belong to each other together.</p>
 </div>
 <div class="section" id="commands-using-regular-expressions">
 <h2>4.3. Commands using regular expressions<a class="headerlink" href="#commands-using-regular-expressions" title="Permalink to this headline">¶</a></h2>
-<p>In addition to the fixed commands created with the <a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.botcmd" title="errbot.decorators.botcmd"><tt class="xref py py-func docutils literal"><span class="pre">botcmd()</span></tt></a>
+<p>In addition to the fixed commands created with the <a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.botcmd" title="errbot.decorators.botcmd"><code class="xref py py-func docutils literal"><span class="pre">botcmd()</span></code></a>
 decorator, Err supports an alternative type of bot function which can be triggered
 based on a regular expression. These are created using the
-<a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.re_botcmd" title="errbot.decorators.re_botcmd"><tt class="xref py py-func docutils literal"><span class="pre">re_botcmd()</span></tt></a> decorator. There are two forms these can be
+<a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.re_botcmd" title="errbot.decorators.re_botcmd"><code class="xref py py-func docutils literal"><span class="pre">re_botcmd()</span></code></a> decorator. There are two forms these can be
 used, with and without the usual bot prefix.</p>
 <p>In both cases, your method will receive the message object same as with a regular
-<a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.botcmd" title="errbot.decorators.botcmd"><tt class="xref py py-func docutils literal"><span class="pre">botcmd()</span></tt></a>, but instead of an <cite>args</cite> parameter, it takes
-a <cite>match</cite> parameter which will receive an <tt class="xref py py-class docutils literal"><span class="pre">re.MatchObject</span></tt>.</p>
+<a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.botcmd" title="errbot.decorators.botcmd"><code class="xref py py-func docutils literal"><span class="pre">botcmd()</span></code></a>, but instead of an <cite>args</cite> parameter, it takes
+a <cite>match</cite> parameter which will receive an <code class="xref py py-class docutils literal"><span class="pre">re.MatchObject</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">By default, only the first occurrence of a match is returned, even if it can
+match multiple parts of the message. If you specify <cite>matchall=True</cite>, you will
+instead get a list of <code class="xref py py-class docutils literal"><span class="pre">re.MatchObject</span></code> items, containing all the
+non-overlapping matches that were found in the message.</p>
+</div>
 <div class="section" id="with-a-bot-prefix">
 <h3>4.3.1. With a bot prefix<a class="headerlink" href="#with-a-bot-prefix" title="Permalink to this headline">¶</a></h3>
 <p>You can define commands that trigger based on a regular expression, but still
@@ -176,7 +184,7 @@ ask for cookies:</p>
 <div class="section" id="without-a-bot-prefix">
 <h3>4.3.2. Without a bot prefix<a class="headerlink" href="#without-a-bot-prefix" title="Permalink to this headline">¶</a></h3>
 <p>It's also possible to trigger commands even when no bot prefix is specified,
-by passing <cite>prefixed=False</cite> to the <a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.re_botcmd" title="errbot.decorators.re_botcmd"><tt class="xref py py-func docutils literal"><span class="pre">re_botcmd()</span></tt></a>
+by passing <cite>prefixed=False</cite> to the <a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.re_botcmd" title="errbot.decorators.re_botcmd"><code class="xref py py-func docutils literal"><span class="pre">re_botcmd()</span></code></a>
 decorator. This is especially useful if you want to trigger on specific
 keywords that could show up anywhere in a conversation:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">re</span>
@@ -210,7 +218,7 @@ keywords that could show up anywhere in a conversation:</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../" title="Back to home page">
         <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -248,12 +256,14 @@ keywords that could show up anywhere in a conversation:</p>
         </ul>
         </li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../../../_sources/user_guide/plugin_development/botcommands.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/user_guide/plugin_development/botcommands.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search/" method="get">
       <input type="text" name="q" />
@@ -280,7 +290,7 @@ keywords that could show up anywhere in a conversation:</p>
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -295,14 +305,14 @@ keywords that could show up anywhere in a conversation:</p>
         <li class="right" >
           <a href="../basics/" title="3. Hello, world!"
              >previous</a> |</li>
-        <li><a href="../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../" >Plugin development</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../" >Plugin development</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

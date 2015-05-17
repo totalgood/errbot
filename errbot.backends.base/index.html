@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.base module &mdash; Err 2.1.0 documentation</title>
+    <title>errbot.backends.base module &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../" />
     <link rel="up" title="errbot.backends package" href="../errbot.backends/" />
     <link rel="next" title="errbot.backends.hipchat module" href="../errbot.backends.hipchat/" />
     <link rel="prev" title="errbot.backends package" href="../errbot.backends/" />
@@ -58,11 +58,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -77,9 +77,9 @@
         <li class="right" >
           <a href="../errbot.backends/" title="errbot.backends package"
              accesskey="P">previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
-          <li><a href="../errbot.backends/" accesskey="U">errbot.backends package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.backends/" accesskey="U">errbot.backends package</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -87,57 +87,47 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-errbot.backends.base">
 <span id="errbot-backends-base-module"></span><h1>errbot.backends.base module<a class="headerlink" href="#module-errbot.backends.base" title="Permalink to this headline">¶</a></h1>
 <dl class="exception">
 <dt id="errbot.backends.base.ACLViolation">
-<em class="property">exception </em><tt class="descclassname">errbot.backends.base.</tt><tt class="descname">ACLViolation</tt><a class="reference internal" href="../_modules/errbot/backends/base/#ACLViolation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.ACLViolation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.Exception</span></tt></p>
+<em class="property">exception </em><code class="descclassname">errbot.backends.base.</code><code class="descname">ACLViolation</code><a class="reference internal" href="../_modules/errbot/backends/base/#ACLViolation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.ACLViolation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
 <p>Exceptions raised when user is not allowed to execute given command due to ACLs</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="errbot.backends.base.Backend">
-<em class="property">class </em><tt class="descclassname">errbot.backends.base.</tt><tt class="descname">Backend</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<em class="property">class </em><code class="descclassname">errbot.backends.base.</code><code class="descname">Backend</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Implements the basic Bot logic (logic independent from the backend) and leaves
 you to implement the missing parts</p>
 <dl class="attribute">
-<dt id="errbot.backends.base.Backend.MESSAGE_SIZE_LIMIT">
-<tt class="descname">MESSAGE_SIZE_LIMIT</tt><em class="property"> = 10000</em><a class="headerlink" href="#errbot.backends.base.Backend.MESSAGE_SIZE_LIMIT" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
 <dt id="errbot.backends.base.Backend.MSG_ERROR_OCCURRED">
-<tt class="descname">MSG_ERROR_OCCURRED</tt><em class="property"> = 'Sorry for your inconvenience. An unexpected error occurred.'</em><a class="headerlink" href="#errbot.backends.base.Backend.MSG_ERROR_OCCURRED" title="Permalink to this definition">¶</a></dt>
+<code class="descname">MSG_ERROR_OCCURRED</code><em class="property"> = 'Sorry for your inconvenience. An unexpected error occurred.'</em><a class="headerlink" href="#errbot.backends.base.Backend.MSG_ERROR_OCCURRED" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="errbot.backends.base.Backend.MSG_HELP_TAIL">
-<tt class="descname">MSG_HELP_TAIL</tt><em class="property"> = 'Type help &lt;command name&gt; to get more info about that specific command.'</em><a class="headerlink" href="#errbot.backends.base.Backend.MSG_HELP_TAIL" title="Permalink to this definition">¶</a></dt>
+<code class="descname">MSG_HELP_TAIL</code><em class="property"> = 'Type help &lt;command name&gt; to get more info about that specific command.'</em><a class="headerlink" href="#errbot.backends.base.Backend.MSG_HELP_TAIL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="errbot.backends.base.Backend.MSG_HELP_UNDEFINED_COMMAND">
-<tt class="descname">MSG_HELP_UNDEFINED_COMMAND</tt><em class="property"> = 'That command is not defined.'</em><a class="headerlink" href="#errbot.backends.base.Backend.MSG_HELP_UNDEFINED_COMMAND" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="errbot.backends.base.Backend.MSG_UNKNOWN_COMMAND">
-<tt class="descname">MSG_UNKNOWN_COMMAND</tt><em class="property"> = 'Unknown command: &quot;%(command)s&quot;. Type &quot;!help&quot; for available commands.'</em><a class="headerlink" href="#errbot.backends.base.Backend.MSG_UNKNOWN_COMMAND" title="Permalink to this definition">¶</a></dt>
+<code class="descname">MSG_HELP_UNDEFINED_COMMAND</code><em class="property"> = 'That command is not defined.'</em><a class="headerlink" href="#errbot.backends.base.Backend.MSG_HELP_UNDEFINED_COMMAND" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Those arguments will be directly those put in BOT_IDENTITY</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.bottom_of_help_message">
-<tt class="descname">bottom_of_help_message</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.bottom_of_help_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.bottom_of_help_message" title="Permalink to this definition">¶</a></dt>
+<code class="descname">bottom_of_help_message</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.bottom_of_help_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.bottom_of_help_message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a string that forms the bottom of the help message</p>
 <p>Override this method in derived class if you
 want to add additional help text at the end
@@ -146,128 +136,190 @@ of the help message.</p>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.build_message">
-<tt class="descname">build_message</tt><big>(</big><em>text</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.build_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.build_message" title="Permalink to this definition">¶</a></dt>
+<code class="descname">build_message</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.build_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.build_message" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.build_reply">
-<tt class="descname">build_reply</tt><big>(</big><em>mess</em>, <em>text=None</em>, <em>private=False</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.build_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.build_reply" title="Permalink to this definition">¶</a></dt>
+<code class="descname">build_reply</code><span class="sig-paren">(</span><em>mess</em>, <em>text=None</em>, <em>private=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.build_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.build_reply" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build a message for responding to another message.
 Message is NOT sent</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.base.Backend.callback_contact_offline">
-<tt class="descname">callback_contact_offline</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_contact_offline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_contact_offline" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="errbot.backends.base.Backend.callback_contact_online">
-<tt class="descname">callback_contact_online</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_contact_online"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_contact_online" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="errbot.backends.base.Backend.callback_message">
-<tt class="descname">callback_message</tt><big>(</big><em>conn</em>, <em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_message" title="Permalink to this definition">¶</a></dt>
+<code class="descname">callback_message</code><span class="sig-paren">(</span><em>mess</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Needs to return False if we want to stop further treatment</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.base.Backend.callback_user_joined_chat">
-<tt class="descname">callback_user_joined_chat</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_user_joined_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_user_joined_chat" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="errbot.backends.base.Backend.callback_presence">
+<code class="descname">callback_presence</code><span class="sig-paren">(</span><em>presence</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_presence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implemented by errBot.</p>
+</dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.base.Backend.callback_user_left_chat">
-<tt class="descname">callback_user_left_chat</tt><big>(</big><em>conn</em>, <em>pres</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_user_left_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_user_left_chat" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="errbot.backends.base.Backend.callback_room_joined">
+<code class="descname">callback_room_joined</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_room_joined"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_room_joined" title="Permalink to this definition">¶</a></dt>
+<dd><p>See <a class="reference internal" href="../errbot.errBot/#errbot.errBot.ErrBot" title="errbot.errBot.ErrBot"><code class="xref py py-class docutils literal"><span class="pre">ErrBot</span></code></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.Backend.callback_room_left">
+<code class="descname">callback_room_left</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_room_left"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_room_left" title="Permalink to this definition">¶</a></dt>
+<dd><p>See <a class="reference internal" href="../errbot.errBot/#errbot.errBot.ErrBot" title="errbot.errBot.ErrBot"><code class="xref py py-class docutils literal"><span class="pre">ErrBot</span></code></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.Backend.callback_room_topic">
+<code class="descname">callback_room_topic</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.callback_room_topic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.callback_room_topic" title="Permalink to this definition">¶</a></dt>
+<dd><p>See <a class="reference internal" href="../errbot.errBot/#errbot.errBot.ErrBot" title="errbot.errBot.ErrBot"><code class="xref py py-class docutils literal"><span class="pre">ErrBot</span></code></a></p>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.check_command_access">
-<tt class="descname">check_command_access</tt><big>(</big><em>mess</em>, <em>cmd</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.check_command_access"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.check_command_access" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_command_access</code><span class="sig-paren">(</span><em>mess</em>, <em>cmd</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.check_command_access"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.check_command_access" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check command against ACL rules</p>
 <p>Raises ACLViolation() if the command may not be executed in the given context</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="errbot.backends.base.Backend.cmd_history">
-<tt class="descname">cmd_history</tt><em class="property"> = defaultdict(&lt;function Backend.&lt;lambda&gt; at 0x7ff6ba0fe2f0&gt;, {})</em><a class="headerlink" href="#errbot.backends.base.Backend.cmd_history" title="Permalink to this definition">¶</a></dt>
+<code class="descname">cmd_history</code><em class="property"> = defaultdict(&lt;function Backend.&lt;lambda&gt; at 0x7f948cca9620&gt;, {})</em><a class="headerlink" href="#errbot.backends.base.Backend.cmd_history" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.connect">
-<tt class="descname">connect</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.connect" title="Permalink to this definition">¶</a></dt>
+<code class="descname">connect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.connect" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connects the bot to server or returns current connection</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.connect_callback">
-<tt class="descname">connect_callback</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.connect_callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.connect_callback" title="Permalink to this definition">¶</a></dt>
+<code class="descname">connect_callback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.connect_callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.connect_callback" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.disconnect_callback">
-<tt class="descname">disconnect_callback</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.disconnect_callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.disconnect_callback" title="Permalink to this definition">¶</a></dt>
+<code class="descname">disconnect_callback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.disconnect_callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.disconnect_callback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.Backend.groupchat_reply_format">
+<code class="descname">groupchat_reply_format</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.groupchat_reply_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.groupchat_reply_format" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.help">
-<tt class="descname">help</tt><big>(</big><em>mess</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.help" title="Permalink to this definition">¶</a></dt>
+<code class="descname">help</code><span class="sig-paren">(</span><em>mess</em>, <em>args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.help"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.help" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a help string listing available options.</p>
 <p>Automatically assigned to the &quot;help&quot; command.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.inject_commands_from">
-<tt class="descname">inject_commands_from</tt><big>(</big><em>instance_to_inject</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.inject_commands_from"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.inject_commands_from" title="Permalink to this definition">¶</a></dt>
+<code class="descname">inject_commands_from</code><span class="sig-paren">(</span><em>instance_to_inject</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.inject_commands_from"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.inject_commands_from" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.Backend.is_admin">
+<code class="descname">is_admin</code><span class="sig-paren">(</span><em>usr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.is_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.is_admin" title="Permalink to this definition">¶</a></dt>
+<dd><p>an overridable check to see if a user is an administrator</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.join_room">
-<tt class="descname">join_room</tt><big>(</big><em>room</em>, <em>username=None</em>, <em>password=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.join_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.join_room" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">join_room</code><span class="sig-paren">(</span><em>room</em>, <em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.join_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.join_room" title="Permalink to this definition">¶</a></dt>
+<dd><p>Join a room (MUC).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>room</strong> -- The JID/identifier of the room to join.</li>
+<li><strong>username</strong> -- An optional username to use.</li>
+<li><strong>password</strong> -- An optional password to use (for password-protected rooms).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="deprecated">
+<p><span class="versionmodified">Deprecated since version 2.2.0: </span>Use the methods on <a class="reference internal" href="#errbot.backends.base.MUCRoom" title="errbot.backends.base.MUCRoom"><code class="xref py py-class docutils literal"><span class="pre">MUCRoom</span></code></a> instead.</p>
+</div>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="errbot.backends.base.Backend.mode">
-<tt class="descname">mode</tt><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.mode" title="Permalink to this definition">¶</a></dt>
+<code class="descname">mode</code><a class="headerlink" href="#errbot.backends.base.Backend.mode" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.Backend.query_room">
+<code class="descname">query_room</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.query_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.query_room" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query a room for information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>room</strong> -- The JID/identifier of the room to query for.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">An instance of <a class="reference internal" href="#errbot.backends.base.MUCRoom" title="errbot.backends.base.MUCRoom"><code class="xref py py-class docutils literal"><span class="pre">MUCRoom</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.remove_commands_from">
-<tt class="descname">remove_commands_from</tt><big>(</big><em>instance_to_inject</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.remove_commands_from"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.remove_commands_from" title="Permalink to this definition">¶</a></dt>
+<code class="descname">remove_commands_from</code><span class="sig-paren">(</span><em>instance_to_inject</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.remove_commands_from"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.remove_commands_from" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="errbot.backends.base.Backend.rooms">
+<code class="descname">rooms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.rooms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.rooms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of rooms the bot is currently in.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of <a class="reference internal" href="#errbot.backends.base.MUCRoom" title="errbot.backends.base.MUCRoom"><code class="xref py py-class docutils literal"><span class="pre">MUCRoom</span></code></a> instances.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="errbot.backends.base.Backend.send">
-<tt class="descname">send</tt><big>(</big><em>user</em>, <em>text</em>, <em>in_reply_to=None</em>, <em>message_type='chat'</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.send" title="Permalink to this definition">¶</a></dt>
+<code class="descname">send</code><span class="sig-paren">(</span><em>user</em>, <em>text</em>, <em>in_reply_to=None</em>, <em>message_type='chat'</em>, <em>groupchat_nick_reply=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.send" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sends a simple message to the specified user.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.send_message">
-<tt class="descname">send_message</tt><big>(</big><em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.send_message" title="Permalink to this definition">¶</a></dt>
-<dd><p>Send a message</p>
+<code class="descname">send_message</code><span class="sig-paren">(</span><em>mess</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.send_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Should be overridden by backends</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.send_simple_reply">
-<tt class="descname">send_simple_reply</tt><big>(</big><em>mess</em>, <em>text</em>, <em>private=False</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.send_simple_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.send_simple_reply" title="Permalink to this definition">¶</a></dt>
+<code class="descname">send_simple_reply</code><span class="sig-paren">(</span><em>mess</em>, <em>text</em>, <em>private=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.send_simple_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.send_simple_reply" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send a simple response to a message</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.serve_forever">
-<tt class="descname">serve_forever</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.serve_forever"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.serve_forever" title="Permalink to this definition">¶</a></dt>
+<code class="descname">serve_forever</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.serve_forever"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.serve_forever" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.shutdown">
-<tt class="descname">shutdown</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.shutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.shutdown" title="Permalink to this definition">¶</a></dt>
+<code class="descname">shutdown</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.shutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.shutdown" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.top_of_help_message">
-<tt class="descname">top_of_help_message</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.top_of_help_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.top_of_help_message" title="Permalink to this definition">¶</a></dt>
+<code class="descname">top_of_help_message</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.top_of_help_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.top_of_help_message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a string that forms the top of the help message</p>
 <p>Override this method in derived class if you
 want to add additional help text at the
@@ -276,190 +328,587 @@ beginning of the help message.</p>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.unknown_command">
-<tt class="descname">unknown_command</tt><big>(</big><em>mess</em>, <em>cmd</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.unknown_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.unknown_command" title="Permalink to this definition">¶</a></dt>
+<code class="descname">unknown_command</code><span class="sig-paren">(</span><em>_</em>, <em>cmd</em>, <em>args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.unknown_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.unknown_command" title="Permalink to this definition">¶</a></dt>
 <dd><p>Override the default unknown command behavior</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Backend.warn_admins">
-<tt class="descname">warn_admins</tt><big>(</big><em>warning</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.warn_admins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.warn_admins" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="errbot.backends.base.Connection">
-<em class="property">class </em><tt class="descclassname">errbot.backends.base.</tt><tt class="descname">Connection</tt><a class="reference internal" href="../_modules/errbot/backends/base/#Connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Connection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<dl class="method">
-<dt id="errbot.backends.base.Connection.send_message">
-<tt class="descname">send_message</tt><big>(</big><em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Connection.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Connection.send_message" title="Permalink to this definition">¶</a></dt>
+<code class="descname">warn_admins</code><span class="sig-paren">(</span><em>warning</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Backend.warn_admins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Backend.warn_admins" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="errbot.backends.base.Identifier">
-<em class="property">class </em><tt class="descclassname">errbot.backends.base.</tt><tt class="descname">Identifier</tt><big>(</big><em>jid=None</em>, <em>node=''</em>, <em>domain=''</em>, <em>resource=''</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Identifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Identifier" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<em class="property">class </em><code class="descclassname">errbot.backends.base.</code><code class="descname">Identifier</code><span class="sig-paren">(</span><em>jid=None</em>, <em>node=''</em>, <em>domain=''</em>, <em>resource=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Identifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>This class is the parent and the basic contract of all the ways the backends
 are identifying a person on their system.</p>
 <dl class="method">
 <dt id="errbot.backends.base.Identifier.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>jid=None</em>, <em>node=''</em>, <em>domain=''</em>, <em>resource=''</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Identifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Identifier.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>jid=None</em>, <em>node=''</em>, <em>domain=''</em>, <em>resource=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Identifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Identifier.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Identifier.bareMatch">
-<tt class="descname">bareMatch</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Identifier.bareMatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Identifier.bareMatch" title="Permalink to this definition">¶</a></dt>
+<code class="descname">bareMatch</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Identifier.bareMatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Identifier.bareMatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.Identifier.bare_match">
+<code class="descname">bare_match</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Identifier.bare_match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Identifier.bare_match" title="Permalink to this definition">¶</a></dt>
+<dd><p>checks if 2 identifiers are equal, ignoring the resource</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Identifier.domain">
+<code class="descname">domain</code><a class="headerlink" href="#errbot.backends.base.Identifier.domain" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Identifier.getDomain">
-<tt class="descname">getDomain</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Identifier.getDomain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Identifier.getDomain" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">getDomain</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Identifier.getDomain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Identifier.getDomain" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Identifier.getNode">
-<tt class="descname">getNode</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Identifier.getNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Identifier.getNode" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">getNode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Identifier.getNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Identifier.getNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Identifier.getResource">
-<tt class="descname">getResource</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Identifier.getResource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Identifier.getResource" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">getResource</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Identifier.getResource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Identifier.getResource" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Identifier.getStripped">
-<tt class="descname">getStripped</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Identifier.getStripped"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Identifier.getStripped" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getStripped</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Identifier.getStripped"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Identifier.getStripped" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Identifier.node">
+<code class="descname">node</code><a class="headerlink" href="#errbot.backends.base.Identifier.node" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Identifier.resource">
+<code class="descname">resource</code><a class="headerlink" href="#errbot.backends.base.Identifier.resource" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Identifier.stripped">
+<code class="descname">stripped</code><a class="headerlink" href="#errbot.backends.base.Identifier.stripped" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.base.MUCOccupant">
+<em class="property">class </em><code class="descclassname">errbot.backends.base.</code><code class="descname">MUCOccupant</code><span class="sig-paren">(</span><em>jid=None</em>, <em>node=''</em>, <em>domain=''</em>, <em>resource=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#MUCOccupant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.MUCOccupant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#errbot.backends.base.Identifier" title="errbot.backends.base.Identifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.Identifier</span></code></a></p>
+<p>This class represents a person inside a MUC.</p>
+<p>This class exists to expose additional information about occupants
+inside a MUC. For example, the XMPP back-end may expose backend-specific
+information such as the real JID of the occupant and whether or not
+that person is a moderator or owner of the room.</p>
+<p>See the parent class for additional details.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.base.MUCRoom">
+<em class="property">class </em><code class="descclassname">errbot.backends.base.</code><code class="descname">MUCRoom</code><span class="sig-paren">(</span><em>jid=None</em>, <em>node=''</em>, <em>domain=''</em>, <em>resource=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#MUCRoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.MUCRoom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#errbot.backends.base.Identifier" title="errbot.backends.base.Identifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.Identifier</span></code></a></p>
+<p>This class represents a Multi-User Chatroom.</p>
+<dl class="method">
+<dt id="errbot.backends.base.MUCRoom.create">
+<code class="descname">create</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#MUCRoom.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.MUCRoom.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the room.</p>
+<p>Calling this on an already existing room is a no-op.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.MUCRoom.destroy">
+<code class="descname">destroy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#MUCRoom.destroy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.MUCRoom.destroy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Destroy the room.</p>
+<p>Calling this on a non-existing room is a no-op.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.MUCRoom.exists">
+<code class="descname">exists</code><a class="headerlink" href="#errbot.backends.base.MUCRoom.exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean indicating whether this room already exists or not.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Getter:</th><td class="field-body">Returns <cite>True</cite> if the room exists, <cite>False</cite> otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.MUCRoom.invite">
+<code class="descname">invite</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#MUCRoom.invite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.MUCRoom.invite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invite one or more people into the room.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">*argsargs:</th><td class="field-body">One or more JID's to invite into the room.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.MUCRoom.join">
+<code class="descname">join</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#MUCRoom.join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.MUCRoom.join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Join the room.</p>
+<p>If the room does not exist yet, this will automatically call
+<a class="reference internal" href="#errbot.backends.base.MUCRoom.create" title="errbot.backends.base.MUCRoom.create"><code class="xref py py-meth docutils literal"><span class="pre">create()</span></code></a> on it first.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.MUCRoom.joined">
+<code class="descname">joined</code><a class="headerlink" href="#errbot.backends.base.MUCRoom.joined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean indicating whether this room has already been joined.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Getter:</th><td class="field-body">Returns <cite>True</cite> if the room has been joined, <cite>False</cite> otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.MUCRoom.leave">
+<code class="descname">leave</code><span class="sig-paren">(</span><em>reason=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#MUCRoom.leave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.MUCRoom.leave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Leave the room.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>reason</strong> -- An optional string explaining the reason for leaving the room.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.MUCRoom.occupants">
+<code class="descname">occupants</code><a class="headerlink" href="#errbot.backends.base.MUCRoom.occupants" title="Permalink to this definition">¶</a></dt>
+<dd><p>The room's occupants.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Getter:</th><td class="field-body">Returns a list of <a class="reference internal" href="#errbot.backends.base.MUCOccupant" title="errbot.backends.base.MUCOccupant"><code class="xref py py-class docutils literal"><span class="pre">MUCOccupant</span></code></a> instances.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">MUCNotJoinedError</span></code> if the room has not yet been joined.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.MUCRoom.topic">
+<code class="descname">topic</code><a class="headerlink" href="#errbot.backends.base.MUCRoom.topic" title="Permalink to this definition">¶</a></dt>
+<dd><p>The room topic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Getter:</th><td class="field-body"><p class="first">Returns the topic (a string) if one is set, <cite>None</cite> if no
+topic has been set at all.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Back-ends may return an empty string rather than <cite>None</cite>
+when no topic has been set as a network may not
+differentiate between no topic and an empty topic.</p>
+</div>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">MUCNotJoinedError</span></code> if the room has not yet been joined.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="errbot.backends.base.Message">
-<em class="property">class </em><tt class="descclassname">errbot.backends.base.</tt><tt class="descname">Message</tt><big>(</big><em>body</em>, <em>typ='chat'</em>, <em>html=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<em class="property">class </em><code class="descclassname">errbot.backends.base.</code><code class="descname">Message</code><span class="sig-paren">(</span><em>body</em>, <em>type_='chat'</em>, <em>html=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A chat message.</p>
+<p>This class represents chat messages that are sent or received by
+the bot. It is modeled after XMPP messages so not all methods
+make sense in the context of other back-ends.</p>
 <dl class="method">
 <dt id="errbot.backends.base.Message.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>body</em>, <em>typ='chat'</em>, <em>html=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>body</em>, <em>type_='chat'</em>, <em>html=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Message.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>body</strong> -- The plaintext body of the message.</li>
+<li><strong>type</strong> -- The type of message (generally one of either 'chat' or 'groupchat').</li>
+<li><strong>html</strong> -- An optional HTML representation of the body.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Message.body">
+<code class="descname">body</code><a class="headerlink" href="#errbot.backends.base.Message.body" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the plaintext body of the message.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The body as a string.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Message.delayed">
+<code class="descname">delayed</code><a class="headerlink" href="#errbot.backends.base.Message.delayed" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="errbot.backends.base.Message.fr">
-<tt class="descname">fr</tt><em class="property"> = &lt;errbot.backends.base.Identifier object at 0x7ff6ba146898&gt;</em><a class="headerlink" href="#errbot.backends.base.Message.fr" title="Permalink to this definition">¶</a></dt>
+<code class="descname">fr</code><em class="property"> = &lt;errbot.backends.base.Identifier object&gt;</em><a class="headerlink" href="#errbot.backends.base.Message.fr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Message.frm">
+<code class="descname">frm</code><a class="headerlink" href="#errbot.backends.base.Message.frm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the sender of the message.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An <a class="reference internal" href="#errbot.backends.base.Identifier" title="errbot.backends.base.Identifier"><code class="xref py py-class docutils literal"><span class="pre">Identifier</span></code></a> identifying
+the sender.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.getBody">
-<tt class="descname">getBody</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.getBody"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.getBody" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">getBody</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Message.getBody"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.getBody" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.getFrom">
-<tt class="descname">getFrom</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.getFrom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.getFrom" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">getFrom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Message.getFrom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.getFrom" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.getHTML">
-<tt class="descname">getHTML</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.getHTML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.getHTML" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">getHTML</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Message.getHTML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.getHTML" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.getMuckNick">
-<tt class="descname">getMuckNick</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.getMuckNick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.getMuckNick" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">getMuckNick</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Message.getMuckNick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.getMuckNick" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.getTo">
-<tt class="descname">getTo</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.getTo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.getTo" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">getTo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Message.getTo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.getTo" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.getType">
-<tt class="descname">getType</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.getType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.getType" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">getType</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Message.getType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.getType" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Message.html">
+<code class="descname">html</code><a class="headerlink" href="#errbot.backends.base.Message.html" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the HTML representation of the message.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A string containing the HTML message or <cite>None</cite> when there
+is none.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.isDelayed">
-<tt class="descname">isDelayed</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.isDelayed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.isDelayed" title="Permalink to this definition">¶</a></dt>
+<code class="descname">isDelayed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Message.isDelayed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.isDelayed" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Message.nick">
+<code class="descname">nick</code><a class="headerlink" href="#errbot.backends.base.Message.nick" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.setDelayed">
-<tt class="descname">setDelayed</tt><big>(</big><em>delayed</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.setDelayed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.setDelayed" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">setDelayed</code><span class="sig-paren">(</span><em>delayed</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Message.setDelayed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.setDelayed" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.setFrom">
-<tt class="descname">setFrom</tt><big>(</big><em>fr</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.setFrom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.setFrom" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">setFrom</code><span class="sig-paren">(</span><em>from_</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Message.setFrom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.setFrom" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.setHTML">
-<tt class="descname">setHTML</tt><big>(</big><em>html</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.setHTML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.setHTML" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">setHTML</code><span class="sig-paren">(</span><em>html</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Message.setHTML"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.setHTML" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.setMuckNick">
-<tt class="descname">setMuckNick</tt><big>(</big><em>nick</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.setMuckNick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.setMuckNick" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">setMuckNick</code><span class="sig-paren">(</span><em>nick</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Message.setMuckNick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.setMuckNick" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.setTo">
-<tt class="descname">setTo</tt><big>(</big><em>to</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.setTo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.setTo" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">setTo</code><span class="sig-paren">(</span><em>to</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Message.setTo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.setTo" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.base.Message.setType">
-<tt class="descname">setType</tt><big>(</big><em>typ</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Message.setType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.setType" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">setType</code><span class="sig-paren">(</span><em>type_</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Message.setType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Message.setType" title="Permalink to this definition">¶</a></dt>
+<dd><p>will be removed on the next version</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Message.to">
+<code class="descname">to</code><a class="headerlink" href="#errbot.backends.base.Message.to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the recipient of the message.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An <a class="reference internal" href="#errbot.backends.base.Identifier" title="errbot.backends.base.Identifier"><code class="xref py py-class docutils literal"><span class="pre">Identifier</span></code></a> identifying
+the recipient.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Message.type">
+<code class="descname">type</code><a class="headerlink" href="#errbot.backends.base.Message.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the type of the message.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The message type as a string (generally one of either
+'chat' or 'groupchat')</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="errbot.backends.base.Presence">
-<em class="property">class </em><tt class="descclassname">errbot.backends.base.</tt><tt class="descname">Presence</tt><big>(</big><em>nick</em>, <em>room</em>, <em>real_id=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
-<p>An universal class representing protocol agnostic concept
-of presence.</p>
+<em class="property">class </em><code class="descclassname">errbot.backends.base.</code><code class="descname">Presence</code><span class="sig-paren">(</span><em>nick=None</em>, <em>identifier=None</em>, <em>status=None</em>, <em>chatroom=None</em>, <em>message=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>This class represents a presence change for a user or a user in a chatroom.</p>
+<p>Instances of this class are passed to <a class="reference internal" href="../errbot.botplugin/#errbot.botplugin.BotPlugin.callback_presence" title="errbot.botplugin.BotPlugin.callback_presence"><code class="xref py py-meth docutils literal"><span class="pre">callback_presence()</span></code></a>
+when the presence of people changes.</p>
 <dl class="method">
 <dt id="errbot.backends.base.Presence.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>nick</em>, <em>room</em>, <em>real_id=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>nick=None</em>, <em>identifier=None</em>, <em>status=None</em>, <em>chatroom=None</em>, <em>message=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Presence.chatroom">
+<code class="descname">chatroom</code><a class="headerlink" href="#errbot.backends.base.Presence.chatroom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Identifier pointing the room in which the event occurred.
+If it returns None, the event occurred outside of a chatroom.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Presence.identifier">
+<code class="descname">identifier</code><a class="headerlink" href="#errbot.backends.base.Presence.identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the identifier of the event.
+Can be None <em>only</em> if chatroom is not None</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Presence.message">
+<code class="descname">message</code><a class="headerlink" href="#errbot.backends.base.Presence.message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a human readable message associated with the status if any.
+like : &quot;BRB, washing the dishes&quot;
+It can be None if it is only a general status update (see get_status)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Presence.nick">
+<code class="descname">nick</code><a class="headerlink" href="#errbot.backends.base.Presence.nick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a plain string of the presence nick.
+(In some chatroom implementations, you cannot know the real identifier
+of a person in it).
+Can return None but then identifier won't be None.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Presence.status">
+<code class="descname">status</code><a class="headerlink" href="#errbot.backends.base.Presence.status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the status of the presence change.
+It can be one of the constants ONLINE, OFFLINE, AWAY, DND, but
+can also be custom statuses depending on backends.
+It can be None if it is just an update of the status message (see get_message)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="errbot.backends.base.RoomDoesNotExistError">
+<em class="property">exception </em><code class="descclassname">errbot.backends.base.</code><code class="descname">RoomDoesNotExistError</code><a class="reference internal" href="../_modules/errbot/backends/base/#RoomDoesNotExistError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.RoomDoesNotExistError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#errbot.backends.base.RoomError" title="errbot.backends.base.RoomError"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.RoomError</span></code></a></p>
+<p>Exception that is raised when performing an operation
+on a room that doesn't exist</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="errbot.backends.base.RoomError">
+<em class="property">exception </em><code class="descclassname">errbot.backends.base.</code><code class="descname">RoomError</code><a class="reference internal" href="../_modules/errbot/backends/base/#RoomError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.RoomError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<p>General exception class for MUC-related errors</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="errbot.backends.base.RoomNotJoinedError">
+<em class="property">exception </em><code class="descclassname">errbot.backends.base.</code><code class="descname">RoomNotJoinedError</code><a class="reference internal" href="../_modules/errbot/backends/base/#RoomNotJoinedError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.RoomNotJoinedError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#errbot.backends.base.RoomError" title="errbot.backends.base.RoomError"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.RoomError</span></code></a></p>
+<p>Exception raised when performing MUC operations
+that require the bot to have joined the room</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.base.Stream">
+<em class="property">class </em><code class="descclassname">errbot.backends.base.</code><code class="descname">Stream</code><span class="sig-paren">(</span><em>identifier</em>, <em>fsource</em>, <em>name=None</em>, <em>size=None</em>, <em>stream_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">_io.BufferedReader</span></code></p>
+<p>This class represents a stream request.</p>
+<p>Instances of this class are passed to <a class="reference internal" href="../errbot.botplugin/#errbot.botplugin.BotPlugin.callback_stream" title="errbot.botplugin.BotPlugin.callback_stream"><code class="xref py py-meth docutils literal"><span class="pre">callback_stream()</span></code></a>
+when an incoming stream is requested.</p>
+<dl class="method">
+<dt id="errbot.backends.base.Stream.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>identifier</em>, <em>fsource</em>, <em>name=None</em>, <em>size=None</em>, <em>stream_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Stream.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Stream.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.base.Presence.get_nick">
-<tt class="descname">get_nick</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.get_nick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.get_nick" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="errbot.backends.base.Stream.accept">
+<code class="descname">accept</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Stream.accept"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Stream.accept" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signal that the stream has been accepted.</p>
+</dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.base.Presence.get_real_name">
-<tt class="descname">get_real_name</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.get_real_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.get_real_name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="errbot.backends.base.Stream.clone">
+<code class="descname">clone</code><span class="sig-paren">(</span><em>new_fsource</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Stream.clone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Stream.clone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a clone and with an alternative stream</p>
+</dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.base.Presence.get_room">
-<tt class="descname">get_room</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#Presence.get_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Presence.get_room" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="errbot.backends.base.Stream.error">
+<code class="descname">error</code><span class="sig-paren">(</span><em>reason='unknown'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Stream.error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Stream.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>An internal plugin error prevented the transfer.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Stream.identifier">
+<code class="descname">identifier</code><a class="headerlink" href="#errbot.backends.base.Stream.identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>The identity the stream is coming from if it is an incoming request
+or to if it is an outgoing request.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Stream.name">
+<code class="descname">name</code><a class="headerlink" href="#errbot.backends.base.Stream.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of the stream/file if it has one or None otherwise.
+!! Be carefull of injections if you are using this name directly as a filename.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.Stream.reject">
+<code class="descname">reject</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Stream.reject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Stream.reject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Signal that the stream has been rejected.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Stream.size">
+<code class="descname">size</code><a class="headerlink" href="#errbot.backends.base.Stream.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>The expected size in bytes of the stream if it is known or None.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Stream.status">
+<code class="descname">status</code><a class="headerlink" href="#errbot.backends.base.Stream.status" title="Permalink to this definition">¶</a></dt>
+<dd><p>The status for this stream.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.base.Stream.stream_type">
+<code class="descname">stream_type</code><a class="headerlink" href="#errbot.backends.base.Stream.stream_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>The mimetype of the stream if it is known or None.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.base.Stream.success">
+<code class="descname">success</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#Stream.success"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.Stream.success" title="Permalink to this definition">¶</a></dt>
+<dd><p>The streaming finished normally.</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="errbot.backends.base.build_message">
-<tt class="descclassname">errbot.backends.base.</tt><tt class="descname">build_message</tt><big>(</big><em>text</em>, <em>message_class</em>, <em>conversion_function=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#build_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.build_message" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.backends.base.</code><code class="descname">build_message</code><span class="sig-paren">(</span><em>text</em>, <em>message_class</em>, <em>conversion_function=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#build_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.build_message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Builds an xhtml message without attributes.
 If input is not valid xhtml-im fallback to normal.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="errbot.backends.base.build_text_html_message_pair">
-<tt class="descclassname">errbot.backends.base.</tt><tt class="descname">build_text_html_message_pair</tt><big>(</big><em>source</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#build_text_html_message_pair"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.build_text_html_message_pair" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.backends.base.</code><code class="descname">build_text_html_message_pair</code><span class="sig-paren">(</span><em>source</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#build_text_html_message_pair"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.build_text_html_message_pair" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="errbot.backends.base.get_jid_from_message">
-<tt class="descclassname">errbot.backends.base.</tt><tt class="descname">get_jid_from_message</tt><big>(</big><em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/base/#get_jid_from_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.get_jid_from_message" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.backends.base.</code><code class="descname">get_jid_from_message</code><span class="sig-paren">(</span><em>mess</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/base/#get_jid_from_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.base.get_jid_from_message" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -479,7 +928,7 @@ If input is not valid xhtml-im fallback to normal.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../" title="Back to home page">
         <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -508,12 +957,14 @@ If input is not valid xhtml-im fallback to normal.</p>
         </ul>
         </li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/errbot.backends.base.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/errbot.backends.base.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search/" method="get">
       <input type="text" name="q" />
@@ -540,7 +991,7 @@ If input is not valid xhtml-im fallback to normal.</p>
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -555,15 +1006,15 @@ If input is not valid xhtml-im fallback to normal.</p>
         <li class="right" >
           <a href="../errbot.backends/" title="errbot.backends package"
              >previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
-          <li><a href="../errbot.backends/" >errbot.backends package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.backends/" >errbot.backends package</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

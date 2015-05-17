@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.bundled.rocket &mdash; Err 2.1.0 documentation</title>
+    <title>errbot.bundled.rocket &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../../../../" />
-    <link rel="up" title="errbot" href="../../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../../../../" />
+    <link rel="up" title="Module code" href="../../../" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -56,11 +56,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -69,9 +69,8 @@
         <li class="right" >
           <a href="../../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../../../" >Module code</a> &raquo;</li>
-          <li><a href="../../" accesskey="U">errbot</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../../" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -79,7 +78,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for errbot.bundled.rocket</h1><div class="highlight"><pre>
 <span class="c"># -*- coding: utf-8 -*-</span>
@@ -103,7 +102,7 @@
 <span class="n">SOCKET_TIMEOUT</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># in secs</span>
 <span class="n">THREAD_STOP_CHECK_INTERVAL</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># in secs, How often should threads check for a server stop message?</span>
 <span class="n">IS_JYTHON</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;Java&#39;</span> <span class="c"># Handle special cases for Jython</span>
-<span class="n">IGNORE_ERRORS_ON_CLOSE</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">errno</span><span class="o">.</span><span class="n">ECONNABORTED</span><span class="p">,</span> <span class="n">errno</span><span class="o">.</span><span class="n">ECONNRESET</span><span class="p">])</span>
+<span class="n">IGNORE_ERRORS_ON_CLOSE</span> <span class="o">=</span> <span class="p">{</span><span class="n">errno</span><span class="o">.</span><span class="n">ECONNABORTED</span><span class="p">,</span> <span class="n">errno</span><span class="o">.</span><span class="n">ECONNRESET</span><span class="p">}</span>
 <span class="n">DEFAULT_LISTEN_QUEUE_SIZE</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">DEFAULT_MIN_THREADS</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">DEFAULT_MAX_THREADS</span> <span class="o">=</span> <span class="mi">0</span>
@@ -114,7 +113,7 @@
 <span class="n">PY3K</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">2</span>
 
 <div class="viewcode-block" id="NullHandler"><a class="viewcode-back" href="../../../../errbot.bundled.rocket/#errbot.bundled.rocket.NullHandler">[docs]</a><span class="k">class</span> <span class="nc">NullHandler</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Handler</span><span class="p">):</span>
-    <span class="s">&quot;A Logging handler to prevent library errors.&quot;</span>
+    <span class="sd">&quot;&quot;&quot;A Logging handler to prevent library errors.&quot;&quot;&quot;</span>
 <div class="viewcode-block" id="NullHandler.emit"><a class="viewcode-back" href="../../../../errbot.bundled.rocket/#errbot.bundled.rocket.NullHandler.emit">[docs]</a>    <span class="k">def</span> <span class="nf">emit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
         <span class="k">pass</span>
 </div></div>
@@ -275,7 +274,7 @@
                 <span class="n">exc</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
                 <span class="n">e</span> <span class="o">=</span> <span class="n">exc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                 <span class="c"># FIXME - Don&#39;t raise socket_errors_nonblocking or socket_error_eintr</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">():</span>
                     <span class="k">raise</span>
 
     <span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -383,8 +382,8 @@
 
 
 <span class="k">class</span> <span class="nc">WSGIFuture</span><span class="p">(</span><span class="n">Future</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f_dict</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">Future</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f_dict</span><span class="p">):</span>
+        <span class="n">Future</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">timeout</span> <span class="o">=</span> <span class="bp">None</span>
 
@@ -461,7 +460,7 @@
             <span class="k">return</span> <span class="bp">False</span>
 
 <span class="k">class</span> <span class="nc">FuturesMiddleware</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="s">&quot;Futures middleware that adds a Futures Executor to the environment&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Futures middleware that adds a Futures Executor to the environment&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">,</span> <span class="n">threads</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">app</span> <span class="o">=</span> <span class="n">app</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">executor</span> <span class="o">=</span> <span class="n">WSGIExecutor</span><span class="p">(</span><span class="n">threads</span><span class="p">)</span>
@@ -1184,7 +1183,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">active_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="bp">None</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">dynamic_resize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_threads</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_threads</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_threads</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_threads</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_threads</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_threads</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_for_dead_threads</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">bring_out_your_dead</span><span class="p">()</span>
 
@@ -1262,7 +1261,7 @@
 <span class="si">%s</span><span class="s"></span>
 <span class="s">&#39;&#39;&#39;</span>
 <span class="k">if</span> <span class="n">IS_JYTHON</span><span class="p">:</span>
-    <span class="n">HTTP_METHODS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="s">&#39;OPTIONS&#39;</span><span class="p">,</span> <span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="s">&#39;HEAD&#39;</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">,</span> <span class="s">&#39;PUT&#39;</span><span class="p">,</span> <span class="s">&#39;DELETE&#39;</span><span class="p">,</span> <span class="s">&#39;TRACE&#39;</span><span class="p">,</span> <span class="s">&#39;CONNECT&#39;</span><span class="p">])</span>
+    <span class="n">HTTP_METHODS</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;OPTIONS&#39;</span><span class="p">,</span> <span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="s">&#39;HEAD&#39;</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">,</span> <span class="s">&#39;PUT&#39;</span><span class="p">,</span> <span class="s">&#39;DELETE&#39;</span><span class="p">,</span> <span class="s">&#39;TRACE&#39;</span><span class="p">,</span> <span class="s">&#39;CONNECT&#39;</span><span class="p">}</span>
 
 <span class="k">class</span> <span class="nc">Worker</span><span class="p">(</span><span class="n">Thread</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;The Worker class is a base class responsible for receiving connections</span>
@@ -1552,15 +1551,15 @@
         <span class="k">return</span> <span class="n">headers</span>
 
 <span class="k">class</span> <span class="nc">SocketTimeout</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="s">&quot;Exception for when a socket times out between requests.&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Exception for when a socket times out between requests.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
 
 <span class="k">class</span> <span class="nc">BadRequest</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="s">&quot;Exception for when a client sends an incomprehensible request.&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Exception for when a client sends an incomprehensible request.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
 
 <span class="k">class</span> <span class="nc">SocketClosed</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="s">&quot;Exception for when a socket is closed by the client.&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Exception for when a socket is closed by the client.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
 
 <span class="k">class</span> <span class="nc">ChunkedReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -1704,7 +1703,7 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">FileWrapper</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">CHUNK_SIZE</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">LimitingFileWrapper</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">CHUNK_SIZE</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">LimitingFileWrapper</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">blksize</span><span class="o">=</span><span class="n">CHUNK_SIZE</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">end</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s">&quot;206 Partial Content&quot;</span>
             <span class="k">except</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">FileWrapper</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">CHUNK_SIZE</span><span class="p">)</span>
@@ -2098,7 +2097,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../../" title="Back to home page">
         <img class="logo" src="../../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -2117,15 +2116,10 @@
         <li>
         <a href="../../../">Module code</a>
         <ul>
-        <li>
-        <a href="../../">errbot</a>
-        <ul>
-        </ul>
-        </li>
         </ul>
         </li>
 </ul>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../../search/" method="get">
       <input type="text" name="q" />
@@ -2152,7 +2146,7 @@
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -2161,15 +2155,14 @@
         <li class="right" >
           <a href="../../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../../../" >Module code</a> &raquo;</li>
-          <li><a href="../../" >errbot</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../../" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

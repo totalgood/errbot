@@ -1,0 +1,7 @@
+errbot.streaming module
+=======================
+
+.. automodule:: errbot.streaming
+    :members:
+    :undoc-members:
+    :show-inheritance:

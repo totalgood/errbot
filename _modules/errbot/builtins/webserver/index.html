@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.builtins.webserver &mdash; Err 2.1.0 documentation</title>
+    <title>errbot.builtins.webserver &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../../../../" />
-    <link rel="up" title="errbot" href="../../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../../../../" />
+    <link rel="up" title="Module code" href="../../../" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -56,11 +56,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -69,9 +69,8 @@
         <li class="right" >
           <a href="../../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../../../" >Module code</a> &raquo;</li>
-          <li><a href="../../" accesskey="U">errbot</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../../" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -79,7 +78,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for errbot.builtins.webserver</h1><div class="highlight"><pre>
 <span class="kn">import</span> <span class="nn">sys</span>
@@ -87,8 +86,7 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">json</span> <span class="kn">import</span> <span class="n">loads</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span>
-<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span>
-<span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">holder</span><span class="p">,</span> <span class="n">PY3</span>
+<span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">PY3</span>
 <span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">botcmd</span>
 <span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span>
 <span class="kn">from</span> <span class="nn">errbot.version</span> <span class="kn">import</span> <span class="n">VERSION</span>
@@ -96,7 +94,6 @@
 <span class="kn">from</span> <span class="nn">errbot.decorators</span> <span class="kn">import</span> <span class="n">webhook</span>
 <span class="kn">from</span> <span class="nn">errbot.bundled.rocket</span> <span class="kn">import</span> <span class="n">Rocket</span>
 <span class="kn">from</span> <span class="nn">webtest</span> <span class="kn">import</span> <span class="n">TestApp</span>
-<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">BOT_DATA_DIR</span>
 
 <span class="k">if</span> <span class="n">PY3</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">unquote</span>
@@ -265,10 +262,10 @@
 
         <span class="k">yield</span> <span class="p">(</span><span class="s">&quot;Generating a new private key and certificate. This could take a &quot;</span>
                <span class="s">&quot;while if your system is slow or low on entropy&quot;</span><span class="p">)</span>
-        <span class="n">key_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">BOT_DATA_DIR</span><span class="p">,</span> <span class="s">&quot;webserver_key.pem&quot;</span><span class="p">))</span>
-        <span class="n">cert_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">BOT_DATA_DIR</span><span class="p">,</span> <span class="s">&quot;webserver_certificate.pem&quot;</span><span class="p">))</span>
+        <span class="n">key_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span><span class="o">.</span><span class="n">BOT_DATA_DIR</span><span class="p">,</span> <span class="s">&quot;webserver_key.pem&quot;</span><span class="p">))</span>
+        <span class="n">cert_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span><span class="o">.</span><span class="n">BOT_DATA_DIR</span><span class="p">,</span> <span class="s">&quot;webserver_certificate.pem&quot;</span><span class="p">))</span>
         <span class="n">make_ssl_certificate</span><span class="p">(</span><span class="n">key_path</span><span class="o">=</span><span class="n">key_path</span><span class="p">,</span> <span class="n">cert_path</span><span class="o">=</span><span class="n">cert_path</span><span class="p">)</span>
-        <span class="k">yield</span> <span class="s">&quot;Certificate successfully generated and saved in {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">BOT_DATA_DIR</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="s">&quot;Certificate successfully generated and saved in {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span><span class="o">.</span><span class="n">BOT_DATA_DIR</span><span class="p">)</span>
 
         <span class="n">suggested_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span>
         <span class="n">suggested_config</span><span class="p">[</span><span class="s">&#39;SSL&#39;</span><span class="p">][</span><span class="s">&#39;enabled&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
@@ -290,7 +287,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../../" title="Back to home page">
         <img class="logo" src="../../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -309,15 +306,10 @@
         <li>
         <a href="../../../">Module code</a>
         <ul>
-        <li>
-        <a href="../../">errbot</a>
-        <ul>
-        </ul>
-        </li>
         </ul>
         </li>
 </ul>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../../search/" method="get">
       <input type="text" name="q" />
@@ -344,7 +336,7 @@
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -353,15 +345,14 @@
         <li class="right" >
           <a href="../../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../../../" >Module code</a> &raquo;</li>
-          <li><a href="../../" >errbot</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../../" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

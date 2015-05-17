@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.hipchat &mdash; Err 2.1.0 documentation</title>
+    <title>errbot.backends.hipchat &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../../../../" />
-    <link rel="up" title="errbot" href="../../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../../../../" />
+    <link rel="up" title="Module code" href="../../../" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -56,11 +56,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -69,9 +69,8 @@
         <li class="right" >
           <a href="../../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../../../" >Module code</a> &raquo;</li>
-          <li><a href="../../" accesskey="U">errbot</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../../" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -79,77 +78,388 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for errbot.backends.hipchat</h1><div class="highlight"><pre>
-<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlencode</span>
-<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">Request</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 
-<span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">CHATROOM_FN</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">hypchat</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&quot;Could not start the HipChat backend&quot;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span>
+        <span class="s">&quot;You need to install the hypchat package in order to use the HipChat &quot;</span>
+        <span class="s">&quot;back-end. You should be able to install this package using: &quot;</span>
+        <span class="s">&quot;pip install hypchat&quot;</span>
+    <span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">holder</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">MUCOccupant</span><span class="p">,</span> <span class="n">MUCRoom</span><span class="p">,</span> <span class="n">RoomDoesNotExistError</span>
 <span class="kn">from</span> <span class="nn">errbot.backends.xmpp</span> <span class="kn">import</span> <span class="n">XMPPBackend</span><span class="p">,</span> <span class="n">XMPPConnection</span>
-<span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">utf8</span><span class="p">,</span> <span class="n">REMOVE_EOL</span><span class="p">,</span> <span class="n">mess_2_embeddablehtml</span>
-<span class="kn">import</span> <span class="nn">re</span>
-
-<span class="n">HIPCHAT_MESSAGE_URL</span> <span class="o">=</span> <span class="s">&#39;https://api.hipchat.com/v1/rooms/message&#39;</span>
-
-<span class="n">HIPCHAT_FORCE_PRE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;body&gt;&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
-<span class="n">HIPCHAT_FORCE_SLASH_PRE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;/body&gt;&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
-<span class="n">HIPCHAT_EOLS</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;/p&gt;|&lt;/li&gt;&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
-<span class="n">HIPCHAT_BOLS</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;p [^&gt;]+&gt;|&lt;li [^&gt;]+&gt;&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">parse_jid</span>
 
 
-<div class="viewcode-block" id="xhtml2hipchat"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.xhtml2hipchat">[docs]</a><span class="k">def</span> <span class="nf">xhtml2hipchat</span><span class="p">(</span><span class="n">xhtml</span><span class="p">):</span>
-    <span class="c"># Hipchat has a really limited html support</span>
-    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">REMOVE_EOL</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">xhtml</span><span class="p">)</span>  <span class="c"># Ignore formatting</span>
-    <span class="c"># Readd the \n where they probably fit best</span>
-    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">HIPCHAT_EOLS</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&lt;br/&gt;&#39;</span><span class="p">,</span> <span class="n">retarded_hipchat_html_plain</span><span class="p">)</span>
-    <span class="c"># Zap every tag left</span>
-    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">HIPCHAT_BOLS</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">retarded_hipchat_html_plain</span><span class="p">)</span>
-    <span class="c"># Fix pre</span>
-    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">HIPCHAT_FORCE_PRE</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&lt;body&gt;&lt;pre&gt;&#39;</span><span class="p">,</span> <span class="n">retarded_hipchat_html_plain</span><span class="p">)</span>
-    <span class="c"># Fix /pre</span>
-    <span class="n">retarded_hipchat_html_plain</span> <span class="o">=</span> <span class="n">HIPCHAT_FORCE_SLASH_PRE</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&lt;/pre&gt;&lt;/body&gt;&#39;</span><span class="p">,</span> <span class="n">retarded_hipchat_html_plain</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">retarded_hipchat_html_plain</span>
+<div class="viewcode-block" id="HipChatMUCOccupant"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipChatMUCOccupant">[docs]</a><span class="k">class</span> <span class="nc">HipChatMUCOccupant</span><span class="p">(</span><span class="n">MUCOccupant</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An occupant of a Multi-User Chatroom.</span>
+
+<span class="sd">    This class has all the attributes that are returned by a call to</span>
+<span class="sd">    https://www.hipchat.com/docs/apiv2/method/get_all_participants</span>
+<span class="sd">    with the link to self expanded.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="HipChatMUCOccupant.__init__"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipChatMUCOccupant.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param user:</span>
+<span class="sd">            A user object as returned by</span>
+<span class="sd">            https://www.hipchat.com/docs/apiv2/method/get_all_participants</span>
+<span class="sd">            with the link to self expanded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">user</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HipChatMUCOccupant</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">jid</span><span class="o">=</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;xmpp_jid&#39;</span><span class="p">])</span>
+</div>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
 
 </div>
+<div class="viewcode-block" id="HipChatMUCRoom"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipChatMUCRoom">[docs]</a><span class="k">class</span> <span class="nc">HipChatMUCRoom</span><span class="p">(</span><span class="n">MUCRoom</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class represents a Multi-User Chatroom.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="HipChatMUCRoom.__init__"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipChatMUCRoom.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            :param name:</span>
+<span class="sd">                The name of the room</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hypchat</span> <span class="o">=</span> <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">hypchat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xep0045</span> <span class="o">=</span> <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">plugin</span><span class="p">[</span><span class="s">&#39;xep_0045&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">room</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return room information from the HipChat API</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Querying HipChat API for room {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hypchat</span><span class="o">.</span><span class="n">get_room</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">hypchat</span><span class="o">.</span><span class="n">requests</span><span class="o">.</span><span class="n">HttpNotFound</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">RoomDoesNotExistError</span><span class="p">(</span><span class="s">&quot;The given room does not exist.&quot;</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The name of this room</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+    <span class="nd">@name.setter</span>
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">jid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">room</span><span class="p">[</span><span class="s">&#39;xmpp_jid&#39;</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">node</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">parse_jid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">domain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">parse_jid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">resource</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">parse_jid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;&lt;HipChatMUCRoom(&#39;{}&#39;)&gt;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name</span>
+
+<div class="viewcode-block" id="HipChatMUCRoom.join"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipChatMUCRoom.join">[docs]</a>    <span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Join the room.</span>
+
+<span class="sd">        If the room does not exist yet, this will automatically call</span>
+<span class="sd">        :meth:`create` on it first.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exists</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+
+        <span class="n">room</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">jid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xep0045</span><span class="o">.</span><span class="n">joinMUC</span><span class="p">(</span><span class="n">room</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">wait</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span>
+            <span class="s">&quot;muc::{}::got_online&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">room</span><span class="p">),</span>
+            <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">user_joined_chat</span>
+        <span class="p">)</span>
+        <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">add_event_handler</span><span class="p">(</span>
+            <span class="s">&quot;muc::{}::got_offline&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">room</span><span class="p">),</span>
+            <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">user_left_chat</span>
+        <span class="p">)</span>
+
+        <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">callback_room_joined</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Joined room {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="HipChatMUCRoom.leave"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipChatMUCRoom.leave">[docs]</a>    <span class="k">def</span> <span class="nf">leave</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Leave the room.</span>
+
+<span class="sd">        :param reason:</span>
+<span class="sd">            An optional string explaining the reason for leaving the room</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">reason</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">reason</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">room</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">jid</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">xep0045</span><span class="o">.</span><span class="n">leaveMUC</span><span class="p">(</span><span class="n">room</span><span class="o">=</span><span class="n">room</span><span class="p">,</span> <span class="n">nick</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">xep0045</span><span class="o">.</span><span class="n">ourNicks</span><span class="p">[</span><span class="n">room</span><span class="p">],</span> <span class="n">msg</span><span class="o">=</span><span class="n">reason</span><span class="p">)</span>
+            <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">del_event_handler</span><span class="p">(</span>
+                <span class="s">&quot;muc::{}::got_online&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">room</span><span class="p">),</span>
+                <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">user_joined_chat</span>
+            <span class="p">)</span>
+            <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">del_event_handler</span><span class="p">(</span>
+                <span class="s">&quot;muc::{}::got_offline&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">room</span><span class="p">),</span>
+                <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">user_left_chat</span>
+            <span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Left room {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+            <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">callback_room_left</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Trying to leave {} while not in this room&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="HipChatMUCRoom.create"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipChatMUCRoom.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">privacy</span><span class="o">=</span><span class="s">&quot;public&quot;</span><span class="p">,</span> <span class="n">guest_access</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create the room.</span>
+
+<span class="sd">        Calling this on an already existing room is a no-op.</span>
+
+<span class="sd">        :param privacy:</span>
+<span class="sd">            Whether the room is available for access by other users or not.</span>
+<span class="sd">            Valid values are &quot;public&quot; and &quot;private&quot;.</span>
+<span class="sd">        :param guest_access:</span>
+<span class="sd">            Whether or not to enable guest access for this room.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exists</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Tried to create the room {}, but it has already been created&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hypchat</span><span class="o">.</span><span class="n">create_room</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">privacy</span><span class="o">=</span><span class="n">privacy</span><span class="p">,</span>
+                <span class="n">guest_access</span><span class="o">=</span><span class="n">guest_access</span>
+            <span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Created room {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="HipChatMUCRoom.destroy"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipChatMUCRoom.destroy">[docs]</a>    <span class="k">def</span> <span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Destroy the room.</span>
+
+<span class="sd">        Calling this on a non-existing room is a no-op.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">room</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Destroyed room {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="k">except</span> <span class="n">RoomDoesNotExistError</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Can&#39;t destroy room {}, it doesn&#39;t exist&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Boolean indicating whether this room already exists or not.</span>
+
+<span class="sd">        :getter:</span>
+<span class="sd">            Returns `True` if the room exists, `False` otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hypchat</span><span class="o">.</span><span class="n">get_room</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">except</span> <span class="n">hypchat</span><span class="o">.</span><span class="n">requests</span><span class="o">.</span><span class="n">HttpNotFound</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">joined</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Boolean indicating whether this room has already been joined or not.</span>
+
+<span class="sd">        :getter:</span>
+<span class="sd">            Returns `True` if the room has been joined, `False` otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">jid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xep0045</span><span class="o">.</span><span class="n">getJoinedRooms</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">topic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The room topic.</span>
+
+<span class="sd">        :getter:</span>
+<span class="sd">            Returns the topic (a string) if one is set, `None` if no</span>
+<span class="sd">            topic has been set at all.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">room</span><span class="p">[</span><span class="s">&#39;topic&#39;</span><span class="p">]</span>
+
+    <span class="nd">@topic.setter</span>
+    <span class="k">def</span> <span class="nf">topic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the room&#39;s topic.</span>
+
+<span class="sd">        :param topic:</span>
+<span class="sd">            The topic to set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">room</span><span class="o">.</span><span class="n">topic</span><span class="p">(</span><span class="n">topic</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Changed topic of {} to {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">occupants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The room&#39;s occupants.</span>
+
+<span class="sd">        :getter:</span>
+<span class="sd">            Returns a list of :class:`~HipChatMUCOccupant` instances.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">participants</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">room</span><span class="o">.</span><span class="n">participants</span><span class="p">(</span><span class="n">expand</span><span class="o">=</span><span class="s">&quot;items&quot;</span><span class="p">)[</span><span class="s">&#39;items&#39;</span><span class="p">]</span>
+        <span class="n">occupants</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">participants</span><span class="p">:</span>
+            <span class="n">occupants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">HipChatMUCOccupant</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">occupants</span>
+
+<div class="viewcode-block" id="HipChatMUCRoom.invite"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipChatMUCRoom.invite">[docs]</a>    <span class="k">def</span> <span class="nf">invite</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Invite one or more people into the room.</span>
+
+<span class="sd">        :*args:</span>
+<span class="sd">            One or more people to invite into the room. May be the</span>
+<span class="sd">            mention name (beginning with an @) or &quot;FirstName LastName&quot;</span>
+<span class="sd">            of the user you wish to invite.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">room</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">room</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">users</span>
+
+        <span class="k">for</span> <span class="n">person</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">person</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;@&quot;</span><span class="p">):</span>
+                    <span class="n">user</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">users</span> <span class="k">if</span> <span class="n">u</span><span class="p">[</span><span class="s">&#39;mention_name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">person</span><span class="p">[</span><span class="mi">1</span><span class="p">:]][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">user</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">users</span> <span class="k">if</span> <span class="n">u</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">person</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;No user by the name of {} found&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">person</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">room</span><span class="p">[</span><span class="s">&#39;privacy&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;private&quot;</span><span class="p">:</span>
+                    <span class="n">room</span><span class="o">.</span><span class="n">members</span><span class="p">()</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Added {} to private room {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="p">))</span>
+                <span class="n">room</span><span class="o">.</span><span class="n">invite</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s">&quot;No reason given.&quot;</span><span class="p">)</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Invited {} to {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">person</span><span class="p">,</span> <span class="bp">self</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="HipChatMUCRoom.notify"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipChatMUCRoom.notify">[docs]</a>    <span class="k">def</span> <span class="nf">notify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">notify</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">message_format</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Send a notification to a room.</span>
+
+<span class="sd">        See the</span>
+<span class="sd">        `HipChat API documentation &lt;https://www.hipchat.com/docs/apiv2/method/send_room_notification&gt;`_</span>
+<span class="sd">        for more info.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">room</span><span class="o">.</span><span class="n">notification</span><span class="p">(</span>
+            <span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">notify</span><span class="o">=</span><span class="n">notify</span><span class="p">,</span>
+            <span class="n">format</span><span class="o">=</span><span class="n">message_format</span>
+        <span class="p">)</span>
+
+</div></div>
 <div class="viewcode-block" id="HipchatClient"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatClient">[docs]</a><span class="k">class</span> <span class="nc">HipchatClient</span><span class="p">(</span><span class="n">XMPPConnection</span><span class="p">):</span>
 <div class="viewcode-block" id="HipchatClient.__init__"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatClient.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;token&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">HipchatClient</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="HipchatClient.send_api_message"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatClient.send_api_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_api_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room_id</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">message_format</span><span class="o">=</span><span class="s">&#39;html&#39;</span><span class="p">):</span>
-        <span class="n">base</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;format&#39;</span><span class="p">:</span> <span class="s">&#39;json&#39;</span><span class="p">,</span> <span class="s">&#39;auth_token&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">}</span>
-        <span class="n">red_data</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;room_id&#39;</span><span class="p">:</span> <span class="n">room_id</span><span class="p">,</span> <span class="s">&#39;from&#39;</span><span class="p">:</span> <span class="n">fr</span><span class="p">,</span> <span class="s">&#39;message&#39;</span><span class="p">:</span> <span class="n">utf8</span><span class="p">(</span><span class="n">message</span><span class="p">),</span> <span class="s">&#39;message_format&#39;</span><span class="p">:</span> <span class="n">message_format</span><span class="p">}</span>
-        <span class="n">req</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">HIPCHAT_MESSAGE_URL</span> <span class="o">+</span> <span class="s">&#39;?&#39;</span> <span class="o">+</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">base</span><span class="p">),</span> <span class="n">data</span><span class="o">=</span><span class="n">urlencode</span><span class="p">(</span><span class="n">red_data</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">))</span>
-</div>
-<div class="viewcode-block" id="HipchatClient.send_message"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatClient.send_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="ow">and</span> <span class="n">mess</span><span class="o">.</span><span class="n">getType</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;groupchat&#39;</span><span class="p">:</span>
-
-            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Message intercepted for Hipchat API&#39;</span><span class="p">)</span>
-            <span class="n">content</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">mess_2_embeddablehtml</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
-            <span class="n">room_jid</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">getTo</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send_api_message</span><span class="p">(</span><span class="n">room_jid</span><span class="o">.</span><span class="n">getNode</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">CHATROOM_FN</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">super</span><span class="p">(</span><span class="n">HipchatClient</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
-
-
-<span class="c"># It is just a different mode for the moment</span></div></div>
-<div class="viewcode-block" id="HipchatBackend"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatBackend">[docs]</a><span class="k">class</span> <span class="nc">HipchatBackend</span><span class="p">(</span><span class="n">XMPPBackend</span><span class="p">):</span>
-<div class="viewcode-block" id="HipchatBackend.__init__"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatBackend.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">api_token</span> <span class="o">=</span> <span class="n">token</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">password</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">HipchatBackend</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="HipchatBackend.create_connection"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatBackend.create_connection">[docs]</a>    <span class="k">def</span> <span class="nf">create_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">HipchatClient</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="p">[],</span> <span class="n">token</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">api_token</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hypchat</span> <span class="o">=</span> <span class="n">hypchat</span><span class="o">.</span><span class="n">HypChat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="HipchatBackend.mode"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatBackend.mode">[docs]</a>    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">&#39;hipchat&#39;</span></div></div>
+    <span class="k">def</span> <span class="nf">users</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A list of all the users.</span>
+
+<span class="sd">        See also: https://www.hipchat.com/docs/apiv2/method/get_all_users</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hypchat</span><span class="o">.</span><span class="n">users</span><span class="p">(</span><span class="n">expand</span><span class="o">=</span><span class="s">&#39;items&#39;</span><span class="p">)</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s">&#39;items&#39;</span><span class="p">]</span>
+        <span class="n">next_link</span> <span class="o">=</span> <span class="s">&#39;next&#39;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s">&#39;links&#39;</span><span class="p">]</span>
+        <span class="k">while</span> <span class="n">next_link</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+            <span class="n">users</span> <span class="o">+=</span> <span class="n">result</span><span class="p">[</span><span class="s">&#39;items&#39;</span><span class="p">]</span>
+            <span class="n">next_link</span> <span class="o">=</span> <span class="s">&#39;next&#39;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s">&#39;links&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">users</span>
+
+</div>
+<div class="viewcode-block" id="HipchatBackend"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatBackend">[docs]</a><span class="k">class</span> <span class="nc">HipchatBackend</span><span class="p">(</span><span class="n">XMPPBackend</span><span class="p">):</span>
+<div class="viewcode-block" id="HipchatBackend.__init__"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatBackend.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_token</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">BOT_IDENTITY</span><span class="p">[</span><span class="s">&#39;token&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">BOT_IDENTITY</span><span class="p">[</span><span class="s">&#39;password&#39;</span><span class="p">]</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HipchatBackend</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="HipchatBackend.create_connection"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatBackend.create_connection">[docs]</a>    <span class="k">def</span> <span class="nf">create_connection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># HipChat connections time out with the default keepalive interval</span>
+        <span class="c"># so use a lower value that is known to work, but only if the user</span>
+        <span class="c"># does not specify their own value in their config.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">keepalive</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keepalive</span> <span class="o">=</span> <span class="mi">60</span>
+
+        <span class="k">return</span> <span class="n">HipchatClient</span><span class="p">(</span>
+            <span class="n">jid</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">jid</span><span class="p">,</span>
+            <span class="n">password</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">password</span><span class="p">,</span>
+            <span class="n">feature</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">feature</span><span class="p">,</span>
+            <span class="n">keepalive</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">keepalive</span><span class="p">,</span>
+            <span class="n">ca_cert</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ca_cert</span><span class="p">,</span>
+            <span class="n">token</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">api_token</span><span class="p">,</span>
+        <span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;hipchat&#39;</span>
+
+<div class="viewcode-block" id="HipchatBackend.rooms"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatBackend.rooms">[docs]</a>    <span class="k">def</span> <span class="nf">rooms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a list of rooms the bot is currently in.</span>
+
+<span class="sd">        :returns:</span>
+<span class="sd">            A list of :class:`~HipChatMUCRoom` instances.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">xep0045</span> <span class="o">=</span> <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">plugin</span><span class="p">[</span><span class="s">&#39;xep_0045&#39;</span><span class="p">]</span>
+        <span class="n">rooms</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c"># Build a mapping of xmpp_jid-&gt;name for easy reference</span>
+        <span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">hypchat</span><span class="o">.</span><span class="n">rooms</span><span class="p">(</span><span class="n">expand</span><span class="o">=</span><span class="s">&#39;items&#39;</span><span class="p">)[</span><span class="s">&#39;items&#39;</span><span class="p">]:</span>
+            <span class="n">rooms</span><span class="p">[</span><span class="n">room</span><span class="p">[</span><span class="s">&#39;xmpp_jid&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">room</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span>
+
+        <span class="n">joined_rooms</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">room</span> <span class="ow">in</span> <span class="n">xep0045</span><span class="o">.</span><span class="n">getJoinedRooms</span><span class="p">():</span>
+            <span class="n">joined_rooms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">HipChatMUCRoom</span><span class="p">(</span><span class="n">rooms</span><span class="p">[</span><span class="n">room</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">joined_rooms</span>
+</div>
+<div class="viewcode-block" id="HipchatBackend.query_room"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatBackend.query_room">[docs]</a>    <span class="k">def</span> <span class="nf">query_room</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Query a room for information.</span>
+
+<span class="sd">        :param room:</span>
+<span class="sd">            The name (preferred) or XMPP JID of the room to query for.</span>
+<span class="sd">        :returns:</span>
+<span class="sd">            An instance of :class:`~HipChatMUCRoom`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">room</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;@conf.hipchat.com&#39;</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Room specified by JID, looking up room name&quot;</span><span class="p">)</span>
+            <span class="n">rooms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">hypchat</span><span class="o">.</span><span class="n">rooms</span><span class="p">(</span><span class="n">expand</span><span class="o">=</span><span class="s">&#39;items&#39;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rooms</span><span class="p">[</span><span class="s">&#39;items&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s">&#39;xmpp_jid&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">room</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">RoomDoesNotExistError</span><span class="p">(</span><span class="s">&quot;No room with JID {} found.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">room</span><span class="p">))</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Found {} to be the room {}, consider specifying this directly.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">room</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">room</span>
+
+        <span class="k">return</span> <span class="n">HipChatMUCRoom</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="HipchatBackend.groupchat_reply_format"><a class="viewcode-back" href="../../../../errbot.backends.hipchat/#errbot.backends.hipchat.HipchatBackend.groupchat_reply_format">[docs]</a>    <span class="k">def</span> <span class="nf">groupchat_reply_format</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;@{0} {1}&#39;</span></div></div>
 </pre></div>
   <div id="prev_next_links">
       
@@ -161,7 +471,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../../" title="Back to home page">
         <img class="logo" src="../../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -180,15 +490,10 @@
         <li>
         <a href="../../../">Module code</a>
         <ul>
-        <li>
-        <a href="../../">errbot</a>
-        <ul>
-        </ul>
-        </li>
         </ul>
         </li>
 </ul>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../../search/" method="get">
       <input type="text" name="q" />
@@ -215,7 +520,7 @@
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -224,15 +529,14 @@
         <li class="right" >
           <a href="../../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../../../" >Module code</a> &raquo;</li>
-          <li><a href="../../" >errbot</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../../" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

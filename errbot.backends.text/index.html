@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.text module &mdash; Err 2.1.0 documentation</title>
+    <title>errbot.backends.text module &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../" />
     <link rel="up" title="errbot.backends package" href="../errbot.backends/" />
     <link rel="next" title="errbot.backends.xmpp module" href="../errbot.backends.xmpp/" />
     <link rel="prev" title="errbot.backends.test module" href="../errbot.backends.test/" />
@@ -58,11 +58,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -77,9 +77,9 @@
         <li class="right" >
           <a href="../errbot.backends.test/" title="errbot.backends.test module"
              accesskey="P">previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
-          <li><a href="../errbot.backends/" accesskey="U">errbot.backends package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.backends/" accesskey="U">errbot.backends package</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -87,63 +87,118 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-errbot.backends.text">
 <span id="errbot-backends-text-module"></span><h1>errbot.backends.text module<a class="headerlink" href="#module-errbot.backends.text" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="errbot.backends.text.ConnectionMock">
-<em class="property">class </em><tt class="descclassname">errbot.backends.text.</tt><tt class="descname">ConnectionMock</tt><a class="reference internal" href="../_modules/errbot/backends/text/#ConnectionMock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.ConnectionMock" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dt id="errbot.backends.text.TextBackend">
+<em class="property">class </em><code class="descclassname">errbot.backends.text.</code><code class="descname">TextBackend</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/text/#TextBackend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextBackend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.errBot/#errbot.errBot.ErrBot" title="errbot.errBot.ErrBot"><code class="xref py py-class docutils literal"><span class="pre">errbot.errBot.ErrBot</span></code></a></p>
 <dl class="method">
-<dt id="errbot.backends.text.ConnectionMock.send">
-<tt class="descname">send</tt><big>(</big><em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/text/#ConnectionMock.send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.ConnectionMock.send" title="Permalink to this definition">¶</a></dt>
+<dt id="errbot.backends.text.TextBackend.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/text/#TextBackend.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextBackend.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.text.ConnectionMock.send_message">
-<tt class="descname">send_message</tt><big>(</big><em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/text/#ConnectionMock.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.ConnectionMock.send_message" title="Permalink to this definition">¶</a></dt>
+<dt id="errbot.backends.text.TextBackend.build_message">
+<code class="descname">build_message</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/text/#TextBackend.build_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextBackend.build_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.text.TextBackend.groupchat_reply_format">
+<code class="descname">groupchat_reply_format</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/text/#TextBackend.groupchat_reply_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextBackend.groupchat_reply_format" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.text.TextBackend.join_room">
+<code class="descname">join_room</code><em class="property"> = &lt;errbot.utils.deprecated object&gt;</em><a class="headerlink" href="#errbot.backends.text.TextBackend.join_room" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.text.TextBackend.mode">
+<code class="descname">mode</code><a class="headerlink" href="#errbot.backends.text.TextBackend.mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.text.TextBackend.query_room">
+<code class="descname">query_room</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/text/#TextBackend.query_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextBackend.query_room" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.text.TextBackend.rooms">
+<code class="descname">rooms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/text/#TextBackend.rooms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextBackend.rooms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.text.TextBackend.send_message">
+<code class="descname">send_message</code><span class="sig-paren">(</span><em>mess</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/text/#TextBackend.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextBackend.send_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.text.TextBackend.serve_forever">
+<code class="descname">serve_forever</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/text/#TextBackend.serve_forever"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextBackend.serve_forever" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.text.TextBackend.shutdown">
+<code class="descname">shutdown</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/text/#TextBackend.shutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextBackend.shutdown" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="errbot.backends.text.TextBackend">
-<em class="property">class </em><tt class="descclassname">errbot.backends.text.</tt><tt class="descname">TextBackend</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/text/#TextBackend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextBackend" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../errbot.errBot/#errbot.errBot.ErrBot" title="errbot.errBot.ErrBot"><tt class="xref py py-class docutils literal"><span class="pre">errbot.errBot.ErrBot</span></tt></a></p>
+<dt id="errbot.backends.text.TextMUCRoom">
+<em class="property">class </em><code class="descclassname">errbot.backends.text.</code><code class="descname">TextMUCRoom</code><span class="sig-paren">(</span><em>jid=None</em>, <em>node=''</em>, <em>domain=''</em>, <em>resource=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/text/#TextMUCRoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextMUCRoom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.backends.base/#errbot.backends.base.MUCRoom" title="errbot.backends.base.MUCRoom"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.MUCRoom</span></code></a></p>
 <dl class="method">
-<dt id="errbot.backends.text.TextBackend.build_message">
-<tt class="descname">build_message</tt><big>(</big><em>text</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/text/#TextBackend.build_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextBackend.build_message" title="Permalink to this definition">¶</a></dt>
+<dt id="errbot.backends.text.TextMUCRoom.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>jid=None</em>, <em>node=''</em>, <em>domain=''</em>, <em>resource=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/text/#TextMUCRoom.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextMUCRoom.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.text.TextMUCRoom.create">
+<code class="descname">create</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/text/#TextMUCRoom.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextMUCRoom.create" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.text.TextMUCRoom.destroy">
+<code class="descname">destroy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/text/#TextMUCRoom.destroy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextMUCRoom.destroy" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="errbot.backends.text.TextBackend.conn">
-<tt class="descname">conn</tt><em class="property"> = &lt;errbot.backends.text.ConnectionMock object at 0x7ff6b999a7f0&gt;</em><a class="headerlink" href="#errbot.backends.text.TextBackend.conn" title="Permalink to this definition">¶</a></dt>
+<dt id="errbot.backends.text.TextMUCRoom.exists">
+<code class="descname">exists</code><a class="headerlink" href="#errbot.backends.text.TextMUCRoom.exists" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.text.TextBackend.connect">
-<tt class="descname">connect</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/text/#TextBackend.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextBackend.connect" title="Permalink to this definition">¶</a></dt>
+<dt id="errbot.backends.text.TextMUCRoom.invite">
+<code class="descname">invite</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/text/#TextMUCRoom.invite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextMUCRoom.invite" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.text.TextBackend.join_room">
-<tt class="descname">join_room</tt><big>(</big><em>room</em>, <em>username=None</em>, <em>password=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/text/#TextBackend.join_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextBackend.join_room" title="Permalink to this definition">¶</a></dt>
+<dt id="errbot.backends.text.TextMUCRoom.join">
+<code class="descname">join</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/text/#TextMUCRoom.join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextMUCRoom.join" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="errbot.backends.text.TextBackend.mode">
-<tt class="descname">mode</tt><a class="reference internal" href="../_modules/errbot/backends/text/#TextBackend.mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextBackend.mode" title="Permalink to this definition">¶</a></dt>
+<dt id="errbot.backends.text.TextMUCRoom.joined">
+<code class="descname">joined</code><a class="headerlink" href="#errbot.backends.text.TextMUCRoom.joined" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="errbot.backends.text.TextBackend.serve_forever">
-<tt class="descname">serve_forever</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/text/#TextBackend.serve_forever"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextBackend.serve_forever" title="Permalink to this definition">¶</a></dt>
+<dt id="errbot.backends.text.TextMUCRoom.leave">
+<code class="descname">leave</code><span class="sig-paren">(</span><em>reason=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/text/#TextMUCRoom.leave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextMUCRoom.leave" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="errbot.backends.text.TextBackend.shutdown">
-<tt class="descname">shutdown</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/text/#TextBackend.shutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.text.TextBackend.shutdown" title="Permalink to this definition">¶</a></dt>
+<dl class="attribute">
+<dt id="errbot.backends.text.TextMUCRoom.occupants">
+<code class="descname">occupants</code><a class="headerlink" href="#errbot.backends.text.TextMUCRoom.occupants" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.text.TextMUCRoom.topic">
+<code class="descname">topic</code><a class="headerlink" href="#errbot.backends.text.TextMUCRoom.topic" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -165,7 +220,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../" title="Back to home page">
         <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -194,12 +249,14 @@
         </ul>
         </li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/errbot.backends.text.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/errbot.backends.text.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search/" method="get">
       <input type="text" name="q" />
@@ -226,7 +283,7 @@
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -241,15 +298,15 @@
         <li class="right" >
           <a href="../errbot.backends.test/" title="errbot.backends.test module"
              >previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
-          <li><a href="../errbot.backends/" >errbot.backends package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.backends/" >errbot.backends package</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

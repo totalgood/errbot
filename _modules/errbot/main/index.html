@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.main &mdash; Err 2.1.0 documentation</title>
+    <title>errbot.main &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../../../" />
-    <link rel="up" title="errbot" href="../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../../../" />
+    <link rel="up" title="Module code" href="../../" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -56,11 +56,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -69,9 +69,8 @@
         <li class="right" >
           <a href="../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../../" >Module code</a> &raquo;</li>
-          <li><a href="../" accesskey="U">errbot</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -79,28 +78,28 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for errbot.main</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">makedirs</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">getcwd</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">makedirs</span><span class="p">,</span> <span class="n">sep</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../errbot.main/#errbot.main.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">bot_class</span><span class="p">,</span> <span class="n">logger</span><span class="p">):</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../errbot.main/#errbot.main.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">bot_class</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
     <span class="c"># from here the environment is supposed to be set (daemon / non daemon,</span>
     <span class="c"># config.py in the python path )</span>
 
-    <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">BOT_IDENTITY</span><span class="p">,</span> <span class="n">BOT_LOG_LEVEL</span><span class="p">,</span> <span class="n">BOT_DATA_DIR</span><span class="p">,</span> <span class="n">BOT_LOG_FILE</span><span class="p">,</span> <span class="n">BOT_LOG_SENTRY</span>
-    <span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">PLUGINS_SUBDIR</span>
-    <span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">holder</span>
+    <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">PLUGINS_SUBDIR</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">holder</span>
+    <span class="kn">from</span> <span class="nn">.errBot</span> <span class="kn">import</span> <span class="n">bot_config_defaults</span>
+    <span class="n">bot_config_defaults</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">BOT_LOG_FILE</span><span class="p">:</span>
-        <span class="n">hdlr</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">BOT_LOG_FILE</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">BOT_LOG_FILE</span><span class="p">:</span>
+        <span class="n">hdlr</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">BOT_LOG_FILE</span><span class="p">)</span>
         <span class="n">hdlr</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%(asctime)s</span><span class="s"> </span><span class="si">%(levelname)s</span><span class="s"> </span><span class="si">%(message)s</span><span class="s">&#39;</span><span class="p">))</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">hdlr</span><span class="p">)</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">BOT_LOG_LEVEL</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">BOT_LOG_SENTRY</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">BOT_LOG_SENTRY</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">raven.handlers.logging</span> <span class="kn">import</span> <span class="n">SentryHandler</span>
         <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
@@ -111,17 +110,21 @@
                 <span class="s">&quot;for installation instructions)&quot;</span>
             <span class="p">)</span>
             <span class="nb">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="kn">from</span> <span class="nn">config</span> <span class="kn">import</span> <span class="n">SENTRY_DSN</span><span class="p">,</span> <span class="n">SENTRY_LOGLEVEL</span>
 
-        <span class="n">sentryhandler</span> <span class="o">=</span> <span class="n">SentryHandler</span><span class="p">(</span><span class="n">SENTRY_DSN</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">SENTRY_LOGLEVEL</span><span class="p">)</span>
+        <span class="n">sentryhandler</span> <span class="o">=</span> <span class="n">SentryHandler</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">SENTRY_DSN</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">SENTRY_LOGLEVEL</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">sentryhandler</span><span class="p">)</span>
 
+    <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">BOT_LOG_LEVEL</span><span class="p">)</span>
+
     <span class="c"># make the plugins subdir to store the plugin shelves</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="n">BOT_DATA_DIR</span> <span class="o">+</span> <span class="n">sep</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">PLUGINS_SUBDIR</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">BOT_DATA_DIR</span><span class="p">,</span> <span class="n">PLUGINS_SUBDIR</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
         <span class="n">makedirs</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mi">0</span><span class="n">o755</span><span class="p">)</span>
-
-    <span class="n">holder</span><span class="o">.</span><span class="n">bot</span> <span class="o">=</span> <span class="n">bot_class</span><span class="p">(</span><span class="o">**</span><span class="n">BOT_IDENTITY</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">holder</span><span class="o">.</span><span class="n">bot</span> <span class="o">=</span> <span class="n">bot_class</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&quot;Unable to configure the backend, please check if your config.py is correct.&quot;</span><span class="p">)</span>
+        <span class="nb">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">errors</span> <span class="o">=</span> <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">update_dynamic_plugins</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Some plugins failed to load:</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">errors</span><span class="p">))</span>
@@ -138,7 +141,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../" title="Back to home page">
         <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -157,15 +160,10 @@
         <li>
         <a href="../../">Module code</a>
         <ul>
-        <li>
-        <a href="../">errbot</a>
-        <ul>
-        </ul>
-        </li>
         </ul>
         </li>
 </ul>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search/" method="get">
       <input type="text" name="q" />
@@ -192,7 +190,7 @@
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -201,15 +199,14 @@
         <li class="right" >
           <a href="../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../../" >Module code</a> &raquo;</li>
-          <li><a href="../" >errbot</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.decorators module &mdash; Err 2.1.0 documentation</title>
+    <title>errbot.decorators module &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../" />
     <link rel="up" title="errbot package" href="../errbot/" />
     <link rel="next" title="errbot.errBot module" href="../errbot.errBot/" />
     <link rel="prev" title="errbot.config-travisci module" href="../errbot.config-travisci/" />
@@ -58,11 +58,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -77,8 +77,8 @@
         <li class="right" >
           <a href="../errbot.config-travisci/" title="errbot.config-travisci module"
              accesskey="P">previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" accesskey="U">errbot package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" accesskey="U">errbot package</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -86,13 +86,13 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-errbot.decorators">
 <span id="errbot-decorators-module"></span><h1>errbot.decorators module<a class="headerlink" href="#module-errbot.decorators" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="errbot.decorators.botcmd">
-<tt class="descclassname">errbot.decorators.</tt><tt class="descname">botcmd</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/decorators/#botcmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.decorators.botcmd" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.decorators.</code><code class="descname">botcmd</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/decorators/#botcmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.decorators.botcmd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for bot command functions</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -102,7 +102,7 @@
 <li><strong>hidden</strong> -- Prevents the command from being shown by the built-in help command when <cite>True</cite>.</li>
 <li><strong>name</strong> -- The name to give to the command. Defaults to name of the function itself.</li>
 <li><strong>split_args_with</strong> -- Automatically split arguments on the given separator.
-Behaviour of this argument is identical to <tt class="xref py py-func docutils literal"><span class="pre">str.split()</span></tt></li>
+Behaviour of this argument is identical to <code class="xref py py-func docutils literal"><span class="pre">str.split()</span></code></li>
 <li><strong>admin_only</strong> -- Only allow the command to be executed by admins when <cite>True</cite>.</li>
 <li><strong>historize</strong> -- Store the command in the history list (<cite>!history</cite>). This is enabled
 by default.</li>
@@ -112,7 +112,7 @@ by default.</li>
 </tr>
 </tbody>
 </table>
-<p>This decorator should be applied to methods of <a class="reference internal" href="../errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><tt class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></tt></a>
+<p>This decorator should be applied to methods of <a class="reference internal" href="../errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><code class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></code></a>
 classes to turn them into commands that can be given to the bot. These methods are
 expected to have a signature like the following:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="nd">@botcmd</span>
@@ -128,7 +128,7 @@ were given to the command by the user.</p>
 
 <dl class="function">
 <dt id="errbot.decorators.re_botcmd">
-<tt class="descclassname">errbot.decorators.</tt><tt class="descname">re_botcmd</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/decorators/#re_botcmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.decorators.re_botcmd" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.decorators.</code><code class="descname">re_botcmd</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/decorators/#re_botcmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.decorators.re_botcmd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for regex-based bot command functions</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -137,9 +137,12 @@ were given to the command by the user.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>pattern</strong> -- The regular expression a message should match against in order to
 trigger the command.</li>
-<li><strong>flags</strong> -- The <cite>flags</cite> parameter which should be passed to <tt class="xref py py-func docutils literal"><span class="pre">re.compile()</span></tt>. This
+<li><strong>flags</strong> -- The <cite>flags</cite> parameter which should be passed to <code class="xref py py-func docutils literal"><span class="pre">re.compile()</span></code>. This
 allows the expression's behaviour to be modified, such as making it case-insensitive
 for example.</li>
+<li><strong>matchall</strong> -- By default, only the first match of the regular expression is returned
+(as a <cite>re.MatchObject</cite>). When <em>matchall</em> is <cite>True</cite>, all non-overlapping matches are
+returned (as a list of <cite>re.MatchObject</cite> items).</li>
 <li><strong>prefixed</strong> -- Requires user input to start with a bot prefix in order for the pattern
 to be applied when <cite>True</cite> (the default).</li>
 <li><strong>hidden</strong> -- Prevents the command from being shown by the built-in help command when <cite>True</cite>.</li>
@@ -153,7 +156,7 @@ by default.</li>
 </tr>
 </tbody>
 </table>
-<p>This decorator should be applied to methods of <a class="reference internal" href="../errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><tt class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></tt></a>
+<p>This decorator should be applied to methods of <a class="reference internal" href="../errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><code class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></code></a>
 classes to turn them into commands that can be given to the bot. These methods are
 expected to have a signature like the following:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="nd">@re_botcmd</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s">r&#39;^some command$&#39;</span><span class="p">)</span>
@@ -163,13 +166,13 @@ expected to have a signature like the following:</p>
 </div>
 <p>The given <cite>msg</cite> will be the full message object that was received, which includes data
 like sender, receiver, the plain-text and html body (if applicable), etc. <cite>match</cite> will
-be a <tt class="xref py py-class docutils literal"><span class="pre">re.MatchObject</span></tt> containing the result of applying the regular expression on the
+be a <code class="xref py py-class docutils literal"><span class="pre">re.MatchObject</span></code> containing the result of applying the regular expression on the
 user's input.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="errbot.decorators.webhook">
-<tt class="descclassname">errbot.decorators.</tt><tt class="descname">webhook</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/decorators/#webhook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.decorators.webhook" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.decorators.</code><code class="descname">webhook</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/decorators/#webhook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.decorators.webhook" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for webhooks</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -193,7 +196,7 @@ The passed type in payload will provide the BaseRequest interface as defined her
 </tr>
 </tbody>
 </table>
-<p>This decorator should be applied to methods of <a class="reference internal" href="../errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><tt class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></tt></a>
+<p>This decorator should be applied to methods of <a class="reference internal" href="../errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><code class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></code></a>
 classes to turn them into webhooks which can be reached on Err's built-in webserver.
 The bundled <em>Webserver</em> plugin needs to be configured before these URL's become reachable.</p>
 <p>Methods with this decorator are expected to have a signature like the following:</p>
@@ -221,7 +224,7 @@ The bundled <em>Webserver</em> plugin needs to be configured before these URL's 
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../" title="Back to home page">
         <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -245,12 +248,14 @@ The bundled <em>Webserver</em> plugin needs to be configured before these URL's 
         </ul>
         </li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/errbot.decorators.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/errbot.decorators.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search/" method="get">
       <input type="text" name="q" />
@@ -277,7 +282,7 @@ The bundled <em>Webserver</em> plugin needs to be configured before these URL's 
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -292,14 +297,14 @@ The bundled <em>Webserver</em> plugin needs to be configured before these URL's 
         <li class="right" >
           <a href="../errbot.config-travisci/" title="errbot.config-travisci module"
              >previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" >errbot package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

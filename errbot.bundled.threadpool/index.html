@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.bundled.threadpool module &mdash; Err 2.1.0 documentation</title>
+    <title>errbot.bundled.threadpool module &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../" />
     <link rel="up" title="errbot.bundled package" href="../errbot.bundled/" />
     <link rel="next" title="errbot.templates package" href="../errbot.templates/" />
     <link rel="prev" title="errbot.bundled.rocket module" href="../errbot.bundled.rocket/" />
@@ -58,11 +58,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -77,9 +77,9 @@
         <li class="right" >
           <a href="../errbot.bundled.rocket/" title="errbot.bundled.rocket module"
              accesskey="P">previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
-          <li><a href="../errbot.bundled/" accesskey="U">errbot.bundled package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.bundled/" accesskey="U">errbot.bundled package</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -87,7 +87,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-errbot.bundled.threadpool">
 <span id="errbot-bundled-threadpool-module"></span><h1>errbot.bundled.threadpool module<a class="headerlink" href="#module-errbot.bundled.threadpool" title="Permalink to this headline">¶</a></h1>
@@ -118,89 +118,89 @@ handling mechanism.</p>
 <p>Website : <a class="reference external" href="http://chrisarndt.de/projects/threadpool/">http://chrisarndt.de/projects/threadpool/</a></p>
 <dl class="function">
 <dt id="errbot.bundled.threadpool.makeRequests">
-<tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">makeRequests</tt><big>(</big><em>callable_</em>, <em>args_list</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x7ff6ba18ab70&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#makeRequests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.makeRequests" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.bundled.threadpool.</code><code class="descname">makeRequests</code><span class="sig-paren">(</span><em>callable_</em>, <em>args_list</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#makeRequests"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.makeRequests" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create several work requests for same callable with different arguments.</p>
 <p>Convenience function for creating several work requests for the same
 callable where each invocation of the callable receives different values
 for its arguments.</p>
-<p><tt class="docutils literal"><span class="pre">args_list</span></tt> contains the parameters for each invocation of callable.
-Each item in <tt class="docutils literal"><span class="pre">args_list</span></tt> should be either a 2-item tuple of the list of
+<p><code class="docutils literal"><span class="pre">args_list</span></code> contains the parameters for each invocation of callable.
+Each item in <code class="docutils literal"><span class="pre">args_list</span></code> should be either a 2-item tuple of the list of
 positional arguments and a dictionary of keyword arguments or a single,
 non-tuple argument.</p>
-<p>See docstring for <tt class="docutils literal"><span class="pre">WorkRequest</span></tt> for info on <tt class="docutils literal"><span class="pre">callback</span></tt> and
-<tt class="docutils literal"><span class="pre">exc_callback</span></tt>.</p>
+<p>See docstring for <code class="docutils literal"><span class="pre">WorkRequest</span></code> for info on <code class="docutils literal"><span class="pre">callback</span></code> and
+<code class="docutils literal"><span class="pre">exc_callback</span></code>.</p>
 </dd></dl>
 
 <dl class="exception">
 <dt id="errbot.bundled.threadpool.NoResultsPending">
-<em class="property">exception </em><tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">NoResultsPending</tt><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#NoResultsPending"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.NoResultsPending" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.Exception</span></tt></p>
+<em class="property">exception </em><code class="descclassname">errbot.bundled.threadpool.</code><code class="descname">NoResultsPending</code><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#NoResultsPending"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.NoResultsPending" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
 <p>All work requests have been processed.</p>
 </dd></dl>
 
 <dl class="exception">
 <dt id="errbot.bundled.threadpool.NoWorkersAvailable">
-<em class="property">exception </em><tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">NoWorkersAvailable</tt><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#NoWorkersAvailable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.NoWorkersAvailable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.Exception</span></tt></p>
+<em class="property">exception </em><code class="descclassname">errbot.bundled.threadpool.</code><code class="descname">NoWorkersAvailable</code><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#NoWorkersAvailable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.NoWorkersAvailable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
 <p>No worker threads available to process remaining requests.</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="errbot.bundled.threadpool.ThreadPool">
-<em class="property">class </em><tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">ThreadPool</tt><big>(</big><em>num_workers</em>, <em>q_size=0</em>, <em>resq_size=0</em>, <em>poll_timeout=5</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<em class="property">class </em><code class="descclassname">errbot.bundled.threadpool.</code><code class="descname">ThreadPool</code><span class="sig-paren">(</span><em>num_workers</em>, <em>q_size=0</em>, <em>resq_size=0</em>, <em>poll_timeout=5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>A thread pool, distributing work requests and collecting results.</p>
 <p>See the module docstring for more information.</p>
 <dl class="method">
 <dt id="errbot.bundled.threadpool.ThreadPool.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>num_workers</em>, <em>q_size=0</em>, <em>resq_size=0</em>, <em>poll_timeout=5</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>num_workers</em>, <em>q_size=0</em>, <em>resq_size=0</em>, <em>poll_timeout=5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set up the thread pool and start num_workers worker threads.</p>
-<p><tt class="docutils literal"><span class="pre">num_workers</span></tt> is the number of worker threads to start initially.</p>
-<p>If <tt class="docutils literal"><span class="pre">q_size</span> <span class="pre">&gt;</span> <span class="pre">0</span></tt> the size of the work <em>request queue</em> is limited and
+<p><code class="docutils literal"><span class="pre">num_workers</span></code> is the number of worker threads to start initially.</p>
+<p>If <code class="docutils literal"><span class="pre">q_size</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> the size of the work <em>request queue</em> is limited and
 the thread pool blocks when the queue is full and it tries to put
-more work requests in it (see <tt class="docutils literal"><span class="pre">putRequest</span></tt> method), unless you also
-use a positive <tt class="docutils literal"><span class="pre">timeout</span></tt> value for <tt class="docutils literal"><span class="pre">putRequest</span></tt>.</p>
-<p>If <tt class="docutils literal"><span class="pre">resq_size</span> <span class="pre">&gt;</span> <span class="pre">0</span></tt> the size of the <em>results queue</em> is limited and the
+more work requests in it (see <code class="docutils literal"><span class="pre">putRequest</span></code> method), unless you also
+use a positive <code class="docutils literal"><span class="pre">timeout</span></code> value for <code class="docutils literal"><span class="pre">putRequest</span></code>.</p>
+<p>If <code class="docutils literal"><span class="pre">resq_size</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> the size of the <em>results queue</em> is limited and the
 worker threads will block when the queue is full and they try to put
 new results in it.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.bundled.threadpool.ThreadPool.createWorkers">
-<tt class="descname">createWorkers</tt><big>(</big><em>num_workers</em>, <em>poll_timeout=5</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.createWorkers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.createWorkers" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createWorkers</code><span class="sig-paren">(</span><em>num_workers</em>, <em>poll_timeout=5</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.createWorkers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.createWorkers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add num_workers worker threads to the pool.</p>
-<p><tt class="docutils literal"><span class="pre">poll_timout</span></tt> sets the interval in seconds (int or float) for how
+<p><code class="docutils literal"><span class="pre">poll_timout</span></code> sets the interval in seconds (int or float) for how
 ofte threads should check whether they are dismissed, while waiting for
 requests.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.bundled.threadpool.ThreadPool.dismissWorkers">
-<tt class="descname">dismissWorkers</tt><big>(</big><em>num_workers</em>, <em>do_join=False</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.dismissWorkers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.dismissWorkers" title="Permalink to this definition">¶</a></dt>
+<code class="descname">dismissWorkers</code><span class="sig-paren">(</span><em>num_workers</em>, <em>do_join=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.dismissWorkers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.dismissWorkers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tell num_workers worker threads to quit after their current task.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.bundled.threadpool.ThreadPool.joinAllDismissedWorkers">
-<tt class="descname">joinAllDismissedWorkers</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.joinAllDismissedWorkers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.joinAllDismissedWorkers" title="Permalink to this definition">¶</a></dt>
+<code class="descname">joinAllDismissedWorkers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.joinAllDismissedWorkers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.joinAllDismissedWorkers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform Thread.join() on all worker threads that have been dismissed.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.bundled.threadpool.ThreadPool.poll">
-<tt class="descname">poll</tt><big>(</big><em>block=False</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.poll" title="Permalink to this definition">¶</a></dt>
+<code class="descname">poll</code><span class="sig-paren">(</span><em>block=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.poll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.poll" title="Permalink to this definition">¶</a></dt>
 <dd><p>Process any new results in the queue.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.bundled.threadpool.ThreadPool.putRequest">
-<tt class="descname">putRequest</tt><big>(</big><em>request</em>, <em>block=True</em>, <em>timeout=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.putRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.putRequest" title="Permalink to this definition">¶</a></dt>
+<code class="descname">putRequest</code><span class="sig-paren">(</span><em>request</em>, <em>block=True</em>, <em>timeout=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.putRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.putRequest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Put work request into work queue and save its id for later.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.bundled.threadpool.ThreadPool.wait">
-<tt class="descname">wait</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.wait"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.wait" title="Permalink to this definition">¶</a></dt>
+<code class="descname">wait</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#ThreadPool.wait"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.ThreadPool.wait" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wait for results, blocking until all have arrived.</p>
 </dd></dl>
 
@@ -208,63 +208,63 @@ requests.</p>
 
 <dl class="class">
 <dt id="errbot.bundled.threadpool.WorkRequest">
-<em class="property">class </em><tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">WorkRequest</tt><big>(</big><em>callable_</em>, <em>args=None</em>, <em>kwds=None</em>, <em>requestID=None</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x7ff6ba18ab70&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkRequest" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<em class="property">class </em><code class="descclassname">errbot.bundled.threadpool.</code><code class="descname">WorkRequest</code><span class="sig-paren">(</span><em>callable_</em>, <em>args=None</em>, <em>kwds=None</em>, <em>requestID=None</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>A request to execute a callable for putting in the request queue later.</p>
-<p>See the module function <tt class="docutils literal"><span class="pre">makeRequests</span></tt> for the common case
-where you want to build several <tt class="docutils literal"><span class="pre">WorkRequest</span></tt> objects for the same
+<p>See the module function <code class="docutils literal"><span class="pre">makeRequests</span></code> for the common case
+where you want to build several <code class="docutils literal"><span class="pre">WorkRequest</span></code> objects for the same
 callable but with different arguments for each call.</p>
 <dl class="method">
 <dt id="errbot.bundled.threadpool.WorkRequest.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>callable_</em>, <em>args=None</em>, <em>kwds=None</em>, <em>requestID=None</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception at 0x7ff6ba18ab70&gt;</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkRequest.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkRequest.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>callable_</em>, <em>args=None</em>, <em>kwds=None</em>, <em>requestID=None</em>, <em>callback=None</em>, <em>exc_callback=&lt;function _handle_thread_exception&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkRequest.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkRequest.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a work request for a callable and attach callbacks.</p>
 <p>A work request consists of the a callable to be executed by a
 worker thread, a list of positional arguments, a dictionary
 of keyword arguments.</p>
-<p>A <tt class="docutils literal"><span class="pre">callback</span></tt> function can be specified, that is called when the
+<p>A <code class="docutils literal"><span class="pre">callback</span></code> function can be specified, that is called when the
 results of the request are picked up from the result queue. It must
-accept two anonymous arguments, the <tt class="docutils literal"><span class="pre">WorkRequest</span></tt> object and the
+accept two anonymous arguments, the <code class="docutils literal"><span class="pre">WorkRequest</span></code> object and the
 results of the callable, in that order. If you want to pass additional
 information to the callback, just stick it on the request object.</p>
 <p>You can also give custom callback for when an exception occurs with
-the <tt class="docutils literal"><span class="pre">exc_callback</span></tt> keyword parameter. It should also accept two
-anonymous arguments, the <tt class="docutils literal"><span class="pre">WorkRequest</span></tt> and a tuple with the exception
-details as returned by <tt class="docutils literal"><span class="pre">sys.exc_info()</span></tt>. The default implementation
+the <code class="docutils literal"><span class="pre">exc_callback</span></code> keyword parameter. It should also accept two
+anonymous arguments, the <code class="docutils literal"><span class="pre">WorkRequest</span></code> and a tuple with the exception
+details as returned by <code class="docutils literal"><span class="pre">sys.exc_info()</span></code>. The default implementation
 of this callback just prints the exception info via
-<tt class="docutils literal"><span class="pre">traceback.print_exception</span></tt>. If you want no exception handler
-callback, just pass in <tt class="docutils literal"><span class="pre">None</span></tt>.</p>
-<p><tt class="docutils literal"><span class="pre">requestID</span></tt>, if given, must be hashable since it is used by
-<tt class="docutils literal"><span class="pre">ThreadPool</span></tt> object to store the results of that work request in a
-dictionary. It defaults to the return value of <tt class="docutils literal"><span class="pre">id(self)</span></tt>.</p>
+<code class="docutils literal"><span class="pre">traceback.print_exception</span></code>. If you want no exception handler
+callback, just pass in <code class="docutils literal"><span class="pre">None</span></code>.</p>
+<p><code class="docutils literal"><span class="pre">requestID</span></code>, if given, must be hashable since it is used by
+<code class="docutils literal"><span class="pre">ThreadPool</span></code> object to store the results of that work request in a
+dictionary. It defaults to the return value of <code class="docutils literal"><span class="pre">id(self)</span></code>.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="errbot.bundled.threadpool.WorkerThread">
-<em class="property">class </em><tt class="descclassname">errbot.bundled.threadpool.</tt><tt class="descname">WorkerThread</tt><big>(</big><em>requests_queue</em>, <em>results_queue</em>, <em>poll_timeout=5</em>, <em>**kwds</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkerThread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkerThread" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></tt></p>
+<em class="property">class </em><code class="descclassname">errbot.bundled.threadpool.</code><code class="descname">WorkerThread</code><span class="sig-paren">(</span><em>requests_queue</em>, <em>results_queue</em>, <em>poll_timeout=5</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkerThread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkerThread" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">threading.Thread</span></code></p>
 <p>Background thread connected to the requests/results queues.</p>
 <p>A worker thread sits in the background and picks up work requests from
 one queue and puts the results in another until it is dismissed.</p>
 <dl class="method">
 <dt id="errbot.bundled.threadpool.WorkerThread.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>requests_queue</em>, <em>results_queue</em>, <em>poll_timeout=5</em>, <em>**kwds</em><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkerThread.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkerThread.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>requests_queue</em>, <em>results_queue</em>, <em>poll_timeout=5</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkerThread.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkerThread.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set up thread in daemonic mode and start it immediatedly.</p>
-<p><tt class="docutils literal"><span class="pre">requests_queue</span></tt> and <tt class="docutils literal"><span class="pre">results_queue</span></tt> are instances of
-<tt class="docutils literal"><span class="pre">Queue.Queue</span></tt> passed by the <tt class="docutils literal"><span class="pre">ThreadPool</span></tt> class when it creates a new
+<p><code class="docutils literal"><span class="pre">requests_queue</span></code> and <code class="docutils literal"><span class="pre">results_queue</span></code> are instances of
+<code class="docutils literal"><span class="pre">Queue.Queue</span></code> passed by the <code class="docutils literal"><span class="pre">ThreadPool</span></code> class when it creates a new
 worker thread.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.bundled.threadpool.WorkerThread.dismiss">
-<tt class="descname">dismiss</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkerThread.dismiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkerThread.dismiss" title="Permalink to this definition">¶</a></dt>
+<code class="descname">dismiss</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkerThread.dismiss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkerThread.dismiss" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets a flag to tell the thread to exit when done with current job.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.bundled.threadpool.WorkerThread.run">
-<tt class="descname">run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkerThread.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkerThread.run" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/bundled/threadpool/#WorkerThread.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.bundled.threadpool.WorkerThread.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Repeatedly process the job queue until told to exit.</p>
 </dd></dl>
 
@@ -287,7 +287,7 @@ worker thread.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../" title="Back to home page">
         <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -316,12 +316,14 @@ worker thread.</p>
         </ul>
         </li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/errbot.bundled.threadpool.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/errbot.bundled.threadpool.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search/" method="get">
       <input type="text" name="q" />
@@ -348,7 +350,7 @@ worker thread.</p>
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -363,15 +365,15 @@ worker thread.</p>
         <li class="right" >
           <a href="../errbot.bundled.rocket/" title="errbot.bundled.rocket module"
              >previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
-          <li><a href="../errbot.bundled/" >errbot.bundled package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.bundled/" >errbot.bundled package</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

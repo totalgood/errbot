@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>3. Hello, world! &mdash; Err 2.1.0 documentation</title>
+    <title>3. Hello, world! &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../../../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../../../" />
     <link rel="up" title="Plugin development" href="../" />
     <link rel="next" title="4. Advanced bot commands" href="../botcommands/" />
     <link rel="prev" title="2. Development environment" href="../development_environment/" />
@@ -58,11 +58,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -77,8 +77,8 @@
         <li class="right" >
           <a href="../development_environment/" title="2. Development environment"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../" accesskey="U">Plugin development</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../" accesskey="U">Plugin development</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -86,7 +86,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="hello-world">
 <h1>3. Hello, world!<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h1>
@@ -118,8 +118,8 @@ interesting stuff going on here. Lets go through it step by step.</p>
 </pre></div>
 </div>
 <p>This should be pretty self-explanatory. Here we import the
-<a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><tt class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></tt></a> class and the
-<a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.botcmd" title="errbot.decorators.botcmd"><tt class="xref py py-func docutils literal"><span class="pre">botcmd()</span></tt></a> decorator. These let us build a
+<a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><code class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></code></a> class and the
+<a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.botcmd" title="errbot.decorators.botcmd"><code class="xref py py-func docutils literal"><span class="pre">botcmd()</span></code></a> decorator. These let us build a
 class that can be loaded as a plugin and allow us to mark methods of
 that class as bot commands.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">HelloWorld</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
@@ -135,7 +135,7 @@ command documentation. It will be visible when issuing the <cite>!help</cite>
 command.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">A plugin should only ever contain a single class inheriting from  <a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><tt class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></tt></a></p>
+<p class="last">A plugin should only ever contain a single class inheriting from  <a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><code class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></code></a></p>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="nd">@botcmd</span>
 <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
@@ -145,7 +145,7 @@ command.</p>
 </div>
 <p>This method, <cite>hello</cite>, is turned into a bot command which can be
 executed because it is decorated with the
-<a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.botcmd" title="errbot.decorators.botcmd"><tt class="xref py py-func docutils literal"><span class="pre">botcmd()</span></tt></a> decorator. Just as with the class
+<a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.botcmd" title="errbot.decorators.botcmd"><code class="xref py py-func docutils literal"><span class="pre">botcmd()</span></code></a> decorator. Just as with the class
 docstring above, the docstring here is used to populate the <cite>!help</cite>
 command.</p>
 <p>The name of the method, <cite>hello</cite> in this case, will be used as the
@@ -153,15 +153,23 @@ name of the command. That means this method creates the <cite>!hello</cite>
 command.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
+<p class="last">The method name must comply with the usual Python naming
+conventions for <a class="reference external" href="https://docs.python.org/release/2.7.8/reference/lexical_analysis.html#identifiers">identifiers</a>
+, that is, they may not begin with a digit (like <code class="docutils literal"><span class="pre">911</span></code> but only with a letter or underscore, so <code class="docutils literal"><span class="pre">_911</span></code> would work)
+and cannot be any of the <a class="reference external" href="https://docs.python.org/release/2.7.8/reference/lexical_analysis.html#keywords">reserved keywords</a>
+such as <code class="docutils literal"><span class="pre">pass</span></code> (instead use <code class="docutils literal"><span class="pre">password</span></code>) etc.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
 <p class="last">Should multiple plugins define the same command, they will be
 dynamically renamed (by prefixing them with the plugin name) so
 that they no longer clash with each other.</p>
 </div>
 <p>If we look at the function definition, we see it takes two parameters,
-<cite>msg</cite> and <cite>args</cite>. The first is a <a class="reference internal" href="../../../errbot.backends.base/#errbot.backends.base.Message" title="errbot.backends.base.Message"><tt class="xref py py-class docutils literal"><span class="pre">Message</span></tt></a>
+<cite>msg</cite> and <cite>args</cite>. The first is a <a class="reference internal" href="../../../errbot.backends.base/#errbot.backends.base.Message" title="errbot.backends.base.Message"><code class="xref py py-class docutils literal"><span class="pre">Message</span></code></a>
 object, which represents the full message object received by Err. The
 second is a string (or a list, if using the <cite>split_args_with</cite>
-parameter of <a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.botcmd" title="errbot.decorators.botcmd"><tt class="xref py py-func docutils literal"><span class="pre">botcmd()</span></tt></a>) with the arguments
+parameter of <a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.botcmd" title="errbot.decorators.botcmd"><code class="xref py py-func docutils literal"><span class="pre">botcmd()</span></code></a>) with the arguments
 passed to the command.</p>
 <p>For example, if a user were to say <cite>!hello Mister Err</cite>, <cite>args</cite> would
 be the string <cite>&quot;Mister Err&quot;</cite>.</p>
@@ -272,7 +280,7 @@ Err has to offer.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../" title="Back to home page">
         <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -307,12 +315,14 @@ Err has to offer.</p>
         </ul>
         </li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../../../_sources/user_guide/plugin_development/basics.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/user_guide/plugin_development/basics.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search/" method="get">
       <input type="text" name="q" />
@@ -339,7 +349,7 @@ Err has to offer.</p>
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -354,14 +364,14 @@ Err has to offer.</p>
         <li class="right" >
           <a href="../development_environment/" title="2. Development environment"
              >previous</a> |</li>
-        <li><a href="../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../" >Plugin development</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../" >Plugin development</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

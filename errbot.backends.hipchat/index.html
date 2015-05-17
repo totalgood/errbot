@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.hipchat module &mdash; Err 2.1.0 documentation</title>
+    <title>errbot.backends.hipchat module &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../" />
     <link rel="up" title="errbot.backends package" href="../errbot.backends/" />
     <link rel="next" title="errbot.backends.irc module" href="../errbot.backends.irc/" />
     <link rel="prev" title="errbot.backends.base module" href="../errbot.backends.base/" />
@@ -58,11 +58,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -77,9 +77,9 @@
         <li class="right" >
           <a href="../errbot.backends.base/" title="errbot.backends.base module"
              accesskey="P">previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
-          <li><a href="../errbot.backends/" accesskey="U">errbot.backends package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.backends/" accesskey="U">errbot.backends package</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -87,56 +87,291 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-errbot.backends.hipchat">
 <span id="errbot-backends-hipchat-module"></span><h1>errbot.backends.hipchat module<a class="headerlink" href="#module-errbot.backends.hipchat" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
+<dt id="errbot.backends.hipchat.HipChatMUCOccupant">
+<em class="property">class </em><code class="descclassname">errbot.backends.hipchat.</code><code class="descname">HipChatMUCOccupant</code><span class="sig-paren">(</span><em>user</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipChatMUCOccupant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCOccupant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.backends.base/#errbot.backends.base.MUCOccupant" title="errbot.backends.base.MUCOccupant"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.MUCOccupant</span></code></a></p>
+<p>An occupant of a Multi-User Chatroom.</p>
+<p>This class has all the attributes that are returned by a call to
+<a class="reference external" href="https://www.hipchat.com/docs/apiv2/method/get_all_participants">https://www.hipchat.com/docs/apiv2/method/get_all_participants</a>
+with the link to self expanded.</p>
+<dl class="method">
+<dt id="errbot.backends.hipchat.HipChatMUCOccupant.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>user</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipChatMUCOccupant.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCOccupant.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user</strong> -- A user object as returned by
+<a class="reference external" href="https://www.hipchat.com/docs/apiv2/method/get_all_participants">https://www.hipchat.com/docs/apiv2/method/get_all_participants</a>
+with the link to self expanded.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom">
+<em class="property">class </em><code class="descclassname">errbot.backends.hipchat.</code><code class="descname">HipChatMUCRoom</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipChatMUCRoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.backends.base/#errbot.backends.base.MUCRoom" title="errbot.backends.base.MUCRoom"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.MUCRoom</span></code></a></p>
+<p>This class represents a Multi-User Chatroom.</p>
+<dl class="method">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipChatMUCRoom.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> -- The name of the room</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom.create">
+<code class="descname">create</code><span class="sig-paren">(</span><em>privacy='public'</em>, <em>guest_access=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipChatMUCRoom.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the room.</p>
+<p>Calling this on an already existing room is a no-op.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>privacy</strong> -- Whether the room is available for access by other users or not.
+Valid values are &quot;public&quot; and &quot;private&quot;.</li>
+<li><strong>guest_access</strong> -- Whether or not to enable guest access for this room.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom.destroy">
+<code class="descname">destroy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipChatMUCRoom.destroy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom.destroy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Destroy the room.</p>
+<p>Calling this on a non-existing room is a no-op.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom.domain">
+<code class="descname">domain</code><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom.domain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom.exists">
+<code class="descname">exists</code><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom.exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean indicating whether this room already exists or not.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Getter:</th><td class="field-body">Returns <cite>True</cite> if the room exists, <cite>False</cite> otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom.invite">
+<code class="descname">invite</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipChatMUCRoom.invite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom.invite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invite one or more people into the room.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">*argsargs:</th><td class="field-body">One or more people to invite into the room. May be the
+mention name (beginning with an &#64;) or &quot;FirstName LastName&quot;
+of the user you wish to invite.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom.jid">
+<code class="descname">jid</code><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom.jid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom.join">
+<code class="descname">join</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipChatMUCRoom.join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom.join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Join the room.</p>
+<p>If the room does not exist yet, this will automatically call
+<a class="reference internal" href="#errbot.backends.hipchat.HipChatMUCRoom.create" title="errbot.backends.hipchat.HipChatMUCRoom.create"><code class="xref py py-meth docutils literal"><span class="pre">create()</span></code></a> on it first.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom.joined">
+<code class="descname">joined</code><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom.joined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean indicating whether this room has already been joined or not.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Getter:</th><td class="field-body">Returns <cite>True</cite> if the room has been joined, <cite>False</cite> otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom.leave">
+<code class="descname">leave</code><span class="sig-paren">(</span><em>reason=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipChatMUCRoom.leave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom.leave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Leave the room.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>reason</strong> -- An optional string explaining the reason for leaving the room</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom.name">
+<code class="descname">name</code><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The name of this room</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom.node">
+<code class="descname">node</code><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom.node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom.notify">
+<code class="descname">notify</code><span class="sig-paren">(</span><em>message</em>, <em>color=None</em>, <em>notify=False</em>, <em>message_format=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipChatMUCRoom.notify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom.notify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a notification to a room.</p>
+<p>See the
+<a class="reference external" href="https://www.hipchat.com/docs/apiv2/method/send_room_notification">HipChat API documentation</a>
+for more info.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom.occupants">
+<code class="descname">occupants</code><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom.occupants" title="Permalink to this definition">¶</a></dt>
+<dd><p>The room's occupants.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Getter:</th><td class="field-body">Returns a list of <a class="reference internal" href="#errbot.backends.hipchat.HipChatMUCOccupant" title="errbot.backends.hipchat.HipChatMUCOccupant"><code class="xref py py-class docutils literal"><span class="pre">HipChatMUCOccupant</span></code></a> instances.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom.resource">
+<code class="descname">resource</code><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom.resource" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom.room">
+<code class="descname">room</code><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom.room" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return room information from the HipChat API</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.hipchat.HipChatMUCRoom.topic">
+<code class="descname">topic</code><a class="headerlink" href="#errbot.backends.hipchat.HipChatMUCRoom.topic" title="Permalink to this definition">¶</a></dt>
+<dd><p>The room topic.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Getter:</th><td class="field-body">Returns the topic (a string) if one is set, <cite>None</cite> if no
+topic has been set at all.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="errbot.backends.hipchat.HipchatBackend">
-<em class="property">class </em><tt class="descclassname">errbot.backends.hipchat.</tt><tt class="descname">HipchatBackend</tt><big>(</big><em>username</em>, <em>password</em>, <em>token=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipchatBackend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipchatBackend" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend" title="errbot.backends.xmpp.XMPPBackend"><tt class="xref py py-class docutils literal"><span class="pre">errbot.backends.xmpp.XMPPBackend</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">errbot.backends.hipchat.</code><code class="descname">HipchatBackend</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipchatBackend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipchatBackend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPBackend" title="errbot.backends.xmpp.XMPPBackend"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.xmpp.XMPPBackend</span></code></a></p>
 <dl class="method">
 <dt id="errbot.backends.hipchat.HipchatBackend.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>username</em>, <em>password</em>, <em>token=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipchatBackend.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipchatBackend.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipchatBackend.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipchatBackend.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.hipchat.HipchatBackend.create_connection">
-<tt class="descname">create_connection</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipchatBackend.create_connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipchatBackend.create_connection" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_connection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipchatBackend.create_connection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipchatBackend.create_connection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.hipchat.HipchatBackend.groupchat_reply_format">
+<code class="descname">groupchat_reply_format</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipchatBackend.groupchat_reply_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipchatBackend.groupchat_reply_format" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="errbot.backends.hipchat.HipchatBackend.mode">
-<tt class="descname">mode</tt><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipchatBackend.mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipchatBackend.mode" title="Permalink to this definition">¶</a></dt>
+<code class="descname">mode</code><a class="headerlink" href="#errbot.backends.hipchat.HipchatBackend.mode" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.hipchat.HipchatBackend.query_room">
+<code class="descname">query_room</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipchatBackend.query_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipchatBackend.query_room" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query a room for information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>room</strong> -- The name (preferred) or XMPP JID of the room to query for.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">An instance of <a class="reference internal" href="#errbot.backends.hipchat.HipChatMUCRoom" title="errbot.backends.hipchat.HipChatMUCRoom"><code class="xref py py-class docutils literal"><span class="pre">HipChatMUCRoom</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.hipchat.HipchatBackend.rooms">
+<code class="descname">rooms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipchatBackend.rooms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipchatBackend.rooms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of rooms the bot is currently in.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of <a class="reference internal" href="#errbot.backends.hipchat.HipChatMUCRoom" title="errbot.backends.hipchat.HipChatMUCRoom"><code class="xref py py-class docutils literal"><span class="pre">HipChatMUCRoom</span></code></a> instances.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="errbot.backends.hipchat.HipchatClient">
-<em class="property">class </em><tt class="descclassname">errbot.backends.hipchat.</tt><tt class="descname">HipchatClient</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipchatClient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipchatClient" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPConnection" title="errbot.backends.xmpp.XMPPConnection"><tt class="xref py py-class docutils literal"><span class="pre">errbot.backends.xmpp.XMPPConnection</span></tt></a></p>
+<em class="property">class </em><code class="descclassname">errbot.backends.hipchat.</code><code class="descname">HipchatClient</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipchatClient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipchatClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.backends.xmpp/#errbot.backends.xmpp.XMPPConnection" title="errbot.backends.xmpp.XMPPConnection"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.xmpp.XMPPConnection</span></code></a></p>
 <dl class="method">
 <dt id="errbot.backends.hipchat.HipchatClient.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipchatClient.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipchatClient.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipchatClient.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipchatClient.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="errbot.backends.hipchat.HipchatClient.send_api_message">
-<tt class="descname">send_api_message</tt><big>(</big><em>room_id</em>, <em>fr</em>, <em>message</em>, <em>message_format='html'</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipchatClient.send_api_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipchatClient.send_api_message" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="errbot.backends.hipchat.HipchatClient.send_message">
-<tt class="descname">send_message</tt><big>(</big><em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/hipchat/#HipchatClient.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.HipchatClient.send_message" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dl class="attribute">
+<dt id="errbot.backends.hipchat.HipchatClient.users">
+<code class="descname">users</code><a class="headerlink" href="#errbot.backends.hipchat.HipchatClient.users" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of all the users.</p>
+<p>See also: <a class="reference external" href="https://www.hipchat.com/docs/apiv2/method/get_all_users">https://www.hipchat.com/docs/apiv2/method/get_all_users</a></p>
 </dd></dl>
 
-<dl class="function">
-<dt id="errbot.backends.hipchat.xhtml2hipchat">
-<tt class="descclassname">errbot.backends.hipchat.</tt><tt class="descname">xhtml2hipchat</tt><big>(</big><em>xhtml</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/hipchat/#xhtml2hipchat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.hipchat.xhtml2hipchat" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+</dd></dl>
 
 </div>
 
@@ -155,7 +390,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../" title="Back to home page">
         <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -184,12 +419,14 @@
         </ul>
         </li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/errbot.backends.hipchat.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/errbot.backends.hipchat.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search/" method="get">
       <input type="text" name="q" />
@@ -216,7 +453,7 @@
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -231,15 +468,15 @@
         <li class="right" >
           <a href="../errbot.backends.base/" title="errbot.backends.base module"
              >previous</a> |</li>
-        <li><a href="../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
-          <li><a href="../errbot.backends/" >errbot.backends package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.backends/" >errbot.backends package</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.irc &mdash; Err 2.1.0 documentation</title>
+    <title>errbot.backends.irc &mdash; Err 2.2.1 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '2.1.0',
+        VERSION:     '2.2.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.1.0 documentation" href="../../../../" />
-    <link rel="up" title="errbot" href="../../" />
+    <link rel="top" title="Err 2.2.1 documentation" href="../../../../" />
+    <link rel="up" title="Module code" href="../../../" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -56,11 +56,11 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -69,9 +69,8 @@
         <li class="right" >
           <a href="../../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../../../" >Module code</a> &raquo;</li>
-          <li><a href="../../" accesskey="U">errbot</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../../" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -79,14 +78,19 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for errbot.backends.irc</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">config</span>
-<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">build_message</span><span class="p">,</span> <span class="n">build_text_html_message_pair</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">holder</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Identifier</span><span class="p">,</span> <span class="n">Message</span><span class="p">,</span> <span class="n">MUCOccupant</span><span class="p">,</span> <span class="n">MUCRoom</span><span class="p">,</span> <span class="n">RoomError</span><span class="p">,</span> <span class="n">RoomNotJoinedError</span><span class="p">,</span>
+    <span class="n">build_message</span><span class="p">,</span> <span class="n">build_text_html_message_pair</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">errbot.errBot</span> <span class="kn">import</span> <span class="n">ErrBot</span>
 <span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">RateLimited</span>
 
@@ -109,17 +113,156 @@
     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
 
+<div class="viewcode-block" id="IRCMUCRoom"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCMUCRoom">[docs]</a><span class="k">class</span> <span class="nc">IRCMUCRoom</span><span class="p">(</span><span class="n">MUCRoom</span><span class="p">):</span>
+<div class="viewcode-block" id="IRCMUCRoom.__init__"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCMUCRoom.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IRCMUCRoom</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connection</span> <span class="o">=</span> <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">connection</span>
+</div>
+<div class="viewcode-block" id="IRCMUCRoom.join"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCMUCRoom.join">[docs]</a>    <span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Join the room.</span>
+
+<span class="sd">        If the room does not exist yet, this will automatically call</span>
+<span class="sd">        :meth:`create` on it first.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">username</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Ignored username parameter on join(), it is unsupported on this back-end.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">password</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">password</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">room</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">room</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+        <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">callback_room_joined</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Joined room {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">room</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="IRCMUCRoom.leave"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCMUCRoom.leave">[docs]</a>    <span class="k">def</span> <span class="nf">leave</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Leave the room.</span>
+
+<span class="sd">        :param reason:</span>
+<span class="sd">            An optional string explaining the reason for leaving the room</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">reason</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">reason</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="n">room</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">part</span><span class="p">(</span><span class="n">room</span><span class="p">,</span> <span class="n">reason</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Left room {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">room</span><span class="p">))</span>
+        <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">callback_room_left</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="IRCMUCRoom.create"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCMUCRoom.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Not supported on this back-end. Will join the room to ensure it exists, instead.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+            <span class="s">&quot;IRC back-end does not support explicit creation, joining room &quot;</span>
+            <span class="s">&quot;instead to ensure it exists.&quot;</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="IRCMUCRoom.destroy"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCMUCRoom.destroy">[docs]</a>    <span class="k">def</span> <span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Not supported on IRC, will raise :class:`~errbot.backends.base.RoomError`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">RoomError</span><span class="p">(</span><span class="s">&quot;IRC back-end does not support destroying rooms.&quot;</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Boolean indicating whether this room already exists or not.</span>
+
+<span class="sd">        :getter:</span>
+<span class="sd">            Returns `True` if the room exists, `False` otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+            <span class="s">&quot;IRC back-end does not support determining if a room exists. &quot;</span>
+            <span class="s">&quot;Returning the result of joined instead.&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">joined</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">joined</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Boolean indicating whether this room has already been joined.</span>
+
+<span class="sd">        :getter:</span>
+<span class="sd">            Returns `True` if the room has been joined, `False` otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">in</span> <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">topic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The room topic.</span>
+
+<span class="sd">        :getter:</span>
+<span class="sd">            Returns the topic (a string) if one is set, `None` if no</span>
+<span class="sd">            topic has been set at all.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">topic</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+    <span class="nd">@topic.setter</span>
+    <span class="k">def</span> <span class="nf">topic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the room&#39;s topic.</span>
+
+<span class="sd">        :param topic:</span>
+<span class="sd">            The topic to set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">topic</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">topic</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">occupants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The room&#39;s occupants.</span>
+
+<span class="sd">        :getter:</span>
+<span class="sd">            Returns a list of :class:`~errbot.backends.base.MUCOccupant` instances.</span>
+<span class="sd">        :raises:</span>
+<span class="sd">            :class:`~MUCNotJoinedError` if the room has not yet been joined.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">occupants</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">nick</span> <span class="ow">in</span> <span class="n">holder</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)]</span><span class="o">.</span><span class="n">users</span><span class="p">():</span>
+                <span class="n">occupants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MUCOccupant</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">nick</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">RoomNotJoinedError</span><span class="p">(</span><span class="s">&quot;Must be in a room in order to see occupants.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">occupants</span>
+
+<div class="viewcode-block" id="IRCMUCRoom.invite"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCMUCRoom.invite">[docs]</a>    <span class="k">def</span> <span class="nf">invite</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Invite one or more people into the room.</span>
+
+<span class="sd">        :*args:</span>
+<span class="sd">            One or more nicks to invite into the room.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">room</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">nick</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">invite</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">room</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Invited {} to {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nick</span><span class="p">,</span> <span class="n">room</span><span class="p">))</span>
+
+</div></div>
 <div class="viewcode-block" id="IRCConnection"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCConnection">[docs]</a><span class="k">class</span> <span class="nc">IRCConnection</span><span class="p">(</span><span class="n">SingleServerIRCBot</span><span class="p">):</span>
-<div class="viewcode-block" id="IRCConnection.__init__"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCConnection.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">nickname</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6667</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="IRCConnection.__init__"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCConnection.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">callback</span><span class="p">,</span>
+                 <span class="n">nickname</span><span class="p">,</span>
+                 <span class="n">server</span><span class="p">,</span>
+                 <span class="n">port</span><span class="o">=</span><span class="mi">6667</span><span class="p">,</span>
+                 <span class="n">ssl</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                 <span class="n">private_rate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">channel_rate</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">use_ssl</span> <span class="o">=</span> <span class="n">ssl</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span>
+        <span class="c"># manually decorate functions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_private_message</span> <span class="o">=</span> <span class="n">RateLimited</span><span class="p">(</span><span class="n">private_rate</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">send_private_message</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">send_public_message</span> <span class="o">=</span> <span class="n">RateLimited</span><span class="p">(</span><span class="n">channel_rate</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">send_private_message</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="n">username</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">username</span> <span class="o">=</span> <span class="n">nickname</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">([(</span><span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">password</span><span class="p">)],</span> <span class="n">nickname</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
 </div>
-    <span class="k">def</span> <span class="nf">_dispatcher</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_dispatcher</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
-
 <div class="viewcode-block" id="IRCConnection.connect"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCConnection.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_ssl</span><span class="p">:</span>
             <span class="kn">import</span> <span class="nn">ssl</span>
@@ -128,50 +271,59 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="IRCConnection.on_welcome"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCConnection.on_welcome">[docs]</a>    <span class="k">def</span> <span class="nf">on_welcome</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+<div class="viewcode-block" id="IRCConnection.on_welcome"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCConnection.on_welcome">[docs]</a>    <span class="k">def</span> <span class="nf">on_welcome</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;IRC welcome </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">e</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">connect_callback</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="IRCConnection.on_pubmsg"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCConnection.on_pubmsg">[docs]</a>    <span class="k">def</span> <span class="nf">on_pubmsg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+<div class="viewcode-block" id="IRCConnection.on_pubmsg"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCConnection.on_pubmsg">[docs]</a>    <span class="k">def</span> <span class="nf">on_pubmsg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">Message</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">type_</span><span class="o">=</span><span class="s">&#39;groupchat&#39;</span><span class="p">)</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">frm</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">target</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">jid</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">nick</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;!&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c"># FIXME find the real nick in the channel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">callback_message</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="IRCConnection.on_privmsg"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCConnection.on_privmsg">[docs]</a>    <span class="k">def</span> <span class="nf">on_privmsg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="n">Message</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">msg</span><span class="o">.</span><span class="n">setFrom</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
-        <span class="n">msg</span><span class="o">.</span><span class="n">setTo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">jid</span><span class="p">)</span>
-        <span class="n">msg</span><span class="o">.</span><span class="n">setMuckNick</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;!&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>  <span class="c"># FIXME find the real nick in the channel</span>
-        <span class="n">msg</span><span class="o">.</span><span class="n">setType</span><span class="p">(</span><span class="s">&#39;groupchat&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">callback_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">frm</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;!&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">msg</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">target</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">callback_message</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="IRCConnection.on_privmsg"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCConnection.on_privmsg">[docs]</a>    <span class="k">def</span> <span class="nf">on_privmsg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">Message</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">msg</span><span class="o">.</span><span class="n">setFrom</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;!&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">msg</span><span class="o">.</span><span class="n">setTo</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
-        <span class="n">msg</span><span class="o">.</span><span class="n">setType</span><span class="p">(</span><span class="s">&#39;chat&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="o">.</span><span class="n">callback_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="IRCConnection.send_message"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCConnection.send_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
-        <span class="n">msg_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_private_message</span> <span class="k">if</span> <span class="n">mess</span><span class="o">.</span><span class="n">typ</span> <span class="o">==</span> <span class="s">&#39;chat&#39;</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_public_message</span>
-        <span class="c"># If this is a response in private of a public message take the recipient in</span>
-        <span class="c"># the resource instead of the incoming chatroom</span>
-        <span class="k">if</span> <span class="n">mess</span><span class="o">.</span><span class="n">typ</span> <span class="o">==</span> <span class="s">&#39;chat&#39;</span> <span class="ow">and</span> <span class="n">mess</span><span class="o">.</span><span class="n">getTo</span><span class="p">()</span><span class="o">.</span><span class="n">resource</span><span class="p">:</span>
-            <span class="n">to</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">getTo</span><span class="p">()</span><span class="o">.</span><span class="n">resource</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">to</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">getTo</span><span class="p">()</span><span class="o">.</span><span class="n">node</span>
-        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">build_text_html_message_pair</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">getBody</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">):</span>
-            <span class="n">msg_func</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
-</div>
-    <span class="nd">@RateLimited</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;IRC_PRIVATE_RATE&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 <div class="viewcode-block" id="IRCConnection.send_private_message"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCConnection.send_private_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_private_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 </div>
-    <span class="nd">@RateLimited</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;IRC_CHANNEL_RATE&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 <div class="viewcode-block" id="IRCConnection.send_public_message"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCConnection.send_public_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_public_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">privmsg</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 
 </div></div>
 <div class="viewcode-block" id="IRCBackend"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCBackend">[docs]</a><span class="k">class</span> <span class="nc">IRCBackend</span><span class="p">(</span><span class="n">ErrBot</span><span class="p">):</span>
-<div class="viewcode-block" id="IRCBackend.__init__"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCBackend.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nickname</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6667</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ssl</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">jid</span> <span class="o">=</span> <span class="n">nickname</span> <span class="o">+</span> <span class="s">&#39;@&#39;</span> <span class="o">+</span> <span class="n">server</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">IRCBackend</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="n">IRCConnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nickname</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">ssl</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">username</span><span class="p">)</span>
+<div class="viewcode-block" id="IRCBackend.__init__"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCBackend.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+
+        <span class="n">identity</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">BOT_IDENTITY</span>
+        <span class="n">nickname</span> <span class="o">=</span> <span class="n">identity</span><span class="p">[</span><span class="s">&#39;nickname&#39;</span><span class="p">]</span>
+        <span class="n">server</span> <span class="o">=</span> <span class="n">identity</span><span class="p">[</span><span class="s">&#39;server&#39;</span><span class="p">]</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="n">identity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;port&#39;</span><span class="p">,</span> <span class="mi">6667</span><span class="p">)</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">identity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;password&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">ssl</span> <span class="o">=</span> <span class="n">identity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;ssl&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">identity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;username&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+
+        <span class="n">private_rate</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;IRC_PRIVATE_RATE&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">channel_rate</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;IRC_CHANNEL_RATE&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">jid</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">nickname</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">server</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IRCBackend</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="n">IRCConnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nickname</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">ssl</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">private_rate</span><span class="p">,</span> <span class="n">channel_rate</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="IRCBackend.send_message"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCBackend.send_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">IRCBackend</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
+        <span class="n">msg_func</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">send_private_message</span> <span class="k">if</span> <span class="n">mess</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s">&#39;chat&#39;</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">send_public_message</span>
+        <span class="c"># If this is a response in private of a public message take the recipient in</span>
+        <span class="c"># the resource instead of the incoming chatroom</span>
+        <span class="k">if</span> <span class="n">mess</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s">&#39;chat&#39;</span> <span class="ow">and</span> <span class="n">mess</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">resource</span><span class="p">:</span>
+            <span class="n">to</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">resource</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">to</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">node</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">build_text_html_message_pair</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">body</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">):</span>
+            <span class="n">msg_func</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="IRCBackend.serve_forever"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCBackend.serve_forever">[docs]</a>    <span class="k">def</span> <span class="nf">serve_forever</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
@@ -192,11 +344,45 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="IRCBackend.join_room"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCBackend.join_room">[docs]</a>    <span class="k">def</span> <span class="nf">join_room</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. deprecated:: 2.2.0</span>
+<span class="sd">            Use the methods on :class:`IRCMUCRoom` instead.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="s">&quot;Using join_room is deprecated, use join from the &quot;</span>
+            <span class="s">&quot;MUCRoom class instead.&quot;</span><span class="p">,</span>
+            <span class="ne">DeprecationWarning</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query_room</span><span class="p">(</span><span class="n">room</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="IRCBackend.query_room"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCBackend.query_room">[docs]</a>    <span class="k">def</span> <span class="nf">query_room</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Query a room for information.</span>
+
+<span class="sd">        :param room:</span>
+<span class="sd">            The channel name to query for.</span>
+<span class="sd">        :returns:</span>
+<span class="sd">            An instance of :class:`~IRCMUCRoom`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">IRCMUCRoom</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">room</span><span class="p">)</span>
 </div>
     <span class="nd">@property</span>
-<div class="viewcode-block" id="IRCBackend.mode"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCBackend.mode">[docs]</a>    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">&#39;irc&#39;</span></div></div>
+    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;irc&#39;</span>
+
+<div class="viewcode-block" id="IRCBackend.rooms"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCBackend.rooms">[docs]</a>    <span class="k">def</span> <span class="nf">rooms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a list of rooms the bot is currently in.</span>
+
+<span class="sd">        :returns:</span>
+<span class="sd">            A list of :class:`~IRCMUCRoom` instances.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">channels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">channels</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">IRCMUCRoom</span><span class="p">(</span><span class="n">node</span><span class="o">=</span><span class="n">channel</span><span class="p">)</span> <span class="k">for</span> <span class="n">channel</span> <span class="ow">in</span> <span class="n">channels</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="IRCBackend.groupchat_reply_format"><a class="viewcode-back" href="../../../../errbot.backends.irc/#errbot.backends.irc.IRCBackend.groupchat_reply_format">[docs]</a>    <span class="k">def</span> <span class="nf">groupchat_reply_format</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;{0}: {1}&#39;</span></div></div>
 </pre></div>
   <div id="prev_next_links">
       
@@ -208,7 +394,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../../" title="Back to home page">
         <img class="logo" src="../../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -227,15 +413,10 @@
         <li>
         <a href="../../../">Module code</a>
         <ul>
-        <li>
-        <a href="../../">errbot</a>
-        <ul>
-        </ul>
-        </li>
         </ul>
         </li>
 </ul>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../../search/" method="get">
       <input type="text" name="q" />
@@ -262,7 +443,7 @@
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -271,15 +452,14 @@
         <li class="right" >
           <a href="../../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../">Err 2.1.0 documentation</a> &raquo;</li>
-          <li><a href="../../../" >Module code</a> &raquo;</li>
-          <li><a href="../../" >errbot</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../../" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 02, 2014.
+          Last updated on May 17, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

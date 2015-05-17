@@ -43,6 +43,7 @@
 .highlight .nv { color: #8a2be2; text-decoration: underline } /* Name.Variable */
 .highlight .ow { color: #3e4349 } /* Operator.Word */
 .highlight .w { color: #3e4349 } /* Text.Whitespace */
+.highlight .mb { color: #9a5151; text-decoration: underline } /* Literal.Number.Bin */
 .highlight .mf { color: #9a5151; text-decoration: underline } /* Literal.Number.Float */
 .highlight .mh { color: #9a5151; text-decoration: underline } /* Literal.Number.Hex */
 .highlight .mi { color: #9a5151; text-decoration: underline } /* Literal.Number.Integer */
