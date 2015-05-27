@@ -1,0 +1,599 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.backends.test &mdash; Err 2.2.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '2.2.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="Err 2.2.1 documentation" href="../../../../" />
+    <link rel="up" title="Module code" href="../../../" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../../../_static/err.png"/>
+    <link rel="stylesheet" href="../../../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body role="document">
+    
+    
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../../" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for errbot.backends.test</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">sep</span><span class="p">,</span> <span class="n">abspath</span>
+<span class="kn">from</span> <span class="nn">queue</span> <span class="kn">import</span> <span class="n">Queue</span>
+<span class="kn">from</span> <span class="nn">tempfile</span> <span class="kn">import</span> <span class="n">mkdtemp</span>
+<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span>
+
+<span class="kn">import</span> <span class="nn">pytest</span>
+
+
+<span class="nb">__import__</span><span class="p">(</span><span class="s">&#39;errbot.config-template&#39;</span><span class="p">)</span>
+<span class="n">config_module</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s">&#39;errbot.config-template&#39;</span><span class="p">]</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">config_module</span>
+
+<span class="n">tempdir</span> <span class="o">=</span> <span class="n">mkdtemp</span><span class="p">()</span>
+<span class="n">config_module</span><span class="o">.</span><span class="n">BOT_DATA_DIR</span> <span class="o">=</span> <span class="n">tempdir</span>
+<span class="n">config_module</span><span class="o">.</span><span class="n">BOT_LOG_FILE</span> <span class="o">=</span> <span class="n">tempdir</span> <span class="o">+</span> <span class="n">sep</span> <span class="o">+</span> <span class="s">&#39;log.txt&#39;</span>
+<span class="n">config_module</span><span class="o">.</span><span class="n">BOT_EXTRA_PLUGIN_DIR</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">config_module</span><span class="o">.</span><span class="n">BOT_LOG_LEVEL</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span>
+
+<span class="c"># Errbot machinery must not be imported before this point</span>
+<span class="c"># because of the import hackery above.</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Message</span><span class="p">,</span> <span class="n">build_message</span><span class="p">,</span> <span class="n">Identifier</span><span class="p">,</span> <span class="n">MUCRoom</span><span class="p">,</span> <span class="n">MUCOccupant</span>  <span class="c"># noqa</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">errbot.builtins.wsview</span> <span class="kn">import</span> <span class="n">reset_app</span>  <span class="c"># noqa</span>
+<span class="kn">from</span> <span class="nn">errbot.errBot</span> <span class="kn">import</span> <span class="n">ErrBot</span>  <span class="c"># noqa</span>
+<span class="kn">from</span> <span class="nn">errbot.main</span> <span class="kn">import</span> <span class="n">main</span>  <span class="c"># noqa</span>
+
+<span class="n">incoming_stanza_queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
+<span class="n">outgoing_message_queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
+<span class="n">rooms</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">QUIT_MESSAGE</span> <span class="o">=</span> <span class="s">&#39;$STOP$&#39;</span>
+
+<span class="n">STZ_MSG</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">STZ_PRE</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">STZ_IQ</span> <span class="o">=</span> <span class="mi">3</span>
+
+
+<div class="viewcode-block" id="MUCRoom"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.MUCRoom">[docs]</a><span class="k">class</span> <span class="nc">MUCRoom</span><span class="p">(</span><span class="n">MUCRoom</span><span class="p">):</span>
+<div class="viewcode-block" id="MUCRoom.__init__"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.MUCRoom.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jid</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">resource</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">occupants</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">topic</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param jid: See parent class.</span>
+<span class="sd">        :param node: See parent class.</span>
+<span class="sd">        :param domain: See parent class.</span>
+<span class="sd">        :param resource: See parent class.</span>
+<span class="sd">        :param occupants: Occupants of the room</span>
+<span class="sd">        :param topic: The MUC&#39;s topic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">occupants</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">occupants</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_occupants</span> <span class="o">=</span> <span class="n">occupants</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_topic</span> <span class="o">=</span> <span class="n">topic</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MUCRoom</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">jid</span><span class="o">=</span><span class="n">jid</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="n">node</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span> <span class="n">resource</span><span class="o">=</span><span class="n">resource</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">occupants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_occupants</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">joined</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">rooms</span>
+        <span class="kn">import</span> <span class="nn">config</span>
+        <span class="n">bot_itself</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">BOT_IDENTITY</span><span class="p">[</span><span class="s">&#39;username&#39;</span><span class="p">]</span>
+
+        <span class="n">room</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rooms</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">room</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">bot_itself</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">room</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">occupants</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+<div class="viewcode-block" id="MUCRoom.join"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.MUCRoom.join">[docs]</a>    <span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">rooms</span>
+        <span class="kn">import</span> <span class="nn">config</span>
+        <span class="kn">from</span> <span class="nn">errbot.holder</span> <span class="kn">import</span> <span class="n">bot</span>
+        <span class="n">bot_itself</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">BOT_IDENTITY</span><span class="p">[</span><span class="s">&#39;username&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">joined</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Attempted to join room &#39;{!s}&#39;, but already in this room&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exists</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Room {!s} doesn&#39;t exist yet, creating it&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+
+        <span class="n">room</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rooms</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">room</span><span class="o">.</span><span class="n">_occupants</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MUCOccupant</span><span class="p">(</span><span class="n">bot_itself</span><span class="p">))</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Joined room {!s}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="n">bot</span><span class="o">.</span><span class="n">callback_room_joined</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="MUCRoom.leave"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.MUCRoom.leave">[docs]</a>    <span class="k">def</span> <span class="nf">leave</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">rooms</span>
+        <span class="kn">import</span> <span class="nn">config</span>
+        <span class="kn">from</span> <span class="nn">errbot.holder</span> <span class="kn">import</span> <span class="n">bot</span>
+        <span class="n">bot_itself</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">BOT_IDENTITY</span><span class="p">[</span><span class="s">&#39;username&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">joined</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Attempted to leave room &#39;{!s}&#39;, but not in this room&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+            <span class="k">return</span>
+
+        <span class="n">room</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rooms</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">room</span><span class="o">.</span><span class="n">_occupants</span> <span class="o">=</span> <span class="p">[</span><span class="n">o</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">room</span><span class="o">.</span><span class="n">_occupants</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">o</span><span class="p">)</span> <span class="o">!=</span> <span class="n">bot_itself</span><span class="p">]</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Left room {!s}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="n">bot</span><span class="o">.</span><span class="n">callback_room_left</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">rooms</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rooms</span><span class="p">]</span>
+
+<div class="viewcode-block" id="MUCRoom.create"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.MUCRoom.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">rooms</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exists</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Room {!s} already created&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rooms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Created room {!s}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="MUCRoom.destroy"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.MUCRoom.destroy">[docs]</a>    <span class="k">def</span> <span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">rooms</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exists</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Cannot destroy room {!s}, it doesn&#39;t exist&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rooms</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rooms</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)]</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Destroyed room {!s}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">topic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_topic</span>
+
+    <span class="nd">@topic.setter</span>
+    <span class="k">def</span> <span class="nf">topic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">rooms</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_topic</span> <span class="o">=</span> <span class="n">topic</span>
+        <span class="n">room</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rooms</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">room</span><span class="o">.</span><span class="n">_topic</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_topic</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Topic for room {!s} set to &#39;{}&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">))</span>
+        <span class="kn">from</span> <span class="nn">errbot.holder</span> <span class="kn">import</span> <span class="n">bot</span>
+        <span class="n">bot</span><span class="o">.</span><span class="n">callback_room_topic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="TestBackend"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBackend">[docs]</a><span class="k">class</span> <span class="nc">TestBackend</span><span class="p">(</span><span class="n">ErrBot</span><span class="p">):</span>
+<div class="viewcode-block" id="TestBackend.__init__"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBackend.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">jid</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="s">&#39;Err&#39;</span><span class="p">)</span>  <span class="c"># whatever</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sender</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">BOT_ADMINS</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c"># By default, assume this is the admin talking</span>
+</div>
+<div class="viewcode-block" id="TestBackend.send_message"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBackend.send_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TestBackend</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
+        <span class="n">outgoing_message_queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestBackend.serve_forever"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBackend.serve_forever">[docs]</a>    <span class="k">def</span> <span class="nf">serve_forever</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect_callback</span><span class="p">()</span>  <span class="c"># notify that the connection occured</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">stanza_type</span><span class="p">,</span> <span class="n">entry</span> <span class="o">=</span> <span class="n">incoming_stanza_queue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">entry</span> <span class="o">==</span> <span class="n">QUIT_MESSAGE</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Stop magic message received, quitting...&quot;</span><span class="p">)</span>
+                    <span class="k">break</span>
+                <span class="k">if</span> <span class="n">stanza_type</span> <span class="ow">is</span> <span class="n">STZ_MSG</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="n">Message</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+                    <span class="n">msg</span><span class="o">.</span><span class="n">frm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sender</span>
+                    <span class="n">msg</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">jid</span>  <span class="c"># To me only</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">callback_message</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">stanza_type</span> <span class="ow">is</span> <span class="n">STZ_PRE</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Presence stanza received.&quot;</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">callback_presence</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">stanza_type</span> <span class="ow">is</span> <span class="n">STZ_IQ</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;IQ stanza received.&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Unknown stanza type.&quot;</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Trigger disconnect callback&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">disconnect_callback</span><span class="p">()</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Trigger shutdown&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="TestBackend.connect"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBackend.connect">[docs]</a>    <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span>
+</div>
+<div class="viewcode-block" id="TestBackend.build_message"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBackend.build_message">[docs]</a>    <span class="k">def</span> <span class="nf">build_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">build_message</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">Message</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TestBackend.shutdown"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBackend.shutdown">[docs]</a>    <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TestBackend</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;text&#39;</span>
+
+<div class="viewcode-block" id="TestBackend.rooms"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBackend.rooms">[docs]</a>    <span class="k">def</span> <span class="nf">rooms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">rooms</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rooms</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">joined</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="TestBackend.query_room"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBackend.query_room">[docs]</a>    <span class="k">def</span> <span class="nf">query_room</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">rooms</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rooms</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">room</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">MUCRoom</span><span class="p">(</span><span class="n">jid</span><span class="o">=</span><span class="n">room</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">r</span>
+</div>
+<div class="viewcode-block" id="TestBackend.groupchat_reply_format"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBackend.groupchat_reply_format">[docs]</a>    <span class="k">def</span> <span class="nf">groupchat_reply_format</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;{0} {1}&#39;</span>
+
+</div></div>
+<div class="viewcode-block" id="pop_message"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.pop_message">[docs]</a><span class="k">def</span> <span class="nf">pop_message</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">outgoing_message_queue</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span> <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="push_message"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.push_message">[docs]</a><span class="k">def</span> <span class="nf">push_message</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="n">incoming_stanza_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">STZ_MSG</span><span class="p">,</span> <span class="n">msg</span><span class="p">),</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="push_presence"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.push_presence">[docs]</a><span class="k">def</span> <span class="nf">push_presence</span><span class="p">(</span><span class="n">presence</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; presence must at least duck type base.Presence</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">incoming_stanza_queue</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">STZ_PRE</span><span class="p">,</span> <span class="n">presence</span><span class="p">),</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+
+<span class="c"># def pushIQ(stanza):</span>
+<span class="c">#    pass</span>
+</div>
+<div class="viewcode-block" id="zap_queues"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.zap_queues">[docs]</a><span class="k">def</span> <span class="nf">zap_queues</span><span class="p">():</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">incoming_stanza_queue</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">incoming_stanza_queue</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Message left in the incoming queue during a test : </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">msg</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">outgoing_message_queue</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">outgoing_message_queue</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Message left in the outgoing queue during a test : </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">msg</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="reset_rooms"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.reset_rooms">[docs]</a><span class="k">def</span> <span class="nf">reset_rooms</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Reset/clear all rooms&quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">rooms</span>
+    <span class="n">rooms</span> <span class="o">=</span> <span class="p">[]</span>
+
+</div>
+<div class="viewcode-block" id="TestBot"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBot">[docs]</a><span class="k">class</span> <span class="nc">TestBot</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A minimal bot utilizing the TestBackend, for use with unit testing.</span>
+
+<span class="sd">    Only one instance of this class should globally be active at any one</span>
+<span class="sd">    time.</span>
+
+<span class="sd">    End-users should not use this class directly. Use</span>
+<span class="sd">    :func:`~errbot.backends.test.testbot` or</span>
+<span class="sd">    :class:`~errbot.backends.test.FullStackTest` instead, which use this</span>
+<span class="sd">    class under the hood.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">bot_thread</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="TestBot.__init__"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBot.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_plugin_dir</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loglevel</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param extra_plugin_dir: Path to a directory from which additional</span>
+<span class="sd">            plugins should be loaded.</span>
+<span class="sd">        :param loglevel: Logging verbosity. Expects one of the constants</span>
+<span class="sd">            defined by the logging module.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># reset logging to console</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">format</span><span class="o">=</span><span class="s">&#39;</span><span class="si">%(levelname)s</span><span class="s">:</span><span class="si">%(message)s</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="nb">file</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">config_module</span><span class="o">.</span><span class="n">BOT_LOG_FILE</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">loglevel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span>
+
+        <span class="n">config_module</span><span class="o">.</span><span class="n">BOT_EXTRA_PLUGIN_DIR</span> <span class="o">=</span> <span class="n">extra_plugin_dir</span>
+        <span class="n">config_module</span><span class="o">.</span><span class="n">BOT_LOG_LEVEL</span> <span class="o">=</span> <span class="n">loglevel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span> <span class="o">=</span> <span class="n">config_module</span>
+</div>
+<div class="viewcode-block" id="TestBot.start"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBot.start">[docs]</a>    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Start the bot</span>
+
+<span class="sd">        Calling this method when the bot has already started will result</span>
+<span class="sd">        in an Exception being raised.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_thread</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Bot has already been started&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot_thread</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">main</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">&#39;TestBot main thread&#39;</span><span class="p">,</span>
+                                 <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">TestBackend</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot_thread</span><span class="o">.</span><span class="n">setDaemon</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+        <span class="c"># Ensure bot is fully started and plugins are loaded before returning</span>
+        <span class="n">push_message</span><span class="p">(</span><span class="s">&quot;!echo ready&quot;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">pop_message</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;ready&quot;</span>
+</div>
+<div class="viewcode-block" id="TestBot.stop"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.TestBot.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stop the bot</span>
+
+<span class="sd">        Calling this method before the bot has started will result in an</span>
+<span class="sd">        Exception being raised.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_thread</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Bot has not yet been started&quot;</span><span class="p">)</span>
+        <span class="n">push_message</span><span class="p">(</span><span class="n">QUIT_MESSAGE</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="n">reset_app</span><span class="p">()</span>  <span class="c"># empty the bottle ... hips!</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Main bot thread quits&quot;</span><span class="p">)</span>
+        <span class="n">zap_queues</span><span class="p">()</span>
+        <span class="n">reset_rooms</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot_thread</span> <span class="o">=</span> <span class="bp">None</span>
+
+</div></div>
+<div class="viewcode-block" id="FullStackTest"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.FullStackTest">[docs]</a><span class="k">class</span> <span class="nc">FullStackTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">,</span> <span class="n">TestBot</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test class for use with Python&#39;s unittest module to write tests</span>
+<span class="sd">    against a fully functioning bot.</span>
+
+<span class="sd">    For example, if you wanted to test the builtin `!about` command,</span>
+<span class="sd">    you could write a test file with the following::</span>
+
+<span class="sd">        from errbot.backends.test import FullStackTest, push_message, pop_message</span>
+
+<span class="sd">        class TestCommands(FullStackTest):</span>
+<span class="sd">            def test_about(self):</span>
+<span class="sd">                push_message(&#39;!about&#39;)</span>
+<span class="sd">                self.assertIn(&#39;Err version&#39;, pop_message())</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="FullStackTest.setUp"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.FullStackTest.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_plugin_dir</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">extra_test_file</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loglevel</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param extra_plugin_dir: Path to a directory from which additional</span>
+<span class="sd">            plugins should be loaded.</span>
+<span class="sd">        :param extra_test_file: [Deprecated but kept for backward-compatibility,</span>
+<span class="sd">            use extra_plugin_dir instead]</span>
+<span class="sd">            Path to an additional plugin which should be loaded.</span>
+<span class="sd">        :param loglevel: Logging verbosity. Expects one of the constants</span>
+<span class="sd">            defined by the logging module.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">extra_plugin_dir</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">extra_test_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">extra_plugin_dir</span> <span class="o">=</span> <span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">abspath</span><span class="p">(</span><span class="n">extra_test_file</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">)[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+
+        <span class="n">TestBot</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_plugin_dir</span><span class="o">=</span><span class="n">extra_plugin_dir</span><span class="p">,</span> <span class="n">loglevel</span><span class="o">=</span><span class="n">loglevel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="FullStackTest.tearDown"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.FullStackTest.tearDown">[docs]</a>    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="FullStackTest.assertCommand"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.FullStackTest.assertCommand">[docs]</a>    <span class="k">def</span> <span class="nf">assertCommand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Assert the given command returns the given response&quot;&quot;&quot;</span>
+        <span class="n">push_message</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">popMessage</span><span class="p">(),</span> <span class="n">timeout</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="FullStackTest.assertCommandFound"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.FullStackTest.assertCommandFound">[docs]</a>    <span class="k">def</span> <span class="nf">assertCommandFound</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Assert the given command does not exist&quot;&quot;&quot;</span>
+        <span class="n">push_message</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertNotIn</span><span class="p">(</span><span class="s">&#39;not found&#39;</span><span class="p">,</span> <span class="n">popMessage</span><span class="p">(),</span> <span class="n">timeout</span><span class="p">)</span>
+
+</div></div>
+<span class="nd">@pytest.fixture</span>
+<div class="viewcode-block" id="testbot"><a class="viewcode-back" href="../../../../errbot.backends.test/#errbot.backends.test.testbot">[docs]</a><span class="k">def</span> <span class="nf">testbot</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pytest fixture to write tests against a fully functioning bot.</span>
+
+<span class="sd">    For example, if you wanted to test the builtin `!about` command,</span>
+<span class="sd">    you could write a test file with the following::</span>
+
+<span class="sd">        from errbot.backends.test import testbot, push_message, pop_message</span>
+
+<span class="sd">        def test_about(testbot):</span>
+<span class="sd">            push_message(&#39;!about&#39;)</span>
+<span class="sd">            assert &quot;Err version&quot; in pop_message()</span>
+
+<span class="sd">    It&#39;s possible to provide additional configuration to this fixture,</span>
+<span class="sd">    by setting variables at module level or as class attributes (the</span>
+<span class="sd">    latter taking precedence over the former). For example::</span>
+
+<span class="sd">        from errbot.backends.test import testbot, push_message, pop_message</span>
+
+<span class="sd">        extra_plugin_dir = &#39;/foo/bar&#39;</span>
+
+<span class="sd">        def test_about(testbot):</span>
+<span class="sd">            pushMessage(&#39;!about&#39;)</span>
+<span class="sd">            assert &quot;Err version&quot; in pop_message()</span>
+
+<span class="sd">    ..or::</span>
+
+<span class="sd">        from errbot.backends.test import testbot, push_message, pop_message</span>
+
+<span class="sd">        extra_plugin_dir = &#39;/foo/bar&#39;</span>
+
+<span class="sd">        class Tests(object):</span>
+<span class="sd">            # Wins over `extra_plugin_dir = &#39;/foo/bar&#39;` above</span>
+<span class="sd">            extra_plugin_dir = &#39;/foo/baz&#39;</span>
+
+<span class="sd">            def test_about(self, testbot):</span>
+<span class="sd">                push_message(&#39;!about&#39;)</span>
+<span class="sd">                assert &quot;Err version&quot; in pop_message()</span>
+
+<span class="sd">    ..to load additional plugins from the directory `/foo/bar` or</span>
+<span class="sd">    `/foo/baz` respectively. This works for the following items, which are</span>
+<span class="sd">    passed to the constructor of :class:`~errbot.backends.test.TestBot`:</span>
+
+<span class="sd">    * `extra_plugin_dir`</span>
+<span class="sd">    * `loglevel`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">on_finish</span><span class="p">():</span>
+        <span class="n">bot</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">attr</span><span class="p">,</span> <span class="n">default</span> <span class="ow">in</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s">&#39;extra_plugin_dir&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&#39;loglevel&#39;</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">),</span>
+    <span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&#39;instance&#39;</span><span class="p">):</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">instance</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">module</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
+
+    <span class="n">bot</span> <span class="o">=</span> <span class="n">TestBot</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">bot</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">addfinalizer</span><span class="p">(</span><span class="n">on_finish</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bot</span>
+
+
+<span class="c"># Backward compatibility</span></div>
+<span class="n">popMessage</span> <span class="o">=</span> <span class="n">pop_message</span>
+<span class="n">pushMessage</span> <span class="o">=</span> <span class="n">push_message</span>
+<span class="n">pushPresence</span> <span class="o">=</span> <span class="n">push_presence</span>
+<span class="n">zapQueues</span> <span class="o">=</span> <span class="n">zap_queues</span>
+</pre></div>
+  <div id="prev_next_links">
+      
+          
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../../../../" title="Back to home page">
+        <img class="logo" src="../../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="../../../../">Homepage</a></li>
+    <li><a href="../../../../genindex/">Index</a></li>
+    <li><a href="../../../../py-modindex/">Module index</a></li>
+    <li><a href="../../../../modules/">API reference</a></li>
+        <li>
+        <a href="../../../">Module code</a>
+        <ul>
+        </ul>
+        </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../../">Err 2.2.1 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../../" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on May 27, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

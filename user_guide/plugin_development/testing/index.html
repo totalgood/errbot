@@ -126,9 +126,9 @@
         <span class="k">assert</span> <span class="s">&#39;This is my awesome command&#39;</span> <span class="ow">in</span> <span class="n">pop_message</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Lets walk through this line for line. First of all, we import <code class="xref py py-class docutils literal"><span class="pre">testbot</span></code>, <code class="xref py py-func docutils literal"><span class="pre">push_message()</span></code> and <code class="xref py py-func docutils literal"><span class="pre">pop_message()</span></code> from the backends tests, there allow us to spin up a bot for testing purposes and interact with the message queue.</p>
+<p>Lets walk through this line for line. First of all, we import <a class="reference internal" href="../../../errbot.backends.test/#errbot.backends.test.testbot" title="errbot.backends.test.testbot"><code class="xref py py-class docutils literal"><span class="pre">testbot</span></code></a>, <a class="reference internal" href="../../../errbot.backends.test/#errbot.backends.test.push_message" title="errbot.backends.test.push_message"><code class="xref py py-func docutils literal"><span class="pre">push_message()</span></code></a> and <a class="reference internal" href="../../../errbot.backends.test/#errbot.backends.test.pop_message" title="errbot.backends.test.pop_message"><code class="xref py py-func docutils literal"><span class="pre">pop_message()</span></code></a> from the backends tests, there allow us to spin up a bot for testing purposes and interact with the message queue.</p>
 <p>Then we define our own test class and inside of it we set <cite>extra_plugin_dir</cite> to <cite>.</cite>, the current directory so that the test bot will pick up on your plugin.</p>
-<p>After that we define our first <cite>test_</cite> method which simply sends a command to the bot using <code class="xref py py-func docutils literal"><span class="pre">push_message()</span></code> and then asserts that the response we expect, <em>&quot;This is my awesome command&quot;</em> is in the message we receive from the bot which we get by calling <code class="xref py py-func docutils literal"><span class="pre">pop_message()</span></code>.</p>
+<p>After that we define our first <cite>test_</cite> method which simply sends a command to the bot using <a class="reference internal" href="../../../errbot.backends.test/#errbot.backends.test.push_message" title="errbot.backends.test.push_message"><code class="xref py py-func docutils literal"><span class="pre">push_message()</span></code></a> and then asserts that the response we expect, <em>&quot;This is my awesome command&quot;</em> is in the message we receive from the bot which we get by calling <a class="reference internal" href="../../../errbot.backends.test/#errbot.backends.test.pop_message" title="errbot.backends.test.pop_message"><code class="xref py py-func docutils literal"><span class="pre">pop_message()</span></code></a>.</p>
 </div>
 <div class="section" id="helper-methods">
 <h2>10.2. Helper methods<a class="headerlink" href="#helper-methods" title="Permalink to this headline">¶</a></h2>
@@ -411,7 +411,7 @@ myplugin      49      0   100%
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on May 17, 2015.
+          Last updated on May 27, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     
