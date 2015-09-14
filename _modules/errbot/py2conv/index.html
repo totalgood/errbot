@@ -1,0 +1,226 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.py2conv &mdash; Err 3.0.4 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Err 3.0.4 documentation" href="../../../" />
+    <link rel="up" title="errbot" href="../" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../../_static/err.png"/>
+    <link rel="stylesheet" href="../../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body>
+    
+    
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../../" >Module code</a> &raquo;</li>
+          <li><a href="../" accesskey="U">errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for errbot.py2conv</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c"># Tool to convert err from python3 to python2</span>
+
+<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">py_version</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="n">lib3to2_input_sources</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;errbot&quot;</span><span class="p">,</span> <span class="s">&quot;scripts&quot;</span><span class="p">,</span> <span class="s">&quot;tests&quot;</span><span class="p">]</span>
+<span class="c"># Avoid running config templates through lib3to2. For background info,</span>
+<span class="c"># see https://github.com/gbin/err/issues/339</span>
+<span class="n">lib3to2_exclude</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&quot;errbot&quot;</span><span class="p">,</span> <span class="s">&quot;config-*.py&quot;</span><span class="p">))</span>
+<span class="n">PY2</span> <span class="o">=</span> <span class="n">py_version</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span>
+
+
+<div class="viewcode-block" id="walk_lib3to2_input_sources"><a class="viewcode-back" href="../../../errbot.py2conv/#errbot.py2conv.walk_lib3to2_input_sources">[docs]</a><span class="k">def</span> <span class="nf">walk_lib3to2_input_sources</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recursively walk through lib3to2 inputs, returning all the</span>
+<span class="sd">    files detected while respecting the exclude list.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">lib3to2_input_sources</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">directories</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">source</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">lib3to2_exclude</span> <span class="ow">and</span> <span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.py&#39;</span><span class="p">):</span>
+                    <span class="c"># Yes, I&#39;m aware this is a nesting monstrosity :)</span>
+                    <span class="k">yield</span> <span class="n">path</span>
+
+</div>
+<div class="viewcode-block" id="convert_to_python2"><a class="viewcode-back" href="../../../errbot.py2conv/#errbot.py2conv.convert_to_python2">[docs]</a><span class="k">def</span> <span class="nf">convert_to_python2</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert errbot source code (which is written for Python 3) to</span>
+<span class="sd">    Python 2-compatible code (in-place) using lib3to2.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">lib3to2</span> <span class="kn">import</span> <span class="n">main</span> <span class="k">as</span> <span class="n">three2two</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;Installing Err under Python 2, which requires 3to2 to be installed, but it was not found&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;I will now attempt to install it automatically, but this requires at least pip 1.4 to be installed&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&quot;If you get the error &#39;no such option: --no-clean&#39;, please `pip install 3to2` manually and &quot;</span>
+              <span class="s">&quot;then `pip install err` again.&quot;</span><span class="p">)</span>
+
+        <span class="kn">from</span> <span class="nn">pip</span> <span class="kn">import</span> <span class="n">main</span> <span class="k">as</span> <span class="n">mainpip</span>
+        <span class="n">mainpip</span><span class="p">([</span><span class="s">&#39;install&#39;</span><span class="p">,</span> <span class="s">&#39;3to2&#39;</span><span class="p">,</span> <span class="s">&#39;--no-clean&#39;</span><span class="p">])</span>
+        <span class="kn">from</span> <span class="nn">lib3to2</span> <span class="kn">import</span> <span class="n">main</span> <span class="k">as</span> <span class="n">three2two</span>
+
+    <span class="n">files_to_convert</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">walk_lib3to2_input_sources</span><span class="p">())</span>
+    <span class="n">three2two</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="s">&quot;lib3to2.fixes&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s">&quot;-n&quot;</span><span class="p">,</span> <span class="s">&quot;--no-diffs&quot;</span><span class="p">,</span> <span class="s">&quot;-w&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">files_to_convert</span><span class="p">)</span>
+
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">PY2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;This tool should only be used from a python2 environment&quot;</span><span class="p">)</span>
+    <span class="n">convert_to_python2</span><span class="p">()</span>
+</pre></div>
+  <div id="prev_next_links">
+      
+          
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../../../" title="Back to home page">
+        <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="../../../">Homepage</a></li>
+    <li><a href="../../../genindex/">Index</a></li>
+    <li><a href="../../../py-modindex/">Module index</a></li>
+    <li><a href="../../../modules/">API reference</a></li>
+        <li>
+        <a href="../../">Module code</a>
+        <ul>
+        <li>
+        <a href="../">errbot</a>
+        <ul>
+        </ul>
+        </li>
+        </ul>
+        </li>
+</ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../../" >Module code</a> &raquo;</li>
+          <li><a href="../" >errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Sep 14, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

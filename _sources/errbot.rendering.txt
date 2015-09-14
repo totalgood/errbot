@@ -1,0 +1,17 @@
+errbot.rendering package
+========================
+
+Submodules
+----------
+
+.. toctree::
+
+   errbot.rendering.ansi
+
+Module contents
+---------------
+
+.. automodule:: errbot.rendering
+    :members:
+    :undoc-members:
+    :show-inheritance:

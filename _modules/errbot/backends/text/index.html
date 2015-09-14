@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.text &mdash; Err 2.2.1 documentation</title>
+    <title>errbot.backends.text &mdash; Err 3.0.4 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '2.2.1',
+        VERSION:     '3.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.2.1 documentation" href="../../../../" />
-    <link rel="up" title="Module code" href="../../../" />
+    <link rel="top" title="Err 3.0.4 documentation" href="../../../../" />
+    <link rel="up" title="errbot.backends" href="../" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -56,11 +56,11 @@
     </script>
 
   </head>
-  <body role="document">
+  <body>
     
     
 
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -69,8 +69,10 @@
         <li class="right" >
           <a href="../../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../">Err 2.2.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../../" accesskey="U">Module code</a> &raquo;</li> 
+        <li><a href="../../../../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../../../" >Module code</a> &raquo;</li>
+          <li><a href="../../" >errbot</a> &raquo;</li>
+          <li><a href="../" accesskey="U">errbot.backends</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -78,42 +80,61 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <h1>Source code for errbot.backends.text</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="c"># vim: ts=4:sw=4</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">build_message</span><span class="p">,</span> <span class="n">Identifier</span><span class="p">,</span> <span class="n">Presence</span><span class="p">,</span> <span class="n">ONLINE</span><span class="p">,</span> <span class="n">OFFLINE</span><span class="p">,</span> <span class="n">MUCRoom</span><span class="p">,</span> <span class="n">MUCOccupant</span>
+
+<span class="kn">from</span> <span class="nn">ansi.color</span> <span class="kn">import</span> <span class="n">fg</span><span class="p">,</span> <span class="n">fx</span>
+<span class="kn">from</span> <span class="nn">pygments</span> <span class="kn">import</span> <span class="n">highlight</span>
+<span class="kn">from</span> <span class="nn">pygments.formatters</span> <span class="kn">import</span> <span class="n">Terminal256Formatter</span>
+<span class="kn">from</span> <span class="nn">pygments.lexers</span> <span class="kn">import</span> <span class="n">get_lexer_by_name</span>
+
+<span class="kn">from</span> <span class="nn">errbot.rendering</span> <span class="kn">import</span> <span class="n">ansi</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">xhtml</span><span class="p">,</span> <span class="n">imtext</span>
+<span class="kn">from</span> <span class="nn">errbot.backends</span> <span class="kn">import</span> <span class="n">SimpleIdentifier</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">Presence</span><span class="p">,</span> <span class="n">ONLINE</span><span class="p">,</span> <span class="n">OFFLINE</span><span class="p">,</span> <span class="n">MUCRoom</span>
 <span class="kn">from</span> <span class="nn">errbot.errBot</span> <span class="kn">import</span> <span class="n">ErrBot</span>
 <span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">deprecated</span>
 
+
+<span class="c"># Can&#39;t use __name__ because of Yapsy</span>
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;errbot.backends.text&#39;</span><span class="p">)</span>
+
 <span class="n">ENCODING_INPUT</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">encoding</span>
 <span class="n">ANSI</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&#39;isatty&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">isatty</span><span class="p">()</span>
-<span class="n">A_RESET</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\x1b</span><span class="s">[0m&#39;</span>
-<span class="n">A_CYAN</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\x1b</span><span class="s">[36m&#39;</span>
-<span class="n">A_BLUE</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\x1b</span><span class="s">[34m&#39;</span>
 
 
 <div class="viewcode-block" id="TextBackend"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextBackend">[docs]</a><span class="k">class</span> <span class="nc">TextBackend</span><span class="p">(</span><span class="n">ErrBot</span><span class="p">):</span>
 
 <div class="viewcode-block" id="TextBackend.__init__"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextBackend.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">jid</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="s">&#39;Err&#39;</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Text Backend Init.&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot_identifier</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_identifier</span><span class="p">(</span><span class="s">&#39;Err&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">md_html</span> <span class="o">=</span> <span class="n">xhtml</span><span class="p">()</span>  <span class="c"># for more debug feedback on md</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">md_text</span> <span class="o">=</span> <span class="n">text</span><span class="p">()</span>  <span class="c"># for more debug feedback on md</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">md_ansi</span> <span class="o">=</span> <span class="n">ansi</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">md_im</span> <span class="o">=</span> <span class="n">imtext</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">md_lexer</span> <span class="o">=</span> <span class="n">get_lexer_by_name</span><span class="p">(</span><span class="s">&quot;md&quot;</span><span class="p">,</span> <span class="n">stripall</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">html_lexer</span> <span class="o">=</span> <span class="n">get_lexer_by_name</span><span class="p">(</span><span class="s">&quot;html&quot;</span><span class="p">,</span> <span class="n">stripall</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminal_formatter</span> <span class="o">=</span> <span class="n">Terminal256Formatter</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s">&#39;paraiso-dark&#39;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="TextBackend.serve_forever"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextBackend.serve_forever">[docs]</a>    <span class="k">def</span> <span class="nf">serve_forever</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">me</span> <span class="o">=</span> <span class="n">Identifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span><span class="o">.</span><span class="n">BOT_ADMINS</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">me</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_identifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span><span class="o">.</span><span class="n">BOT_ADMINS</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">connect_callback</span><span class="p">()</span>  <span class="c"># notify that the connection occured</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">callback_presence</span><span class="p">(</span><span class="n">Presence</span><span class="p">(</span><span class="n">identifier</span><span class="o">=</span><span class="n">me</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">ONLINE</span><span class="p">))</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">ANSI</span><span class="p">:</span>
-                    <span class="n">entry</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">A_CYAN</span> <span class="o">+</span> <span class="s">&#39; &gt;&gt;&gt; &#39;</span> <span class="o">+</span> <span class="n">A_RESET</span><span class="p">)</span>
+                    <span class="n">entry</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">fg</span><span class="o">.</span><span class="n">cyan</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; &gt;&gt;&gt; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">fx</span><span class="o">.</span><span class="n">reset</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">entry</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&gt;&gt;&gt; &#39;</span><span class="p">)</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="n">Message</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
                 <span class="n">msg</span><span class="o">.</span><span class="n">frm</span> <span class="o">=</span> <span class="n">me</span>
-                <span class="n">msg</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">jid</span>
+                <span class="n">msg</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_identifier</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">callback_message</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span>
             <span class="k">pass</span>
@@ -122,47 +143,70 @@
         <span class="k">finally</span><span class="p">:</span>
             <span class="c"># simulate some real presence</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">callback_presence</span><span class="p">(</span><span class="n">Presence</span><span class="p">(</span><span class="n">identifier</span><span class="o">=</span><span class="n">me</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">OFFLINE</span><span class="p">))</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Trigger disconnect callback&quot;</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Trigger disconnect callback&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">disconnect_callback</span><span class="p">()</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Trigger shutdown&quot;</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Trigger shutdown&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="TextBackend.send_message"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextBackend.send_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
+        <span class="n">bar</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">╌╌[{mode}]&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="s">&#39;╌&#39;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">TextBackend</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">bar</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s">&#39;MD  &#39;</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">ANSI</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">A_BLUE</span> <span class="o">+</span> <span class="n">mess</span><span class="o">.</span><span class="n">body</span> <span class="o">+</span> <span class="n">A_RESET</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">highlight</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">md_lexer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminal_formatter</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">mess</span><span class="o">.</span><span class="n">body</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">bar</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s">&#39;HTML&#39;</span><span class="p">))</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">md_html</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ANSI</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">highlight</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">html_lexer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">terminal_formatter</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">bar</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s">&#39;TEXT&#39;</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">md_text</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">body</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">ANSI</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">bar</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s">&#39;ANSI&#39;</span><span class="p">))</span>
+            <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">md_ansi</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">body</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">bar</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s">&#39;IN  &#39;</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">md_im</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">body</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="TextBackend.build_message"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextBackend.build_message">[docs]</a>    <span class="k">def</span> <span class="nf">build_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">build_message</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">Message</span><span class="p">)</span>
+<div class="viewcode-block" id="TextBackend.build_identifier"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextBackend.build_identifier">[docs]</a>    <span class="k">def</span> <span class="nf">build_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_representation</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">SimpleIdentifier</span><span class="p">(</span><span class="n">text_representation</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TextBackend.build_reply"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextBackend.build_reply">[docs]</a>    <span class="k">def</span> <span class="nf">build_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">private</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_message</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">frm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_identifier</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">frm</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s">&#39;chat&#39;</span> <span class="k">if</span> <span class="n">private</span> <span class="k">else</span> <span class="n">mess</span><span class="o">.</span><span class="n">type</span>
+        <span class="k">return</span> <span class="n">response</span>
 </div>
 <div class="viewcode-block" id="TextBackend.shutdown"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextBackend.shutdown">[docs]</a>    <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">TextBackend</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
 </div>
     <span class="nd">@deprecated</span>
-    <span class="k">def</span> <span class="nf">join_room</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="TextBackend.join_room"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextBackend.join_room">[docs]</a>    <span class="k">def</span> <span class="nf">join_room</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_room</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
-
+</div>
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TextBackend.mode"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextBackend.mode">[docs]</a>    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&#39;text&#39;</span>
-
+</div>
 <div class="viewcode-block" id="TextBackend.query_room"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextBackend.query_room">[docs]</a>    <span class="k">def</span> <span class="nf">query_room</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">):</span>
-        <span class="n">room</span> <span class="o">=</span> <span class="n">TextMUCRoom</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+        <span class="n">room</span> <span class="o">=</span> <span class="n">TextMUCRoom</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">room</span>
 </div>
 <div class="viewcode-block" id="TextBackend.rooms"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextBackend.rooms">[docs]</a>    <span class="k">def</span> <span class="nf">rooms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span>
 </div>
-<div class="viewcode-block" id="TextBackend.groupchat_reply_format"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextBackend.groupchat_reply_format">[docs]</a>    <span class="k">def</span> <span class="nf">groupchat_reply_format</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">&#39;{0} {1}&#39;</span>
+<div class="viewcode-block" id="TextBackend.prefix_groupchat_reply"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextBackend.prefix_groupchat_reply">[docs]</a>    <span class="k">def</span> <span class="nf">prefix_groupchat_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">identifier</span><span class="p">):</span>
+        <span class="n">message</span><span class="o">.</span><span class="n">body</span> <span class="o">=</span> <span class="s">&#39;{0} {1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">identifier</span><span class="o">.</span><span class="n">nick</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
 
 </div></div>
 <div class="viewcode-block" id="TextMUCRoom"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextMUCRoom">[docs]</a><span class="k">class</span> <span class="nc">TextMUCRoom</span><span class="p">(</span><span class="n">MUCRoom</span><span class="p">):</span>
-<div class="viewcode-block" id="TextMUCRoom.__init__"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextMUCRoom.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jid</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">node</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">resource</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">jid</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">resource</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TextMUCRoom.__init__"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextMUCRoom.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">topic_</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">joined_</span> <span class="o">=</span> <span class="bp">False</span>
 </div>
@@ -179,25 +223,25 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">joined_</span> <span class="o">=</span> <span class="bp">False</span>
 </div>
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TextMUCRoom.exists"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextMUCRoom.exists">[docs]</a>    <span class="k">def</span> <span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">True</span>
-
+</div>
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">joined</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TextMUCRoom.joined"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextMUCRoom.joined">[docs]</a>    <span class="k">def</span> <span class="nf">joined</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">joined_</span>
-
+</div>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">topic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">topic_</span>
 
     <span class="nd">@topic.setter</span>
-    <span class="k">def</span> <span class="nf">topic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">):</span>
+<div class="viewcode-block" id="TextMUCRoom.topic"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextMUCRoom.topic">[docs]</a>    <span class="k">def</span> <span class="nf">topic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">topic_</span> <span class="o">=</span> <span class="n">topic</span>
-
+</div>
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">occupants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">MUCOccupant</span><span class="p">(</span><span class="s">&quot;Somebody&quot;</span><span class="p">)]</span>
-
+<div class="viewcode-block" id="TextMUCRoom.occupants"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextMUCRoom.occupants">[docs]</a>    <span class="k">def</span> <span class="nf">occupants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">build_identifier</span><span class="p">(</span><span class="s">&quot;Somebody&quot;</span><span class="p">)]</span>
+</div>
 <div class="viewcode-block" id="TextMUCRoom.invite"><a class="viewcode-back" href="../../../../errbot.backends.text/#errbot.backends.text.TextMUCRoom.invite">[docs]</a>    <span class="k">def</span> <span class="nf">invite</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="k">pass</span></div></div>
 </pre></div>
@@ -211,7 +255,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../../" title="Back to home page">
         <img class="logo" src="../../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -230,10 +274,20 @@
         <li>
         <a href="../../../">Module code</a>
         <ul>
+        <li>
+        <a href="../../">errbot</a>
+        <ul>
+        <li>
+        <a href="../">errbot.backends</a>
+        <ul>
+        </ul>
+        </li>
+        </ul>
+        </li>
         </ul>
         </li>
 </ul>
-<div id="searchbox" style="display: none" role="search">
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../../../search/" method="get">
       <input type="text" name="q" />
@@ -260,7 +314,7 @@
     </script>
     <div class="relbar2">
         
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -269,14 +323,16 @@
         <li class="right" >
           <a href="../../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../">Err 2.2.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../../" >Module code</a> &raquo;</li> 
+        <li><a href="../../../../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../../../" >Module code</a> &raquo;</li>
+          <li><a href="../../" >errbot</a> &raquo;</li>
+          <li><a href="../" >errbot.backends</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on May 27, 2015.
+          Last updated on Sep 14, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

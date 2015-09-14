@@ -1,0 +1,282 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.core_plugins.webserver module &mdash; Err 3.0.4 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Err 3.0.4 documentation" href="../" />
+    <link rel="up" title="errbot.core_plugins package" href="../errbot.core_plugins/" />
+    <link rel="next" title="errbot.core_plugins.wsview module" href="../errbot.core_plugins.wsview/" />
+    <link rel="prev" title="errbot.core_plugins.vcheck module" href="../errbot.core_plugins.vcheck/" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../_static/err.png"/>
+    <link rel="stylesheet" href="../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body>
+    
+    
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.core_plugins.wsview/" title="errbot.core_plugins.wsview module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../errbot.core_plugins.vcheck/" title="errbot.core_plugins.vcheck module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li><a href="../errbot.core_plugins/" accesskey="U">errbot.core_plugins package</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-errbot.core_plugins.webserver">
+<span id="errbot-core-plugins-webserver-module"></span><h1>errbot.core_plugins.webserver module<a class="headerlink" href="#module-errbot.core_plugins.webserver" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="errbot.core_plugins.webserver.Webserver">
+<em class="property">class </em><tt class="descclassname">errbot.core_plugins.webserver.</tt><tt class="descname">Webserver</tt><big>(</big><em>bot</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/webserver/#Webserver"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.webserver.Webserver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><tt class="xref py py-class docutils literal"><span class="pre">errbot.botplugin.BotPlugin</span></tt></a></p>
+<dl class="method">
+<dt id="errbot.core_plugins.webserver.Webserver.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>bot</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/webserver/#Webserver.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.webserver.Webserver.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.webserver.Webserver.activate">
+<tt class="descname">activate</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/webserver/#Webserver.activate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.webserver.Webserver.activate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.webserver.Webserver.check_configuration">
+<tt class="descname">check_configuration</tt><big>(</big><em>configuration</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/webserver/#Webserver.check_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.webserver.Webserver.check_configuration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.webserver.Webserver.deactivate">
+<tt class="descname">deactivate</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/webserver/#Webserver.deactivate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.webserver.Webserver.deactivate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.webserver.Webserver.echo">
+<tt class="descname">echo</tt><big>(</big><em>incoming_request</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/webserver/#Webserver.echo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.webserver.Webserver.echo" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple test webhook</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.webserver.Webserver.generate_certificate">
+<tt class="descname">generate_certificate</tt><big>(</big><em>mess</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/webserver/#Webserver.generate_certificate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.webserver.Webserver.generate_certificate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a self-signed SSL certificate for the Webserver</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.webserver.Webserver.get_configuration_template">
+<tt class="descname">get_configuration_template</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/webserver/#Webserver.get_configuration_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.webserver.Webserver.get_configuration_template" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.core_plugins.webserver.Webserver.max_err_version">
+<tt class="descname">max_err_version</tt><em class="property"> = '3.0.4'</em><a class="headerlink" href="#errbot.core_plugins.webserver.Webserver.max_err_version" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.core_plugins.webserver.Webserver.min_err_version">
+<tt class="descname">min_err_version</tt><em class="property"> = '3.0.4'</em><a class="headerlink" href="#errbot.core_plugins.webserver.Webserver.min_err_version" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.webserver.Webserver.webhook_test">
+<tt class="descname">webhook_test</tt><big>(</big><em>_</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/webserver/#Webserver.webhook_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.webserver.Webserver.webhook_test" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>Test your webhooks from within err.</div></blockquote>
+<p>The syntax is :
+!webhook test [relative_url] [post content]</p>
+<p>It triggers the notification and generate also a little test report.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.webserver.Webserver.webstatus">
+<tt class="descname">webstatus</tt><big>(</big><em>mess</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/webserver/#Webserver.webstatus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.webserver.Webserver.webstatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives a quick status of what is mapped in the internal webserver</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="errbot.core_plugins.webserver.make_ssl_certificate">
+<tt class="descclassname">errbot.core_plugins.webserver.</tt><tt class="descname">make_ssl_certificate</tt><big>(</big><em>key_path</em>, <em>cert_path</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/webserver/#make_ssl_certificate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.webserver.make_ssl_certificate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a self-signed certificate</p>
+<p>The generated key will be written out to key_path, with the corresponding
+certificate itself being written to cert_path.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="errbot.core_plugins.webserver.random">
+<tt class="descclassname">errbot.core_plugins.webserver.</tt><tt class="descname">random</tt><big>(</big><big>)</big> &rarr; x in the interval [0, 1).<a class="headerlink" href="#errbot.core_plugins.webserver.random" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+  <div id="prev_next_links">
+      
+          
+              Previous: <a href="../errbot.core_plugins.vcheck/">errbot.core_plugins.vcheck module</a>
+          
+          
+               | 
+              Next: <a href="../errbot.core_plugins.wsview/">errbot.core_plugins.wsview module</a>
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../" title="Back to home page">
+        <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="../">Homepage</a></li>
+    <li><a href="../genindex/">Index</a></li>
+    <li><a href="../py-modindex/">Module index</a></li>
+    <li><a href="../modules/">API reference</a></li>
+        <li>
+        <a href="../errbot/">errbot package</a>
+        <ul>
+        <li>
+        <a href="../errbot.core_plugins/">errbot.core_plugins package</a>
+        <ul>
+        <li>Previous: <a href="../errbot.core_plugins.vcheck/" title="previous chapter">errbot.core_plugins.vcheck module</a></li>
+        <li>Next: <a href="../errbot.core_plugins.wsview/" title="next chapter">errbot.core_plugins.wsview module</a></li>
+        </ul>
+        </li>
+        </ul>
+        </li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/errbot.core_plugins.webserver.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.core_plugins.wsview/" title="errbot.core_plugins.wsview module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../errbot.core_plugins.vcheck/" title="errbot.core_plugins.vcheck module"
+             >previous</a> |</li>
+        <li><a href="../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li><a href="../errbot.core_plugins/" >errbot.core_plugins package</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Sep 14, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

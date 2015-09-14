@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Plugin development &mdash; Err 2.2.1 documentation</title>
+    <title>Plugin development &mdash; Err 3.0.4 documentation</title>
     
     <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.2.1',
+        VERSION:     '3.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.2.1 documentation" href="../../" />
+    <link rel="top" title="Err 3.0.4 documentation" href="../../" />
     <link rel="next" title="1. Intro" href="intro/" />
     <link rel="prev" title="Interacting with the Bot" href="../interaction/" />
     <script type="text/javascript">
@@ -57,11 +57,11 @@
     </script>
 
   </head>
-  <body role="document">
+  <body>
     
     
 
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -76,7 +76,7 @@
         <li class="right" >
           <a href="../interaction/" title="Interacting with the Bot"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../">Err 2.2.1 documentation</a> &raquo;</li> 
+        <li><a href="../../">Err 3.0.4 documentation</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -84,7 +84,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="plugin-development">
 <h1>Plugin development<a class="headerlink" href="#plugin-development" title="Permalink to this headline">¶</a></h1>
@@ -92,9 +92,8 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="intro/">1. Intro</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="intro/#xmpp-versus-irc">1.1. XMPP versus IRC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro/#requirements">1.2. Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro/#prior-knowledge">1.3. Prior knowledge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro/#requirements">1.1. Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro/#prior-knowledge">1.2. Prior knowledge</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="development_environment/">2. Development environment</a><ul>
@@ -113,7 +112,8 @@
 <li class="toctree-l1"><a class="reference internal" href="botcommands/">4. Advanced bot commands</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="botcommands/#automatic-argument-splitting">4.1. Automatic argument splitting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="botcommands/#subcommands">4.2. Subcommands</a></li>
-<li class="toctree-l2"><a class="reference internal" href="botcommands/#commands-using-regular-expressions">4.3. Commands using regular expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="botcommands/#argparse-argument-splitting">4.3. Argparse argument splitting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="botcommands/#commands-using-regular-expressions">4.4. Commands using regular expressions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="messaging/">5. Messaging</a><ul>
@@ -127,33 +127,39 @@
 <li class="toctree-l2"><a class="reference internal" href="presence/#callbacks-for-presence-changes">6.1. Callbacks for presence changes</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="configuration/">7. Configuration</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="configuration/#plugin-configuration-through-the-built-in-config-command">7.1. Plugin configuration through the built-in <cite>!config</cite> command</a></li>
-<li class="toctree-l2"><a class="reference internal" href="configuration/#supplying-partial-configuration">7.2. Supplying partial configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="configuration/#using-custom-configuration-checks">7.3. Using custom configuration checks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="persistence/">7. Persistence</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="persistence/#how-to-use-it">7.1. How to use it</a></li>
+<li class="toctree-l2"><a class="reference internal" href="persistence/#caveats">7.2. Caveats</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scheduling/">8. Scheduling</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scheduling/#calling-a-function-at-a-regular-interval">8.1. Calling a function at a regular interval</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration/">8. Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration/#plugin-configuration-through-the-built-in-config-command">8.1. Plugin configuration through the built-in <cite>!config</cite> command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/#supplying-partial-configuration">8.2. Supplying partial configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration/#using-custom-configuration-checks">8.3. Using custom configuration checks</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="webhooks/">9. Webhooks</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="webhooks/#simple-webhooks">9.1. Simple webhooks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="webhooks/#handling-form-encoded-requests">9.2. Handling form-encoded requests</a></li>
-<li class="toctree-l2"><a class="reference internal" href="webhooks/#the-raw-request">9.3. The raw request</a></li>
-<li class="toctree-l2"><a class="reference internal" href="webhooks/#returning-custom-headers-and-status-codes">9.4. Returning custom headers and status codes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="webhooks/#testing-a-webhook-through-chat">9.5. Testing a webhook through chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scheduling/">9. Scheduling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scheduling/#calling-a-function-at-a-regular-interval">9.1. Calling a function at a regular interval</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="testing/">10. Testing your plugins</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="testing/#interacting-with-the-bot">10.1. Interacting with the bot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testing/#helper-methods">10.2. Helper methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testing/#pattern">10.3. Pattern</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testing/#all-together-now">10.4. All together now</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testing/#pep-8-and-code-coverage">10.5. PEP-8 and code coverage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testing/#travis-and-coveralls">10.6. Travis and Coveralls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webhooks/">10. Webhooks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="webhooks/#simple-webhooks">10.1. Simple webhooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webhooks/#handling-form-encoded-requests">10.2. Handling form-encoded requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webhooks/#the-raw-request">10.3. The raw request</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webhooks/#returning-custom-headers-and-status-codes">10.4. Returning custom headers and status codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webhooks/#testing-a-webhook-through-chat">10.5. Testing a webhook through chat</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="testing/">11. Testing your plugins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="testing/#interacting-with-the-bot">11.1. Interacting with the bot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing/#helper-methods">11.2. Helper methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing/#pattern">11.3. Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing/#all-together-now">11.4. All together now</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing/#pep-8-and-code-coverage">11.5. PEP-8 and code coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing/#travis-and-coveralls">11.6. Travis and Coveralls</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="logging/">12. Logging</a></li>
 </ul>
 </div>
 </div>
@@ -173,7 +179,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../" title="Back to home page">
         <img class="logo" src="../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -192,14 +198,12 @@
         <li>Previous: <a href="../interaction/" title="previous chapter">Interacting with the Bot</a></li>
         <li>Next: <a href="intro/" title="next chapter">1. Intro</a></li>
 </ul>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../_sources/user_guide/plugin_development/index.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/user_guide/plugin_development/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../search/" method="get">
       <input type="text" name="q" />
@@ -226,7 +230,7 @@
     </script>
     <div class="relbar2">
         
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -241,13 +245,13 @@
         <li class="right" >
           <a href="../interaction/" title="Interacting with the Bot"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../">Err 2.2.1 documentation</a> &raquo;</li> 
+        <li><a href="../../">Err 3.0.4 documentation</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on May 27, 2015.
+          Last updated on Sep 14, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

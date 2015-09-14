@@ -1,0 +1,247 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.core_plugins.utils &mdash; Err 3.0.4 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '3.0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="Err 3.0.4 documentation" href="../../../../" />
+    <link rel="up" title="errbot" href="../../" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../../../_static/err.png"/>
+    <link rel="stylesheet" href="../../../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body>
+    
+    
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../../../" >Module code</a> &raquo;</li>
+          <li><a href="../../" accesskey="U">errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for errbot.core_plugins.utils</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span>
+
+<span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span><span class="p">,</span> <span class="n">botcmd</span>
+<span class="kn">from</span> <span class="nn">errbot.version</span> <span class="kn">import</span> <span class="n">VERSION</span>
+<span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">tail</span>
+
+
+<div class="viewcode-block" id="Utils"><a class="viewcode-back" href="../../../../errbot.core_plugins.utils/#errbot.core_plugins.utils.Utils">[docs]</a><span class="k">class</span> <span class="nc">Utils</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
+    <span class="n">min_err_version</span> <span class="o">=</span> <span class="n">VERSION</span>  <span class="c"># don&#39;t copy paste that for your plugin, it is just because it is a bundled plugin !</span>
+    <span class="n">max_err_version</span> <span class="o">=</span> <span class="n">VERSION</span>
+
+    <span class="c"># noinspection PyUnusedLocal</span>
+    <span class="nd">@botcmd</span>
+<div class="viewcode-block" id="Utils.echo"><a class="viewcode-back" href="../../../../errbot.core_plugins.utils/#errbot.core_plugins.utils.Utils.echo">[docs]</a>    <span class="k">def</span> <span class="nf">echo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; A simple echo command. Useful for encoding tests etc ...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">args</span>
+</div>
+    <span class="nd">@botcmd</span>
+<div class="viewcode-block" id="Utils.whoami"><a class="viewcode-back" href="../../../../errbot.core_plugins.utils/#errbot.core_plugins.utils.Utils.whoami">[docs]</a>    <span class="k">def</span> <span class="nf">whoami</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; A simple command echoing the details of your identifier. Useful to debug identity problems.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">:</span>
+            <span class="n">frm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_identifier</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;&quot;&#39;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">frm</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">frm</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="s">&quot;| key      | value</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="n">resp</span> <span class="o">+=</span> <span class="s">&quot;| -------- | --------</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="n">resp</span> <span class="o">+=</span> <span class="s">&quot;| person   | `</span><span class="si">%s</span><span class="s">`</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">frm</span><span class="o">.</span><span class="n">person</span>
+        <span class="n">resp</span> <span class="o">+=</span> <span class="s">&quot;| nick     | `</span><span class="si">%s</span><span class="s">`</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">frm</span><span class="o">.</span><span class="n">nick</span>
+        <span class="n">resp</span> <span class="o">+=</span> <span class="s">&quot;| fullname | `</span><span class="si">%s</span><span class="s">`</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">frm</span><span class="o">.</span><span class="n">fullname</span>
+        <span class="n">resp</span> <span class="o">+=</span> <span class="s">&quot;| client   | `</span><span class="si">%s</span><span class="s">`</span><span class="se">\n\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">frm</span><span class="o">.</span><span class="n">client</span>
+
+        <span class="c">#  extra info if it is a MUC</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">frm</span><span class="p">,</span> <span class="s">&#39;room&#39;</span><span class="p">):</span>
+            <span class="n">resp</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">`room` is </span><span class="si">%s</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">frm</span><span class="o">.</span><span class="n">room</span>
+        <span class="n">resp</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\n\n</span><span class="s">- string representation is &#39;</span><span class="si">%s</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">frm</span>
+        <span class="n">resp</span> <span class="o">+=</span> <span class="s">&quot;- class is &#39;</span><span class="si">%s</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">frm</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
+
+        <span class="k">return</span> <span class="n">resp</span>
+
+    <span class="c"># noinspection PyUnusedLocal</span></div>
+    <span class="nd">@botcmd</span><span class="p">(</span><span class="n">historize</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class="viewcode-block" id="Utils.history"><a class="viewcode-back" href="../../../../errbot.core_plugins.utils/#errbot.core_plugins.utils.Utils.history">[docs]</a>    <span class="k">def</span> <span class="nf">history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;display the command history&quot;&quot;&quot;</span>
+        <span class="n">answer</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">user_cmd_history</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bot</span><span class="o">.</span><span class="n">cmd_history</span><span class="p">[</span><span class="n">mess</span><span class="o">.</span><span class="n">frm</span><span class="o">.</span><span class="n">person</span><span class="p">]</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_cmd_history</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">l</span><span class="p">):</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">user_cmd_history</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">answer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%2i</span><span class="s">:</span><span class="si">%s%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bot</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">answer</span><span class="p">)</span>
+
+    <span class="c"># noinspection PyUnusedLocal</span></div>
+    <span class="nd">@botcmd</span>
+<div class="viewcode-block" id="Utils.log_tail"><a class="viewcode-back" href="../../../../errbot.core_plugins.utils/#errbot.core_plugins.utils.Utils.log_tail">[docs]</a>    <span class="k">def</span> <span class="nf">log_tail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Display a tail of the log of n lines or 40 by default</span>
+<span class="sd">        use : !log tail 10</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># admin_only(mess)  # uncomment if paranoid.</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">40</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span><span class="o">.</span><span class="n">BOT_LOG_FILE</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span><span class="o">.</span><span class="n">BOT_LOG_FILE</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s">&#39;```</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">tail</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">```&#39;</span>
+        <span class="k">return</span> <span class="s">&#39;No log is configured, please define BOT_LOG_FILE in config.py&#39;</span>
+</div>
+    <span class="nd">@botcmd</span>
+<div class="viewcode-block" id="Utils.render_test"><a class="viewcode-back" href="../../../../errbot.core_plugins.utils/#errbot.core_plugins.utils.Utils.render_test">[docs]</a>    <span class="k">def</span> <span class="nf">render_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Tests / showcases the markdown rendering on your current backend</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)),</span> <span class="s">&#39;test.md&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span></div></div>
+</pre></div>
+  <div id="prev_next_links">
+      
+          
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../../../../" title="Back to home page">
+        <img class="logo" src="../../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="../../../../">Homepage</a></li>
+    <li><a href="../../../../genindex/">Index</a></li>
+    <li><a href="../../../../py-modindex/">Module index</a></li>
+    <li><a href="../../../../modules/">API reference</a></li>
+        <li>
+        <a href="../../../">Module code</a>
+        <ul>
+        <li>
+        <a href="../../">errbot</a>
+        <ul>
+        </ul>
+        </li>
+        </ul>
+        </li>
+</ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../../../" >Module code</a> &raquo;</li>
+          <li><a href="../../" >errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Sep 14, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

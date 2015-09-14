@@ -1,0 +1,7 @@
+errbot.backends.slack module
+============================
+
+.. automodule:: errbot.backends.slack
+    :members:
+    :undoc-members:
+    :show-inheritance:

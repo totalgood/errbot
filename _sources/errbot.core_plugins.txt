@@ -1,0 +1,32 @@
+errbot.core_plugins package
+===========================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    errbot.core_plugins.templates
+
+Submodules
+----------
+
+.. toctree::
+
+   errbot.core_plugins.backup
+   errbot.core_plugins.chatRoom
+   errbot.core_plugins.health
+   errbot.core_plugins.help
+   errbot.core_plugins.plugins
+   errbot.core_plugins.utils
+   errbot.core_plugins.vcheck
+   errbot.core_plugins.webserver
+   errbot.core_plugins.wsview
+
+Module contents
+---------------
+
+.. automodule:: errbot.core_plugins
+    :members:
+    :undoc-members:
+    :show-inheritance:

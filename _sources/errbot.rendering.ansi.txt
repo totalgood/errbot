@@ -1,0 +1,7 @@
+errbot.rendering.ansi module
+============================
+
+.. automodule:: errbot.rendering.ansi
+    :members:
+    :undoc-members:
+    :show-inheritance:

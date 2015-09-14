@@ -170,13 +170,7 @@ a:hover {
     color: #f07e2a;
     text-decoration: underline;
 }
-
-a span.pre {
-	font-family: 'Droid Sans Mono', monospace;
-	font-size: 0.9em;
-	color: #222;
-}
-
+ 
 div.body h1,
 div.body h2,
 div.body h3,

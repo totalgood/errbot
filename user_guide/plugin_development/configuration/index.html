@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7. Configuration &mdash; Err 2.2.1 documentation</title>
+    <title>8. Configuration &mdash; Err 3.0.4 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.2.1',
+        VERSION:     '3.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,10 +24,10 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.2.1 documentation" href="../../../" />
+    <link rel="top" title="Err 3.0.4 documentation" href="../../../" />
     <link rel="up" title="Plugin development" href="../" />
-    <link rel="next" title="8. Scheduling" href="../scheduling/" />
-    <link rel="prev" title="6. Presence" href="../presence/" />
+    <link rel="next" title="9. Scheduling" href="../scheduling/" />
+    <link rel="prev" title="7. Persistence" href="../persistence/" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -58,11 +58,11 @@
     </script>
 
   </head>
-  <body role="document">
+  <body>
     
     
 
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -72,13 +72,13 @@
           <a href="../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../scheduling/" title="8. Scheduling"
+          <a href="../scheduling/" title="9. Scheduling"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../presence/" title="6. Presence"
+          <a href="../persistence/" title="7. Persistence"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../" accesskey="U">Plugin development</a> &raquo;</li> 
+        <li><a href="../../../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../" accesskey="U">Plugin development</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -86,19 +86,19 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="configuration">
-<h1>7. Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
+<h1>8. Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="plugin-configuration-through-the-built-in-config-command">
-<h2>7.1. Plugin configuration through the built-in <cite>!config</cite> command<a class="headerlink" href="#plugin-configuration-through-the-built-in-config-command" title="Permalink to this headline">¶</a></h2>
+<h2>8.1. Plugin configuration through the built-in <cite>!config</cite> command<a class="headerlink" href="#plugin-configuration-through-the-built-in-config-command" title="Permalink to this headline">¶</a></h2>
 <p>Err can keep a simple python object for the configuration of your
 plugin. This avoids the need for admins to configure settings in
 some kind of configuration file, instead allowing configuration to
 happen directly through chat commands.</p>
 <p>In order to enable this feature, you need to provide a configuration
 template (ie. a config example) by overriding the
-<a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.get_configuration_template" title="errbot.botplugin.BotPlugin.get_configuration_template"><code class="xref py py-meth docutils literal"><span class="pre">get_configuration_template()</span></code></a>
+<a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.get_configuration_template" title="errbot.botplugin.BotPlugin.get_configuration_template"><tt class="xref py py-meth docutils literal"><span class="pre">get_configuration_template()</span></tt></a>
 method. For example, a plugin might request a dictionary with 2
 entries:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span>
@@ -131,11 +131,11 @@ PluginExample</cite> again.</p>
 </div>
 </div>
 <div class="section" id="supplying-partial-configuration">
-<h2>7.2. Supplying partial configuration<a class="headerlink" href="#supplying-partial-configuration" title="Permalink to this headline">¶</a></h2>
+<h2>8.2. Supplying partial configuration<a class="headerlink" href="#supplying-partial-configuration" title="Permalink to this headline">¶</a></h2>
 <p>Sometimes you want to allow users to only supply a part of the configuration
 they wish to override from the template instead of having to copy-paste and
 modify the complete entry.</p>
-<p>This can be achieved by overriding <a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.configure" title="errbot.botplugin.BotPlugin.configure"><code class="xref py py-meth docutils literal"><span class="pre">configure()</span></code></a>:</p>
+<p>This can be achieved by overriding <a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.configure" title="errbot.botplugin.BotPlugin.configure"><tt class="xref py py-meth docutils literal"><span class="pre">configure()</span></tt></a>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
 
 <span class="n">CONFIG_TEMPLATE</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;ID_TOKEN&#39;</span><span class="p">:</span> <span class="s">&#39;00112233445566778899aabbccddeeff&#39;</span><span class="p">,</span>
@@ -157,7 +157,7 @@ that dictionary with the configuration received when calling the
 work.</p>
 <p>If you wish to reset the configuration to its defaults all you need to do is
 pass an empty dictionary to <cite>!config</cite>.</p>
-<p>You'll now also need to override <a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.get_configuration_template" title="errbot.botplugin.BotPlugin.get_configuration_template"><code class="xref py py-meth docutils literal"><span class="pre">get_configuration_template()</span></code></a>
+<p>You'll now also need to override <a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.get_configuration_template" title="errbot.botplugin.BotPlugin.get_configuration_template"><tt class="xref py py-meth docutils literal"><span class="pre">get_configuration_template()</span></tt></a>
 and return the <cite>CONFIG_TEMPLATE</cite> in that function:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">get_configuration_template</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">CONFIG_TEMPLATE</span>
@@ -165,11 +165,11 @@ and return the <cite>CONFIG_TEMPLATE</cite> in that function:</p>
 </div>
 </div>
 <div class="section" id="using-custom-configuration-checks">
-<h2>7.3. Using custom configuration checks<a class="headerlink" href="#using-custom-configuration-checks" title="Permalink to this headline">¶</a></h2>
+<h2>8.3. Using custom configuration checks<a class="headerlink" href="#using-custom-configuration-checks" title="Permalink to this headline">¶</a></h2>
 <p>By default, Err will check the supplied configuration against the
 configuration template, and raise an error if the structure of the
 two doesn't match.</p>
-<p>You need to override the <a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.check_configuration" title="errbot.botplugin.BotPlugin.check_configuration"><code class="xref py py-meth docutils literal"><span class="pre">check_configuration()</span></code></a>
+<p>You need to override the <a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.check_configuration" title="errbot.botplugin.BotPlugin.check_configuration"><tt class="xref py py-meth docutils literal"><span class="pre">check_configuration()</span></tt></a>
 method if you wish do some other form of configuration validation.
 This method will be called automatically when an admin configures
 your plugin with the <cite>!config</cite> command.</p>
@@ -179,7 +179,7 @@ your plugin with the <cite>!config</cite> command.</p>
 parameter. Be mindful of this situation.</p>
 </div>
 <p>Using the partial configuration trick as shown above requires you to
-override <a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.check_configuration" title="errbot.botplugin.BotPlugin.check_configuration"><code class="xref py py-meth docutils literal"><span class="pre">check_configuration()</span></code></a>, so
+override <a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.check_configuration" title="errbot.botplugin.BotPlugin.check_configuration"><tt class="xref py py-meth docutils literal"><span class="pre">check_configuration()</span></tt></a>, so
 at a minimum you'll need this:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">check_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="p">):</span>
     <span class="k">pass</span>
@@ -193,11 +193,11 @@ that is up to you.</p>
   <div id="prev_next_links">
       
           
-              Previous: <a href="../presence/">6. Presence</a>
+              Previous: <a href="../persistence/">7. Persistence</a>
           
           
                | 
-              Next: <a href="../scheduling/">8. Scheduling</a>
+              Next: <a href="../scheduling/">9. Scheduling</a>
           
       
   </div>
@@ -205,7 +205,7 @@ that is up to you.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../" title="Back to home page">
         <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -218,10 +218,10 @@ that is up to you.</p>
     </div>
   <h3><a href="../../../">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">7. Configuration</a><ul>
-<li><a class="reference internal" href="#plugin-configuration-through-the-built-in-config-command">7.1. Plugin configuration through the built-in <cite>!config</cite> command</a></li>
-<li><a class="reference internal" href="#supplying-partial-configuration">7.2. Supplying partial configuration</a></li>
-<li><a class="reference internal" href="#using-custom-configuration-checks">7.3. Using custom configuration checks</a></li>
+<li><a class="reference internal" href="#">8. Configuration</a><ul>
+<li><a class="reference internal" href="#plugin-configuration-through-the-built-in-config-command">8.1. Plugin configuration through the built-in <cite>!config</cite> command</a></li>
+<li><a class="reference internal" href="#supplying-partial-configuration">8.2. Supplying partial configuration</a></li>
+<li><a class="reference internal" href="#using-custom-configuration-checks">8.3. Using custom configuration checks</a></li>
 </ul>
 </li>
 </ul>
@@ -234,19 +234,17 @@ that is up to you.</p>
         <li>
         <a href="../">Plugin development</a>
         <ul>
-        <li>Previous: <a href="../presence/" title="previous chapter">6. Presence</a></li>
-        <li>Next: <a href="../scheduling/" title="next chapter">8. Scheduling</a></li>
+        <li>Previous: <a href="../persistence/" title="previous chapter">7. Persistence</a></li>
+        <li>Next: <a href="../scheduling/" title="next chapter">9. Scheduling</a></li>
         </ul>
         </li>
 </ul>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../../_sources/user_guide/plugin_development/configuration.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../_sources/user_guide/plugin_development/configuration.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../../search/" method="get">
       <input type="text" name="q" />
@@ -273,7 +271,7 @@ that is up to you.</p>
     </script>
     <div class="relbar2">
         
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -283,19 +281,19 @@ that is up to you.</p>
           <a href="../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../scheduling/" title="8. Scheduling"
+          <a href="../scheduling/" title="9. Scheduling"
              >next</a> |</li>
         <li class="right" >
-          <a href="../presence/" title="6. Presence"
+          <a href="../persistence/" title="7. Persistence"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../" >Plugin development</a> &raquo;</li> 
+        <li><a href="../../../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../" >Plugin development</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on May 27, 2015.
+          Last updated on Sep 14, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

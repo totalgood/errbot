@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.irc module &mdash; Err 2.2.1 documentation</title>
+    <title>errbot.backends.irc module &mdash; Err 3.0.4 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.2.1',
+        VERSION:     '3.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.2.1 documentation" href="../" />
+    <link rel="top" title="Err 3.0.4 documentation" href="../" />
     <link rel="up" title="errbot.backends package" href="../errbot.backends/" />
     <link rel="next" title="errbot.backends.null module" href="../errbot.backends.null/" />
     <link rel="prev" title="errbot.backends.hipchat module" href="../errbot.backends.hipchat/" />
@@ -58,11 +58,11 @@
     </script>
 
   </head>
-  <body role="document">
+  <body>
     
     
 
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -77,9 +77,9 @@
         <li class="right" >
           <a href="../errbot.backends.hipchat/" title="errbot.backends.hipchat module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../errbot.backends/" accesskey="U">errbot.backends package</a> &raquo;</li> 
+        <li><a href="../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li><a href="../errbot.backends/" accesskey="U">errbot.backends package</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -87,50 +87,52 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="module-errbot.backends.irc">
 <span id="errbot-backends-irc-module"></span><h1>errbot.backends.irc module<a class="headerlink" href="#module-errbot.backends.irc" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="errbot.backends.irc.IRCBackend">
-<em class="property">class </em><code class="descclassname">errbot.backends.irc.</code><code class="descname">IRCBackend</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../errbot.errBot/#errbot.errBot.ErrBot" title="errbot.errBot.ErrBot"><code class="xref py py-class docutils literal"><span class="pre">errbot.errBot.ErrBot</span></code></a></p>
+<em class="property">class </em><tt class="descclassname">errbot.backends.irc.</tt><tt class="descname">IRCBackend</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.errBot/#errbot.errBot.ErrBot" title="errbot.errBot.ErrBot"><tt class="xref py py-class docutils literal"><span class="pre">errbot.errBot.ErrBot</span></tt></a></p>
 <dl class="method">
 <dt id="errbot.backends.irc.IRCBackend.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.__init__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__init__</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.irc.IRCBackend.build_identifier">
+<tt class="descname">build_identifier</tt><big>(</big><em>txtrep</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.build_identifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.build_identifier" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCBackend.build_message">
-<code class="descname">build_message</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.build_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.build_message" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">build_message</tt><big>(</big><em>text</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.build_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.build_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.irc.IRCBackend.build_reply">
+<tt class="descname">build_reply</tt><big>(</big><em>mess</em>, <em>text=None</em>, <em>private=False</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.build_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.build_reply" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCBackend.connect">
-<code class="descname">connect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.connect" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">connect</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.connect" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="method">
-<dt id="errbot.backends.irc.IRCBackend.groupchat_reply_format">
-<code class="descname">groupchat_reply_format</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.groupchat_reply_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.groupchat_reply_format" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="errbot.backends.irc.IRCBackend.join_room">
-<code class="descname">join_room</code><span class="sig-paren">(</span><em>room</em>, <em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.join_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.join_room" title="Permalink to this definition">¶</a></dt>
-<dd><div class="deprecated">
-<p><span class="versionmodified">Deprecated since version 2.2.0: </span>Use the methods on <a class="reference internal" href="#errbot.backends.irc.IRCMUCRoom" title="errbot.backends.irc.IRCMUCRoom"><code class="xref py py-class docutils literal"><span class="pre">IRCMUCRoom</span></code></a> instead.</p>
-</div>
-</dd></dl>
 
 <dl class="attribute">
 <dt id="errbot.backends.irc.IRCBackend.mode">
-<code class="descname">mode</code><a class="headerlink" href="#errbot.backends.irc.IRCBackend.mode" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">mode</tt><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.irc.IRCBackend.prefix_groupchat_reply">
+<tt class="descname">prefix_groupchat_reply</tt><big>(</big><em>message</em>, <em>identifier</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.prefix_groupchat_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.prefix_groupchat_reply" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCBackend.query_room">
-<code class="descname">query_room</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.query_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.query_room" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">query_room</tt><big>(</big><em>room</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.query_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.query_room" title="Permalink to this definition">¶</a></dt>
 <dd><p>Query a room for information.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -138,7 +140,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>room</strong> -- The channel name to query for.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">An instance of <a class="reference internal" href="#errbot.backends.irc.IRCMUCRoom" title="errbot.backends.irc.IRCMUCRoom"><code class="xref py py-class docutils literal"><span class="pre">IRCMUCRoom</span></code></a>.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">An instance of <a class="reference internal" href="#errbot.backends.irc.IRCMUCRoom" title="errbot.backends.irc.IRCMUCRoom"><tt class="xref py py-class docutils literal"><span class="pre">IRCMUCRoom</span></tt></a>.</td>
 </tr>
 </tbody>
 </table>
@@ -146,13 +148,13 @@
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCBackend.rooms">
-<code class="descname">rooms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.rooms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.rooms" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">rooms</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.rooms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.rooms" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of rooms the bot is currently in.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of <a class="reference internal" href="#errbot.backends.irc.IRCMUCRoom" title="errbot.backends.irc.IRCMUCRoom"><code class="xref py py-class docutils literal"><span class="pre">IRCMUCRoom</span></code></a> instances.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of <a class="reference internal" href="#errbot.backends.irc.IRCMUCRoom" title="errbot.backends.irc.IRCMUCRoom"><tt class="xref py py-class docutils literal"><span class="pre">IRCMUCRoom</span></tt></a> instances.</td>
 </tr>
 </tbody>
 </table>
@@ -160,86 +162,178 @@
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCBackend.send_message">
-<code class="descname">send_message</code><span class="sig-paren">(</span><em>mess</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.send_message" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">send_message</tt><big>(</big><em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.send_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.irc.IRCBackend.send_stream_request">
+<tt class="descname">send_stream_request</tt><big>(</big><em>identifier</em>, <em>fsource</em>, <em>name=None</em>, <em>size=None</em>, <em>stream_type=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.send_stream_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.send_stream_request" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCBackend.serve_forever">
-<code class="descname">serve_forever</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.serve_forever"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.serve_forever" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">serve_forever</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.serve_forever"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.serve_forever" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCBackend.shutdown">
-<code class="descname">shutdown</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.shutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.shutdown" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">shutdown</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCBackend.shutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.shutdown" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="errbot.backends.irc.IRCConnection">
-<em class="property">class </em><code class="descclassname">errbot.backends.irc.</code><code class="descname">IRCConnection</code><span class="sig-paren">(</span><em>callback</em>, <em>nickname</em>, <em>server</em>, <em>port=6667</em>, <em>ssl=False</em>, <em>password=None</em>, <em>username=None</em>, <em>private_rate=1</em>, <em>channel_rate=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">irc.bot.SingleServerIRCBot</span></code></p>
+<em class="property">class </em><tt class="descclassname">errbot.backends.irc.</tt><tt class="descname">IRCConnection</tt><big>(</big><em>callback</em>, <em>nickname</em>, <em>server</em>, <em>port=6667</em>, <em>ssl=False</em>, <em>password=None</em>, <em>username=None</em>, <em>private_rate=1</em>, <em>channel_rate=1</em>, <em>reconnect_on_kick=5</em>, <em>reconnect_on_disconnect=5</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">irc.bot.SingleServerIRCBot</span></tt></p>
 <dl class="method">
 <dt id="errbot.backends.irc.IRCConnection.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>callback</em>, <em>nickname</em>, <em>server</em>, <em>port=6667</em>, <em>ssl=False</em>, <em>password=None</em>, <em>username=None</em>, <em>private_rate=1</em>, <em>channel_rate=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.__init__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__init__</tt><big>(</big><em>callback</em>, <em>nickname</em>, <em>server</em>, <em>port=6667</em>, <em>ssl=False</em>, <em>password=None</em>, <em>username=None</em>, <em>private_rate=1</em>, <em>channel_rate=1</em>, <em>reconnect_on_kick=5</em>, <em>reconnect_on_disconnect=5</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCConnection.connect">
-<code class="descname">connect</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.connect" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">connect</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.irc.IRCConnection.on_dcc_connect">
+<tt class="descname">on_dcc_connect</tt><big>(</big><em>dcc</em>, <em>event</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.on_dcc_connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.on_dcc_connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.irc.IRCConnection.on_dcc_disconnect">
+<tt class="descname">on_dcc_disconnect</tt><big>(</big><em>dcc</em>, <em>event</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.on_dcc_disconnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.on_dcc_disconnect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.irc.IRCConnection.on_dccmsg">
+<tt class="descname">on_dccmsg</tt><big>(</big><em>dcc</em>, <em>event</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.on_dccmsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.on_dccmsg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.irc.IRCConnection.on_disconnect">
+<tt class="descname">on_disconnect</tt><big>(</big><em>_</em>, <em>e</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.on_disconnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.on_disconnect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.irc.IRCConnection.on_kick">
+<tt class="descname">on_kick</tt><big>(</big><em>_</em>, <em>e</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.on_kick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.on_kick" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCConnection.on_privmsg">
-<code class="descname">on_privmsg</code><span class="sig-paren">(</span><em>_</em>, <em>e</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.on_privmsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.on_privmsg" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_privmsg</tt><big>(</big><em>_</em>, <em>e</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.on_privmsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.on_privmsg" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCConnection.on_pubmsg">
-<code class="descname">on_pubmsg</code><span class="sig-paren">(</span><em>_</em>, <em>e</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.on_pubmsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.on_pubmsg" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_pubmsg</tt><big>(</big><em>_</em>, <em>e</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.on_pubmsg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.on_pubmsg" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCConnection.on_welcome">
-<code class="descname">on_welcome</code><span class="sig-paren">(</span><em>_</em>, <em>e</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.on_welcome"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.on_welcome" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">on_welcome</tt><big>(</big><em>_</em>, <em>e</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.on_welcome"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.on_welcome" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="errbot.backends.irc.IRCConnection.send_chunk">
+<em class="property">static </em><tt class="descname">send_chunk</tt><big>(</big><em>stream</em>, <em>dcc</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.send_chunk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.send_chunk" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCConnection.send_private_message">
-<code class="descname">send_private_message</code><span class="sig-paren">(</span><em>to</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.send_private_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.send_private_message" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">send_private_message</tt><big>(</big><em>to</em>, <em>line</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.send_private_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.send_private_message" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCConnection.send_public_message">
-<code class="descname">send_public_message</code><span class="sig-paren">(</span><em>to</em>, <em>line</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.send_public_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.send_public_message" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">send_public_message</tt><big>(</big><em>to</em>, <em>line</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.send_public_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.send_public_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.irc.IRCConnection.send_stream_request">
+<tt class="descname">send_stream_request</tt><big>(</big><em>identifier</em>, <em>fsource</em>, <em>name=None</em>, <em>size=None</em>, <em>stream_type=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCConnection.send_stream_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.send_stream_request" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.irc.IRCIdentifier">
+<em class="property">class </em><tt class="descclassname">errbot.backends.irc.</tt><tt class="descname">IRCIdentifier</tt><big>(</big><em>nick</em>, <em>domain=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCIdentifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCIdentifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.backends/#errbot.backends.DeprecationBridgeIdentifier" title="errbot.backends.DeprecationBridgeIdentifier"><tt class="xref py py-class docutils literal"><span class="pre">errbot.backends.DeprecationBridgeIdentifier</span></tt></a></p>
+<dl class="method">
+<dt id="errbot.backends.irc.IRCIdentifier.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>nick</em>, <em>domain=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCIdentifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCIdentifier.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.irc.IRCIdentifier.client">
+<tt class="descname">client</tt><em class="property"> = ''</em><a class="headerlink" href="#errbot.backends.irc.IRCIdentifier.client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.irc.IRCIdentifier.domain">
+<tt class="descname">domain</tt><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCIdentifier.domain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCIdentifier.domain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.irc.IRCIdentifier.fullname">
+<tt class="descname">fullname</tt><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCIdentifier.fullname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCIdentifier.fullname" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.irc.IRCIdentifier.nick">
+<tt class="descname">nick</tt><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCIdentifier.nick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCIdentifier.nick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.irc.IRCIdentifier.person">
+<tt class="descname">person</tt><a class="headerlink" href="#errbot.backends.irc.IRCIdentifier.person" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.irc.IRCMUCOccupant">
+<em class="property">class </em><tt class="descclassname">errbot.backends.irc.</tt><tt class="descname">IRCMUCOccupant</tt><big>(</big><em>nick</em>, <em>room</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCOccupant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCOccupant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#errbot.backends.irc.IRCIdentifier" title="errbot.backends.irc.IRCIdentifier"><tt class="xref py py-class docutils literal"><span class="pre">errbot.backends.irc.IRCIdentifier</span></tt></a></p>
+<dl class="method">
+<dt id="errbot.backends.irc.IRCMUCOccupant.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>nick</em>, <em>room</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCOccupant.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCOccupant.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.irc.IRCMUCOccupant.room">
+<tt class="descname">room</tt><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCOccupant.room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCOccupant.room" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="errbot.backends.irc.IRCMUCRoom">
-<em class="property">class </em><code class="descclassname">errbot.backends.irc.</code><code class="descname">IRCMUCRoom</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../errbot.backends.base/#errbot.backends.base.MUCRoom" title="errbot.backends.base.MUCRoom"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.MUCRoom</span></code></a></p>
+<em class="property">class </em><tt class="descclassname">errbot.backends.irc.</tt><tt class="descname">IRCMUCRoom</tt><big>(</big><em>room</em>, <em>bot</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.backends.base/#errbot.backends.base.MUCRoom" title="errbot.backends.base.MUCRoom"><tt class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.MUCRoom</span></tt></a></p>
 <dl class="method">
 <dt id="errbot.backends.irc.IRCMUCRoom.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.__init__" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">__init__</tt><big>(</big><em>room</em>, <em>bot</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCMUCRoom.create">
-<code class="descname">create</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.create" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">create</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.create" title="Permalink to this definition">¶</a></dt>
 <dd><p>Not supported on this back-end. Will join the room to ensure it exists, instead.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCMUCRoom.destroy">
-<code class="descname">destroy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom.destroy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.destroy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Not supported on IRC, will raise <a class="reference internal" href="../errbot.backends.base/#errbot.backends.base.RoomError" title="errbot.backends.base.RoomError"><code class="xref py py-class docutils literal"><span class="pre">RoomError</span></code></a>.</p>
+<tt class="descname">destroy</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom.destroy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.destroy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Not supported on IRC, will raise <a class="reference internal" href="../errbot.backends.base/#errbot.backends.base.RoomError" title="errbot.backends.base.RoomError"><tt class="xref py py-class docutils literal"><span class="pre">RoomError</span></tt></a>.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="errbot.backends.irc.IRCMUCRoom.exists">
-<code class="descname">exists</code><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.exists" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">exists</tt><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom.exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.exists" title="Permalink to this definition">¶</a></dt>
 <dd><p>Boolean indicating whether this room already exists or not.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -253,7 +347,7 @@
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCMUCRoom.invite">
-<code class="descname">invite</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom.invite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.invite" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">invite</tt><big>(</big><em>*args</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom.invite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.invite" title="Permalink to this definition">¶</a></dt>
 <dd><p>Invite one or more people into the room.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -267,15 +361,15 @@
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCMUCRoom.join">
-<code class="descname">join</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom.join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.join" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">join</tt><big>(</big><em>username=None</em>, <em>password=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom.join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.join" title="Permalink to this definition">¶</a></dt>
 <dd><p>Join the room.</p>
 <p>If the room does not exist yet, this will automatically call
-<a class="reference internal" href="#errbot.backends.irc.IRCMUCRoom.create" title="errbot.backends.irc.IRCMUCRoom.create"><code class="xref py py-meth docutils literal"><span class="pre">create()</span></code></a> on it first.</p>
+<a class="reference internal" href="#errbot.backends.irc.IRCMUCRoom.create" title="errbot.backends.irc.IRCMUCRoom.create"><tt class="xref py py-meth docutils literal"><span class="pre">create()</span></tt></a> on it first.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="errbot.backends.irc.IRCMUCRoom.joined">
-<code class="descname">joined</code><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.joined" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">joined</tt><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom.joined"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.joined" title="Permalink to this definition">¶</a></dt>
 <dd><p>Boolean indicating whether this room has already been joined.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -289,7 +383,7 @@
 
 <dl class="method">
 <dt id="errbot.backends.irc.IRCMUCRoom.leave">
-<code class="descname">leave</code><span class="sig-paren">(</span><em>reason=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom.leave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.leave" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">leave</tt><big>(</big><em>reason=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom.leave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.leave" title="Permalink to this definition">¶</a></dt>
 <dd><p>Leave the room.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -303,15 +397,15 @@
 
 <dl class="attribute">
 <dt id="errbot.backends.irc.IRCMUCRoom.occupants">
-<code class="descname">occupants</code><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.occupants" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">occupants</tt><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom.occupants"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.occupants" title="Permalink to this definition">¶</a></dt>
 <dd><p>The room's occupants.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Getter:</th><td class="field-body">Returns a list of <a class="reference internal" href="../errbot.backends.base/#errbot.backends.base.MUCOccupant" title="errbot.backends.base.MUCOccupant"><code class="xref py py-class docutils literal"><span class="pre">MUCOccupant</span></code></a> instances.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">MUCNotJoinedError</span></code> if the room has not yet been joined.</td>
+<tr class="field-odd field"><th class="field-name">Getter:</th><td class="field-body">Returns a list of occupants.
+:raises:
+<tt class="xref py py-class docutils literal"><span class="pre">MUCNotJoinedError</span></tt> if the room has not yet been joined.</td>
 </tr>
 </tbody>
 </table>
@@ -319,7 +413,7 @@
 
 <dl class="attribute">
 <dt id="errbot.backends.irc.IRCMUCRoom.topic">
-<code class="descname">topic</code><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.topic" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">topic</tt><a class="reference internal" href="../_modules/errbot/backends/irc/#IRCMUCRoom.topic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCRoom.topic" title="Permalink to this definition">¶</a></dt>
 <dd><p>The room topic.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -332,6 +426,12 @@ topic has been set at all.</td>
 </table>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="function">
+<dt id="errbot.backends.irc.irc_md">
+<tt class="descclassname">errbot.backends.irc.</tt><tt class="descname">irc_md</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/irc/#irc_md"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.irc_md" title="Permalink to this definition">¶</a></dt>
+<dd><p>This makes a converter from markdown to mirc color format.</p>
 </dd></dl>
 
 </div>
@@ -351,7 +451,7 @@ topic has been set at all.</td>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../" title="Back to home page">
         <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -380,14 +480,12 @@ topic has been set at all.</td>
         </ul>
         </li>
 </ul>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/errbot.backends.irc.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/errbot.backends.irc.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search/" method="get">
       <input type="text" name="q" />
@@ -414,7 +512,7 @@ topic has been set at all.</td>
     </script>
     <div class="relbar2">
         
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -429,15 +527,15 @@ topic has been set at all.</td>
         <li class="right" >
           <a href="../errbot.backends.hipchat/" title="errbot.backends.hipchat module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../errbot.backends/" >errbot.backends package</a> &raquo;</li> 
+        <li><a href="../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li><a href="../errbot.backends/" >errbot.backends package</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on May 27, 2015.
+          Last updated on Sep 14, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

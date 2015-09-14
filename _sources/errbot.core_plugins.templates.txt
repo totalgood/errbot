@@ -1,0 +1,10 @@
+errbot.core_plugins.templates package
+=====================================
+
+Module contents
+---------------
+
+.. automodule:: errbot.core_plugins.templates
+    :members:
+    :undoc-members:
+    :show-inheritance:

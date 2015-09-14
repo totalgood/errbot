@@ -7,14 +7,14 @@ Submodules
 .. toctree::
 
    errbot.backends.base
-   errbot.backends.campfire
    errbot.backends.graphic
    errbot.backends.hipchat
    errbot.backends.irc
    errbot.backends.null
+   errbot.backends.slack
+   errbot.backends.telegram
    errbot.backends.test
    errbot.backends.text
-   errbot.backends.tox
    errbot.backends.xmpp
 
 Module contents

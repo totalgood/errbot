@@ -1,0 +1,7 @@
+errbot.core_plugins.chatRoom module
+===================================
+
+.. automodule:: errbot.core_plugins.chatRoom
+    :members:
+    :undoc-members:
+    :show-inheritance:

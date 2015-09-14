@@ -1,0 +1,7 @@
+errbot.core_plugins.plugins module
+==================================
+
+.. automodule:: errbot.core_plugins.plugins
+    :members:
+    :undoc-members:
+    :show-inheritance:

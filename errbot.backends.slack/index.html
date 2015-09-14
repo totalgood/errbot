@@ -1,0 +1,548 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.backends.slack module &mdash; Err 3.0.4 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Err 3.0.4 documentation" href="../" />
+    <link rel="up" title="errbot.backends package" href="../errbot.backends/" />
+    <link rel="next" title="errbot.backends.telegram module" href="../errbot.backends.telegram/" />
+    <link rel="prev" title="errbot.backends.null module" href="../errbot.backends.null/" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../_static/err.png"/>
+    <link rel="stylesheet" href="../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body>
+    
+    
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.backends.telegram/" title="errbot.backends.telegram module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../errbot.backends.null/" title="errbot.backends.null module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li><a href="../errbot.backends/" accesskey="U">errbot.backends package</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-errbot.backends.slack">
+<span id="errbot-backends-slack-module"></span><h1>errbot.backends.slack module<a class="headerlink" href="#module-errbot.backends.slack" title="Permalink to this headline">¶</a></h1>
+<dl class="exception">
+<dt id="errbot.backends.slack.SlackAPIResponseError">
+<em class="property">exception </em><tt class="descclassname">errbot.backends.slack.</tt><tt class="descname">SlackAPIResponseError</tt><big>(</big><em>*args</em>, <em>error=''</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackAPIResponseError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackAPIResponseError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.RuntimeError</span></tt></p>
+<p>Slack API returned a non-OK response</p>
+<dl class="method">
+<dt id="errbot.backends.slack.SlackAPIResponseError.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>*args</em>, <em>error=''</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackAPIResponseError.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackAPIResponseError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>error</strong> -- The 'error' key from the API response data</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.slack.SlackBackend">
+<em class="property">class </em><tt class="descclassname">errbot.backends.slack.</tt><tt class="descname">SlackBackend</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.errBot/#errbot.errBot.ErrBot" title="errbot.errBot.ErrBot"><tt class="xref py py-class docutils literal"><span class="pre">errbot.errBot.ErrBot</span></tt></a></p>
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>config</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.api_call">
+<tt class="descname">api_call</tt><big>(</big><em>method</em>, <em>data=None</em>, <em>raise_errors=True</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.api_call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.api_call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make an API call to the Slack API and return response data.</p>
+<p>This is a thin wrapper around <cite>SlackClient.server.api_call</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>method</strong> -- The API method to invoke (see <a class="reference external" href="https://api.slack.com/methods/">https://api.slack.com/methods/</a>).</li>
+<li><strong>raise_errors</strong> -- Whether to raise <a class="reference internal" href="#errbot.backends.slack.SlackAPIResponseError" title="errbot.backends.slack.SlackAPIResponseError"><tt class="xref py py-class docutils literal"><span class="pre">SlackAPIResponseError</span></tt></a> if the API
+returns an error</li>
+<li><strong>data</strong> -- A dictionary with data to pass along in the API request.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The JSON-decoded API response</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#errbot.backends.slack.SlackAPIResponseError" title="errbot.backends.slack.SlackAPIResponseError"><tt class="xref py py-class docutils literal"><span class="pre">SlackAPIResponseError</span></tt></a> if raise_errors is True and the
+API responds with <cite>{&quot;ok&quot;: false}</cite></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.build_identifier">
+<tt class="descname">build_identifier</tt><big>(</big><em>txtrep</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.build_identifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.build_identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>#channelname/username
+or &#64;username</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.build_reply">
+<tt class="descname">build_reply</tt><big>(</big><em>mess</em>, <em>text=None</em>, <em>private=False</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.build_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.build_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.channelid_to_channelname">
+<tt class="descname">channelid_to_channelname</tt><big>(</big><em>id_</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.channelid_to_channelname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.channelid_to_channelname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a Slack channel ID to its channel name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.channelname_to_channelid">
+<tt class="descname">channelname_to_channelid</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.channelname_to_channelid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.channelname_to_channelid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a Slack channel name to its channel ID</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.channels">
+<tt class="descname">channels</tt><big>(</big><em>exclude_archived=True</em>, <em>joined_only=False</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.channels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.channels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all channels and groups and return information about them.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>exclude_archived</strong> -- Exclude archived channels/groups</li>
+<li><strong>joined_only</strong> -- Filter out channels the bot hasn't joined</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of channel (<a class="reference external" href="https://api.slack.com/types/channel">https://api.slack.com/types/channel</a>)
+and group (<a class="reference external" href="https://api.slack.com/types/group">https://api.slack.com/types/group</a>) types.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>See also:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="https://api.slack.com/methods/channels.list">https://api.slack.com/methods/channels.list</a></li>
+<li><a class="reference external" href="https://api.slack.com/methods/groups.list">https://api.slack.com/methods/groups.list</a></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.get_im_channel">
+<tt class="descname">get_im_channel</tt><big>(</big><em>id_</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.get_im_channel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.get_im_channel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open a direct message channel to a user</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.is_admin">
+<tt class="descname">is_admin</tt><big>(</big><em>usr</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.is_admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.is_admin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackBackend.join_room">
+<tt class="descname">join_room</tt><em class="property"> = &lt;errbot.utils.deprecated object at 0x7f095e148978&gt;</em><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.join_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.join_room" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackBackend.mode">
+<tt class="descname">mode</tt><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.prefix_groupchat_reply">
+<tt class="descname">prefix_groupchat_reply</tt><big>(</big><em>message</em>, <em>identifier</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.prefix_groupchat_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.prefix_groupchat_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.query_room">
+<tt class="descname">query_room</tt><big>(</big><em>room</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.query_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.query_room" title="Permalink to this definition">¶</a></dt>
+<dd><p>Room can either be a name or a channelid</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.remove_angle_brackets_from_uris">
+<tt class="descname">remove_angle_brackets_from_uris</tt><big>(</big><em>match_object</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.remove_angle_brackets_from_uris"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.remove_angle_brackets_from_uris" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.rooms">
+<tt class="descname">rooms</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.rooms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.rooms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of rooms the bot is currently in.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of <a class="reference internal" href="#errbot.backends.slack.SlackRoom" title="errbot.backends.slack.SlackRoom"><tt class="xref py py-class docutils literal"><span class="pre">SlackRoom</span></tt></a> instances.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.send_message">
+<tt class="descname">send_message</tt><big>(</big><em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.send_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.serve_once">
+<tt class="descname">serve_once</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.serve_once"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.serve_once" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.shutdown">
+<tt class="descname">shutdown</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.shutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.userid_to_username">
+<tt class="descname">userid_to_username</tt><big>(</big><em>id_</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.userid_to_username"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.userid_to_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a Slack user ID to their user name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.username_to_userid">
+<tt class="descname">username_to_userid</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackBackend.username_to_userid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.username_to_userid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a Slack user name to their user ID</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.slack.SlackIdentifier">
+<em class="property">class </em><tt class="descclassname">errbot.backends.slack.</tt><tt class="descname">SlackIdentifier</tt><big>(</big><em>sc</em>, <em>userid</em>, <em>channelid=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackIdentifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackIdentifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.backends/#errbot.backends.DeprecationBridgeIdentifier" title="errbot.backends.DeprecationBridgeIdentifier"><tt class="xref py py-class docutils literal"><span class="pre">errbot.backends.DeprecationBridgeIdentifier</span></tt></a></p>
+<dl class="method">
+<dt id="errbot.backends.slack.SlackIdentifier.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>sc</em>, <em>userid</em>, <em>channelid=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackIdentifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackIdentifier.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackIdentifier.aclattr">
+<tt class="descname">aclattr</tt><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackIdentifier.aclattr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackIdentifier.aclattr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackIdentifier.channelid">
+<tt class="descname">channelid</tt><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackIdentifier.channelid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackIdentifier.channelid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackIdentifier.channelname">
+<tt class="descname">channelname</tt><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackIdentifier.channelname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackIdentifier.channelname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a Slack channel ID to its channel name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackIdentifier.client">
+<tt class="descname">client</tt><a class="headerlink" href="#errbot.backends.slack.SlackIdentifier.client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackIdentifier.domain">
+<tt class="descname">domain</tt><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackIdentifier.domain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackIdentifier.domain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackIdentifier.fullname">
+<tt class="descname">fullname</tt><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackIdentifier.fullname"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackIdentifier.fullname" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a Slack user ID to their user name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackIdentifier.nick">
+<tt class="descname">nick</tt><a class="headerlink" href="#errbot.backends.slack.SlackIdentifier.nick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a Slack user ID to their user name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackIdentifier.person">
+<tt class="descname">person</tt><a class="headerlink" href="#errbot.backends.slack.SlackIdentifier.person" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackIdentifier.userid">
+<tt class="descname">userid</tt><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackIdentifier.userid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackIdentifier.userid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackIdentifier.username">
+<tt class="descname">username</tt><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackIdentifier.username"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackIdentifier.username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a Slack user ID to their user name</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.slack.SlackMUCOccupant">
+<em class="property">class </em><tt class="descclassname">errbot.backends.slack.</tt><tt class="descname">SlackMUCOccupant</tt><big>(</big><em>sc</em>, <em>userid</em>, <em>channelid=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackMUCOccupant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackMUCOccupant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#errbot.backends.slack.SlackIdentifier" title="errbot.backends.slack.SlackIdentifier"><tt class="xref py py-class docutils literal"><span class="pre">errbot.backends.slack.SlackIdentifier</span></tt></a></p>
+<p>This class represents a person inside a MUC.</p>
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackMUCOccupant.room">
+<tt class="descname">room</tt><a class="headerlink" href="#errbot.backends.slack.SlackMUCOccupant.room" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a Slack channel ID to its channel name</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.slack.SlackRoom">
+<em class="property">class </em><tt class="descclassname">errbot.backends.slack.</tt><tt class="descname">SlackRoom</tt><big>(</big><em>name=None</em>, <em>channelid=None</em>, <em>bot=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackRoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackRoom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.backends.base/#errbot.backends.base.MUCRoom" title="errbot.backends.base.MUCRoom"><tt class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.MUCRoom</span></tt></a></p>
+<dl class="method">
+<dt id="errbot.backends.slack.SlackRoom.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>name=None</em>, <em>channelid=None</em>, <em>bot=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackRoom.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackRoom.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackRoom.create">
+<tt class="descname">create</tt><big>(</big><em>private=False</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackRoom.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackRoom.create" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackRoom.destroy">
+<tt class="descname">destroy</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackRoom.destroy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackRoom.destroy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackRoom.exists">
+<tt class="descname">exists</tt><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackRoom.exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackRoom.exists" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackRoom.id">
+<tt class="descname">id</tt><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackRoom.id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackRoom.id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the ID of this room</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackRoom.invite">
+<tt class="descname">invite</tt><big>(</big><em>*args</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackRoom.invite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackRoom.invite" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackRoom.join">
+<tt class="descname">join</tt><big>(</big><em>username=None</em>, <em>password=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackRoom.join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackRoom.join" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackRoom.joined">
+<tt class="descname">joined</tt><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackRoom.joined"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackRoom.joined" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackRoom.leave">
+<tt class="descname">leave</tt><big>(</big><em>reason=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackRoom.leave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackRoom.leave" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackRoom.name">
+<tt class="descname">name</tt><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackRoom.name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackRoom.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the name of this room</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackRoom.occupants">
+<tt class="descname">occupants</tt><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackRoom.occupants"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackRoom.occupants" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackRoom.private">
+<tt class="descname">private</tt><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackRoom.private"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackRoom.private" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the room is a private group</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackRoom.purpose">
+<tt class="descname">purpose</tt><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackRoom.purpose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackRoom.purpose" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.slack.SlackRoom.topic">
+<tt class="descname">topic</tt><a class="reference internal" href="../_modules/errbot/backends/slack/#SlackRoom.topic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackRoom.topic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+  <div id="prev_next_links">
+      
+          
+              Previous: <a href="../errbot.backends.null/">errbot.backends.null module</a>
+          
+          
+               | 
+              Next: <a href="../errbot.backends.telegram/">errbot.backends.telegram module</a>
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../" title="Back to home page">
+        <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="../">Homepage</a></li>
+    <li><a href="../genindex/">Index</a></li>
+    <li><a href="../py-modindex/">Module index</a></li>
+    <li><a href="../modules/">API reference</a></li>
+        <li>
+        <a href="../errbot/">errbot package</a>
+        <ul>
+        <li>
+        <a href="../errbot.backends/">errbot.backends package</a>
+        <ul>
+        <li>Previous: <a href="../errbot.backends.null/" title="previous chapter">errbot.backends.null module</a></li>
+        <li>Next: <a href="../errbot.backends.telegram/" title="next chapter">errbot.backends.telegram module</a></li>
+        </ul>
+        </li>
+        </ul>
+        </li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/errbot.backends.slack.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.backends.telegram/" title="errbot.backends.telegram module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../errbot.backends.null/" title="errbot.backends.null module"
+             >previous</a> |</li>
+        <li><a href="../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li><a href="../errbot.backends/" >errbot.backends package</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Sep 14, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

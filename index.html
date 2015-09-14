@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Err - the pluggable chatbot &mdash; Err 2.2.1 documentation</title>
+    <title>Err - the pluggable chatbot &mdash; Err 3.0.4 documentation</title>
     
     <link rel="stylesheet" href="_static/err.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '2.2.1',
+        VERSION:     '3.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Err 2.2.1 documentation" href="#" />
+    <link rel="top" title="Err 3.0.4 documentation" href="#" />
     <link rel="next" title="Multiple server back-ends" href="features/" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
@@ -56,13 +56,13 @@
     </script>
 
   </head>
-  <body role="document">
+  <body>
     
     
         <div class=indexwrapper>
     
 
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -74,7 +74,7 @@
         <li class="right" >
           <a href="features/" title="Multiple server back-ends"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">Err 2.2.1 documentation</a> &raquo;</li> 
+        <li><a href="#">Err 3.0.4 documentation</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -82,7 +82,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="err-the-pluggable-chatbot">
 <h1>Err - the pluggable chatbot<a class="headerlink" href="#err-the-pluggable-chatbot" title="Permalink to this headline">¶</a></h1>
@@ -93,20 +93,20 @@ so you can make it do whatever you want.</em></p>
 <h2>Simple to build upon<a class="headerlink" href="#simple-to-build-upon" title="Permalink to this headline">¶</a></h2>
 <p>Extending Err and adding your own commands can be done by creating a plugin, which
 is merely a Python module containing a class derived from
-<a class="reference internal" href="errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><code class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></code></a>:</p>
+<a class="reference internal" href="errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><tt class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></tt></a>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span><span class="p">,</span> <span class="n">botcmd</span>
 
 <span class="k">class</span> <span class="nc">HelloWorld</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Example &#39;Hello, world!&#39; plugin for Err&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Example &#39;Hello, world!&#39; plugin for Err.&quot;&quot;&quot;</span>
 
     <span class="nd">@botcmd</span>
     <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Say hello to the world&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Say hello to the world.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s">&quot;Hello, world!&quot;</span>
 </pre></div>
 </div>
 <p>By default, Err looks at your docstrings to automatically document commands for the
-built-in <a class="reference internal" href="user_guide/interaction/#builtin-help-function"><span>!help</span></a> command. It will use the class' docstring as the description of
+built-in <a class="reference internal" href="user_guide/interaction/#builtin-help-function"><em>!help</em></a> command. It will use the class' docstring as the description of
 your plugin and use the method docstrings as documentation for the bot commands.</p>
 </div>
 <div class="section" id="batteries-included">
@@ -194,16 +194,26 @@ news related to the project.</p>
 <li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/botcommands/">4. Advanced bot commands</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/messaging/">5. Messaging</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/presence/">6. Presence</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/configuration/">7. Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/scheduling/">8. Scheduling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/webhooks/">9. Webhooks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/testing/">10. Testing your plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/persistence/">7. Persistence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/configuration/">8. Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/scheduling/">9. Scheduling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/webhooks/">10. Webhooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/testing/">11. Testing your plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/logging/">12. Logging</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="user_guide/sentry/">Logging to Sentry</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="user_guide/sentry/#come-again-just-what-is-sentry-exactly">Come again? Just what is Sentry, exactly?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user_guide/sentry/#setting-up-sentry-itself">Setting up Sentry itself</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user_guide/sentry/#configuring-err-to-use-sentry">Configuring Err to use Sentry</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/backend_development/">[Advanced] Backend development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/backend_development/#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/backend_development/#identifiers">Identifiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/backend_development/#identifier-for-a-person">Identifier for a person</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/backend_development/#identifier-for-a-person-in-a-chatroom">Identifier for a person in a chatroom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/backend_development/#chatrooms-mucrooms">Chatrooms / MUCRooms</a></li>
 </ul>
 </li>
 </ul>
@@ -216,21 +226,22 @@ news related to the project.</p>
 <li class="toctree-l1"><a class="reference internal" href="errbot/">errbot package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="errbot/#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="errbot.backends/">errbot.backends package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.builtins/">errbot.builtins package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="errbot.bundled/">errbot.bundled package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.core_plugins/">errbot.core_plugins package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.rendering/">errbot.rendering package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="errbot.templates/">errbot.templates package</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="errbot/#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="errbot.backend_manager/">errbot.backend_manager module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="errbot.botplugin/">errbot.botplugin module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="errbot.config-template/">errbot.config-template module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="errbot.config-travisci/">errbot.config-travisci module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.decorators/">errbot.decorators module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="errbot.errBot/">errbot.errBot module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.holder/">errbot.holder module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="errbot.main/">errbot.main module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="errbot.pid/">errbot.pid module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="errbot.plugin_manager/">errbot.plugin_manager module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.py2conv/">errbot.py2conv module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="errbot.repos/">errbot.repos module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="errbot.storage/">errbot.storage module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="errbot.streaming/">errbot.streaming module</a></li>
@@ -249,37 +260,48 @@ news related to the project.</p>
 <h2>Release history<a class="headerlink" href="#release-history" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="changes/">Release history</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-2-2-1-2015-05-16">Version 2.2.1 (2015-05-16)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-2-2-0-2015-05-16">Version 2.2.0 (2015-05-16)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-2-2-0-beta-2015-02-16">Version 2.2.0-beta (2015-02-16)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-2-1-0-2014-07-24">Version 2.1.0 (2014-07-24)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-2-0-0-2014-01-05">Version 2.0.0 (2014-01-05)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-2-0-0-rc2-2013-11-28">Version 2.0.0-rc2 (2013-11-28)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-2-0-0-rc1-2013-10-03">Version 2.0.0-rc1 (2013-10-03)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-2-0-0-beta-2013-03-31">Version 2.0.0-beta (2013-03-31)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-7-1-2012-12-25">Version 1.7.1 (2012-12-25)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-7-0-2012-12-24">Version 1.7.0 (2012-12-24)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-6-7-2012-10-08">Version 1.6.7 (2012-10-08)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-6-6-2012-09-27">Version 1.6.6 (2012-09-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-6-5-2012-09-10">Version 1.6.5 (2012-09-10)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-6-4-2012-09-04">Version 1.6.4 (2012-09-04)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-6-3-2012-08-26">Version 1.6.3 (2012-08-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-6-2-2012-08-24">Version 1.6.2 (2012-08-24)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-6-1-2012-08-22">Version 1.6.1 (2012-08-22)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-6-0-2012-08-16">Version 1.6.0 (2012-08-16)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-5-1-2012-08-11">Version 1.5.1 (2012-08-11)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-5-0-2012-08-10">Version 1.5.0 (2012-08-10)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-4-1-2012-07-13">Version 1.4.1 (2012-07-13)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-4-0-2012-07-09">Version 1.4.0 (2012-07-09)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-3-1-2012-07-02">Version 1.3.1 (2012-07-02)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-3-0-2012-06-26">Version 1.3.0 (2012-06-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-2-2-2012-06-21">Version 1.2.2 (2012-06-21)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-2-1-2012-06-16">Version 1.2.1 (2012-06-16)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-2-0-2012-06-14">Version 1.2.0 (2012-06-14)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-1-1-2012-06-12">Version 1.1.1 (2012-06-12)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-1-0-2012-06-10">Version 1.1.0 (2012-06-10)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#version-1-0-4-2012-06-08">Version 1.0.4 (2012-06-08)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes/">v3.0.4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes/#v3-0-3">v3.0.3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes/#v3-0-2">v3.0.2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes/#v3-0-1">v3.0.1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes/#v3-0-0">v3.0.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changes/#new-and-noteworthy">New and noteworthy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#minor-improvements">Minor improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#stuff-that-might-break-you">Stuff that might break you</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#bugs-squashed">Bugs squashed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#annex">Annex</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v2-3-0-rc2-2015-07-06">v2.3.0-rc2 (2015-07-06)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v2-3-0-beta-2015-07-05">v2.3.0-beta (2015-07-05)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v2-2-1-2015-05-16">v2.2.1 (2015-05-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v2-2-0-2015-05-16">v2.2.0 (2015-05-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v2-2-0-beta-2015-02-16">v2.2.0-beta (2015-02-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v2-1-0-2014-07-24">v2.1.0 (2014-07-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v2-0-0-2014-01-05">v2.0.0 (2014-01-05)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v2-0-0-rc2-2013-11-28">v2.0.0-rc2 (2013-11-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v2-0-0-rc1-2013-10-03">v2.0.0-rc1 (2013-10-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v2-0-0-beta-2013-03-31">v2.0.0-beta (2013-03-31)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-7-1-2012-12-25">v1.7.1 (2012-12-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-7-0-2012-12-24">v1.7.0 (2012-12-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-6-7-2012-10-08">v1.6.7 (2012-10-08)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-6-6-2012-09-27">v1.6.6 (2012-09-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-6-5-2012-09-10">v1.6.5 (2012-09-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-6-4-2012-09-04">v1.6.4 (2012-09-04)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-6-3-2012-08-26">v1.6.3 (2012-08-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-6-2-2012-08-24">v1.6.2 (2012-08-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-6-1-2012-08-22">v1.6.1 (2012-08-22)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-6-0-2012-08-16">v1.6.0 (2012-08-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-5-1-2012-08-11">v1.5.1 (2012-08-11)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-5-0-2012-08-10">v1.5.0 (2012-08-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-4-1-2012-07-13">v1.4.1 (2012-07-13)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-4-0-2012-07-09">v1.4.0 (2012-07-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-3-1-2012-07-02">v1.3.1 (2012-07-02)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-3-0-2012-06-26">v1.3.0 (2012-06-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-2-2-2012-06-21">v1.2.2 (2012-06-21)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-2-1-2012-06-16">v1.2.1 (2012-06-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-2-0-2012-06-14">v1.2.0 (2012-06-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-1-1-2012-06-12">v1.1.1 (2012-06-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-1-0-2012-06-10">v1.1.0 (2012-06-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes/#v1-0-4-2012-06-08">v1.0.4 (2012-06-08)</a></li>
 </ul>
 </li>
 </ul>
@@ -288,7 +310,7 @@ news related to the project.</p>
 <div class="section" id="license">
 <h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
 <p>Err is free software, available under the GPL-3 license. Please refer to the
-<a class="reference download internal" href="_downloads/gpl-3.0.txt"><code class="xref download docutils literal"><span class="pre">full</span> <span class="pre">license</span> <span class="pre">text</span></code></a> for more details.</p>
+<a class="reference download internal" href="_downloads/gpl-3.0.txt"><tt class="xref download docutils literal"><span class="pre">full</span> <span class="pre">license</span> <span class="pre">text</span></tt></a> for more details.</p>
 </div>
 </div>
 
@@ -299,7 +321,7 @@ news related to the project.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="#" title="Back to home page">
         <img class="logo" src="_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -334,14 +356,12 @@ news related to the project.</p>
     <li><a href="modules/">API reference</a></li>
         <li>Next: <a href="features/" title="next chapter">Multiple server back-ends</a></li>
 </ul>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/index.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="search/" method="get">
       <input type="text" name="q" />
@@ -368,7 +388,7 @@ news related to the project.</p>
     </script>
     <div class="relbar2">
         
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -380,13 +400,13 @@ news related to the project.</p>
         <li class="right" >
           <a href="features/" title="Multiple server back-ends"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">Err 2.2.1 documentation</a> &raquo;</li> 
+        <li><a href="#">Err 3.0.4 documentation</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on May 27, 2015.
+          Last updated on Sep 14, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

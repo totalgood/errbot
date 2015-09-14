@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>5. Messaging &mdash; Err 2.2.1 documentation</title>
+    <title>5. Messaging &mdash; Err 3.0.4 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.2.1',
+        VERSION:     '3.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.2.1 documentation" href="../../../" />
+    <link rel="top" title="Err 3.0.4 documentation" href="../../../" />
     <link rel="up" title="Plugin development" href="../" />
     <link rel="next" title="6. Presence" href="../presence/" />
     <link rel="prev" title="4. Advanced bot commands" href="../botcommands/" />
@@ -58,11 +58,11 @@
     </script>
 
   </head>
-  <body role="document">
+  <body>
     
     
 
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -77,8 +77,8 @@
         <li class="right" >
           <a href="../botcommands/" title="4. Advanced bot commands"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../" accesskey="U">Plugin development</a> &raquo;</li> 
+        <li><a href="../../../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../" accesskey="U">Plugin development</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -86,7 +86,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="messaging">
 <h1>5. Messaging<a class="headerlink" href="#messaging" title="Permalink to this headline">¶</a></h1>
@@ -115,7 +115,7 @@ sleep&quot;, followed by a 10 second wait, followed by &quot;Waking up&quot;.</p
 <h2>5.2. Sending a message to a specific user or MUC<a class="headerlink" href="#sending-a-message-to-a-specific-user-or-muc" title="Permalink to this headline">¶</a></h2>
 <p>Sometimes, you may wish to send a message to a specific user or a
 groupchat, for example from pollers or on webhook events. You can do
-this with <a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.send" title="errbot.botplugin.BotPlugin.send"><code class="xref py py-func docutils literal"><span class="pre">send()</span></code></a>:</p>
+this with <a class="reference internal" href="../../../errbot.botplugin/#errbot.botplugin.BotPlugin.send" title="errbot.botplugin.BotPlugin.send"><tt class="xref py py-func docutils literal"><span class="pre">send()</span></tt></a>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># To send to a user</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
     <span class="s">&quot;user@host.tld/resource&quot;</span><span class="p">,</span>
@@ -125,12 +125,13 @@ this with <a class="reference internal" href="../../../errbot.botplugin/#errbot.
 
 <span class="c"># Or to send to a MUC</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
-    <span class="s">&quot;conference.host.tld/room&quot;</span><span class="p">,</span>
+    <span class="s">&quot;room@conference.host.tld&quot;</span><span class="p">,</span>
     <span class="s">&quot;Boo! Bet you weren&#39;t expecting me, were you?&quot;</span><span class="p">,</span>
     <span class="n">message_type</span><span class="o">=</span><span class="s">&quot;groupchat&quot;</span>
 <span class="p">)</span>
 </pre></div>
 </div>
+<p>For Err=&gt;2.3 you need to use : self.build_identifier(&quot;<a class="reference external" href="mailto:user&#37;&#52;&#48;host&#46;tld/resource">user<span>&#64;</span>host<span>&#46;</span>tld/resource</a>&quot;) but the format of the identifier might be dependent on the backend you use.</p>
 </div>
 <div class="section" id="templating">
 <h2>5.3. Templating<a class="headerlink" href="#templating" title="Permalink to this headline">¶</a></h2>
@@ -153,7 +154,7 @@ this <em>hello.html</em>:</p>
 the available template syntax.</p>
 </div>
 <p>Next, tell Err which template to use by specifying the <cite>template</cite>
-parameter to <a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.botcmd" title="errbot.decorators.botcmd"><code class="xref py py-func docutils literal"><span class="pre">botcmd()</span></code></a> (leaving off the
+parameter to <tt class="xref py py-func docutils literal"><span class="pre">botcmd()</span></tt> (leaving off the
 <em>.html</em> suffix).</p>
 <p>Finally, instead of returning a string, return a dictionary where
 the keys refer to the variables you're substituting inside the
@@ -222,7 +223,7 @@ in:</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../" title="Back to home page">
         <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -257,14 +258,12 @@ in:</p>
         </ul>
         </li>
 </ul>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../../_sources/user_guide/plugin_development/messaging.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../_sources/user_guide/plugin_development/messaging.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../../search/" method="get">
       <input type="text" name="q" />
@@ -291,7 +290,7 @@ in:</p>
     </script>
     <div class="relbar2">
         
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -306,14 +305,14 @@ in:</p>
         <li class="right" >
           <a href="../botcommands/" title="4. Advanced bot commands"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../" >Plugin development</a> &raquo;</li> 
+        <li><a href="../../../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../" >Plugin development</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on May 27, 2015.
+          Last updated on Sep 14, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Website and documentation &mdash; Err 2.2.1 documentation</title>
+    <title>Website and documentation &mdash; Err 3.0.4 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.2.1',
+        VERSION:     '3.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.2.1 documentation" href="../" />
+    <link rel="top" title="Err 3.0.4 documentation" href="../" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -55,11 +55,11 @@
     </script>
 
   </head>
-  <body role="document">
+  <body>
     
     
 
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -68,7 +68,7 @@
         <li class="right" >
           <a href="../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li> 
+        <li><a href="../">Err 3.0.4 documentation</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -76,16 +76,28 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="website-and-documentation">
 <h1>Website and documentation<a class="headerlink" href="#website-and-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Err's website and documentation are built using <a class="reference external" href="http://sphinx-doc.org/">Sphinx</a>. Please see the
-section <a class="reference external" href="http://errbot.net/contributing/#contributing-documentation-making-changes-to-the-website">Contributing documentation &amp; making changes to the website</a>
-on <a class="reference external" href="http://errbot.net">http://errbot.net</a> for more information on how to contribute. The
-information that follows here is relevant only to the project maintainers.</p>
+<p>Err's website and documentation are built using <a class="reference external" href="http://sphinx-doc.org/">Sphinx</a>. Useful references
+when contributing to the docs are the <a class="reference external" href="http://sphinx-doc.org/rest.html">reStructuredText Primer</a> and
+<a class="reference external" href="http://sphinx-doc.org/markup/inline.html">Inline markup</a> documents.</p>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<p>Documentation <em>must</em> be built using Python 3. Additionally, extra requirements
+must be installed, which may be done through <cite>pip install -r requirements.txt</cite>.</p>
+<p>You must also have make installed in order to use the supplied Makefile.</p>
+</div>
+<div class="section" id="building-and-viewing-locally">
+<h2>Building and viewing locally<a class="headerlink" href="#building-and-viewing-locally" title="Permalink to this headline">¶</a></h2>
+<p>With the necessary requirements installed, the documentation can be built using
+the command <cite>make html</cite>. Once generated, the resulting pages can be viewed by
+opening <cite>_build/html/index.html</cite> in your webbrowser of choice.</p>
+</div>
 <div class="section" id="publishing-to-github-pages">
 <h2>Publishing to GitHub pages<a class="headerlink" href="#publishing-to-github-pages" title="Permalink to this headline">¶</a></h2>
+<p><em>Note: This is only relevant to project maintainers</em></p>
 <p>The <cite>make gh-pages</cite> command can be used to build output for GitHub pages. This
 will pull down a copy of the repository and auto-commit to the gh-pages branch.</p>
 <p>The results of this can then be reviewed before being pushed.</p>
@@ -108,7 +120,7 @@ of <cite>make gh-pages</cite>.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../" title="Back to home page">
         <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -122,6 +134,8 @@ of <cite>make gh-pages</cite>.</p>
   <h3><a href="../">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Website and documentation</a><ul>
+<li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#building-and-viewing-locally">Building and viewing locally</a></li>
 <li><a class="reference internal" href="#publishing-to-github-pages">Publishing to GitHub pages</a></li>
 <li><a class="reference internal" href="#including-extra-files-with-github-pages">Including extra files with GitHub pages</a></li>
 </ul>
@@ -134,14 +148,12 @@ of <cite>make gh-pages</cite>.</p>
     <li><a href="../py-modindex/">Module index</a></li>
     <li><a href="../modules/">API reference</a></li>
 </ul>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/README.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/README.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search/" method="get">
       <input type="text" name="q" />
@@ -168,7 +180,7 @@ of <cite>make gh-pages</cite>.</p>
     </script>
     <div class="relbar2">
         
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -177,13 +189,13 @@ of <cite>make gh-pages</cite>.</p>
         <li class="right" >
           <a href="../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li> 
+        <li><a href="../">Err 3.0.4 documentation</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on May 27, 2015.
+          Last updated on Sep 14, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

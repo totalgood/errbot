@@ -7,8 +7,9 @@ Subpackages
 .. toctree::
 
     errbot.backends
-    errbot.builtins
     errbot.bundled
+    errbot.core_plugins
+    errbot.rendering
     errbot.templates
 
 Submodules
@@ -16,15 +17,15 @@ Submodules
 
 .. toctree::
 
+   errbot.backend_manager
    errbot.botplugin
    errbot.config-template
    errbot.config-travisci
-   errbot.decorators
    errbot.errBot
-   errbot.holder
    errbot.main
    errbot.pid
    errbot.plugin_manager
+   errbot.py2conv
    errbot.repos
    errbot.storage
    errbot.streaming

@@ -1,0 +1,484 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.rendering.ansi module &mdash; Err 3.0.4 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Err 3.0.4 documentation" href="../" />
+    <link rel="up" title="errbot.rendering package" href="../errbot.rendering/" />
+    <link rel="next" title="errbot.templates package" href="../errbot.templates/" />
+    <link rel="prev" title="errbot.rendering package" href="../errbot.rendering/" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../_static/err.png"/>
+    <link rel="stylesheet" href="../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body>
+    
+    
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.templates/" title="errbot.templates package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../errbot.rendering/" title="errbot.rendering package"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li><a href="../errbot.rendering/" accesskey="U">errbot.rendering package</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-errbot.rendering.ansi">
+<span id="errbot-rendering-ansi-module"></span><h1>errbot.rendering.ansi module<a class="headerlink" href="#module-errbot.rendering.ansi" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="errbot.rendering.ansi.AnsiExtension">
+<em class="property">class </em><tt class="descclassname">errbot.rendering.ansi.</tt><tt class="descname">AnsiExtension</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#AnsiExtension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.AnsiExtension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">markdown.extensions.Extension</span></tt></p>
+<p>(kinda hackish) This is just a private extension to postprocess the html text to ansi text</p>
+<dl class="method">
+<dt id="errbot.rendering.ansi.AnsiExtension.extendMarkdown">
+<tt class="descname">extendMarkdown</tt><big>(</big><em>md</em>, <em>md_globals</em><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#AnsiExtension.extendMarkdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.AnsiExtension.extendMarkdown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.rendering.ansi.AnsiPostprocessor">
+<em class="property">class </em><tt class="descclassname">errbot.rendering.ansi.</tt><tt class="descname">AnsiPostprocessor</tt><big>(</big><em>markdown_instance=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#AnsiPostprocessor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.AnsiPostprocessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">markdown.postprocessors.Postprocessor</span></tt></p>
+<p>Markdown generates html entities, this reputs them back to their unicode equivalent</p>
+<dl class="method">
+<dt id="errbot.rendering.ansi.AnsiPostprocessor.run">
+<tt class="descname">run</tt><big>(</big><em>text</em><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#AnsiPostprocessor.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.AnsiPostprocessor.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.rendering.ansi.AnsiPreprocessor">
+<em class="property">class </em><tt class="descclassname">errbot.rendering.ansi.</tt><tt class="descname">AnsiPreprocessor</tt><big>(</big><em>md</em><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#AnsiPreprocessor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.AnsiPreprocessor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">markdown.extensions.fenced_code.FencedBlockPreprocessor</span></tt></p>
+<dl class="method">
+<dt id="errbot.rendering.ansi.AnsiPreprocessor.run">
+<tt class="descname">run</tt><big>(</big><em>lines</em><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#AnsiPreprocessor.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.AnsiPreprocessor.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Match and store Fenced Code Blocks in the HtmlStash.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.rendering.ansi.CharacterTable">
+<em class="property">class </em><tt class="descclassname">errbot.rendering.ansi.</tt><tt class="descname">CharacterTable</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.tuple</span></tt></p>
+<p>CharacterTable(fg_black, fg_red, fg_green, fg_yellow, fg_blue, fg_magenta, fg_cyan, fg_white, fg_default, bg_black, bg_red, bg_green, bg_yellow, bg_blue, bg_magenta, bg_cyan, bg_white, bg_default, fx_reset, fx_bold, fx_italic, fx_underline, fx_not_italic, fx_not_underline, fx_normal, fixed_width, end_fixed_width, inline_code, end_inline_code)</p>
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.bg_black">
+<tt class="descname">bg_black</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.bg_black" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 9</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.bg_blue">
+<tt class="descname">bg_blue</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.bg_blue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 13</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.bg_cyan">
+<tt class="descname">bg_cyan</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.bg_cyan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 15</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.bg_default">
+<tt class="descname">bg_default</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.bg_default" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 17</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.bg_green">
+<tt class="descname">bg_green</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.bg_green" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 11</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.bg_magenta">
+<tt class="descname">bg_magenta</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.bg_magenta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 14</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.bg_red">
+<tt class="descname">bg_red</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.bg_red" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 10</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.bg_white">
+<tt class="descname">bg_white</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.bg_white" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 16</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.bg_yellow">
+<tt class="descname">bg_yellow</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.bg_yellow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 12</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.end_fixed_width">
+<tt class="descname">end_fixed_width</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.end_fixed_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 26</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.end_inline_code">
+<tt class="descname">end_inline_code</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.end_inline_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 28</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.fg_black">
+<tt class="descname">fg_black</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.fg_black" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.fg_blue">
+<tt class="descname">fg_blue</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.fg_blue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.fg_cyan">
+<tt class="descname">fg_cyan</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.fg_cyan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 6</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.fg_default">
+<tt class="descname">fg_default</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.fg_default" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 8</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.fg_green">
+<tt class="descname">fg_green</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.fg_green" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.fg_magenta">
+<tt class="descname">fg_magenta</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.fg_magenta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 5</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.fg_red">
+<tt class="descname">fg_red</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.fg_red" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.fg_white">
+<tt class="descname">fg_white</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.fg_white" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 7</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.fg_yellow">
+<tt class="descname">fg_yellow</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.fg_yellow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.fixed_width">
+<tt class="descname">fixed_width</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.fixed_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 25</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.fx_bold">
+<tt class="descname">fx_bold</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.fx_bold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 19</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.fx_italic">
+<tt class="descname">fx_italic</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.fx_italic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 20</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.fx_normal">
+<tt class="descname">fx_normal</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.fx_normal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 24</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.fx_not_italic">
+<tt class="descname">fx_not_italic</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.fx_not_italic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 22</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.fx_not_underline">
+<tt class="descname">fx_not_underline</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.fx_not_underline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 23</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.fx_reset">
+<tt class="descname">fx_reset</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.fx_reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 18</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.fx_underline">
+<tt class="descname">fx_underline</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.fx_underline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 21</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.rendering.ansi.CharacterTable.inline_code">
+<tt class="descname">inline_code</tt><a class="headerlink" href="#errbot.rendering.ansi.CharacterTable.inline_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 27</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.rendering.ansi.NSC">
+<em class="property">class </em><tt class="descclassname">errbot.rendering.ansi.</tt><tt class="descname">NSC</tt><big>(</big><em>s</em><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#NSC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.NSC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="errbot.rendering.ansi.NSC.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>s</em><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#NSC.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.NSC.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.rendering.ansi.Table">
+<em class="property">class </em><tt class="descclassname">errbot.rendering.ansi.</tt><tt class="descname">Table</tt><big>(</big><em>ct</em><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#Table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.Table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="errbot.rendering.ansi.Table.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>ct</em><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#Table.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.Table.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.rendering.ansi.Table.add_col">
+<tt class="descname">add_col</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#Table.add_col"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.Table.add_col" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.rendering.ansi.Table.add_header">
+<tt class="descname">add_header</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#Table.add_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.Table.add_header" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.rendering.ansi.Table.begin_headers">
+<tt class="descname">begin_headers</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#Table.begin_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.Table.begin_headers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.rendering.ansi.Table.end_headers">
+<tt class="descname">end_headers</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#Table.end_headers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.Table.end_headers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.rendering.ansi.Table.next_row">
+<tt class="descname">next_row</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#Table.next_row"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.Table.next_row" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.rendering.ansi.Table.write">
+<tt class="descname">write</tt><big>(</big><em>text</em><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#Table.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.Table.write" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="errbot.rendering.ansi.enable_format">
+<tt class="descclassname">errbot.rendering.ansi.</tt><tt class="descname">enable_format</tt><big>(</big><em>name</em>, <em>ct</em><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#enable_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.enable_format" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="errbot.rendering.ansi.recurse">
+<tt class="descclassname">errbot.rendering.ansi.</tt><tt class="descname">recurse</tt><big>(</big><em>write</em>, <em>ct</em>, <em>element</em>, <em>table=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#recurse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.recurse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="errbot.rendering.ansi.translate">
+<tt class="descclassname">errbot.rendering.ansi.</tt><tt class="descname">translate</tt><big>(</big><em>element</em>, <em>ct=CharacterTable(fg_black=&lt;ansi.colour.base.Graphic object at 0x7f095e34e080&gt;</em>, <em>fg_red=&lt;ansi.colour.base.Graphic object at 0x7f095e34e978&gt;</em>, <em>fg_green=&lt;ansi.colour.base.Graphic object at 0x7f095e358518&gt;</em>, <em>fg_yellow=&lt;ansi.colour.base.Graphic object at 0x7f095e358588&gt;</em>, <em>fg_blue=&lt;ansi.colour.base.Graphic object at 0x7f095e3585f8&gt;</em>, <em>fg_magenta=&lt;ansi.colour.base.Graphic object at 0x7f095e358668&gt;</em>, <em>fg_cyan=&lt;ansi.colour.base.Graphic object at 0x7f095e3586d8&gt;</em>, <em>fg_white=&lt;ansi.colour.base.Graphic object at 0x7f095e358748&gt;</em>, <em>fg_default=&lt;ansi.colour.base.Graphic object at 0x7f095e3587b8&gt;</em>, <em>bg_black=&lt;ansi.colour.base.Graphic object at 0x7f095e358e10&gt;</em>, <em>bg_red=&lt;ansi.colour.base.Graphic object at 0x7f095e358e48&gt;</em>, <em>bg_green=&lt;ansi.colour.base.Graphic object at 0x7f095e358eb8&gt;</em>, <em>bg_yellow=&lt;ansi.colour.base.Graphic object at 0x7f095e358f28&gt;</em>, <em>bg_blue=&lt;ansi.colour.base.Graphic object at 0x7f095e358f98&gt;</em>, <em>bg_magenta=&lt;ansi.colour.base.Graphic object at 0x7f095e359048&gt;</em>, <em>bg_cyan=&lt;ansi.colour.base.Graphic object at 0x7f095e3590b8&gt;</em>, <em>bg_white=&lt;ansi.colour.base.Graphic object at 0x7f095e359128&gt;</em>, <em>bg_default=&lt;ansi.colour.base.Graphic object at 0x7f095e359198&gt;</em>, <em>fx_reset=&lt;ansi.colour.base.Graphic object at 0x7f095e3564e0&gt;</em>, <em>fx_bold=&lt;ansi.colour.base.Graphic object at 0x7f095e356518&gt;</em>, <em>fx_italic=&lt;ansi.colour.base.Graphic object at 0x7f095e3565f8&gt;</em>, <em>fx_underline=&lt;ansi.colour.base.Graphic object at 0x7f095e356668&gt;</em>, <em>fx_not_italic=&lt;ansi.colour.base.Graphic object at 0x7f095e356f28&gt;</em>, <em>fx_not_underline=&lt;ansi.colour.base.Graphic object at 0x7f095e3580b8&gt;</em>, <em>fx_normal=&lt;ansi.colour.base.Graphic object at 0x7f095e356eb8&gt;</em>, <em>fixed_width=''</em>, <em>end_fixed_width=''</em>, <em>inline_code=''</em>, <em>end_inline_code='')</em><big>)</big><a class="reference internal" href="../_modules/errbot/rendering/ansi/#translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.translate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+  <div id="prev_next_links">
+      
+          
+              Previous: <a href="../errbot.rendering/">errbot.rendering package</a>
+          
+          
+               | 
+              Next: <a href="../errbot.templates/">errbot.templates package</a>
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../" title="Back to home page">
+        <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="../">Homepage</a></li>
+    <li><a href="../genindex/">Index</a></li>
+    <li><a href="../py-modindex/">Module index</a></li>
+    <li><a href="../modules/">API reference</a></li>
+        <li>
+        <a href="../errbot/">errbot package</a>
+        <ul>
+        <li>
+        <a href="../errbot.rendering/">errbot.rendering package</a>
+        <ul>
+        <li>Previous: <a href="../errbot.rendering/" title="previous chapter">errbot.rendering package</a></li>
+        <li>Next: <a href="../errbot.templates/" title="next chapter">errbot.templates package</a></li>
+        </ul>
+        </li>
+        </ul>
+        </li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/errbot.rendering.ansi.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.templates/" title="errbot.templates package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../errbot.rendering/" title="errbot.rendering package"
+             >previous</a> |</li>
+        <li><a href="../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li><a href="../errbot.rendering/" >errbot.rendering package</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Sep 14, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

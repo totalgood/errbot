@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.utils &mdash; Err 2.2.1 documentation</title>
+    <title>errbot.utils &mdash; Err 3.0.4 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.2.1',
+        VERSION:     '3.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.2.1 documentation" href="../../../" />
-    <link rel="up" title="Module code" href="../../" />
+    <link rel="top" title="Err 3.0.4 documentation" href="../../../" />
+    <link rel="up" title="errbot" href="../" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -56,11 +56,11 @@
     </script>
 
   </head>
-  <body role="document">
+  <body>
     
     
 
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -69,8 +69,9 @@
         <li class="right" >
           <a href="../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../" accesskey="U">Module code</a> &raquo;</li> 
+        <li><a href="../../../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../../" >Module code</a> &raquo;</li>
+          <li><a href="../" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -78,42 +79,73 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <h1>Source code for errbot.utils</h1><div class="highlight"><pre>
 <span class="c"># -*- coding: utf-8 -*-</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">starmap</span><span class="p">,</span> <span class="n">repeat</span>
+<span class="kn">import</span> <span class="nn">fnmatch</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">html</span> <span class="kn">import</span> <span class="n">entities</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">platform</span> <span class="kn">import</span> <span class="n">system</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">html</span> <span class="kn">import</span> <span class="n">entities</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">starmap</span><span class="p">,</span> <span class="n">repeat</span>
 <span class="kn">from</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">import</span> <span class="n">tostring</span>
-<span class="kn">import</span> <span class="nn">inspect</span>
 
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
 
 <span class="n">PY3</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span>
 <span class="n">PY2</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">PY3</span>
+<span class="n">ON_WINDOWS</span> <span class="o">=</span> <span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;Windows&#39;</span>
 
 <span class="n">PLUGINS_SUBDIR</span> <span class="o">=</span> <span class="n">b</span><span class="s">&#39;plugins&#39;</span> <span class="k">if</span> <span class="n">PY2</span> <span class="k">else</span> <span class="s">&#39;plugins&#39;</span>
 
 
-<div class="viewcode-block" id="get_sender_username"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.get_sender_username">[docs]</a><span class="k">def</span> <span class="nf">get_sender_username</span><span class="p">(</span><span class="n">mess</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Extract the sender&#39;s user name from a message&quot;&quot;&quot;</span>
-    <span class="n">type_</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">type</span>
-    <span class="n">jid</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">frm</span>
-    <span class="k">if</span> <span class="n">type_</span> <span class="o">==</span> <span class="s">&quot;groupchat&quot;</span><span class="p">:</span>
-        <span class="n">username</span> <span class="o">=</span> <span class="n">jid</span><span class="o">.</span><span class="n">resource</span>
-    <span class="k">elif</span> <span class="n">type_</span> <span class="o">==</span> <span class="s">&quot;chat&quot;</span><span class="p">:</span>
-        <span class="n">username</span> <span class="o">=</span> <span class="n">jid</span><span class="o">.</span><span class="n">node</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">username</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">username</span>
+<div class="viewcode-block" id="deprecated"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.deprecated">[docs]</a><span class="k">class</span> <span class="nc">deprecated</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; deprecated decorator. emits a warning on a call on an old method and call the new method anyway &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="deprecated.__init__"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.deprecated.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">new</span> <span class="o">=</span> <span class="n">new</span>
+</div>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old</span><span class="p">):</span>
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">old</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39; {0.filename}:{0.lineno} : &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getframeinfo</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">()</span><span class="o">.</span><span class="n">f_back</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+                <span class="n">pref</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">__name__</span> <span class="o">+</span> <span class="s">&#39;.&#39;</span>  <span class="c"># TODO might break for individual methods</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pref</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;call to the deprecated </span><span class="si">%s%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pref</span><span class="p">,</span> <span class="n">old</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">new</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">new</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">property</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;... use the property </span><span class="si">%s%s</span><span class="s"> instead&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pref</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">fget</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;... use </span><span class="si">%s%s</span><span class="s"> instead&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pref</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+            <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;.&#39;</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">new</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">new</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">property</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">old</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+        <span class="n">wrapper</span><span class="o">.</span><span class="n">__name__</span> <span class="o">=</span> <span class="n">old</span><span class="o">.</span><span class="n">__name__</span>
+        <span class="n">wrapper</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">old</span><span class="o">.</span><span class="n">__doc__</span>
+        <span class="n">wrapper</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">old</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrapper</span>
 
 </div>
-<div class="viewcode-block" id="format_timedelta"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.format_timedelta">[docs]</a><span class="k">def</span> <span class="nf">format_timedelta</span><span class="p">(</span><span class="n">timedelta</span><span class="p">):</span>
+<span class="nd">@deprecated</span>
+<span class="k">def</span> <span class="nf">get_sender_username</span><span class="p">(</span><span class="n">mess</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Extract the sender&#39;s user name from a message&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">mess</span><span class="o">.</span><span class="n">frm</span><span class="o">.</span><span class="n">person</span>
+
+
+<div class="viewcode-block" id="format_timedelta"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.format_timedelta">[docs]</a><span class="k">def</span> <span class="nf">format_timedelta</span><span class="p">(</span><span class="n">timedelta</span><span class="p">):</span>
     <span class="n">total_seconds</span> <span class="o">=</span> <span class="n">timedelta</span><span class="o">.</span><span class="n">seconds</span> <span class="o">+</span> <span class="p">(</span><span class="mi">86400</span> <span class="o">*</span> <span class="n">timedelta</span><span class="o">.</span><span class="n">days</span><span class="p">)</span>
     <span class="n">hours</span><span class="p">,</span> <span class="n">remainder</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">total_seconds</span><span class="p">,</span> <span class="mi">3600</span><span class="p">)</span>
     <span class="n">minutes</span><span class="p">,</span> <span class="n">seconds</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">remainder</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
@@ -130,23 +162,23 @@
 <span class="n">BAR_WIDTH</span> <span class="o">=</span> <span class="mf">15.0</span>
 
 
-<div class="viewcode-block" id="drawbar"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.drawbar">[docs]</a><span class="k">def</span> <span class="nf">drawbar</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">max</span><span class="p">:</span>
-        <span class="n">value_in_chr</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">((</span><span class="n">value</span> <span class="o">*</span> <span class="n">BAR_WIDTH</span> <span class="o">/</span> <span class="nb">max</span><span class="p">)))</span>
+<div class="viewcode-block" id="drawbar"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.drawbar">[docs]</a><span class="k">def</span> <span class="nf">drawbar</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">max_</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">max_</span><span class="p">:</span>
+        <span class="n">value_in_chr</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">((</span><span class="n">value</span> <span class="o">*</span> <span class="n">BAR_WIDTH</span> <span class="o">/</span> <span class="n">max_</span><span class="p">)))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">value_in_chr</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">return</span> <span class="s">&#39;[&#39;</span> <span class="o">+</span> <span class="s">&#39;█&#39;</span> <span class="o">*</span> <span class="n">value_in_chr</span> <span class="o">+</span> <span class="s">&#39;▒&#39;</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">BAR_WIDTH</span> <span class="o">-</span> <span class="n">value_in_chr</span><span class="p">))</span> <span class="o">+</span> <span class="s">&#39;]&#39;</span>
 
 
 <span class="c"># Introspect to know from which plugin a command is implemented</span></div>
-<div class="viewcode-block" id="get_class_for_method"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.get_class_for_method">[docs]</a><span class="k">def</span> <span class="nf">get_class_for_method</span><span class="p">(</span><span class="n">meth</span><span class="p">):</span>
+<div class="viewcode-block" id="get_class_for_method"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.get_class_for_method">[docs]</a><span class="k">def</span> <span class="nf">get_class_for_method</span><span class="p">(</span><span class="n">meth</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">cls</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmro</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">meth</span><span class="o">.</span><span class="n">__self__</span><span class="p">)):</span>
         <span class="k">if</span> <span class="n">meth</span><span class="o">.</span><span class="n">__name__</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">__dict__</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">cls</span>
     <span class="k">return</span> <span class="bp">None</span>
 
 </div>
-<div class="viewcode-block" id="human_name_for_git_url"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.human_name_for_git_url">[docs]</a><span class="k">def</span> <span class="nf">human_name_for_git_url</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+<div class="viewcode-block" id="human_name_for_git_url"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.human_name_for_git_url">[docs]</a><span class="k">def</span> <span class="nf">human_name_for_git_url</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
     <span class="c"># try to humanize the last part of the git url as much as we can</span>
     <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
@@ -156,11 +188,14 @@
     <span class="k">return</span> <span class="n">last_part</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="k">if</span> <span class="n">last_part</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.git&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">last_part</span>
 
 </div>
-<div class="viewcode-block" id="tail"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.tail">[docs]</a><span class="k">def</span> <span class="nf">tail</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+<div class="viewcode-block" id="tail"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.tail">[docs]</a><span class="k">def</span> <span class="nf">tail</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
     <span class="k">return</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()[</span><span class="o">-</span><span class="n">window</span><span class="p">:])</span>
 
 </div>
-<div class="viewcode-block" id="which"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.which">[docs]</a><span class="k">def</span> <span class="nf">which</span><span class="p">(</span><span class="n">program</span><span class="p">):</span>
+<div class="viewcode-block" id="which"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.which">[docs]</a><span class="k">def</span> <span class="nf">which</span><span class="p">(</span><span class="n">program</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ON_WINDOWS</span><span class="p">:</span>
+        <span class="n">program</span> <span class="o">+=</span> <span class="s">&#39;.exe&#39;</span>
+
     <span class="k">def</span> <span class="nf">is_exe</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">access</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">X_OK</span><span class="p">)</span>
 
@@ -180,7 +215,7 @@
 <span class="n">INVALID_VERSION_EXCEPTION</span> <span class="o">=</span> <span class="s">&#39;version </span><span class="si">%s</span><span class="s"> in not in format &quot;x.y.z&quot; or &quot;x.y.z-{beta,alpha,rc1,rc2...}&quot; for example &quot;1.2.2&quot;&#39;</span>
 
 
-<div class="viewcode-block" id="version2array"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.version2array">[docs]</a><span class="k">def</span> <span class="nf">version2array</span><span class="p">(</span><span class="n">version</span><span class="p">):</span>
+<div class="viewcode-block" id="version2array"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.version2array">[docs]</a><span class="k">def</span> <span class="nf">version2array</span><span class="p">(</span><span class="n">version</span><span class="p">):</span>
     <span class="n">vsplit</span> <span class="o">=</span> <span class="n">version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;-&#39;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vsplit</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -209,11 +244,11 @@
     <span class="k">return</span> <span class="n">response</span>
 
 </div>
-<div class="viewcode-block" id="ValidationException"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.ValidationException">[docs]</a><span class="k">class</span> <span class="nc">ValidationException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="ValidationException"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.ValidationException">[docs]</a><span class="k">class</span> <span class="nc">ValidationException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="k">pass</span>
 
 </div>
-<div class="viewcode-block" id="recurse_check_structure"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.recurse_check_structure">[docs]</a><span class="k">def</span> <span class="nf">recurse_check_structure</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">to_check</span><span class="p">):</span>
+<div class="viewcode-block" id="recurse_check_structure"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.recurse_check_structure">[docs]</a><span class="k">def</span> <span class="nf">recurse_check_structure</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">to_check</span><span class="p">):</span>
     <span class="n">sample_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
     <span class="n">to_check_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">to_check</span><span class="p">)</span>
 
@@ -247,7 +282,7 @@
         <span class="k">return</span>
 
 </div>
-<div class="viewcode-block" id="unescape_xml"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.unescape_xml">[docs]</a><span class="k">def</span> <span class="nf">unescape_xml</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<div class="viewcode-block" id="unescape_xml"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.unescape_xml">[docs]</a><span class="k">def</span> <span class="nf">unescape_xml</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Removes HTML or XML character references and entities from a text string.</span>
 <span class="sd">    @param text The HTML (or XML) source text.</span>
@@ -281,57 +316,22 @@
 <span class="n">ZAP_TAGS</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;&lt;[^&gt;]+&gt;&#39;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="xhtml2txt"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.xhtml2txt">[docs]</a><span class="k">def</span> <span class="nf">xhtml2txt</span><span class="p">(</span><span class="n">xhtml</span><span class="p">):</span>
-    <span class="n">text_plain</span> <span class="o">=</span> <span class="n">REMOVE_EOL</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">xhtml</span><span class="p">)</span>  <span class="c"># Ignore formatting TODO exclude pre</span>
-    <span class="n">text_plain</span> <span class="o">=</span> <span class="n">REINSERT_EOLS</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">text_plain</span><span class="p">)</span>  <span class="c"># readd the \n where they probably fit best</span>
-    <span class="n">text_plain</span> <span class="o">=</span> <span class="n">ZAP_TAGS</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">text_plain</span><span class="p">)</span>  <span class="c"># zap every tag left</span>
-    <span class="k">return</span> <span class="n">unescape_xml</span><span class="p">(</span><span class="n">text_plain</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-
-</div>
-<div class="viewcode-block" id="utf8"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.utf8">[docs]</a><span class="k">def</span> <span class="nf">utf8</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+<div class="viewcode-block" id="utf8"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.utf8">[docs]</a><span class="k">def</span> <span class="nf">utf8</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">key</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>  <span class="c"># it defaults to utf-8</span>
     <span class="k">return</span> <span class="n">key</span>
 
 </div>
-<div class="viewcode-block" id="mess_2_embeddablehtml"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.mess_2_embeddablehtml">[docs]</a><span class="k">def</span> <span class="nf">mess_2_embeddablehtml</span><span class="p">(</span><span class="n">mess</span><span class="p">):</span>
-    <span class="n">html_content</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">html</span>
-    <span class="k">if</span> <span class="n">html_content</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">body</span> <span class="o">=</span> <span class="n">html_content</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;{http://jabber.org/protocol/xhtml-im}body&#39;</span><span class="p">)</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">body</span><span class="o">.</span><span class="n">getchildren</span><span class="p">():</span>
-            <span class="n">result</span> <span class="o">+=</span> <span class="n">tostring</span><span class="p">(</span><span class="n">child</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;ns0:&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="bp">True</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">mess</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="bp">False</span>
-
-</div>
-<div class="viewcode-block" id="parse_jid"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.parse_jid">[docs]</a><span class="k">def</span> <span class="nf">parse_jid</span><span class="p">(</span><span class="n">jid</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">jid</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;@&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-        <span class="n">split_jid</span> <span class="o">=</span> <span class="n">jid</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;@&#39;</span><span class="p">)</span>
-        <span class="n">node</span><span class="p">,</span> <span class="n">domain</span> <span class="o">=</span> <span class="s">&#39;@&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">split_jid</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">split_jid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">domain</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-            <span class="n">domain</span><span class="p">,</span> <span class="n">resource</span> <span class="o">=</span> <span class="n">domain</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>  <span class="c"># hack for IRC where you can have several slashes here</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">resource</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">node</span> <span class="o">=</span> <span class="n">jid</span>
-        <span class="n">domain</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="n">resource</span> <span class="o">=</span> <span class="bp">None</span>
-
-    <span class="k">return</span> <span class="n">node</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="n">resource</span>
-
-</div>
-<div class="viewcode-block" id="RateLimited"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.RateLimited">[docs]</a><span class="k">def</span> <span class="nf">RateLimited</span><span class="p">(</span><span class="n">minInterval</span><span class="p">):</span>
+<div class="viewcode-block" id="RateLimited"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.RateLimited">[docs]</a><span class="k">def</span> <span class="nf">RateLimited</span><span class="p">(</span><span class="n">minInterval</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
         <span class="n">lastTimeCalled</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
 
         <span class="k">def</span> <span class="nf">rateLimitedFunction</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
             <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">lastTimeCalled</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Elapsed </span><span class="si">%f</span><span class="s"> since last call&#39;</span> <span class="o">%</span> <span class="n">elapsed</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Elapsed </span><span class="si">%f</span><span class="s"> since last call&#39;</span> <span class="o">%</span> <span class="n">elapsed</span><span class="p">)</span>
             <span class="n">leftToWait</span> <span class="o">=</span> <span class="n">minInterval</span> <span class="o">-</span> <span class="n">elapsed</span>
             <span class="k">if</span> <span class="n">leftToWait</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Wait </span><span class="si">%f</span><span class="s"> due to rate limiting...&#39;</span> <span class="o">%</span> <span class="n">leftToWait</span><span class="p">)</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Wait </span><span class="si">%f</span><span class="s"> due to rate limiting...&#39;</span> <span class="o">%</span> <span class="n">leftToWait</span><span class="p">)</span>
                 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">leftToWait</span><span class="p">)</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
             <span class="n">lastTimeCalled</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -342,54 +342,81 @@
     <span class="k">return</span> <span class="n">decorate</span>
 
 </div>
-<div class="viewcode-block" id="split_string_after"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.split_string_after">[docs]</a><span class="k">def</span> <span class="nf">split_string_after</span><span class="p">(</span><span class="n">str_</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<div class="viewcode-block" id="split_string_after"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.split_string_after">[docs]</a><span class="k">def</span> <span class="nf">split_string_after</span><span class="p">(</span><span class="n">str_</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Yield chunks of length `n` from the given string&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">str_</span><span class="p">),</span> <span class="n">n</span><span class="p">):</span>
         <span class="k">yield</span> <span class="n">str_</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span> <span class="o">+</span> <span class="n">n</span><span class="p">]</span>
 
 </div>
-<div class="viewcode-block" id="deprecated"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.deprecated">[docs]</a><span class="k">class</span> <span class="nc">deprecated</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; deprecated decorator. emits a warning on a call on an old method and call the new method anyway &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="deprecated.__init__"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.deprecated.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">new</span> <span class="o">=</span> <span class="n">new</span>
-</div>
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old</span><span class="p">):</span>
-        <span class="nd">@wraps</span><span class="p">(</span><span class="n">old</span><span class="p">)</span>
-        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-            <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39; {0.filename}:{0.lineno} : &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getframeinfo</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">()</span><span class="o">.</span><span class="n">f_back</span><span class="p">))</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
-                <span class="n">pref</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">__name__</span> <span class="o">+</span> <span class="s">&#39;.&#39;</span>  <span class="c"># TODO might break for individual methods</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">pref</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-            <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;call to the deprecated </span><span class="si">%s%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pref</span><span class="p">,</span> <span class="n">old</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">new</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">new</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">property</span><span class="p">:</span>
-                    <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;... use the property </span><span class="si">%s%s</span><span class="s"> instead&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pref</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">fget</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;... use </span><span class="si">%s%s</span><span class="s"> instead&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pref</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-            <span class="n">msg</span> <span class="o">+=</span> <span class="s">&#39;.&#39;</span>
-            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">new</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">new</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">property</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
-                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">old</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
-
-        <span class="n">wrapper</span><span class="o">.</span><span class="n">__name__</span> <span class="o">=</span> <span class="n">old</span><span class="o">.</span><span class="n">__name__</span>
-        <span class="n">wrapper</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">old</span><span class="o">.</span><span class="n">__doc__</span>
-        <span class="n">wrapper</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">old</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">wrapper</span>
-
-</div>
-<div class="viewcode-block" id="repeatfunc"><a class="viewcode-back" href="../../../errbot.utils/#errbot.backends.text.repeatfunc">[docs]</a><span class="k">def</span> <span class="nf">repeatfunc</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">times</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>  <span class="c"># from the itertools receipes</span>
+<div class="viewcode-block" id="repeatfunc"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.repeatfunc">[docs]</a><span class="k">def</span> <span class="nf">repeatfunc</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">times</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>  <span class="c"># from the itertools receipes</span>
     <span class="sd">&quot;&quot;&quot;Repeat calls to func with specified arguments.</span>
 
 <span class="sd">    Example:  repeatfunc(random.random)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">times</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">starmap</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">repeat</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">starmap</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">repeat</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">times</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">starmap</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">repeat</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">times</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="find_roots"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.find_roots">[docs]</a><span class="k">def</span> <span class="nf">find_roots</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file_sig</span><span class="o">=</span><span class="s">&#39;*.plug&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Collects all the paths from path recursively that contains files of type `file_sig`.</span>
+<span class="sd">       :param base:</span>
+<span class="sd">            a base path to walk from</span>
+<span class="sd">       :param file_sig:</span>
+<span class="sd">            the file pattern to look for</span>
+<span class="sd">       :return: a set of paths</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">roots</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>  <span class="c"># you can have several .plug per directory.</span>
+    <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">fnmatch</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="n">file_sig</span><span class="p">):</span>
+            <span class="n">dir_to_add</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+            <span class="n">relative</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">dir_to_add</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">subelement</span> <span class="ow">in</span> <span class="n">relative</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">subelement</span> <span class="o">!=</span> <span class="s">&#39;.&#39;</span> <span class="ow">and</span> <span class="p">(</span><span class="n">subelement</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">subelement</span> <span class="o">==</span> <span class="s">&#39;__pycache__&#39;</span><span class="p">):</span>
+                    <span class="c"># this is not a directoty to consider</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Ignore </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">dir_to_add</span><span class="p">)</span>
+                    <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">roots</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dir_to_add</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">roots</span>
+
+</div>
+<div class="viewcode-block" id="find_roots_with_extra"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.find_roots_with_extra">[docs]</a><span class="k">def</span> <span class="nf">find_roots_with_extra</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">extra</span><span class="p">,</span> <span class="n">file_sig</span><span class="o">=</span><span class="s">&#39;*.plug&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Collects all the paths from path recursively that contains files of type `file_sig`.</span>
+<span class="sd">       :param base:</span>
+<span class="sd">            a base path to walk from</span>
+<span class="sd">       :param extra:</span>
+<span class="sd">            a extra dorectory or directories to walk from</span>
+<span class="sd">       :param file_sig:</span>
+<span class="sd">            the file pattern to look for</span>
+<span class="sd">       :return: a set of paths</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># adds the extra plugin dir from the setup for developers convenience</span>
+    <span class="n">all_base_and_extra</span> <span class="o">=</span> <span class="p">[</span><span class="n">base</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">extra</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">extra</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">extra</span><span class="p">:</span>
+                <span class="n">all_base_and_extra</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">find_roots</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file_sig</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">all_base_and_extra</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">find_roots</span><span class="p">(</span><span class="n">extra</span><span class="p">,</span> <span class="n">file_sig</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">all_base_and_extra</span>
+
+</div>
+<div class="viewcode-block" id="get_class_that_defined_method"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.get_class_that_defined_method">[docs]</a><span class="k">def</span> <span class="nf">get_class_that_defined_method</span><span class="p">(</span><span class="n">meth</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">cls</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmro</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">meth</span><span class="o">.</span><span class="n">__self__</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">meth</span><span class="o">.</span><span class="n">__name__</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">__dict__</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cls</span>
+    <span class="k">return</span> <span class="bp">None</span>
+
+</div>
+<div class="viewcode-block" id="compat_str"><a class="viewcode-back" href="../../../errbot.utils/#errbot.utils.compat_str">[docs]</a><span class="k">def</span> <span class="nf">compat_str</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Detect if s is a string and convert it to unicode if it is a byte or</span>
+<span class="sd">        py2 string &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">s</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+    <span class="k">return</span> <span class="bp">None</span></div>
 </pre></div>
   <div id="prev_next_links">
       
@@ -401,7 +428,7 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../" title="Back to home page">
         <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -420,10 +447,15 @@
         <li>
         <a href="../../">Module code</a>
         <ul>
+        <li>
+        <a href="../">errbot</a>
+        <ul>
+        </ul>
+        </li>
         </ul>
         </li>
 </ul>
-<div id="searchbox" style="display: none" role="search">
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../../search/" method="get">
       <input type="text" name="q" />
@@ -450,7 +482,7 @@
     </script>
     <div class="relbar2">
         
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -459,14 +491,15 @@
         <li class="right" >
           <a href="../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../../" >Module code</a> &raquo;</li> 
+        <li><a href="../../../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../../" >Module code</a> &raquo;</li>
+          <li><a href="../" >errbot</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on May 27, 2015.
+          Last updated on Sep 14, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

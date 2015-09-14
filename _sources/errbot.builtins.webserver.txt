@@ -1,7 +1,0 @@
-errbot.builtins.webserver module
-================================
-
-.. automodule:: errbot.builtins.webserver
-    :members:
-    :undoc-members:
-    :show-inheritance:

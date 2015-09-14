@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.plugin_manager module &mdash; Err 2.2.1 documentation</title>
+    <title>errbot.plugin_manager module &mdash; Err 3.0.4 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.2.1',
+        VERSION:     '3.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,9 +24,9 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.2.1 documentation" href="../" />
+    <link rel="top" title="Err 3.0.4 documentation" href="../" />
     <link rel="up" title="errbot package" href="../errbot/" />
-    <link rel="next" title="errbot.repos module" href="../errbot.repos/" />
+    <link rel="next" title="errbot.py2conv module" href="../errbot.py2conv/" />
     <link rel="prev" title="errbot.pid module" href="../errbot.pid/" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
@@ -58,11 +58,11 @@
     </script>
 
   </head>
-  <body role="document">
+  <body>
     
     
 
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -72,13 +72,13 @@
           <a href="../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../errbot.repos/" title="errbot.repos module"
+          <a href="../errbot.py2conv/" title="errbot.py2conv module"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="../errbot.pid/" title="errbot.pid module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../errbot/" accesskey="U">errbot package</a> &raquo;</li> 
+        <li><a href="../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" accesskey="U">errbot package</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -86,116 +86,191 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="module-errbot.plugin_manager">
 <span id="errbot-plugin-manager-module"></span><h1>errbot.plugin_manager module<a class="headerlink" href="#module-errbot.plugin_manager" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="errbot.plugin_manager.BotPluginManager">
+<em class="property">class </em><tt class="descclassname">errbot.plugin_manager.</tt><tt class="descname">BotPluginManager</tt><big>(</big><em>categories_filter=None</em>, <em>directories_list=None</em>, <em>plugin_info_ext=None</em>, <em>plugin_locator=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">yapsy.PluginManager.PluginManager</span></tt>, <a class="reference internal" href="../errbot.storage/#errbot.storage.StoreMixin" title="errbot.storage.StoreMixin"><tt class="xref py py-class docutils literal"><span class="pre">errbot.storage.StoreMixin</span></tt></a></p>
+<p>Customized yapsy PluginManager for ErrBot.</p>
+<dl class="attribute">
+<dt id="errbot.plugin_manager.BotPluginManager.BL_PLUGINS">
+<tt class="descname">BL_PLUGINS</tt><em class="property"> = 'bl_plugins'</em><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.BL_PLUGINS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.plugin_manager.BotPluginManager.CONFIGS">
+<tt class="descname">CONFIGS</tt><em class="property"> = 'configs'</em><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.CONFIGS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.plugin_manager.BotPluginManager.REPOS">
+<tt class="descname">REPOS</tt><em class="property"> = 'repos'</em><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.REPOS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.activate_non_started_plugins">
+<tt class="descname">activate_non_started_plugins</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.activate_non_started_plugins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.activate_non_started_plugins" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.activate_plugin">
+<tt class="descname">activate_plugin</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.activate_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.activate_plugin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.activate_plugin_with_version_check">
+<tt class="descname">activate_plugin_with_version_check</tt><big>(</big><em>name</em>, <em>config</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.activate_plugin_with_version_check"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.activate_plugin_with_version_check" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.add_plugin_repo">
+<tt class="descname">add_plugin_repo</tt><big>(</big><em>name</em>, <em>url</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.add_plugin_repo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.add_plugin_repo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.blacklist_plugin">
+<tt class="descname">blacklist_plugin</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.blacklist_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.blacklist_plugin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.deactivate_all_plugins">
+<tt class="descname">deactivate_all_plugins</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.deactivate_all_plugins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.deactivate_all_plugins" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.deactivate_plugin">
+<tt class="descname">deactivate_plugin</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.deactivate_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.deactivate_plugin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.deactivate_plugin_by_name">
+<tt class="descname">deactivate_plugin_by_name</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.deactivate_plugin_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.deactivate_plugin_by_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.get_all_active_plugin_names">
+<tt class="descname">get_all_active_plugin_names</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.get_all_active_plugin_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.get_all_active_plugin_names" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.get_all_active_plugin_objects">
+<tt class="descname">get_all_active_plugin_objects</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.get_all_active_plugin_objects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.get_all_active_plugin_objects" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.get_all_plugin_names">
+<tt class="descname">get_all_plugin_names</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.get_all_plugin_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.get_all_plugin_names" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.get_blacklisted_plugin">
+<tt class="descname">get_blacklisted_plugin</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.get_blacklisted_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.get_blacklisted_plugin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.get_installed_plugin_repos">
+<tt class="descname">get_installed_plugin_repos</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.get_installed_plugin_repos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.get_installed_plugin_repos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.get_plugin_by_name">
+<tt class="descname">get_plugin_by_name</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.get_plugin_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.get_plugin_by_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.get_plugin_configuration">
+<tt class="descname">get_plugin_configuration</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.get_plugin_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.get_plugin_configuration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.get_plugin_obj_by_name">
+<tt class="descname">get_plugin_obj_by_name</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.get_plugin_obj_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.get_plugin_obj_by_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.install_repo">
+<tt class="descname">install_repo</tt><big>(</big><em>repo</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.install_repo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.install_repo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.instanciateElement">
+<tt class="descname">instanciateElement</tt><big>(</big><em>element</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.instanciateElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.instanciateElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override the loading method to inject bot</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.is_plugin_blacklisted">
+<tt class="descname">is_plugin_blacklisted</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.is_plugin_blacklisted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.is_plugin_blacklisted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.reload_plugin_by_name">
+<tt class="descname">reload_plugin_by_name</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.reload_plugin_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.reload_plugin_by_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Completely reload the given plugin, including reloading of the module's code</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.set_plugin_configuration">
+<tt class="descname">set_plugin_configuration</tt><big>(</big><em>name</em>, <em>obj</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.set_plugin_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.set_plugin_configuration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.shutdown">
+<tt class="descname">shutdown</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.shutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.unblacklist_plugin">
+<tt class="descname">unblacklist_plugin</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.unblacklist_plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.unblacklist_plugin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.update_dynamic_plugins">
+<tt class="descname">update_dynamic_plugins</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.update_dynamic_plugins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.update_dynamic_plugins" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.plugin_manager.BotPluginManager.update_plugin_places">
+<tt class="descname">update_plugin_places</tt><big>(</big><em>path_list</em>, <em>extra_plugin_dir</em>, <em>autoinstall_deps=True</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#BotPluginManager.update_plugin_places"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.BotPluginManager.update_plugin_places" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="exception">
 <dt id="errbot.plugin_manager.IncompatiblePluginException">
-<em class="property">exception </em><code class="descclassname">errbot.plugin_manager.</code><code class="descname">IncompatiblePluginException</code><a class="reference internal" href="../_modules/errbot/plugin_manager/#IncompatiblePluginException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.IncompatiblePluginException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<em class="property">exception </em><tt class="descclassname">errbot.plugin_manager.</tt><tt class="descname">IncompatiblePluginException</tt><a class="reference internal" href="../_modules/errbot/plugin_manager/#IncompatiblePluginException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.IncompatiblePluginException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.Exception</span></tt></p>
 </dd></dl>
 
 <dl class="exception">
 <dt id="errbot.plugin_manager.PluginConfigurationException">
-<em class="property">exception </em><code class="descclassname">errbot.plugin_manager.</code><code class="descname">PluginConfigurationException</code><a class="reference internal" href="../_modules/errbot/plugin_manager/#PluginConfigurationException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.PluginConfigurationException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
+<em class="property">exception </em><tt class="descclassname">errbot.plugin_manager.</tt><tt class="descname">PluginConfigurationException</tt><a class="reference internal" href="../_modules/errbot/plugin_manager/#PluginConfigurationException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.PluginConfigurationException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.Exception</span></tt></p>
 </dd></dl>
 
 <dl class="function">
-<dt id="errbot.plugin_manager.activate_plugin_with_version_check">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">activate_plugin_with_version_check</code><span class="sig-paren">(</span><em>name</em>, <em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#activate_plugin_with_version_check"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.activate_plugin_with_version_check" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
 <dt id="errbot.plugin_manager.check_dependencies">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">check_dependencies</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#check_dependencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.check_dependencies" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">errbot.plugin_manager.</tt><tt class="descname">check_dependencies</tt><big>(</big><em>path</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#check_dependencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.check_dependencies" title="Permalink to this definition">¶</a></dt>
 <dd><p>This methods returns a pair of (message, packages missing).
 Or None if everything is OK.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="errbot.plugin_manager.deactivate_all_plugins">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">deactivate_all_plugins</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#deactivate_all_plugins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.deactivate_all_plugins" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="errbot.plugin_manager.deactivate_plugin_by_name">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">deactivate_plugin_by_name</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#deactivate_plugin_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.deactivate_plugin_by_name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="errbot.plugin_manager.find_plugin_roots">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">find_plugin_roots</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#find_plugin_roots"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.find_plugin_roots" title="Permalink to this definition">¶</a></dt>
-<dd><p>Recursively find the plugins from the given path.
-It is usefull so you can give a root directory of checked out plugins and
-it will discover them automatically.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="errbot.plugin_manager.get_all_active_plugin_names">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">get_all_active_plugin_names</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#get_all_active_plugin_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.get_all_active_plugin_names" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="errbot.plugin_manager.get_all_active_plugin_objects">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">get_all_active_plugin_objects</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#get_all_active_plugin_objects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.get_all_active_plugin_objects" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="errbot.plugin_manager.get_all_plugin_names">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">get_all_plugin_names</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#get_all_plugin_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.get_all_plugin_names" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="errbot.plugin_manager.get_all_plugins">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">get_all_plugins</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#get_all_plugins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.get_all_plugins" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="errbot.plugin_manager.get_plugin_by_name">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">get_plugin_by_name</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#get_plugin_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.get_plugin_by_name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="errbot.plugin_manager.get_plugin_obj_by_name">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">get_plugin_obj_by_name</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#get_plugin_obj_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.get_plugin_obj_by_name" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="errbot.plugin_manager.get_preloaded_plugins">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">get_preloaded_plugins</code><span class="sig-paren">(</span><em>extra</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#get_preloaded_plugins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.get_preloaded_plugins" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
 <dt id="errbot.plugin_manager.global_restart">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">global_restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#global_restart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.global_restart" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="errbot.plugin_manager.init_plugin_manager">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">init_plugin_manager</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#init_plugin_manager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.init_plugin_manager" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">errbot.plugin_manager.</tt><tt class="descname">global_restart</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#global_restart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.global_restart" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="errbot.plugin_manager.install_package">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">install_package</code><span class="sig-paren">(</span><em>package</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#install_package"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.install_package" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">errbot.plugin_manager.</tt><tt class="descname">install_package</tt><big>(</big><em>package</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#install_package"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.install_package" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="errbot.plugin_manager.populate_doc">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">populate_doc</code><span class="sig-paren">(</span><em>plugin</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#populate_doc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.populate_doc" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="errbot.plugin_manager.reload_plugin_by_name">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">reload_plugin_by_name</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#reload_plugin_by_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.reload_plugin_by_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Completely reload the given plugin, including reloading of the module's code</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="errbot.plugin_manager.update_plugin_places">
-<code class="descclassname">errbot.plugin_manager.</code><code class="descname">update_plugin_places</code><span class="sig-paren">(</span><em>path_list</em>, <em>extra_plugin_dir</em>, <em>autoinstall_deps=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/errbot/plugin_manager/#update_plugin_places"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.update_plugin_places" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">errbot.plugin_manager.</tt><tt class="descname">populate_doc</tt><big>(</big><em>plugin</em><big>)</big><a class="reference internal" href="../_modules/errbot/plugin_manager/#populate_doc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.plugin_manager.populate_doc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -207,7 +282,7 @@ it will discover them automatically.</p>
           
           
                | 
-              Next: <a href="../errbot.repos/">errbot.repos module</a>
+              Next: <a href="../errbot.py2conv/">errbot.py2conv module</a>
           
       
   </div>
@@ -215,7 +290,7 @@ it will discover them automatically.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../" title="Back to home page">
         <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -235,18 +310,16 @@ it will discover them automatically.</p>
         <a href="../errbot/">errbot package</a>
         <ul>
         <li>Previous: <a href="../errbot.pid/" title="previous chapter">errbot.pid module</a></li>
-        <li>Next: <a href="../errbot.repos/" title="next chapter">errbot.repos module</a></li>
+        <li>Next: <a href="../errbot.py2conv/" title="next chapter">errbot.py2conv module</a></li>
         </ul>
         </li>
 </ul>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/errbot.plugin_manager.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/errbot.plugin_manager.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search/" method="get">
       <input type="text" name="q" />
@@ -273,7 +346,7 @@ it will discover them automatically.</p>
     </script>
     <div class="relbar2">
         
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -283,19 +356,19 @@ it will discover them automatically.</p>
           <a href="../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../errbot.repos/" title="errbot.repos module"
+          <a href="../errbot.py2conv/" title="errbot.py2conv module"
              >next</a> |</li>
         <li class="right" >
           <a href="../errbot.pid/" title="errbot.pid module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../errbot/" >errbot package</a> &raquo;</li> 
+        <li><a href="../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" >errbot package</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on May 27, 2015.
+          Last updated on Sep 14, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

@@ -1,0 +1,7 @@
+errbot.py2conv module
+=====================
+
+.. automodule:: errbot.py2conv
+    :members:
+    :undoc-members:
+    :show-inheritance:

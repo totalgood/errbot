@@ -1,7 +1,0 @@
-errbot.builtins.wsview module
-=============================
-
-.. automodule:: errbot.builtins.wsview
-    :members:
-    :undoc-members:
-    :show-inheritance:

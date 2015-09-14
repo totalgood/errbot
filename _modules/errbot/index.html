@@ -1,0 +1,402 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot &mdash; Err 3.0.4 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Err 3.0.4 documentation" href="../../" />
+    <link rel="up" title="Module code" href="../" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../_static/err.png"/>
+    <link rel="stylesheet" href="../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body>
+    
+    
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for errbot</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">shlex</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">.core_plugins.wsview</span> <span class="kn">import</span> <span class="n">bottle_app</span><span class="p">,</span> <span class="n">WebView</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">compat_str</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">PY2</span><span class="p">,</span> <span class="n">PY3</span>  <span class="c"># noqa gbin: this is now used by plugins</span>
+<span class="kn">from</span> <span class="nn">.botplugin</span> <span class="kn">import</span> <span class="n">BotPlugin</span><span class="p">,</span> <span class="n">SeparatorArgParser</span><span class="p">,</span> <span class="n">ShlexArgParser</span>  <span class="c"># noqa</span>
+<span class="kn">from</span> <span class="nn">.core_plugins.wsview</span> <span class="kn">import</span> <span class="n">route</span><span class="p">,</span> <span class="n">view</span>  <span class="c"># noqa</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;BotPlugin&#39;</span><span class="p">,</span> <span class="s">&#39;webhook&#39;</span><span class="p">,</span> <span class="s">&#39;webroute&#39;</span><span class="p">,</span> <span class="s">&#39;webview&#39;</span><span class="p">,</span> <span class="s">&#39;botcmd&#39;</span><span class="p">,</span> <span class="s">&#39;re_botcmd&#39;</span><span class="p">,</span> <span class="s">&#39;arg_botcmd&#39;</span><span class="p">]</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="n">webroute</span> <span class="o">=</span> <span class="n">route</span>  <span class="c"># this allows plugins to expose dynamic webpages on err embedded webserver</span>
+<span class="n">webview</span> <span class="o">=</span> <span class="n">view</span>  <span class="c"># this allows to use the templating system</span>
+
+
+<div class="viewcode-block" id="botcmd"><a class="viewcode-back" href="../../errbot/#errbot.botcmd">[docs]</a><span class="k">def</span> <span class="nf">botcmd</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorator for bot command functions</span>
+
+<span class="sd">    :param hidden: Prevents the command from being shown by the built-in help command when `True`.</span>
+<span class="sd">    :param name: The name to give to the command. Defaults to name of the function itself.</span>
+<span class="sd">    :param split_args_with: Automatically split arguments on the given separator.</span>
+<span class="sd">        Behaviour of this argument is identical to :func:`str.split()`</span>
+<span class="sd">    :param admin_only: Only allow the command to be executed by admins when `True`.</span>
+<span class="sd">    :param historize: Store the command in the history list (`!history`). This is enabled</span>
+<span class="sd">        by default.</span>
+<span class="sd">    :param template: The template to use when using XHTML-IM output</span>
+
+<span class="sd">    This decorator should be applied to methods of :class:`~errbot.botplugin.BotPlugin`</span>
+<span class="sd">    classes to turn them into commands that can be given to the bot. These methods are</span>
+<span class="sd">    expected to have a signature like the following::</span>
+
+<span class="sd">        @botcmd</span>
+<span class="sd">        def some_command(self, msg, args):</span>
+<span class="sd">            pass</span>
+
+<span class="sd">    The given `msg` will be the full message object that was received, which includes data</span>
+<span class="sd">    like sender, receiver, the plain-text and html body (if applicable), etc. `args` will</span>
+<span class="sd">    be a string or list (depending on your value of `split_args_with`) of parameters that</span>
+<span class="sd">    were given to the command by the user.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">split_args_with</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">admin_only</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">historize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command&#39;</span><span class="p">):</span>  <span class="c"># don&#39;t override generated functions</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_re_command&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_hidden&#39;</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_name&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="ow">or</span> <span class="n">func</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_split_args_with&#39;</span><span class="p">,</span> <span class="n">split_args_with</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_admin_only&#39;</span><span class="p">,</span> <span class="n">admin_only</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_historize&#39;</span><span class="p">,</span> <span class="n">historize</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_template&#39;</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">func</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">decorate</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">lambda</span> <span class="n">func</span><span class="p">:</span> <span class="n">decorate</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="re_botcmd"><a class="viewcode-back" href="../../errbot/#errbot.re_botcmd">[docs]</a><span class="k">def</span> <span class="nf">re_botcmd</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorator for regex-based bot command functions</span>
+
+<span class="sd">    :param pattern: The regular expression a message should match against in order to</span>
+<span class="sd">        trigger the command.</span>
+<span class="sd">    :param flags: The `flags` parameter which should be passed to :func:`re.compile()`. This</span>
+<span class="sd">        allows the expression&#39;s behaviour to be modified, such as making it case-insensitive</span>
+<span class="sd">        for example.</span>
+<span class="sd">    :param matchall: By default, only the first match of the regular expression is returned</span>
+<span class="sd">        (as a `re.MatchObject`). When *matchall* is `True`, all non-overlapping matches are</span>
+<span class="sd">        returned (as a list of `re.MatchObject` items).</span>
+<span class="sd">    :param prefixed: Requires user input to start with a bot prefix in order for the pattern</span>
+<span class="sd">        to be applied when `True` (the default).</span>
+<span class="sd">    :param hidden: Prevents the command from being shown by the built-in help command when `True`.</span>
+<span class="sd">    :param name: The name to give to the command. Defaults to name of the function itself.</span>
+<span class="sd">    :param admin_only: Only allow the command to be executed by admins when `True`.</span>
+<span class="sd">    :param historize: Store the command in the history list (`!history`). This is enabled</span>
+<span class="sd">        by default.</span>
+<span class="sd">    :param template: The template to use when using XHTML-IM output</span>
+
+<span class="sd">    This decorator should be applied to methods of :class:`~errbot.botplugin.BotPlugin`</span>
+<span class="sd">    classes to turn them into commands that can be given to the bot. These methods are</span>
+<span class="sd">    expected to have a signature like the following::</span>
+
+<span class="sd">        @re_botcmd(pattern=r&#39;^some command$&#39;)</span>
+<span class="sd">        def some_command(self, msg, match):</span>
+<span class="sd">            pass</span>
+
+<span class="sd">    The given `msg` will be the full message object that was received, which includes data</span>
+<span class="sd">    like sender, receiver, the plain-text and html body (if applicable), etc. `match` will</span>
+<span class="sd">    be a :class:`re.MatchObject` containing the result of applying the regular expression on the</span>
+<span class="sd">    user&#39;s input.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">pattern</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">matchall</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">prefixed</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">admin_only</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="n">historize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command&#39;</span><span class="p">):</span>  <span class="c"># don&#39;t override generated functions</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_re_command&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_re_pattern&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">flags</span><span class="p">))</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_matchall&#39;</span><span class="p">,</span> <span class="n">matchall</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_prefix_required&#39;</span><span class="p">,</span> <span class="n">prefixed</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_hidden&#39;</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_name&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="ow">or</span> <span class="n">func</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_admin_only&#39;</span><span class="p">,</span> <span class="n">admin_only</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_historize&#39;</span><span class="p">,</span> <span class="n">historize</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command_template&#39;</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">func</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">decorate</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">lambda</span> <span class="n">func</span><span class="p">:</span> <span class="n">decorate</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="arg_botcmd"><a class="viewcode-back" href="../../errbot/#errbot.arg_botcmd">[docs]</a><span class="k">def</span> <span class="nf">arg_botcmd</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">hidden</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">admin_only</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+               <span class="n">historize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorator for argparse-based bot command functions</span>
+
+<span class="sd">    https://docs.python.org/3/library/argparse.html</span>
+
+<span class="sd">    This decorator creates an argparse.ArgumentParser and uses it to parse the commands arguments.</span>
+
+<span class="sd">    This decorator can be used multiple times to specify multiple arguments.</span>
+
+<span class="sd">    Any valid argparse.add_argument() parameters can be passed into the decorator.</span>
+<span class="sd">    Each time this decorator is used it adds a new argparse argument to the command.</span>
+
+<span class="sd">    :param hidden: Prevents the command from being shown by the built-in help command when `True`.</span>
+<span class="sd">    :param name: The name to give to the command. Defaults to name of the function itself.</span>
+<span class="sd">    :param admin_only: Only allow the command to be executed by admins when `True`.</span>
+<span class="sd">    :param historize: Store the command in the history list (`!history`). This is enabled</span>
+<span class="sd">        by default.</span>
+<span class="sd">    :param template: The template to use when using XHTML-IM output</span>
+
+<span class="sd">    This decorator should be applied to methods of :class:`~errbot.botplugin.BotPlugin`</span>
+<span class="sd">    classes to turn them into commands that can be given to the bot. The methods will be called</span>
+<span class="sd">    with the original msg and the argparse parsed arguments. These methods are</span>
+<span class="sd">    expected to have a signature like the following::</span>
+
+<span class="sd">        @arg_botcmd(&#39;value&#39;, type=str)</span>
+<span class="sd">        @arg_botcmd(&#39;--repeat-count&#39;, dest=&#39;repeat_count&#39;, type=int, default=2)</span>
+<span class="sd">        def repeat_the_value(self, msg, value=None, repeat=None):</span>
+<span class="sd">            return value * repeat</span>
+
+<span class="sd">    The given `msg` will be the full message object that was received, which includes data</span>
+<span class="sd">    like sender, receiver, the plain-text and html body (if applicable), etc. `args` will</span>
+<span class="sd">    be a string or list (depending on your value of `split_args_with`) of parameters that</span>
+<span class="sd">    were given to the command by the user.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s">&#39;_err_command&#39;</span><span class="p">):</span>
+
+            <span class="n">err_command_parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="n">__doc__</span><span class="p">)</span>
+
+            <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+            <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+
+                <span class="n">args</span> <span class="o">=</span> <span class="n">shlex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+                <span class="n">parsed_args</span> <span class="o">=</span> <span class="n">err_command_parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+                <span class="n">parsed_kwargs</span> <span class="o">=</span> <span class="nb">vars</span><span class="p">(</span><span class="n">parsed_args</span><span class="p">)</span>
+
+                <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="o">**</span><span class="n">parsed_kwargs</span><span class="p">)</span>
+
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="s">&#39;_err_command&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="s">&#39;_err_re_command&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="s">&#39;_err_arg_command&#39;</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="s">&#39;_err_command_hidden&#39;</span><span class="p">,</span> <span class="n">hidden</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="s">&#39;_err_command_name&#39;</span><span class="p">,</span> <span class="n">name</span> <span class="ow">or</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="s">&#39;_err_command_split_args_with&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="s">&#39;_err_command_admin_only&#39;</span><span class="p">,</span> <span class="n">admin_only</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="s">&#39;_err_command_historize&#39;</span><span class="p">,</span> <span class="n">historize</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="s">&#39;_err_command_template&#39;</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="s">&#39;_err_command_parser&#39;</span><span class="p">,</span> <span class="n">err_command_parser</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># the function has already been wrapped</span>
+            <span class="c"># alias it so we can update it&#39;s arguments below</span>
+            <span class="n">wrapper</span> <span class="o">=</span> <span class="n">func</span>
+
+        <span class="n">wrapper</span><span class="o">.</span><span class="n">_err_command_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">wrapper</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">wrapper</span><span class="o">.</span><span class="n">_err_command_parser</span><span class="o">.</span><span class="n">format_help</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+    <span class="k">return</span> <span class="n">decorator</span>
+
+</div>
+<div class="viewcode-block" id="webhook"><a class="viewcode-back" href="../../errbot/#errbot.webhook">[docs]</a><span class="k">def</span> <span class="nf">webhook</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Decorator for webhooks</span>
+
+<span class="sd">    :param uri_rule: A regular expression against which the called URL should</span>
+<span class="sd">        match in order for the webhook to trigger. If left undefined then the URL</span>
+<span class="sd">        `/&lt;method_name&gt;/` will be used instead.</span>
+<span class="sd">    :param methods: A tuple of allowed HTTP methods. By default, only GET and POST</span>
+<span class="sd">        are allowed.</span>
+<span class="sd">    :param form_param: The key who&#39;s contents will be passed to your method&#39;s `payload`</span>
+<span class="sd">        parameter. This is used for example when using the `application/x-www-form-urlencoded`</span>
+<span class="sd">        mimetype.</span>
+<span class="sd">    :param raw: Boolean to overrides the request decoding (including form_param) and</span>
+<span class="sd">        passes the raw http request to your method&#39;s `payload`.</span>
+<span class="sd">        The passed type in payload will provide the BaseRequest interface as defined here:</span>
+<span class="sd">        http://bottlepy.org/docs/dev/api.html#bottle.BaseRequest</span>
+
+<span class="sd">    This decorator should be applied to methods of :class:`~errbot.botplugin.BotPlugin`</span>
+<span class="sd">    classes to turn them into webhooks which can be reached on Err&#39;s built-in webserver.</span>
+<span class="sd">    The bundled *Webserver* plugin needs to be configured before these URL&#39;s become reachable.</span>
+
+<span class="sd">    Methods with this decorator are expected to have a signature like the following::</span>
+
+<span class="sd">        @webhook</span>
+<span class="sd">        def a_webhook(self, payload):</span>
+<span class="sd">            pass</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">uri_rule</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;POST&#39;</span><span class="p">,</span> <span class="s">&#39;GET&#39;</span><span class="p">),</span> <span class="n">form_param</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;webhooks:  Flag to bind </span><span class="si">%s</span><span class="s"> to </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">uri_rule</span><span class="p">,</span> <span class="n">func</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+        <span class="n">func</span><span class="o">.</span><span class="n">_err_webhook_uri_rule</span> <span class="o">=</span> <span class="n">uri_rule</span>
+        <span class="n">func</span><span class="o">.</span><span class="n">_err_webhook_methods</span> <span class="o">=</span> <span class="n">methods</span>
+        <span class="n">func</span><span class="o">.</span><span class="n">_err_webhook_form_param</span> <span class="o">=</span> <span class="n">form_param</span>
+        <span class="n">func</span><span class="o">.</span><span class="n">_err_webhook_raw</span> <span class="o">=</span> <span class="n">raw</span>
+        <span class="k">return</span> <span class="n">func</span>
+    <span class="n">first</span> <span class="o">=</span> <span class="n">compat_str</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">first</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="k">lambda</span> <span class="n">method</span><span class="p">:</span> <span class="n">decorate</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">decorate</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">__name__</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+</pre></div>
+  <div id="prev_next_links">
+      
+          
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../../" title="Back to home page">
+        <img class="logo" src="../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="../../">Homepage</a></li>
+    <li><a href="../../genindex/">Index</a></li>
+    <li><a href="../../py-modindex/">Module index</a></li>
+    <li><a href="../../modules/">API reference</a></li>
+        <li>
+        <a href="../">Module code</a>
+        <ul>
+        </ul>
+        </li>
+</ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Sep 14, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

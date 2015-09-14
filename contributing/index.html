@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Contributing &mdash; Err 2.2.1 documentation</title>
+    <title>Contributing &mdash; Err 3.0.4 documentation</title>
     
     <link rel="stylesheet" href="../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '2.2.1',
+        VERSION:     '3.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.2.1 documentation" href="../" />
+    <link rel="top" title="Err 3.0.4 documentation" href="../" />
     <link rel="next" title="Setup" href="../user_guide/setup/" />
     <link rel="prev" title="Multiple server back-ends" href="../features/" />
     <script type="text/javascript">
@@ -57,11 +57,11 @@
     </script>
 
   </head>
-  <body role="document">
+  <body>
     
     
 
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -76,7 +76,7 @@
         <li class="right" >
           <a href="../features/" title="Multiple server back-ends"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li> 
+        <li><a href="../">Err 3.0.4 documentation</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -84,7 +84,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="contributing">
 <h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h1>
@@ -116,7 +116,7 @@ are missing tests, so we won't reject your code if it lacks tests, though.</li>
 <h2>Contributing documentation &amp; making changes to the website<a class="headerlink" href="#contributing-documentation-making-changes-to-the-website" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="http://www.errbot.net/">errbot.net</a> is created using <a class="reference external" href="http://sphinx-doc.org/">Sphinx</a>, which also doubles
 as a generator for our (API) documentation. The code for it is in the same repository
-as err itself, inside the <a class="reference external" href="https://github.com/gbin/err/tree/errbot.net/docs/">docs</a> folder. To make changes to the documentation or the
+as err itself, inside the <a class="reference external" href="https://github.com/gbin/err/tree/master/docs/">docs</a> folder. To make changes to the documentation or the
 website, you can build the HTML locally as follows:</p>
 <div class="highlight-python"><div class="highlight"><pre># Change directory into the docs folder
 cd docs/
@@ -127,21 +127,11 @@ make html
 # Then, open the generated _build/html/index.html in a browser
 </pre></div>
 </div>
-<p>The content you find on the website is kept in a branch called
-<a class="reference external" href="https://github.com/gbin/err/tree/errbot.net/docs">errbot.net</a>.
-The master branch is merged back into this branch with each official release of Err.
-This way, the API documentation on the site always reflects the version of the code
-found on PyPI rather than something that is in development but not yet released.</p>
-<p>When making changes to the documentation, please base your branch off the <cite>errbot.net</cite>
-banch and open a pull request with us as described in the previous section.</p>
+<p>To submit your changes back to us, please make your change in a seperate branch as
+described in the previous section, then open a pull request with us.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Useful references on working with sphinx and reStructuredText are the
-<a class="reference external" href="http://sphinx-doc.org/rest.html">reStructuredText Primer</a> and <a class="reference external" href="http://sphinx-doc.org/markup/inline.html">Inline markup</a> documents.</p>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">You must run Sphinx with Python 3, Python 2 is unsupported.</p>
+<p class="last">You must do this with Python 3, Python 2 is unsupported.</p>
 </div>
 </div>
 <div class="section" id="contributing-plugins">
@@ -178,7 +168,7 @@ easier for us to figure out what is going on, as well.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../" title="Back to home page">
         <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -209,14 +199,12 @@ easier for us to figure out what is going on, as well.</p>
         <li>Previous: <a href="../features/" title="previous chapter">Multiple server back-ends</a></li>
         <li>Next: <a href="../user_guide/setup/" title="next chapter">Setup</a></li>
 </ul>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/contributing.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/contributing.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search/" method="get">
       <input type="text" name="q" />
@@ -243,7 +231,7 @@ easier for us to figure out what is going on, as well.</p>
     </script>
     <div class="relbar2">
         
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -258,13 +246,13 @@ easier for us to figure out what is going on, as well.</p>
         <li class="right" >
           <a href="../features/" title="Multiple server back-ends"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../">Err 2.2.1 documentation</a> &raquo;</li> 
+        <li><a href="../">Err 3.0.4 documentation</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on May 27, 2015.
+          Last updated on Sep 14, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

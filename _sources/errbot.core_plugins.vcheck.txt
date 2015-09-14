@@ -1,0 +1,7 @@
+errbot.core_plugins.vcheck module
+=================================
+
+.. automodule:: errbot.core_plugins.vcheck
+    :members:
+    :undoc-members:
+    :show-inheritance:

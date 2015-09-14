@@ -1,0 +1,7 @@
+errbot.backends.telegram module
+===============================
+
+.. automodule:: errbot.backends.telegram
+    :members:
+    :undoc-members:
+    :show-inheritance:

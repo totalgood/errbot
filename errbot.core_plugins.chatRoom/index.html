@@ -1,0 +1,336 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.core_plugins.chatRoom module &mdash; Err 3.0.4 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '3.0.4',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="Err 3.0.4 documentation" href="../" />
+    <link rel="up" title="errbot.core_plugins package" href="../errbot.core_plugins/" />
+    <link rel="next" title="errbot.core_plugins.health module" href="../errbot.core_plugins.health/" />
+    <link rel="prev" title="errbot.core_plugins.backup module" href="../errbot.core_plugins.backup/" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../_static/err.png"/>
+    <link rel="stylesheet" href="../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body>
+    
+    
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.core_plugins.health/" title="errbot.core_plugins.health module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../errbot.core_plugins.backup/" title="errbot.core_plugins.backup module"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li><a href="../errbot.core_plugins/" accesskey="U">errbot.core_plugins package</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-errbot.core_plugins.chatRoom">
+<span id="errbot-core-plugins-chatroom-module"></span><h1>errbot.core_plugins.chatRoom module<a class="headerlink" href="#module-errbot.core_plugins.chatRoom" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="errbot.core_plugins.chatRoom.ChatRoom">
+<em class="property">class </em><tt class="descclassname">errbot.core_plugins.chatRoom.</tt><tt class="descname">ChatRoom</tt><big>(</big><em>bot=None</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/chatRoom/#ChatRoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.chatRoom.ChatRoom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><tt class="xref py py-class docutils literal"><span class="pre">errbot.botplugin.BotPlugin</span></tt></a></p>
+<dl class="method">
+<dt id="errbot.core_plugins.chatRoom.ChatRoom.callback_connect">
+<tt class="descname">callback_connect</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/chatRoom/#ChatRoom.callback_connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.chatRoom.ChatRoom.callback_connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.chatRoom.ChatRoom.callback_message">
+<tt class="descname">callback_message</tt><big>(</big><em>mess</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/chatRoom/#ChatRoom.callback_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.chatRoom.ChatRoom.callback_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.core_plugins.chatRoom.ChatRoom.connected">
+<tt class="descname">connected</tt><em class="property"> = False</em><a class="headerlink" href="#errbot.core_plugins.chatRoom.ChatRoom.connected" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.chatRoom.ChatRoom.deactivate">
+<tt class="descname">deactivate</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/chatRoom/#ChatRoom.deactivate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.chatRoom.ChatRoom.deactivate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.core_plugins.chatRoom.ChatRoom.max_err_version">
+<tt class="descname">max_err_version</tt><em class="property"> = '3.0.4'</em><a class="headerlink" href="#errbot.core_plugins.chatRoom.ChatRoom.max_err_version" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.core_plugins.chatRoom.ChatRoom.min_err_version">
+<tt class="descname">min_err_version</tt><em class="property"> = '3.0.4'</em><a class="headerlink" href="#errbot.core_plugins.chatRoom.ChatRoom.min_err_version" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.chatRoom.ChatRoom.room_create">
+<tt class="descname">room_create</tt><big>(</big><em>message</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/chatRoom/#ChatRoom.room_create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.chatRoom.ChatRoom.room_create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a chatroom.</p>
+<p>Usage:
+!room create &lt;room&gt;</p>
+<p>Examples (XMPP):
+!room create <a class="reference external" href="mailto:example-room&#37;&#52;&#48;chat&#46;server&#46;tld">example-room<span>&#64;</span>chat<span>&#46;</span>server<span>&#46;</span>tld</a></p>
+<p>Examples (IRC):
+!room create #example-room</p>
+<p>Example (TOX): (no room name at creation)
+!room create</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.chatRoom.ChatRoom.room_destroy">
+<tt class="descname">room_destroy</tt><big>(</big><em>message</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/chatRoom/#ChatRoom.room_destroy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.chatRoom.ChatRoom.room_destroy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Destroy a chatroom.</p>
+<p>Usage:
+!room destroy &lt;room&gt;</p>
+<p>Examples (XMPP):
+!room destroy <a class="reference external" href="mailto:example-room&#37;&#52;&#48;chat&#46;server&#46;tld">example-room<span>&#64;</span>chat<span>&#46;</span>server<span>&#46;</span>tld</a></p>
+<p>Examples (IRC):
+!room destroy #example-room</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.chatRoom.ChatRoom.room_invite">
+<tt class="descname">room_invite</tt><big>(</big><em>message</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/chatRoom/#ChatRoom.room_invite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.chatRoom.ChatRoom.room_invite" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invite one or more people into a chatroom.</p>
+<p>Usage:
+!room invite &lt;room&gt; &lt;identifier1&gt; [&lt;identifier2&gt;, ..]</p>
+<p>Examples (XMPP):
+!room invite <a class="reference external" href="mailto:room&#37;&#52;&#48;conference&#46;server&#46;tld">room<span>&#64;</span>conference<span>&#46;</span>server<span>&#46;</span>tld</a> <a class="reference external" href="mailto:bob&#37;&#52;&#48;server&#46;tld">bob<span>&#64;</span>server<span>&#46;</span>tld</a></p>
+<p>Examples (IRC):
+!room invite #example-room bob</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.chatRoom.ChatRoom.room_join">
+<tt class="descname">room_join</tt><big>(</big><em>message</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/chatRoom/#ChatRoom.room_join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.chatRoom.ChatRoom.room_join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Join (creating it first if needed) a chatroom.</p>
+<p>Usage:
+!room join &lt;room&gt; [&lt;password&gt;]</p>
+<p>Examples (XMPP):
+!room join <a class="reference external" href="mailto:example-room&#37;&#52;&#48;chat&#46;server&#46;tld">example-room<span>&#64;</span>chat<span>&#46;</span>server<span>&#46;</span>tld</a>
+!room join <a class="reference external" href="mailto:example-room&#37;&#52;&#48;chat&#46;server&#46;tld">example-room<span>&#64;</span>chat<span>&#46;</span>server<span>&#46;</span>tld</a> super-secret-password</p>
+<p>Examples (IRC):
+!room join #example-room
+!room join #example-room super-secret-password</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.chatRoom.ChatRoom.room_leave">
+<tt class="descname">room_leave</tt><big>(</big><em>message</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/chatRoom/#ChatRoom.room_leave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.chatRoom.ChatRoom.room_leave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Leave a chatroom.</p>
+<p>Usage:
+!room leave &lt;room&gt;</p>
+<p>Examples (XMPP):
+!room leave <a class="reference external" href="mailto:example-room&#37;&#52;&#48;chat&#46;server&#46;tld">example-room<span>&#64;</span>chat<span>&#46;</span>server<span>&#46;</span>tld</a></p>
+<p>Examples (IRC):
+!room leave #example-room</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.chatRoom.ChatRoom.room_list">
+<tt class="descname">room_list</tt><big>(</big><em>message</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/chatRoom/#ChatRoom.room_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.chatRoom.ChatRoom.room_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>List chatrooms the bot has joined.</p>
+<p>Usage:
+!room list</p>
+<p>Examples:
+!room list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.chatRoom.ChatRoom.room_occupants">
+<tt class="descname">room_occupants</tt><big>(</big><em>message</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/chatRoom/#ChatRoom.room_occupants"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.chatRoom.ChatRoom.room_occupants" title="Permalink to this definition">¶</a></dt>
+<dd><p>List the occupants in a given chatroom.</p>
+<p>Usage:
+!room occupants &lt;room 1&gt; [&lt;room 2&gt; ..]</p>
+<p>Examples (XMPP):
+!room occupants <a class="reference external" href="mailto:room&#37;&#52;&#48;conference&#46;server&#46;tld">room<span>&#64;</span>conference<span>&#46;</span>server<span>&#46;</span>tld</a></p>
+<p>Examples (IRC):
+!room occupants #example-room #another-example-room</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.chatRoom.ChatRoom.room_topic">
+<tt class="descname">room_topic</tt><big>(</big><em>message</em>, <em>args</em><big>)</big><a class="reference internal" href="../_modules/errbot/core_plugins/chatRoom/#ChatRoom.room_topic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.chatRoom.ChatRoom.room_topic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get or set the topic for a room.</p>
+<p>Usage:
+!room topic &lt;room&gt; [&lt;new topic&gt;]</p>
+<p>Examples (XMPP):
+!room topic <a class="reference external" href="mailto:example-room&#37;&#52;&#48;chat&#46;server&#46;tld">example-room<span>&#64;</span>chat<span>&#46;</span>server<span>&#46;</span>tld</a>
+!room topic <a class="reference external" href="mailto:example-room&#37;&#52;&#48;chat&#46;server&#46;tld">example-room<span>&#64;</span>chat<span>&#46;</span>server<span>&#46;</span>tld</a> &quot;Err rocks!&quot;</p>
+<p>Examples (IRC):
+!room topic #example-room
+!room topic #example-room &quot;Err rocks!&quot;</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+  <div id="prev_next_links">
+      
+          
+              Previous: <a href="../errbot.core_plugins.backup/">errbot.core_plugins.backup module</a>
+          
+          
+               | 
+              Next: <a href="../errbot.core_plugins.health/">errbot.core_plugins.health module</a>
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../" title="Back to home page">
+        <img class="logo" src="../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="../">Homepage</a></li>
+    <li><a href="../genindex/">Index</a></li>
+    <li><a href="../py-modindex/">Module index</a></li>
+    <li><a href="../modules/">API reference</a></li>
+        <li>
+        <a href="../errbot/">errbot package</a>
+        <ul>
+        <li>
+        <a href="../errbot.core_plugins/">errbot.core_plugins package</a>
+        <ul>
+        <li>Previous: <a href="../errbot.core_plugins.backup/" title="previous chapter">errbot.core_plugins.backup module</a></li>
+        <li>Next: <a href="../errbot.core_plugins.health/" title="next chapter">errbot.core_plugins.health module</a></li>
+        </ul>
+        </li>
+        </ul>
+        </li>
+</ul>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/errbot.core_plugins.chatRoom.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex/" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex/" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../errbot.core_plugins.health/" title="errbot.core_plugins.health module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../errbot.core_plugins.backup/" title="errbot.core_plugins.backup module"
+             >previous</a> |</li>
+        <li><a href="../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../errbot/" >errbot package</a> &raquo;</li>
+          <li><a href="../errbot.core_plugins/" >errbot.core_plugins package</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Sep 14, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

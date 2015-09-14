@@ -22,6 +22,30 @@ import logging
 # Core Err configuration                                                 #
 ##########################################################################
 
+# BACKEND selection.
+# This configures the type of chat server you wish to use Err with.
+#
+# The current choices:
+
+# Debug backends to test your plugins manually:
+# 'Text'     - on the text console
+# 'Graphic'  - in a GUI window
+
+# Commercial backends:
+# 'Campfire' - see https://campfirenow.com/ (follow instructions from https://github.com/gbin/err-backend-campfire)
+# 'Hipchat'  - see https://www.hipchat.com/
+# 'Slack'    - see https://slack.com/
+# 'Gitter'   - see https://gitter.im/ (follow instructions from https://github.com/gbin/err-backend-gitter)
+
+# Open protocols:
+# 'TOX'      - see https://tox.im/ (follow instructions from https://github.com/gbin/err-backend-tox)
+# 'IRC'      - for classic IRC or bridged services like https://gitter.im
+# 'XMPP'     - the Extensible Messaging and Presence Protocol (https://xmpp.org/)
+# 'Telegram' - cloud-based mobile and desktop messaging app with a focus
+#              on security and speed. (https://telegram.org/)
+
+# BACKEND = 'XMPP'
+
 # The location where all of Err's data should be stored. Make sure to set
 # this to a directory that is writable by the user running the bot.
 BOT_DATA_DIR = '/var/lib/err'
@@ -33,6 +57,9 @@ BOT_DATA_DIR = '/var/lib/err'
 # plugins inside this directory.
 BOT_EXTRA_PLUGIN_DIR = None
 
+# If you use an external backend as a plugin,
+# this is where you tell err where to find it.
+# BOT_EXTRA_BACKEND_DIR = '/opt/errbackends'
 
 # Should plugin dependencies be installed automatically? If this is true
 # then Err will use pip to install any missing dependencies automatically.
@@ -77,21 +104,24 @@ BOT_IDENTITY = {
     # XMPP (Jabber) mode
     'username': 'err@localhost',  # The JID of the user you have created for the bot
     'password': 'changeme',       # The corresponding password for this user
+    # 'server': ('host.domain.tld',5222), # server override
 
     ## HipChat mode (Comment the above if using this mode)
     # 'username' : '12345_123456@chat.hipchat.com',
     # 'password' : 'changeme',
     ## Group admins can create/view tokens on the settings page after logging
     ## in on HipChat's website
-    # 'token' : 'ed4b74d62833267d98aa99f312ff04',
+    # 'token'    : 'ed4b74d62833267d98aa99f312ff04',
+    ## If you're using HipChat server (self-hosted HipChat) then you should set
+    ## the endpoint below. If you don't use HipChat server but use the hosted version
+    ## of HipChat then you may leave this commented out.
+    # 'endpoint' : 'https://api.hipchat.com'
 
-    ## Campfire mode (Comment the others above if using this mode)
-    # 'subdomain': 'yatta',
-    # 'username' : 'errbot',
-    # 'password' : 'changeme',
+    ## Slack mode (comment the others above if using this mode)
+    # 'token': 'xoxb-4426949411-aEM7...',
 
-    ## TOX Mode (comment the others above if using this mode)
-    # BOT_IDENTITY = {'username': 'errbot',}
+    ## Telegram mode (comment the others above if using this mode)
+    # 'token': '103419016:AAbcd1234...',
 
     ## IRC mode (Comment the others above if using this mode)
     # 'nickname' : 'err-chatbot',
@@ -102,20 +132,12 @@ BOT_IDENTITY = {
     # 'ssl': False,                  # optional
 }
 
-## TOX Mode
-# TOX_BOOTSTRAP_SERVER = ["54.199.139.199", 33445, "7F9C31FE850E97CEFD4C4591DF93FC757C7C12549DDD55F8EEAECC34FE76C029"]
-
 # Set the admins of your bot. Only these users will have access
 # to the admin-only commands.
 #
-# Campfire syntax is the full name:
-# BOT_ADMINS = ('Guillaume Binet',)
-#
-# TOX syntax is a hash.
-# BOT_ADMINS = ['F9886B47503FB80E6347CC0907D8000144305796DE54693253AA5E574E5E8106C7D002557189', ]
 BOT_ADMINS = ('gbin@localhost',)
 
-# Chatrooms your bot should join on startup. For the IRC backend you 
+# Chatrooms your bot should join on startup. For the IRC backend you
 # should include the # sign here. For XMPP rooms that are password
 # protected, you can specify another tuple here instead of a string,
 # using the format (RoomName, Password).
@@ -261,6 +283,10 @@ REVERSE_CHATROOM_RELAY = {}
 # to a value of 0 effectively disables rate limiting.
 #IRC_CHANNEL_RATE = 1  # Regular channel messages
 #IRC_PRIVATE_RATE = 1  # Private messages
+#IRC_RECONNECT_ON_KICK = 5  # Reconnect back to a channel after a kick (in seconds)
+                            # Put it at None if you don't want the chat to
+                            # reconnect
+#IRC_RECONNECT_ON_DISCONNECT = 5  # Reconnect back to a channel after a disconenction (in seconds)
 
 # Allow messages sent in a chatroom to be directed at requester.
 #GROUPCHAT_NICK_PREFIXED = False

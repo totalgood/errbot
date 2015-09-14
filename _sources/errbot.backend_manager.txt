@@ -1,0 +1,7 @@
+errbot.backend_manager module
+=============================
+
+.. automodule:: errbot.backend_manager
+    :members:
+    :undoc-members:
+    :show-inheritance:

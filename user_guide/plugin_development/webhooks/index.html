@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>9. Webhooks &mdash; Err 2.2.1 documentation</title>
+    <title>10. Webhooks &mdash; Err 3.0.4 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.2.1',
+        VERSION:     '3.0.4',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '',
         HAS_SOURCE:  true
@@ -24,10 +24,10 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 2.2.1 documentation" href="../../../" />
+    <link rel="top" title="Err 3.0.4 documentation" href="../../../" />
     <link rel="up" title="Plugin development" href="../" />
-    <link rel="next" title="10. Testing your plugins" href="../testing/" />
-    <link rel="prev" title="8. Scheduling" href="../scheduling/" />
+    <link rel="next" title="11. Testing your plugins" href="../testing/" />
+    <link rel="prev" title="9. Scheduling" href="../scheduling/" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -58,11 +58,11 @@
     </script>
 
   </head>
-  <body role="document">
+  <body>
     
     
 
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -72,13 +72,13 @@
           <a href="../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../testing/" title="10. Testing your plugins"
+          <a href="../testing/" title="11. Testing your plugins"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../scheduling/" title="8. Scheduling"
+          <a href="../scheduling/" title="9. Scheduling"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../" accesskey="U">Plugin development</a> &raquo;</li> 
+        <li><a href="../../../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../" accesskey="U">Plugin development</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -86,10 +86,10 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body" role="main">
+          <div class="body">
             
   <div class="section" id="webhooks">
-<h1>9. Webhooks<a class="headerlink" href="#webhooks" title="Permalink to this headline">¶</a></h1>
+<h1>10. Webhooks<a class="headerlink" href="#webhooks" title="Permalink to this headline">¶</a></h1>
 <p>Err has a small integrated webserver that is capable of hooking up
 endpoints to methods inside your plugins.</p>
 <p>You must configure the <em>Webserver</em> plugin before this functionality
@@ -109,9 +109,9 @@ network. Instead, we recommend placing it behind a webserver
 such as <a class="reference external" href="http://nginx.org/">nginx</a> or <a class="reference external" href="https://httpd.apache.org/">Apache</a>.</p>
 </div>
 <div class="section" id="simple-webhooks">
-<h2>9.1. Simple webhooks<a class="headerlink" href="#simple-webhooks" title="Permalink to this headline">¶</a></h2>
+<h2>10.1. Simple webhooks<a class="headerlink" href="#simple-webhooks" title="Permalink to this headline">¶</a></h2>
 <p>All you need to do for a plugin of yours to listen to a specific URI
-is to apply the <a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.webhook" title="errbot.decorators.webhook"><code class="xref py py-func docutils literal"><span class="pre">webhook()</span></code></a> decorator to your
+is to apply the <tt class="xref py py-func docutils literal"><span class="pre">webhook()</span></tt> decorator to your
 method. Whatever it returns will be returned in response to the
 request:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">logging</span>
@@ -151,7 +151,7 @@ dictionary of the JSON data.</p>
 </div>
 </div>
 <div class="section" id="handling-form-encoded-requests">
-<h2>9.2. Handling form-encoded requests<a class="headerlink" href="#handling-form-encoded-requests" title="Permalink to this headline">¶</a></h2>
+<h2>10.2. Handling form-encoded requests<a class="headerlink" href="#handling-form-encoded-requests" title="Permalink to this headline">¶</a></h2>
 <p>Form-encoded requests (those with an
 <em>application/x-www-form-urlencoded</em> mimetype) are very simple to
 handle as well, you just need to specify the <cite>form_param</cite> parameter.</p>
@@ -172,11 +172,11 @@ a <em>payload</em> parameter:</p>
 </div>
 </div>
 <div class="section" id="the-raw-request">
-<h2>9.3. The raw request<a class="headerlink" href="#the-raw-request" title="Permalink to this headline">¶</a></h2>
+<h2>10.3. The raw request<a class="headerlink" href="#the-raw-request" title="Permalink to this headline">¶</a></h2>
 <p>The above webhooks are convenient for simple tasks, but sometimes
 you might wish to have more power and have access to the actual
 request itself. By setting the <cite>raw</cite> parameter of the
-<a class="reference internal" href="../../../errbot.decorators/#errbot.decorators.webhook" title="errbot.decorators.webhook"><code class="xref py py-func docutils literal"><span class="pre">webhook()</span></code></a> decorator to <cite>True</cite>, you will
+<tt class="xref py py-func docutils literal"><span class="pre">webhook()</span></tt> decorator to <cite>True</cite>, you will
 be able to get the
 <a class="reference external" href="http://bottlepy.org/docs/dev/api.html#bottle.BaseRequest">bottle.BaseRequest</a>
 which contains all the details about the actual request:</p>
@@ -191,7 +191,7 @@ which contains all the details about the actual request:</p>
 </div>
 </div>
 <div class="section" id="returning-custom-headers-and-status-codes">
-<h2>9.4. Returning custom headers and status codes<a class="headerlink" href="#returning-custom-headers-and-status-codes" title="Permalink to this headline">¶</a></h2>
+<h2>10.4. Returning custom headers and status codes<a class="headerlink" href="#returning-custom-headers-and-status-codes" title="Permalink to this headline">¶</a></h2>
 <p>Adjusting the response headers, setting cookies or returning a
 different status code can all be done by manipulating the
 <a class="reference external" href="http://bottlepy.org/docs/dev/api.html#bottle.response">bottle.response</a>
@@ -222,7 +222,7 @@ response like so:</p>
 </div>
 </div>
 <div class="section" id="testing-a-webhook-through-chat">
-<h2>9.5. Testing a webhook through chat<a class="headerlink" href="#testing-a-webhook-through-chat" title="Permalink to this headline">¶</a></h2>
+<h2>10.5. Testing a webhook through chat<a class="headerlink" href="#testing-a-webhook-through-chat" title="Permalink to this headline">¶</a></h2>
 <p>You can use the <cite>!webhook</cite> command to test webhooks without making
 an actual HTTP request, using the following format: <cite>!webhook test
 [endpoint] [post_content]</cite></p>
@@ -241,11 +241,11 @@ command.</p>
   <div id="prev_next_links">
       
           
-              Previous: <a href="../scheduling/">8. Scheduling</a>
+              Previous: <a href="../scheduling/">9. Scheduling</a>
           
           
                | 
-              Next: <a href="../testing/">10. Testing your plugins</a>
+              Next: <a href="../testing/">11. Testing your plugins</a>
           
       
   </div>
@@ -253,7 +253,7 @@ command.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="../../../" title="Back to home page">
         <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -266,12 +266,12 @@ command.</p>
     </div>
   <h3><a href="../../../">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">9. Webhooks</a><ul>
-<li><a class="reference internal" href="#simple-webhooks">9.1. Simple webhooks</a></li>
-<li><a class="reference internal" href="#handling-form-encoded-requests">9.2. Handling form-encoded requests</a></li>
-<li><a class="reference internal" href="#the-raw-request">9.3. The raw request</a></li>
-<li><a class="reference internal" href="#returning-custom-headers-and-status-codes">9.4. Returning custom headers and status codes</a></li>
-<li><a class="reference internal" href="#testing-a-webhook-through-chat">9.5. Testing a webhook through chat</a></li>
+<li><a class="reference internal" href="#">10. Webhooks</a><ul>
+<li><a class="reference internal" href="#simple-webhooks">10.1. Simple webhooks</a></li>
+<li><a class="reference internal" href="#handling-form-encoded-requests">10.2. Handling form-encoded requests</a></li>
+<li><a class="reference internal" href="#the-raw-request">10.3. The raw request</a></li>
+<li><a class="reference internal" href="#returning-custom-headers-and-status-codes">10.4. Returning custom headers and status codes</a></li>
+<li><a class="reference internal" href="#testing-a-webhook-through-chat">10.5. Testing a webhook through chat</a></li>
 </ul>
 </li>
 </ul>
@@ -284,19 +284,17 @@ command.</p>
         <li>
         <a href="../">Plugin development</a>
         <ul>
-        <li>Previous: <a href="../scheduling/" title="previous chapter">8. Scheduling</a></li>
-        <li>Next: <a href="../testing/" title="next chapter">10. Testing your plugins</a></li>
+        <li>Previous: <a href="../scheduling/" title="previous chapter">9. Scheduling</a></li>
+        <li>Next: <a href="../testing/" title="next chapter">11. Testing your plugins</a></li>
         </ul>
         </li>
 </ul>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../../../_sources/user_guide/plugin_development/webhooks.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../_sources/user_guide/plugin_development/webhooks.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../../search/" method="get">
       <input type="text" name="q" />
@@ -323,7 +321,7 @@ command.</p>
     </script>
     <div class="relbar2">
         
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -333,19 +331,19 @@ command.</p>
           <a href="../../../py-modindex/" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../testing/" title="10. Testing your plugins"
+          <a href="../testing/" title="11. Testing your plugins"
              >next</a> |</li>
         <li class="right" >
-          <a href="../scheduling/" title="8. Scheduling"
+          <a href="../scheduling/" title="9. Scheduling"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../">Err 2.2.1 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="../" >Plugin development</a> &raquo;</li> 
+        <li><a href="../../../">Err 3.0.4 documentation</a> &raquo;</li>
+          <li><a href="../" >Plugin development</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on May 27, 2015.
+          Last updated on Sep 14, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     
