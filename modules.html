@@ -1,0 +1,221 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot &mdash; Err 3.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Err 3.1.0 documentation" href="index.html" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="_static/err.png"/>
+    <link rel="apple-touch-icon" href="_static/err.png"/>
+    <link rel="stylesheet" href="_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body role="document">
+    
+    
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="errbot">
+<h1>errbot<a class="headerlink" href="#errbot" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="errbot.html">errbot package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="errbot.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="errbot.backends.html">errbot.backends package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="errbot.backends.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="errbot.backends.html#module-errbot.backends">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.bundled.html">errbot.bundled package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="errbot.bundled.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="errbot.bundled.html#module-errbot.bundled">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.core_plugins.html">errbot.core_plugins package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="errbot.core_plugins.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="errbot.core_plugins.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="errbot.core_plugins.html#module-errbot.core_plugins">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.rendering.html">errbot.rendering package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="errbot.rendering.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="errbot.rendering.html#module-errbot.rendering">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.templates.html">errbot.templates package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="errbot.templates.html#module-errbot.templates">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="errbot.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="errbot.backend_manager.html">errbot.backend_manager module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.botplugin.html">errbot.botplugin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.config-template.html">errbot.config-template module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.config-travisci.html">errbot.config-travisci module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.err.html">errbot.err module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.errBot.html">errbot.errBot module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.main.html">errbot.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.pid.html">errbot.pid module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.plugin_manager.html">errbot.plugin_manager module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.py2conv.html">errbot.py2conv module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.repos.html">errbot.repos module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.storage.html">errbot.storage module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.streaming.html">errbot.streaming module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.templating.html">errbot.templating module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.utils.html">errbot.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.version.html">errbot.version module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="errbot.html#module-errbot">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+  <div id="prev_next_links">
+      
+          
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="index.html" title="Back to home page">
+        <img class="logo" src="_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="index.html">Homepage</a></li>
+    <li><a href="genindex.html">Index</a></li>
+    <li><a href="py-modindex.html">Module index</a></li>
+    <li><a href="#">API reference</a></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/modules.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Oct 26, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

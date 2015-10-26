@@ -1,0 +1,539 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.backends.test module &mdash; Err 3.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Err 3.1.0 documentation" href="index.html" />
+    <link rel="up" title="errbot.backends package" href="errbot.backends.html" />
+    <link rel="next" title="errbot.backends.text module" href="errbot.backends.text.html" />
+    <link rel="prev" title="errbot.backends.telegram module" href="errbot.backends.telegram.html" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="_static/err.png"/>
+    <link rel="apple-touch-icon" href="_static/err.png"/>
+    <link rel="stylesheet" href="_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body role="document">
+    
+    
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="errbot.backends.text.html" title="errbot.backends.text module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="errbot.backends.telegram.html" title="errbot.backends.telegram module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="errbot.backends.html" accesskey="U">errbot.backends package</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-errbot.backends.test">
+<span id="errbot-backends-test-module"></span><h1>errbot.backends.test module<a class="headerlink" href="#module-errbot.backends.test" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="errbot.backends.test.FullStackTest">
+<em class="property">class </em><code class="descclassname">errbot.backends.test.</code><code class="descname">FullStackTest</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#FullStackTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.FullStackTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code>, <a class="reference internal" href="#errbot.backends.test.TestBot" title="errbot.backends.test.TestBot"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.test.TestBot</span></code></a></p>
+<p>Test class for use with Python's unittest module to write tests
+against a fully functioning bot.</p>
+<p>For example, if you wanted to test the builtin <cite>!about</cite> command,
+you could write a test file with the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">FullStackTest</span><span class="p">,</span> <span class="n">push_message</span><span class="p">,</span> <span class="n">pop_message</span>
+
+<span class="k">class</span> <span class="nc">TestCommands</span><span class="p">(</span><span class="n">FullStackTest</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_about</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">push_message</span><span class="p">(</span><span class="s">&#39;!about&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Err version&#39;</span><span class="p">,</span> <span class="n">pop_message</span><span class="p">())</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="errbot.backends.test.FullStackTest.setUp">
+<code class="descname">setUp</code><span class="sig-paren">(</span><em>extra_plugin_dir=None</em>, <em>extra_test_file=None</em>, <em>loglevel=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#FullStackTest.setUp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.FullStackTest.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>extra_plugin_dir</strong> -- Path to a directory from which additional
+plugins should be loaded.</li>
+<li><strong>extra_test_file</strong> -- [Deprecated but kept for backward-compatibility,
+use extra_plugin_dir instead]
+Path to an additional plugin which should be loaded.</li>
+<li><strong>loglevel</strong> -- Logging verbosity. Expects one of the constants
+defined by the logging module.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.FullStackTest.tearDown">
+<code class="descname">tearDown</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#FullStackTest.tearDown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.FullStackTest.tearDown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.test.TestBackend">
+<em class="property">class </em><code class="descclassname">errbot.backends.test.</code><code class="descname">TestBackend</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBackend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBackend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="errbot.errBot.html#errbot.errBot.ErrBot" title="errbot.errBot.ErrBot"><code class="xref py py-class docutils literal"><span class="pre">errbot.errBot.ErrBot</span></code></a></p>
+<dl class="method">
+<dt id="errbot.backends.test.TestBackend.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBackend.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBackend.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBackend.build_identifier">
+<code class="descname">build_identifier</code><span class="sig-paren">(</span><em>text_representation</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBackend.build_identifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBackend.build_identifier" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBackend.build_reply">
+<code class="descname">build_reply</code><span class="sig-paren">(</span><em>mess</em>, <em>text=None</em>, <em>private=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBackend.build_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBackend.build_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBackend.connect">
+<code class="descname">connect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBackend.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBackend.connect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.test.TestBackend.mode">
+<code class="descname">mode</code><a class="headerlink" href="#errbot.backends.test.TestBackend.mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBackend.pop_message">
+<code class="descname">pop_message</code><span class="sig-paren">(</span><em>timeout=5</em>, <em>block=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBackend.pop_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBackend.pop_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBackend.prefix_groupchat_reply">
+<code class="descname">prefix_groupchat_reply</code><span class="sig-paren">(</span><em>message</em>, <em>identifier</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBackend.prefix_groupchat_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBackend.prefix_groupchat_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBackend.push_message">
+<code class="descname">push_message</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBackend.push_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBackend.push_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBackend.push_presence">
+<code class="descname">push_presence</code><span class="sig-paren">(</span><em>presence</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBackend.push_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBackend.push_presence" title="Permalink to this definition">¶</a></dt>
+<dd><p>presence must at least duck type base.Presence</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBackend.query_room">
+<code class="descname">query_room</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBackend.query_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBackend.query_room" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBackend.reset_rooms">
+<code class="descname">reset_rooms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBackend.reset_rooms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBackend.reset_rooms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset/clear all rooms</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBackend.rooms">
+<code class="descname">rooms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBackend.rooms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBackend.rooms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBackend.send_message">
+<code class="descname">send_message</code><span class="sig-paren">(</span><em>mess</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBackend.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBackend.send_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBackend.serve_forever">
+<code class="descname">serve_forever</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBackend.serve_forever"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBackend.serve_forever" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBackend.zap_queues">
+<code class="descname">zap_queues</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBackend.zap_queues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBackend.zap_queues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.test.TestBot">
+<em class="property">class </em><code class="descclassname">errbot.backends.test.</code><code class="descname">TestBot</code><span class="sig-paren">(</span><em>extra_plugin_dir=None</em>, <em>loglevel=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A minimal bot utilizing the TestBackend, for use with unit testing.</p>
+<p>Only one instance of this class should globally be active at any one
+time.</p>
+<p>End-users should not use this class directly. Use
+<a class="reference internal" href="#errbot.backends.test.testbot" title="errbot.backends.test.testbot"><code class="xref py py-func docutils literal"><span class="pre">testbot()</span></code></a> or
+<a class="reference internal" href="#errbot.backends.test.FullStackTest" title="errbot.backends.test.FullStackTest"><code class="xref py py-class docutils literal"><span class="pre">FullStackTest</span></code></a> instead, which use this
+class under the hood.</p>
+<dl class="method">
+<dt id="errbot.backends.test.TestBot.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>extra_plugin_dir=None</em>, <em>loglevel=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBot.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBot.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>extra_plugin_dir</strong> -- Path to a directory from which additional
+plugins should be loaded.</li>
+<li><strong>loglevel</strong> -- Logging verbosity. Expects one of the constants
+defined by the logging module.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBot.assertCommand">
+<code class="descname">assertCommand</code><span class="sig-paren">(</span><em>command</em>, <em>response</em>, <em>timeout=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBot.assertCommand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBot.assertCommand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert the given command returns the given response</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBot.assertCommandFound">
+<code class="descname">assertCommandFound</code><span class="sig-paren">(</span><em>command</em>, <em>timeout=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBot.assertCommandFound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBot.assertCommandFound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert the given command does not exist</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.test.TestBot.bot_thread">
+<code class="descname">bot_thread</code><em class="property"> = None</em><a class="headerlink" href="#errbot.backends.test.TestBot.bot_thread" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBot.pop_message">
+<code class="descname">pop_message</code><span class="sig-paren">(</span><em>timeout=5</em>, <em>block=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBot.pop_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBot.pop_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBot.push_message">
+<code class="descname">push_message</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBot.push_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBot.push_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBot.push_presence">
+<code class="descname">push_presence</code><span class="sig-paren">(</span><em>presence</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBot.push_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBot.push_presence" title="Permalink to this definition">¶</a></dt>
+<dd><p>presence must at least duck type base.Presence</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBot.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBot.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBot.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the bot</p>
+<p>Calling this method when the bot has already started will result
+in an Exception being raised.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBot.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBot.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBot.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the bot</p>
+<p>Calling this method before the bot has started will result in an
+Exception being raised.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBot.zap_queues">
+<code class="descname">zap_queues</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBot.zap_queues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBot.zap_queues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.test.TestMUCRoom">
+<em class="property">class </em><code class="descclassname">errbot.backends.test.</code><code class="descname">TestMUCRoom</code><span class="sig-paren">(</span><em>name</em>, <em>occupants=None</em>, <em>topic=None</em>, <em>bot=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestMUCRoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestMUCRoom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="errbot.backends.base.html#errbot.backends.base.MUCRoom" title="errbot.backends.base.MUCRoom"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.MUCRoom</span></code></a></p>
+<dl class="method">
+<dt id="errbot.backends.test.TestMUCRoom.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>name</em>, <em>occupants=None</em>, <em>topic=None</em>, <em>bot=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestMUCRoom.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestMUCRoom.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> -- Name of the room</li>
+<li><strong>occupants</strong> -- Occupants of the room</li>
+<li><strong>topic</strong> -- The MUC's topic</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestMUCRoom.create">
+<code class="descname">create</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestMUCRoom.create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestMUCRoom.create" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestMUCRoom.destroy">
+<code class="descname">destroy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestMUCRoom.destroy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestMUCRoom.destroy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.test.TestMUCRoom.exists">
+<code class="descname">exists</code><a class="headerlink" href="#errbot.backends.test.TestMUCRoom.exists" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestMUCRoom.find_croom">
+<code class="descname">find_croom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestMUCRoom.find_croom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestMUCRoom.find_croom" title="Permalink to this definition">¶</a></dt>
+<dd><p>find back the canonical room from a this room</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestMUCRoom.invite">
+<code class="descname">invite</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestMUCRoom.invite"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestMUCRoom.invite" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestMUCRoom.join">
+<code class="descname">join</code><span class="sig-paren">(</span><em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestMUCRoom.join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestMUCRoom.join" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.test.TestMUCRoom.joined">
+<code class="descname">joined</code><a class="headerlink" href="#errbot.backends.test.TestMUCRoom.joined" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestMUCRoom.leave">
+<code class="descname">leave</code><span class="sig-paren">(</span><em>reason=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestMUCRoom.leave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestMUCRoom.leave" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.test.TestMUCRoom.occupants">
+<code class="descname">occupants</code><a class="headerlink" href="#errbot.backends.test.TestMUCRoom.occupants" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.test.TestMUCRoom.topic">
+<code class="descname">topic</code><a class="headerlink" href="#errbot.backends.test.TestMUCRoom.topic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="errbot.backends.test.testbot">
+<code class="descclassname">errbot.backends.test.</code><code class="descname">testbot</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#testbot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.testbot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pytest fixture to write tests against a fully functioning bot.</p>
+<p>For example, if you wanted to test the builtin <cite>!about</cite> command,
+you could write a test file with the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">testbot</span><span class="p">,</span> <span class="n">push_message</span><span class="p">,</span> <span class="n">pop_message</span>
+
+<span class="k">def</span> <span class="nf">test_about</span><span class="p">(</span><span class="n">testbot</span><span class="p">):</span>
+    <span class="n">testbot</span><span class="o">.</span><span class="n">push_message</span><span class="p">(</span><span class="s">&#39;!about&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="s">&quot;Err version&quot;</span> <span class="ow">in</span> <span class="n">testbot</span><span class="o">.</span><span class="n">pop_message</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>It's possible to provide additional configuration to this fixture,
+by setting variables at module level or as class attributes (the
+latter taking precedence over the former). For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">testbot</span><span class="p">,</span> <span class="n">push_message</span><span class="p">,</span> <span class="n">pop_message</span>
+
+<span class="n">extra_plugin_dir</span> <span class="o">=</span> <span class="s">&#39;/foo/bar&#39;</span>
+
+<span class="k">def</span> <span class="nf">test_about</span><span class="p">(</span><span class="n">testbot</span><span class="p">):</span>
+    <span class="n">testbot</span><span class="o">.</span><span class="n">pushMessage</span><span class="p">(</span><span class="s">&#39;!about&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="s">&quot;Err version&quot;</span> <span class="ow">in</span> <span class="n">testbot</span><span class="o">.</span><span class="n">pop_message</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>..or:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">testbot</span><span class="p">,</span> <span class="n">push_message</span><span class="p">,</span> <span class="n">pop_message</span>
+
+<span class="n">extra_plugin_dir</span> <span class="o">=</span> <span class="s">&#39;/foo/bar&#39;</span>
+
+<span class="k">class</span> <span class="nc">Tests</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c"># Wins over `extra_plugin_dir = &#39;/foo/bar&#39;` above</span>
+    <span class="n">extra_plugin_dir</span> <span class="o">=</span> <span class="s">&#39;/foo/baz&#39;</span>
+
+    <span class="k">def</span> <span class="nf">test_about</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testbot</span><span class="p">):</span>
+        <span class="n">testbot</span><span class="o">.</span><span class="n">push_message</span><span class="p">(</span><span class="s">&#39;!about&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="s">&quot;Err version&quot;</span> <span class="ow">in</span> <span class="n">testbot</span><span class="o">.</span><span class="n">pop_message</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>..to load additional plugins from the directory <cite>/foo/bar</cite> or
+<cite>/foo/baz</cite> respectively. This works for the following items, which are
+passed to the constructor of <a class="reference internal" href="#errbot.backends.test.TestBot" title="errbot.backends.test.TestBot"><code class="xref py py-class docutils literal"><span class="pre">TestBot</span></code></a>:</p>
+<ul class="simple">
+<li><cite>extra_plugin_dir</cite></li>
+<li><cite>loglevel</cite></li>
+</ul>
+</dd></dl>
+
+</div>
+
+  <div id="prev_next_links">
+      
+          
+              Previous: <a href="errbot.backends.telegram.html">errbot.backends.telegram module</a>
+          
+          
+               | 
+              Next: <a href="errbot.backends.text.html">errbot.backends.text module</a>
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="index.html" title="Back to home page">
+        <img class="logo" src="_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="index.html">Homepage</a></li>
+    <li><a href="genindex.html">Index</a></li>
+    <li><a href="py-modindex.html">Module index</a></li>
+    <li><a href="modules.html">API reference</a></li>
+        <li>
+        <a href="errbot.html">errbot package</a>
+        <ul>
+        <li>
+        <a href="errbot.backends.html">errbot.backends package</a>
+        <ul>
+        <li>Previous: <a href="errbot.backends.telegram.html" title="previous chapter">errbot.backends.telegram module</a></li>
+        <li>Next: <a href="errbot.backends.text.html" title="next chapter">errbot.backends.text module</a></li>
+        </ul>
+        </li>
+        </ul>
+        </li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/errbot.backends.test.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="errbot.backends.text.html" title="errbot.backends.text module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="errbot.backends.telegram.html" title="errbot.backends.telegram module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="errbot.backends.html" >errbot.backends package</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Oct 26, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

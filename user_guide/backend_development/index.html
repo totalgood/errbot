@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>[Advanced] Backend development &mdash; Err 3.0.4 documentation</title>
+    <title>[Advanced] Backend development &mdash; Err 3.1.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,18 +15,18 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.0.4',
+        VERSION:     '3.1.0',
         COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '',
+        FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.0.4 documentation" href="../../" />
-    <link rel="next" title="errbot package" href="../../errbot/" />
-    <link rel="prev" title="Logging to Sentry" href="../sentry/" />
+    <link rel="top" title="Err 3.1.0 documentation" href="../../index.html" />
+    <link rel="next" title="errbot package" href="../../errbot.html" />
+    <link rel="prev" title="Logging to Sentry" href="../sentry.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -57,26 +57,26 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="../../genindex/" title="General Index"
+          <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../../py-modindex/" title="Python Module Index"
+          <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../../errbot/" title="errbot package"
+          <a href="../../errbot.html" title="errbot package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../sentry/" title="Logging to Sentry"
+          <a href="../sentry.html" title="Logging to Sentry"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../">Err 3.0.4 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -84,7 +84,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="advanced-backend-development">
 <h1>[Advanced] Backend development<a class="headerlink" href="#advanced-backend-development" title="Permalink to this headline">¶</a></h1>
@@ -97,12 +97,12 @@ starting to work on a backend.</p>
 <p>Backends are just a specialization of the bot, they are what
 is instanciated as the bot and are the entry point of the bot.</p>
 <p>Following this logic a backend must inherit from
-<a class="reference internal" href="../../errbot.errBot/#errbot.errBot.ErrBot" title="errbot.errBot.ErrBot"><tt class="xref py py-class docutils literal"><span class="pre">ErrBot</span></tt></a>.</p>
-<p><a class="reference internal" href="../../errbot.errBot/#errbot.errBot.ErrBot" title="errbot.errBot.ErrBot"><tt class="xref py py-class docutils literal"><span class="pre">ErrBot</span></tt></a> inherits itself from
-<a class="reference internal" href="../../errbot.backends.base/#errbot.backends.base.Backend" title="errbot.backends.base.Backend"><tt class="xref py py-class docutils literal"><span class="pre">Backend</span></tt></a>. This is where you can
+<a class="reference internal" href="../../errbot.errBot.html#errbot.errBot.ErrBot" title="errbot.errBot.ErrBot"><code class="xref py py-class docutils literal"><span class="pre">ErrBot</span></code></a>.</p>
+<p><a class="reference internal" href="../../errbot.errBot.html#errbot.errBot.ErrBot" title="errbot.errBot.ErrBot"><code class="xref py py-class docutils literal"><span class="pre">ErrBot</span></code></a> inherits itself from
+<a class="reference internal" href="../../errbot.backends.base.html#errbot.backends.base.Backend" title="errbot.backends.base.Backend"><code class="xref py py-class docutils literal"><span class="pre">Backend</span></code></a>. This is where you can
 find what Errbot is expecting from backend.</p>
 <p>You'll see a series of methods simply throwing the exception
-<tt class="xref py py-class docutils literal"><span class="pre">NotImplementedError</span></tt>.
+<code class="xref py py-class docutils literal"><span class="pre">NotImplementedError</span></code>.
 Those are the one you need to implement to fill up the blanks.</p>
 </div>
 <div class="section" id="identifiers">
@@ -111,7 +111,7 @@ Those are the one you need to implement to fill up the blanks.</p>
 and how to speak to somebody.</p>
 <p>Lifecycle: identifiers are either created internally by the backend
 or externally by the plugins from
-<a class="reference internal" href="../../errbot.backends.base/#errbot.backends.base.Backend.build_identifier" title="errbot.backends.base.Backend.build_identifier"><tt class="xref py py-func docutils literal"><span class="pre">build_identifier()</span></tt></a>.</p>
+<a class="reference internal" href="../../errbot.backends.base.html#errbot.backends.base.Backend.build_identifier" title="errbot.backends.base.Backend.build_identifier"><code class="xref py py-func docutils literal"><span class="pre">build_identifier()</span></code></a>.</p>
 <p>There are 2 types of identifiers:</p>
 <ul class="simple">
 <li>a person</li>
@@ -128,7 +128,7 @@ you have no way of knowing how to contect her/him personally.</p>
 <p>Backends must implement a specific Identifier class that matches
 their way of identifying those.</p>
 <p>For example Slack has a notion of userid and channeid you can find
-in the <a class="reference internal" href="../../errbot.backends.slack/#errbot.backends.slack.SlackIdentifier" title="errbot.backends.slack.SlackIdentifier"><tt class="xref py py-class docutils literal"><span class="pre">SlackIdentifier</span></tt></a> which is
+in the <a class="reference internal" href="../../errbot.backends.slack.html#errbot.backends.slack.SlackIdentifier" title="errbot.backends.slack.SlackIdentifier"><code class="xref py py-class docutils literal"><span class="pre">SlackIdentifier</span></code></a> which is
 completely opaque to ErrBot itself.</p>
 <p>But you need to implement a mapping from those private parameters
 to those properties:</p>
@@ -154,27 +154,27 @@ ie. <cite>Guillaume Binet</cite>. This is often found in professional chatting s
 <h2>Identifier for a person in a chatroom<a class="headerlink" href="#identifier-for-a-person-in-a-chatroom" title="Permalink to this headline">¶</a></h2>
 <p>This is simply an Identifier with an added property: room.
 The string representation of room should give a charoom identifier (see below).</p>
-<p>See for example <tt class="xref py py-class docutils literal"><span class="pre">SlackMUCIdentifier</span></tt></p>
+<p>See for example <code class="xref py py-class docutils literal"><span class="pre">SlackMUCIdentifier</span></code></p>
 </div>
 <div class="section" id="chatrooms-mucrooms">
 <h2>Chatrooms / MUCRooms<a class="headerlink" href="#chatrooms-mucrooms" title="Permalink to this headline">¶</a></h2>
 <p>In order to implement the various MUC related APIs you'll find from
-<a class="reference internal" href="../../errbot.backends.base/#errbot.backends.base.Backend" title="errbot.backends.base.Backend"><tt class="xref py py-class docutils literal"><span class="pre">Backend</span></tt></a>, you'll need to implement a Room class.
-To help guide you, you can inherit from <a class="reference internal" href="../../errbot.backends.base/#errbot.backends.base.MUCRoom" title="errbot.backends.base.MUCRoom"><tt class="xref py py-class docutils literal"><span class="pre">MUCRoom</span></tt></a>
+<a class="reference internal" href="../../errbot.backends.base.html#errbot.backends.base.Backend" title="errbot.backends.base.Backend"><code class="xref py py-class docutils literal"><span class="pre">Backend</span></code></a>, you'll need to implement a Room class.
+To help guide you, you can inherit from <a class="reference internal" href="../../errbot.backends.base.html#errbot.backends.base.MUCRoom" title="errbot.backends.base.MUCRoom"><code class="xref py py-class docutils literal"><span class="pre">MUCRoom</span></code></a>
 and fill up the blanks from the NotImplementedError.</p>
 <p>Lifecycle: Those are created either internally by the backend or externally
-through <a class="reference internal" href="../../errbot.backends.base/#errbot.backends.base.Backend.join_room" title="errbot.backends.base.Backend.join_room"><tt class="xref py py-func docutils literal"><span class="pre">join_room()</span></tt></a> from a string identifier.</p>
+through <a class="reference internal" href="../../errbot.backends.base.html#errbot.backends.base.Backend.join_room" title="errbot.backends.base.Backend.join_room"><code class="xref py py-func docutils literal"><span class="pre">join_room()</span></code></a> from a string identifier.</p>
 </div>
 </div>
 
   <div id="prev_next_links">
       
           
-              Previous: <a href="../sentry/">Logging to Sentry</a>
+              Previous: <a href="../sentry.html">Logging to Sentry</a>
           
           
                | 
-              Next: <a href="../../errbot/">errbot package</a>
+              Next: <a href="../../errbot.html">errbot package</a>
           
       
   </div>
@@ -182,9 +182,9 @@ through <a class="reference internal" href="../../errbot.backends.base/#errbot.b
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-    <a class="logo" href="../../" title="Back to home page">
+    <a class="logo" href="../../index.html" title="Back to home page">
         <img class="logo" src="../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
     </a>
     <div class="ghbuttons">
@@ -193,7 +193,7 @@ through <a class="reference internal" href="../../errbot.backends.base/#errbot.b
         <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
                 frameborder="0" scrolling="0" width="95" height="20"></iframe>
     </div>
-  <h3><a href="../../">Table Of Contents</a></h3>
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">[Advanced] Backend development</a><ul>
 <li><a class="reference internal" href="#architecture">Architecture</a></li>
@@ -206,21 +206,23 @@ through <a class="reference internal" href="../../errbot.backends.base/#errbot.b
 </ul>
 <h3>Related Topics</h3>
 <ul>
-    <li><a href="../../">Homepage</a></li>
-    <li><a href="../../genindex/">Index</a></li>
-    <li><a href="../../py-modindex/">Module index</a></li>
-    <li><a href="../../modules/">API reference</a></li>
-        <li>Previous: <a href="../sentry/" title="previous chapter">Logging to Sentry</a></li>
-        <li>Next: <a href="../../errbot/" title="next chapter">errbot package</a></li>
+    <li><a href="../../index.html">Homepage</a></li>
+    <li><a href="../../genindex.html">Index</a></li>
+    <li><a href="../../py-modindex.html">Module index</a></li>
+    <li><a href="../../modules.html">API reference</a></li>
+        <li>Previous: <a href="../sentry.html" title="previous chapter">Logging to Sentry</a></li>
+        <li>Next: <a href="../../errbot.html" title="next chapter">errbot package</a></li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../../_sources/user_guide/backend_development/index.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/user_guide/backend_development/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
-    <form class="search" action="../../search/" method="get">
+    <form class="search" action="../../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
@@ -245,28 +247,28 @@ through <a class="reference internal" href="../../errbot.backends.base/#errbot.b
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="../../genindex/" title="General Index"
+          <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../../py-modindex/" title="Python Module Index"
+          <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../../errbot/" title="errbot package"
+          <a href="../../errbot.html" title="errbot package"
              >next</a> |</li>
         <li class="right" >
-          <a href="../sentry/" title="Logging to Sentry"
+          <a href="../sentry.html" title="Logging to Sentry"
              >previous</a> |</li>
-        <li><a href="../../">Err 3.0.4 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Sep 14, 2015.
+          Last updated on Oct 26, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

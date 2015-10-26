@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Plugin development &mdash; Err 3.0.4 documentation</title>
+    <title>Plugin development &mdash; Err 3.1.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,18 +15,18 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.0.4',
+        VERSION:     '3.1.0',
         COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '',
+        FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.0.4 documentation" href="../../" />
-    <link rel="next" title="1. Intro" href="intro/" />
-    <link rel="prev" title="Interacting with the Bot" href="../interaction/" />
+    <link rel="top" title="Err 3.1.0 documentation" href="../../index.html" />
+    <link rel="next" title="1. Intro" href="intro.html" />
+    <link rel="prev" title="Interacting with the Bot" href="../interaction.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -57,26 +57,26 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="../../genindex/" title="General Index"
+          <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../../py-modindex/" title="Python Module Index"
+          <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="intro/" title="1. Intro"
+          <a href="intro.html" title="1. Intro"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../interaction/" title="Interacting with the Bot"
+          <a href="../interaction.html" title="Interacting with the Bot"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../">Err 3.0.4 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -84,82 +84,87 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="plugin-development">
 <h1>Plugin development<a class="headerlink" href="#plugin-development" title="Permalink to this headline">¶</a></h1>
 <p>Plugins form the heart of Err. From the ground up, it is designed to be extended entirely through plugins. In this guide we will explain the basics of writing simple plugins, which we then follow up on further with sets of recipes on a range of topics describing how to handle more advanced use-cases.</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="intro/">1. Intro</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="intro/#requirements">1.1. Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro/#prior-knowledge">1.2. Prior knowledge</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">1. Intro</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#requirements">1.1. Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intro.html#prior-knowledge">1.2. Prior knowledge</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="development_environment/">2. Development environment</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="development_environment/#loading-plugins-from-a-local-directory">2.1. Loading plugins from a local directory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="development_environment/#local-test-mode">2.2. Local test mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="development_environment/#plugin-skeleton">2.3. Plugin skeleton</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development_environment.html">2. Development environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="development_environment.html#loading-plugins-from-a-local-directory">2.1. Loading plugins from a local directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_environment.html#local-test-mode">2.2. Local test mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="development_environment.html#plugin-skeleton">2.3. Plugin skeleton</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="basics/">3. Hello, world!</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="basics/#anatomy-of-a-botplugin">3.1. Anatomy of a BotPlugin</a></li>
-<li class="toctree-l2"><a class="reference internal" href="basics/#plugin-metadata">3.2. Plugin metadata</a></li>
-<li class="toctree-l2"><a class="reference internal" href="basics/#wrapping-up">3.3. Wrapping up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="basics/#next-steps">3.4. Next steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basics.html">3. Hello, world!</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="basics.html#anatomy-of-a-botplugin">3.1. Anatomy of a BotPlugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics.html#plugin-metadata">3.2. Plugin metadata</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics.html#wrapping-up">3.3. Wrapping up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="basics.html#next-steps">3.4. Next steps</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="botcommands/">4. Advanced bot commands</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="botcommands/#automatic-argument-splitting">4.1. Automatic argument splitting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="botcommands/#subcommands">4.2. Subcommands</a></li>
-<li class="toctree-l2"><a class="reference internal" href="botcommands/#argparse-argument-splitting">4.3. Argparse argument splitting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="botcommands/#commands-using-regular-expressions">4.4. Commands using regular expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="botcommands.html">4. Advanced bot commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="botcommands.html#automatic-argument-splitting">4.1. Automatic argument splitting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="botcommands.html#subcommands">4.2. Subcommands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="botcommands.html#argparse-argument-splitting">4.3. Argparse argument splitting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="botcommands.html#commands-using-regular-expressions">4.4. Commands using regular expressions</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="messaging/">5. Messaging</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="messaging/#returning-multiple-responses">5.1. Returning multiple responses</a></li>
-<li class="toctree-l2"><a class="reference internal" href="messaging/#sending-a-message-to-a-specific-user-or-muc">5.2. Sending a message to a specific user or MUC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="messaging/#templating">5.3. Templating</a></li>
-<li class="toctree-l2"><a class="reference internal" href="messaging/#trigger-a-callback-with-every-message-received">5.4. Trigger a callback with every message received</a></li>
+<li class="toctree-l1"><a class="reference internal" href="messaging.html">5. Messaging</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="messaging.html#returning-multiple-responses">5.1. Returning multiple responses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messaging.html#sending-a-message-to-a-specific-user-or-muc">5.2. Sending a message to a specific user or MUC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messaging.html#templating">5.3. Templating</a></li>
+<li class="toctree-l2"><a class="reference internal" href="messaging.html#trigger-a-callback-with-every-message-received">5.4. Trigger a callback with every message received</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="presence/">6. Presence</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="presence/#callbacks-for-presence-changes">6.1. Callbacks for presence changes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="presence.html">6. Presence</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="presence.html#callbacks-for-presence-changes">6.1. Callbacks for presence changes</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="persistence/">7. Persistence</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="persistence/#how-to-use-it">7.1. How to use it</a></li>
-<li class="toctree-l2"><a class="reference internal" href="persistence/#caveats">7.2. Caveats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="persistence.html">7. Persistence</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="persistence.html#how-to-use-it">7.1. How to use it</a></li>
+<li class="toctree-l2"><a class="reference internal" href="persistence.html#caveats">7.2. Caveats</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="configuration/">8. Configuration</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="configuration/#plugin-configuration-through-the-built-in-config-command">8.1. Plugin configuration through the built-in <cite>!config</cite> command</a></li>
-<li class="toctree-l2"><a class="reference internal" href="configuration/#supplying-partial-configuration">8.2. Supplying partial configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="configuration/#using-custom-configuration-checks">8.3. Using custom configuration checks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">8. Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#plugin-configuration-through-the-built-in-config-command">8.1. Plugin configuration through the built-in <cite>!config</cite> command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#supplying-partial-configuration">8.2. Supplying partial configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#using-custom-configuration-checks">8.3. Using custom configuration checks</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="scheduling/">9. Scheduling</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="scheduling/#calling-a-function-at-a-regular-interval">9.1. Calling a function at a regular interval</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scheduling.html">9. Scheduling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scheduling.html#calling-a-function-at-a-regular-interval">9.1. Calling a function at a regular interval</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="webhooks/">10. Webhooks</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="webhooks/#simple-webhooks">10.1. Simple webhooks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="webhooks/#handling-form-encoded-requests">10.2. Handling form-encoded requests</a></li>
-<li class="toctree-l2"><a class="reference internal" href="webhooks/#the-raw-request">10.3. The raw request</a></li>
-<li class="toctree-l2"><a class="reference internal" href="webhooks/#returning-custom-headers-and-status-codes">10.4. Returning custom headers and status codes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="webhooks/#testing-a-webhook-through-chat">10.5. Testing a webhook through chat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webhooks.html">10. Webhooks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="webhooks.html#simple-webhooks">10.1. Simple webhooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webhooks.html#handling-form-encoded-requests">10.2. Handling form-encoded requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webhooks.html#the-raw-request">10.3. The raw request</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webhooks.html#returning-custom-headers-and-status-codes">10.4. Returning custom headers and status codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webhooks.html#testing-a-webhook-through-chat">10.5. Testing a webhook through chat</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="testing/">11. Testing your plugins</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="testing/#interacting-with-the-bot">11.1. Interacting with the bot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testing/#helper-methods">11.2. Helper methods</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testing/#pattern">11.3. Pattern</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testing/#all-together-now">11.4. All together now</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testing/#pep-8-and-code-coverage">11.5. PEP-8 and code coverage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testing/#travis-and-coveralls">11.6. Travis and Coveralls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing.html">11. Testing your plugins</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#interacting-with-the-bot">11.1. Interacting with the bot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#helper-methods">11.2. Helper methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#pattern">11.3. Pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#all-together-now">11.4. All together now</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#pep-8-and-code-coverage">11.5. PEP-8 and code coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html#travis-and-coveralls">11.6. Travis and Coveralls</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="logging/">12. Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logging.html">12. Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="backend_specifics.html">13. Backend-specifics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="backend_specifics.html#getting-to-the-bot-object">13.1. Getting to the bot object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="backend_specifics.html#getting-to-the-underlying-client-library">13.2. Getting to the underlying client library</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -167,11 +172,11 @@
   <div id="prev_next_links">
       
           
-              Previous: <a href="../interaction/">Interacting with the Bot</a>
+              Previous: <a href="../interaction.html">Interacting with the Bot</a>
           
           
                | 
-              Next: <a href="intro/">1. Intro</a>
+              Next: <a href="intro.html">1. Intro</a>
           
       
   </div>
@@ -179,9 +184,9 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-    <a class="logo" href="../../" title="Back to home page">
+    <a class="logo" href="../../index.html" title="Back to home page">
         <img class="logo" src="../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
     </a>
     <div class="ghbuttons">
@@ -191,21 +196,23 @@
                 frameborder="0" scrolling="0" width="95" height="20"></iframe>
     </div><h3>Related Topics</h3>
 <ul>
-    <li><a href="../../">Homepage</a></li>
-    <li><a href="../../genindex/">Index</a></li>
-    <li><a href="../../py-modindex/">Module index</a></li>
-    <li><a href="../../modules/">API reference</a></li>
-        <li>Previous: <a href="../interaction/" title="previous chapter">Interacting with the Bot</a></li>
-        <li>Next: <a href="intro/" title="next chapter">1. Intro</a></li>
+    <li><a href="../../index.html">Homepage</a></li>
+    <li><a href="../../genindex.html">Index</a></li>
+    <li><a href="../../py-modindex.html">Module index</a></li>
+    <li><a href="../../modules.html">API reference</a></li>
+        <li>Previous: <a href="../interaction.html" title="previous chapter">Interacting with the Bot</a></li>
+        <li>Next: <a href="intro.html" title="next chapter">1. Intro</a></li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../../_sources/user_guide/plugin_development/index.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/user_guide/plugin_development/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
-    <form class="search" action="../../search/" method="get">
+    <form class="search" action="../../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
@@ -230,28 +237,28 @@
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="../../genindex/" title="General Index"
+          <a href="../../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../../py-modindex/" title="Python Module Index"
+          <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="intro/" title="1. Intro"
+          <a href="intro.html" title="1. Intro"
              >next</a> |</li>
         <li class="right" >
-          <a href="../interaction/" title="Interacting with the Bot"
+          <a href="../interaction.html" title="Interacting with the Bot"
              >previous</a> |</li>
-        <li><a href="../../">Err 3.0.4 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Sep 14, 2015.
+          Last updated on Oct 26, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

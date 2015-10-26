@@ -1,0 +1,261 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.rendering &mdash; Err 3.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Err 3.1.0 documentation" href="../../index.html" />
+    <link rel="up" title="errbot" href="../errbot.html" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../_static/err.png"/>
+    <link rel="stylesheet" href="../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body role="document">
+    
+    
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.html" accesskey="U">errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for errbot.rendering</h1><div class="highlight"><pre>
+<span class="c"># vim: noai:ts=4:sw=4</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">markdown</span> <span class="kn">import</span> <span class="n">Markdown</span>
+<span class="kn">from</span> <span class="nn">markdown.extensions.extra</span> <span class="kn">import</span> <span class="n">ExtraExtension</span>
+<span class="kn">from</span> <span class="nn">markdown.extensions.attr_list</span> <span class="kn">import</span> <span class="n">AttrListTreeprocessor</span>
+
+<span class="n">ATTR_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">AttrListTreeprocessor</span><span class="o">.</span><span class="n">BASE_RE</span><span class="p">)</span>
+<span class="c"># Here are few helpers to simplify the conversion from markdown to various</span>
+<span class="c"># backend formats.</span>
+
+
+<span class="k">def</span> <span class="nf">ansi</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;This makes a converter from markdown to ansi (console) format.</span>
+<span class="sd">    It can be called like this:</span>
+<span class="sd">    from errbot.rendering import ansi</span>
+<span class="sd">    md_converter = ansi()  # you need to cache the converter</span>
+
+<span class="sd">    ansi_txt = md_converter.convert(md_txt)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.ansi</span> <span class="kn">import</span> <span class="n">AnsiExtension</span>
+    <span class="n">md</span> <span class="o">=</span> <span class="n">Markdown</span><span class="p">(</span><span class="n">output_format</span><span class="o">=</span><span class="s">&#39;ansi&#39;</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="n">ExtraExtension</span><span class="p">(),</span> <span class="n">AnsiExtension</span><span class="p">()])</span>
+    <span class="n">md</span><span class="o">.</span><span class="n">stripTopLevelTags</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">return</span> <span class="n">md</span>
+
+
+<div class="viewcode-block" id="text"><a class="viewcode-back" href="../../errbot.rendering.html#errbot.rendering.text">[docs]</a><span class="k">def</span> <span class="nf">text</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;This makes a converter from markdown to text (unicode) format.</span>
+<span class="sd">    It can be called like this:</span>
+<span class="sd">    from errbot.rendering import text</span>
+<span class="sd">    md_converter = text()  # you need to cache the converter</span>
+
+<span class="sd">    pure_text = md_converter.convert(md_txt)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.ansi</span> <span class="kn">import</span> <span class="n">AnsiExtension</span>
+    <span class="n">md</span> <span class="o">=</span> <span class="n">Markdown</span><span class="p">(</span><span class="n">output_format</span><span class="o">=</span><span class="s">&#39;text&#39;</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="n">ExtraExtension</span><span class="p">(),</span> <span class="n">AnsiExtension</span><span class="p">()])</span>
+    <span class="n">md</span><span class="o">.</span><span class="n">stripTopLevelTags</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">return</span> <span class="n">md</span>
+
+</div>
+<div class="viewcode-block" id="imtext"><a class="viewcode-back" href="../../errbot.rendering.html#errbot.rendering.imtext">[docs]</a><span class="k">def</span> <span class="nf">imtext</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;This makes a converter from markdown to imtext (unicode) format.</span>
+<span class="sd">    imtest is the format like gtalk, slack or skype with simple _ or * markup.</span>
+
+<span class="sd">    It can be called like this:</span>
+<span class="sd">    from errbot.rendering import imtext</span>
+<span class="sd">    md_converter = imtext()  # you need to cache the converter</span>
+
+<span class="sd">    im_text = md_converter.convert(md_txt)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.ansi</span> <span class="kn">import</span> <span class="n">AnsiExtension</span>
+    <span class="n">md</span> <span class="o">=</span> <span class="n">Markdown</span><span class="p">(</span><span class="n">output_format</span><span class="o">=</span><span class="s">&#39;imtext&#39;</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="n">ExtraExtension</span><span class="p">(),</span> <span class="n">AnsiExtension</span><span class="p">()])</span>
+    <span class="n">md</span><span class="o">.</span><span class="n">stripTopLevelTags</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">return</span> <span class="n">md</span>
+
+</div>
+<div class="viewcode-block" id="Mde2mdConverter"><a class="viewcode-back" href="../../errbot.rendering.html#errbot.rendering.Mde2mdConverter">[docs]</a><span class="k">class</span> <span class="nc">Mde2mdConverter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Mde2mdConverter.convert"><a class="viewcode-back" href="../../errbot.rendering.html#errbot.rendering.Mde2mdConverter.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mde</span><span class="p">):</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">ATTR_RE</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">mde</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">span</span><span class="p">()</span>
+            <span class="n">mde</span> <span class="o">=</span> <span class="n">mde</span><span class="p">[:</span><span class="n">left</span><span class="p">]</span> <span class="o">+</span> <span class="n">mde</span><span class="p">[</span><span class="n">right</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="n">mde</span>
+
+</div></div>
+<div class="viewcode-block" id="md"><a class="viewcode-back" href="../../errbot.rendering.html#errbot.rendering.md">[docs]</a><span class="k">def</span> <span class="nf">md</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;This makes a converter from markdown-extra to markdown, stripping the attributes from extra.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Mde2mdConverter</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="xhtml"><a class="viewcode-back" href="../../errbot.rendering.html#errbot.rendering.xhtml">[docs]</a><span class="k">def</span> <span class="nf">xhtml</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;This makes a converter from markdown to xhtml format.</span>
+<span class="sd">    It can be called like this:</span>
+<span class="sd">    from errbot.rendering import xhtml</span>
+<span class="sd">    md_converter = xhtml()  # you need to cache the converter</span>
+
+<span class="sd">    html = md_converter.convert(md_txt)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Markdown</span><span class="p">(</span><span class="n">output_format</span><span class="o">=</span><span class="s">&#39;xhtml&#39;</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="n">ExtraExtension</span><span class="p">()])</span>
+
+</div>
+<div class="viewcode-block" id="md_escape"><a class="viewcode-back" href="../../errbot.rendering.html#errbot.rendering.md_escape">[docs]</a><span class="k">def</span> <span class="nf">md_escape</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Call this if you want to be sure your text won&#39;t be interpreted as markdown &quot;&quot;&quot;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;{&#39;</span><span class="p">,</span> <span class="s">&#39;\{&#39;</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;}&#39;</span><span class="p">,</span> <span class="s">&#39;\}&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">text</span></div>
+</pre></div>
+  <div id="prev_next_links">
+      
+          
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../../index.html" title="Back to home page">
+        <img class="logo" src="../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="../../index.html">Homepage</a></li>
+    <li><a href="../../genindex.html">Index</a></li>
+    <li><a href="../../py-modindex.html">Module index</a></li>
+    <li><a href="../../modules.html">API reference</a></li>
+        <li>
+        <a href="../index.html">Module code</a>
+        <ul>
+        <li>
+        <a href="../errbot.html">errbot</a>
+        <ul>
+        </ul>
+        </li>
+        </ul>
+        </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.html" >errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Oct 26, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

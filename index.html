@@ -7,25 +7,25 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Err - the pluggable chatbot &mdash; Err 3.0.4 documentation</title>
+    <title>Err - the pluggable chatbot &mdash; Err 3.1.0 documentation</title>
     
     <link rel="stylesheet" href="_static/err.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
-        VERSION:     '3.0.4',
+        URL_ROOT:    './',
+        VERSION:     '3.1.0',
         COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '',
+        FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Err 3.0.4 documentation" href="#" />
-    <link rel="next" title="Multiple server back-ends" href="features/" />
+    <link rel="top" title="Err 3.1.0 documentation" href="#" />
+    <link rel="next" title="Multiple server back-ends" href="features.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -56,25 +56,25 @@
     </script>
 
   </head>
-  <body>
+  <body role="document">
     
     
         <div class=indexwrapper>
     
 
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex/" title="General Index"
+          <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="py-modindex/" title="Python Module Index"
+          <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="features/" title="Multiple server back-ends"
+          <a href="features.html" title="Multiple server back-ends"
              accesskey="N">next</a> |</li>
-        <li><a href="#">Err 3.0.4 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">Err 3.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -82,7 +82,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="err-the-pluggable-chatbot">
 <h1>Err - the pluggable chatbot<a class="headerlink" href="#err-the-pluggable-chatbot" title="Permalink to this headline">¶</a></h1>
@@ -93,7 +93,7 @@ so you can make it do whatever you want.</em></p>
 <h2>Simple to build upon<a class="headerlink" href="#simple-to-build-upon" title="Permalink to this headline">¶</a></h2>
 <p>Extending Err and adding your own commands can be done by creating a plugin, which
 is merely a Python module containing a class derived from
-<a class="reference internal" href="errbot.botplugin/#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><tt class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></tt></a>:</p>
+<a class="reference internal" href="errbot.botplugin.html#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><code class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></code></a>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span><span class="p">,</span> <span class="n">botcmd</span>
 
 <span class="k">class</span> <span class="nc">HelloWorld</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
@@ -106,7 +106,7 @@ is merely a Python module containing a class derived from
 </pre></div>
 </div>
 <p>By default, Err looks at your docstrings to automatically document commands for the
-built-in <a class="reference internal" href="user_guide/interaction/#builtin-help-function"><em>!help</em></a> command. It will use the class' docstring as the description of
+built-in <a class="reference internal" href="user_guide/interaction.html#builtin-help-function"><span>!help</span></a> command. It will use the class' docstring as the description of
 your plugin and use the method docstrings as documentation for the bot commands.</p>
 </div>
 <div class="section" id="batteries-included">
@@ -116,10 +116,10 @@ having to worry about basic functionality. As such, Err comes with a wealth of
 features out of the box.</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="features/">Multiple server back-ends</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features/#core-features">Core features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features/#built-in-administration-and-security">Built-in administration and security</a></li>
-<li class="toctree-l1"><a class="reference internal" href="features/#extensive-plugin-framework">Extensive plugin framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">Multiple server back-ends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html#core-features">Core features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html#built-in-administration-and-security">Built-in administration and security</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html#extensive-plugin-framework">Extensive plugin framework</a></li>
 </ul>
 </div>
 </div>
@@ -131,9 +131,7 @@ plugins with little effort, but to make it easy to share them with others as wel
 install, uninstall and update plugins made available by the community. Making your
 plugin available through this command only requires you to publish it as a publicly
 available Git repository and letting us know the URL so we can add it.</p>
-<p>Currently, we're also working on a web interface lightly inspired by Hubot's
-<a class="reference external" href="http://hubot-script-catalog.herokuapp.com/">script catalog</a>, which should make
-this process even easier in the future.</p>
+<p>You may also discover plugins from the community on our <a class="reference external" href="https://github.com/gbin/err/wiki">plugin list</a>.</p>
 </div>
 <div class="section" id="screenshots">
 <h2>Screenshots<a class="headerlink" href="#screenshots" title="Permalink to this headline">¶</a></h2>
@@ -159,14 +157,14 @@ news related to the project.</p>
 <h2>Getting involved<a class="headerlink" href="#getting-involved" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="contributing/">Contributing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="contributing/#contributing-to-err-itself">Contributing to Err itself</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing/#contributing-documentation-making-changes-to-the-website">Contributing documentation &amp; making changes to the website</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing/#contributing-plugins">Contributing plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#contributing-to-err-itself">Contributing to Err itself</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#contributing-documentation-making-changes-to-the-website">Contributing documentation &amp; making changes to the website</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#contributing-plugins">Contributing plugins</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="contributing/#issues-and-feature-requests">Issues and feature requests</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing/#getting-help">Getting help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html#issues-and-feature-requests">Issues and feature requests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html#getting-help">Getting help</a></li>
 </ul>
 </div>
 </div>
@@ -174,46 +172,47 @@ news related to the project.</p>
 <h2>User guide<a class="headerlink" href="#user-guide" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="user_guide/setup/">Setup</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/setup/#prerequisites">Prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/setup/#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/setup/#configuration">Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/setup/#starting-the-daemon">Starting the daemon</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/setup/#hacking-on-err-s-code-directly">Hacking on Err's code directly</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/setup.html">Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/setup.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/setup.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/setup.html#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/setup.html#starting-the-daemon">Starting the daemon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/setup.html#hacking-on-err-s-code-directly">Hacking on Err's code directly</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="user_guide/interaction/">Interacting with the Bot</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/interaction/#accessing-the-built-in-help-function">Accessing the built-in help function</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/interaction/#managing-plugins">Managing plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/interaction.html">Interacting with the Bot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/interaction.html#accessing-the-built-in-help-function">Accessing the built-in help function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/interaction.html#managing-plugins">Managing plugins</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="user_guide/plugin_development/">Plugin development</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/intro/">1. Intro</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/development_environment/">2. Development environment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/basics/">3. Hello, world!</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/botcommands/">4. Advanced bot commands</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/messaging/">5. Messaging</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/presence/">6. Presence</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/persistence/">7. Persistence</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/configuration/">8. Configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/scheduling/">9. Scheduling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/webhooks/">10. Webhooks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/testing/">11. Testing your plugins</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/logging/">12. Logging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/plugin_development/index.html">Plugin development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/intro.html">1. Intro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/development_environment.html">2. Development environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/basics.html">3. Hello, world!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/botcommands.html">4. Advanced bot commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/messaging.html">5. Messaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/presence.html">6. Presence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/persistence.html">7. Persistence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/configuration.html">8. Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/scheduling.html">9. Scheduling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/webhooks.html">10. Webhooks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/testing.html">11. Testing your plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/logging.html">12. Logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/plugin_development/backend_specifics.html">13. Backend-specifics</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="user_guide/sentry/">Logging to Sentry</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/sentry/#come-again-just-what-is-sentry-exactly">Come again? Just what is Sentry, exactly?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/sentry/#setting-up-sentry-itself">Setting up Sentry itself</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/sentry/#configuring-err-to-use-sentry">Configuring Err to use Sentry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/sentry.html">Logging to Sentry</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/sentry.html#come-again-just-what-is-sentry-exactly">Come again? Just what is Sentry, exactly?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/sentry.html#setting-up-sentry-itself">Setting up Sentry itself</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/sentry.html#configuring-err-to-use-sentry">Configuring Err to use Sentry</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="user_guide/backend_development/">[Advanced] Backend development</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/backend_development/#architecture">Architecture</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/backend_development/#identifiers">Identifiers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/backend_development/#identifier-for-a-person">Identifier for a person</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/backend_development/#identifier-for-a-person-in-a-chatroom">Identifier for a person in a chatroom</a></li>
-<li class="toctree-l2"><a class="reference internal" href="user_guide/backend_development/#chatrooms-mucrooms">Chatrooms / MUCRooms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/backend_development/index.html">[Advanced] Backend development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/backend_development/index.html#architecture">Architecture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/backend_development/index.html#identifiers">Identifiers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/backend_development/index.html#identifier-for-a-person">Identifier for a person</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/backend_development/index.html#identifier-for-a-person-in-a-chatroom">Identifier for a person in a chatroom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/backend_development/index.html#chatrooms-mucrooms">Chatrooms / MUCRooms</a></li>
 </ul>
 </li>
 </ul>
@@ -223,34 +222,35 @@ news related to the project.</p>
 <h2>API documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="errbot/">errbot package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="errbot/#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="errbot.backends/">errbot.backends package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.bundled/">errbot.bundled package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.core_plugins/">errbot.core_plugins package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.rendering/">errbot.rendering package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.templates/">errbot.templates package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="errbot.html">errbot package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="errbot.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="errbot.backends.html">errbot.backends package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.bundled.html">errbot.bundled package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.core_plugins.html">errbot.core_plugins package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.rendering.html">errbot.rendering package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.templates.html">errbot.templates package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="errbot/#submodules">Submodules</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="errbot.backend_manager/">errbot.backend_manager module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.botplugin/">errbot.botplugin module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.config-template/">errbot.config-template module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.config-travisci/">errbot.config-travisci module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.errBot/">errbot.errBot module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.main/">errbot.main module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.pid/">errbot.pid module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.plugin_manager/">errbot.plugin_manager module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.py2conv/">errbot.py2conv module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.repos/">errbot.repos module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.storage/">errbot.storage module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.streaming/">errbot.streaming module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.templating/">errbot.templating module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.utils/">errbot.utils module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="errbot.version/">errbot.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errbot.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="errbot.backend_manager.html">errbot.backend_manager module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.botplugin.html">errbot.botplugin module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.config-template.html">errbot.config-template module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.config-travisci.html">errbot.config-travisci module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.err.html">errbot.err module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.errBot.html">errbot.errBot module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.main.html">errbot.main module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.pid.html">errbot.pid module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.plugin_manager.html">errbot.plugin_manager module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.py2conv.html">errbot.py2conv module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.repos.html">errbot.repos module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.storage.html">errbot.storage module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.streaming.html">errbot.streaming module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.templating.html">errbot.templating module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.utils.html">errbot.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="errbot.version.html">errbot.version module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="errbot/#module-errbot">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="errbot.html#module-errbot">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -260,57 +260,58 @@ news related to the project.</p>
 <h2>Release history<a class="headerlink" href="#release-history" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="changes/">v3.0.4</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v3-0-3">v3.0.3</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v3-0-2">v3.0.2</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v3-0-1">v3.0.1</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v3-0-0">v3.0.0</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changes/#new-and-noteworthy">New and noteworthy</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#minor-improvements">Minor improvements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#stuff-that-might-break-you">Stuff that might break you</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#bugs-squashed">Bugs squashed</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changes/#annex">Annex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html">v3.1.0 (2015-10-22)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v3-0-4">v3.0.4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v3-0-3">v3.0.3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v3-0-2">v3.0.2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v3-0-1">v3.0.1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v3-0-0">v3.0.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changes.html#new-and-noteworthy">New and noteworthy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes.html#minor-improvements">Minor improvements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes.html#stuff-that-might-break-you">Stuff that might break you</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes.html#bugs-squashed">Bugs squashed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changes.html#annex">Annex</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v2-3-0-rc2-2015-07-06">v2.3.0-rc2 (2015-07-06)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v2-3-0-beta-2015-07-05">v2.3.0-beta (2015-07-05)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v2-2-1-2015-05-16">v2.2.1 (2015-05-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v2-2-0-2015-05-16">v2.2.0 (2015-05-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v2-2-0-beta-2015-02-16">v2.2.0-beta (2015-02-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v2-1-0-2014-07-24">v2.1.0 (2014-07-24)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v2-0-0-2014-01-05">v2.0.0 (2014-01-05)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v2-0-0-rc2-2013-11-28">v2.0.0-rc2 (2013-11-28)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v2-0-0-rc1-2013-10-03">v2.0.0-rc1 (2013-10-03)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v2-0-0-beta-2013-03-31">v2.0.0-beta (2013-03-31)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-7-1-2012-12-25">v1.7.1 (2012-12-25)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-7-0-2012-12-24">v1.7.0 (2012-12-24)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-6-7-2012-10-08">v1.6.7 (2012-10-08)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-6-6-2012-09-27">v1.6.6 (2012-09-27)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-6-5-2012-09-10">v1.6.5 (2012-09-10)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-6-4-2012-09-04">v1.6.4 (2012-09-04)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-6-3-2012-08-26">v1.6.3 (2012-08-26)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-6-2-2012-08-24">v1.6.2 (2012-08-24)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-6-1-2012-08-22">v1.6.1 (2012-08-22)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-6-0-2012-08-16">v1.6.0 (2012-08-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-5-1-2012-08-11">v1.5.1 (2012-08-11)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-5-0-2012-08-10">v1.5.0 (2012-08-10)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-4-1-2012-07-13">v1.4.1 (2012-07-13)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-4-0-2012-07-09">v1.4.0 (2012-07-09)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-3-1-2012-07-02">v1.3.1 (2012-07-02)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-3-0-2012-06-26">v1.3.0 (2012-06-26)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-2-2-2012-06-21">v1.2.2 (2012-06-21)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-2-1-2012-06-16">v1.2.1 (2012-06-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-2-0-2012-06-14">v1.2.0 (2012-06-14)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-1-1-2012-06-12">v1.1.1 (2012-06-12)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-1-0-2012-06-10">v1.1.0 (2012-06-10)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changes/#v1-0-4-2012-06-08">v1.0.4 (2012-06-08)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v2-3-0-rc2-2015-07-06">v2.3.0-rc2 (2015-07-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v2-3-0-beta-2015-07-05">v2.3.0-beta (2015-07-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v2-2-1-2015-05-16">v2.2.1 (2015-05-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v2-2-0-2015-05-16">v2.2.0 (2015-05-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v2-2-0-beta-2015-02-16">v2.2.0-beta (2015-02-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v2-1-0-2014-07-24">v2.1.0 (2014-07-24)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v2-0-0-2014-01-05">v2.0.0 (2014-01-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v2-0-0-rc2-2013-11-28">v2.0.0-rc2 (2013-11-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v2-0-0-rc1-2013-10-03">v2.0.0-rc1 (2013-10-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v2-0-0-beta-2013-03-31">v2.0.0-beta (2013-03-31)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-7-1-2012-12-25">v1.7.1 (2012-12-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-7-0-2012-12-24">v1.7.0 (2012-12-24)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-6-7-2012-10-08">v1.6.7 (2012-10-08)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-6-6-2012-09-27">v1.6.6 (2012-09-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-6-5-2012-09-10">v1.6.5 (2012-09-10)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-6-4-2012-09-04">v1.6.4 (2012-09-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-6-3-2012-08-26">v1.6.3 (2012-08-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-6-2-2012-08-24">v1.6.2 (2012-08-24)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-6-1-2012-08-22">v1.6.1 (2012-08-22)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-6-0-2012-08-16">v1.6.0 (2012-08-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-5-1-2012-08-11">v1.5.1 (2012-08-11)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-5-0-2012-08-10">v1.5.0 (2012-08-10)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-4-1-2012-07-13">v1.4.1 (2012-07-13)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-4-0-2012-07-09">v1.4.0 (2012-07-09)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-3-1-2012-07-02">v1.3.1 (2012-07-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-3-0-2012-06-26">v1.3.0 (2012-06-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-2-2-2012-06-21">v1.2.2 (2012-06-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-2-1-2012-06-16">v1.2.1 (2012-06-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-2-0-2012-06-14">v1.2.0 (2012-06-14)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-1-1-2012-06-12">v1.1.1 (2012-06-12)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-1-0-2012-06-10">v1.1.0 (2012-06-10)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changes.html#v1-0-4-2012-06-08">v1.0.4 (2012-06-08)</a></li>
 </ul>
 </div>
 </div>
 <div class="section" id="license">
 <h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
 <p>Err is free software, available under the GPL-3 license. Please refer to the
-<a class="reference download internal" href="_downloads/gpl-3.0.txt"><tt class="xref download docutils literal"><span class="pre">full</span> <span class="pre">license</span> <span class="pre">text</span></tt></a> for more details.</p>
+<a class="reference download internal" href="_downloads/gpl-3.0.txt"><code class="xref download docutils literal"><span class="pre">full</span> <span class="pre">license</span> <span class="pre">text</span></code></a> for more details.</p>
 </div>
 </div>
 
@@ -321,7 +322,7 @@ news related to the project.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
     <a class="logo" href="#" title="Back to home page">
         <img class="logo" src="_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
@@ -351,19 +352,21 @@ news related to the project.</p>
 <h3>Related Topics</h3>
 <ul>
     <li><a href="#">Homepage</a></li>
-    <li><a href="genindex/">Index</a></li>
-    <li><a href="py-modindex/">Module index</a></li>
-    <li><a href="modules/">API reference</a></li>
-        <li>Next: <a href="features/" title="next chapter">Multiple server back-ends</a></li>
+    <li><a href="genindex.html">Index</a></li>
+    <li><a href="py-modindex.html">Module index</a></li>
+    <li><a href="modules.html">API reference</a></li>
+        <li>Next: <a href="features.html" title="next chapter">Multiple server back-ends</a></li>
 </ul>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/index.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
-    <form class="search" action="search/" method="get">
+    <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
@@ -388,25 +391,25 @@ news related to the project.</p>
     </script>
     <div class="relbar2">
         
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex/" title="General Index"
+          <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="py-modindex/" title="Python Module Index"
+          <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="features/" title="Multiple server back-ends"
+          <a href="features.html" title="Multiple server back-ends"
              >next</a> |</li>
-        <li><a href="#">Err 3.0.4 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="#">Err 3.1.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Sep 14, 2015.
+          Last updated on Oct 26, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

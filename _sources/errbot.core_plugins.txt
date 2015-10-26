@@ -13,6 +13,7 @@ Submodules
 
 .. toctree::
 
+   errbot.core_plugins.acls
    errbot.core_plugins.backup
    errbot.core_plugins.chatRoom
    errbot.core_plugins.health

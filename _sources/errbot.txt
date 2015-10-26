@@ -21,6 +21,7 @@ Submodules
    errbot.botplugin
    errbot.config-template
    errbot.config-travisci
+   errbot.err
    errbot.errBot
    errbot.main
    errbot.pid

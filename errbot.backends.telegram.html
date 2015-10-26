@@ -1,0 +1,368 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.backends.telegram module &mdash; Err 3.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Err 3.1.0 documentation" href="index.html" />
+    <link rel="up" title="errbot.backends package" href="errbot.backends.html" />
+    <link rel="next" title="errbot.backends.test module" href="errbot.backends.test.html" />
+    <link rel="prev" title="errbot.backends.slack module" href="errbot.backends.slack.html" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="_static/err.png"/>
+    <link rel="apple-touch-icon" href="_static/err.png"/>
+    <link rel="stylesheet" href="_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body role="document">
+    
+    
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="errbot.backends.test.html" title="errbot.backends.test module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="errbot.backends.slack.html" title="errbot.backends.slack module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="errbot.backends.html" accesskey="U">errbot.backends package</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-errbot.backends.telegram">
+<span id="errbot-backends-telegram-module"></span><h1>errbot.backends.telegram module<a class="headerlink" href="#module-errbot.backends.telegram" title="Permalink to this headline">¶</a></h1>
+<dl class="exception">
+<dt id="errbot.backends.telegram.RoomsNotSupportedError">
+<em class="property">exception </em><code class="descclassname">errbot.backends.telegram.</code><code class="descname">RoomsNotSupportedError</code><span class="sig-paren">(</span><em>message=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/telegram.html#RoomsNotSupportedError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.telegram.RoomsNotSupportedError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="errbot.backends.base.html#errbot.backends.base.RoomError" title="errbot.backends.base.RoomError"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.RoomError</span></code></a></p>
+<dl class="method">
+<dt id="errbot.backends.telegram.RoomsNotSupportedError.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>message=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/telegram.html#RoomsNotSupportedError.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.telegram.RoomsNotSupportedError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.telegram.TelegramBackend">
+<em class="property">class </em><code class="descclassname">errbot.backends.telegram.</code><code class="descname">TelegramBackend</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/telegram.html#TelegramBackend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.telegram.TelegramBackend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="errbot.errBot.html#errbot.errBot.ErrBot" title="errbot.errBot.ErrBot"><code class="xref py py-class docutils literal"><span class="pre">errbot.errBot.ErrBot</span></code></a></p>
+<dl class="method">
+<dt id="errbot.backends.telegram.TelegramBackend.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/telegram.html#TelegramBackend.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.telegram.TelegramBackend.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.telegram.TelegramBackend.build_identifier">
+<code class="descname">build_identifier</code><span class="sig-paren">(</span><em>txtrep</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/telegram.html#TelegramBackend.build_identifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.telegram.TelegramBackend.build_identifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a textual representation into a <a class="reference internal" href="#errbot.backends.telegram.TelegramIdentifier" title="errbot.backends.telegram.TelegramIdentifier"><code class="xref py py-class docutils literal"><span class="pre">TelegramIdentifier</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.telegram.TelegramBackend.build_reply">
+<code class="descname">build_reply</code><span class="sig-paren">(</span><em>mess</em>, <em>text=None</em>, <em>private=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/telegram.html#TelegramBackend.build_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.telegram.TelegramBackend.build_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.telegram.TelegramBackend.mode">
+<code class="descname">mode</code><a class="headerlink" href="#errbot.backends.telegram.TelegramBackend.mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.telegram.TelegramBackend.prefix_groupchat_reply">
+<code class="descname">prefix_groupchat_reply</code><span class="sig-paren">(</span><em>message</em>, <em>identifier</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/telegram.html#TelegramBackend.prefix_groupchat_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.telegram.TelegramBackend.prefix_groupchat_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.telegram.TelegramBackend.query_room">
+<code class="descname">query_room</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/telegram.html#TelegramBackend.query_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.telegram.TelegramBackend.query_room" title="Permalink to this definition">¶</a></dt>
+<dd><p>Not supported on Telegram.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#errbot.backends.telegram.RoomsNotSupportedError" title="errbot.backends.telegram.RoomsNotSupportedError"><code class="xref py py-class docutils literal"><span class="pre">RoomsNotSupportedError</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.telegram.TelegramBackend.rooms">
+<code class="descname">rooms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/telegram.html#TelegramBackend.rooms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.telegram.TelegramBackend.rooms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Not supported on Telegram.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#errbot.backends.telegram.RoomsNotSupportedError" title="errbot.backends.telegram.RoomsNotSupportedError"><code class="xref py py-class docutils literal"><span class="pre">RoomsNotSupportedError</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.telegram.TelegramBackend.send_message">
+<code class="descname">send_message</code><span class="sig-paren">(</span><em>mess</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/telegram.html#TelegramBackend.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.telegram.TelegramBackend.send_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.telegram.TelegramBackend.serve_once">
+<code class="descname">serve_once</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/telegram.html#TelegramBackend.serve_once"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.telegram.TelegramBackend.serve_once" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.telegram.TelegramBotFilter">
+<em class="property">class </em><code class="descclassname">errbot.backends.telegram.</code><code class="descname">TelegramBotFilter</code><a class="reference internal" href="_modules/errbot/backends/telegram.html#TelegramBotFilter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.telegram.TelegramBotFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>This is a filter for the logging library that filters the
+&quot;No new updates found.&quot; log message generated by telegram.bot.</p>
+<p>This is an INFO-level log message that gets logged for every
+getUpdates() call where there are no new messages, so is way
+too verbose.</p>
+<dl class="staticmethod">
+<dt id="errbot.backends.telegram.TelegramBotFilter.filter">
+<em class="property">static </em><code class="descname">filter</code><span class="sig-paren">(</span><em>record</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/telegram.html#TelegramBotFilter.filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.telegram.TelegramBotFilter.filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.telegram.TelegramIdentifier">
+<em class="property">class </em><code class="descclassname">errbot.backends.telegram.</code><code class="descname">TelegramIdentifier</code><span class="sig-paren">(</span><em>id</em>, <em>first_name=None</em>, <em>last_name=None</em>, <em>username=None</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/telegram.html#TelegramIdentifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.telegram.TelegramIdentifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="errbot.backends.telegram.TelegramIdentifier.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>id</em>, <em>first_name=None</em>, <em>last_name=None</em>, <em>username=None</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/telegram.html#TelegramIdentifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.telegram.TelegramIdentifier.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.telegram.TelegramIdentifier.client">
+<code class="descname">client</code><a class="headerlink" href="#errbot.backends.telegram.TelegramIdentifier.client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.telegram.TelegramIdentifier.first_name">
+<code class="descname">first_name</code><a class="headerlink" href="#errbot.backends.telegram.TelegramIdentifier.first_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.telegram.TelegramIdentifier.fullname">
+<code class="descname">fullname</code><a class="headerlink" href="#errbot.backends.telegram.TelegramIdentifier.fullname" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.telegram.TelegramIdentifier.id">
+<code class="descname">id</code><a class="headerlink" href="#errbot.backends.telegram.TelegramIdentifier.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.telegram.TelegramIdentifier.last_name">
+<code class="descname">last_name</code><a class="headerlink" href="#errbot.backends.telegram.TelegramIdentifier.last_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.telegram.TelegramIdentifier.nick">
+<code class="descname">nick</code><a class="headerlink" href="#errbot.backends.telegram.TelegramIdentifier.nick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.telegram.TelegramIdentifier.person">
+<code class="descname">person</code><a class="headerlink" href="#errbot.backends.telegram.TelegramIdentifier.person" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.telegram.TelegramIdentifier.title">
+<code class="descname">title</code><a class="headerlink" href="#errbot.backends.telegram.TelegramIdentifier.title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the groupchat title (only applies to groupchats)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.telegram.TelegramIdentifier.username">
+<code class="descname">username</code><a class="headerlink" href="#errbot.backends.telegram.TelegramIdentifier.username" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.telegram.TelegramMUCOccupant">
+<em class="property">class </em><code class="descclassname">errbot.backends.telegram.</code><code class="descname">TelegramMUCOccupant</code><span class="sig-paren">(</span><em>id</em>, <em>first_name=None</em>, <em>last_name=None</em>, <em>username=None</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/telegram.html#TelegramMUCOccupant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.telegram.TelegramMUCOccupant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#errbot.backends.telegram.TelegramIdentifier" title="errbot.backends.telegram.TelegramIdentifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.telegram.TelegramIdentifier</span></code></a></p>
+<p>This class represents a person inside a MUC.</p>
+<dl class="attribute">
+<dt id="errbot.backends.telegram.TelegramMUCOccupant.room">
+<code class="descname">room</code><a class="headerlink" href="#errbot.backends.telegram.TelegramMUCOccupant.room" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+  <div id="prev_next_links">
+      
+          
+              Previous: <a href="errbot.backends.slack.html">errbot.backends.slack module</a>
+          
+          
+               | 
+              Next: <a href="errbot.backends.test.html">errbot.backends.test module</a>
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="index.html" title="Back to home page">
+        <img class="logo" src="_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="index.html">Homepage</a></li>
+    <li><a href="genindex.html">Index</a></li>
+    <li><a href="py-modindex.html">Module index</a></li>
+    <li><a href="modules.html">API reference</a></li>
+        <li>
+        <a href="errbot.html">errbot package</a>
+        <ul>
+        <li>
+        <a href="errbot.backends.html">errbot.backends package</a>
+        <ul>
+        <li>Previous: <a href="errbot.backends.slack.html" title="previous chapter">errbot.backends.slack module</a></li>
+        <li>Next: <a href="errbot.backends.test.html" title="next chapter">errbot.backends.test module</a></li>
+        </ul>
+        </li>
+        </ul>
+        </li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/errbot.backends.telegram.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="errbot.backends.test.html" title="errbot.backends.test module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="errbot.backends.slack.html" title="errbot.backends.slack module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="errbot.backends.html" >errbot.backends package</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Oct 26, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

@@ -1,0 +1,260 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.backend_manager &mdash; Err 3.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Err 3.1.0 documentation" href="../../index.html" />
+    <link rel="up" title="errbot" href="../errbot.html" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../_static/err.png"/>
+    <link rel="stylesheet" href="../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body role="document">
+    
+    
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.html" accesskey="U">errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for errbot.backend_manager</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">yapsy.PluginManager</span> <span class="kn">import</span> <span class="n">PluginManager</span>
+<span class="kn">from</span> <span class="nn">yapsy.PluginFileLocator</span> <span class="kn">import</span> <span class="n">PluginFileLocator</span><span class="p">,</span> <span class="n">PluginFileAnalyzerWithInfoFile</span>
+
+<span class="kn">from</span> <span class="nn">errbot.errBot</span> <span class="kn">import</span> <span class="n">ErrBot</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">find_roots_with_extra</span>
+
+<span class="n">CORE_BACKENDS</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)),</span> <span class="s">&#39;backends&#39;</span><span class="p">)</span>
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SpecificBackendLocator"><a class="viewcode-back" href="../../errbot.backend_manager.html#errbot.backend_manager.SpecificBackendLocator">[docs]</a><span class="k">class</span> <span class="nc">SpecificBackendLocator</span><span class="p">(</span><span class="n">PluginFileAnalyzerWithInfoFile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a plugin locator (kind of filter in yapsy jargon) to match a backend.</span>
+<span class="sd">    We have to go through hoops because yapsy is really aggressive at instanciating plugin.</span>
+<span class="sd">    (this would instanciate several bots, we don&#39;t want to do that).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="SpecificBackendLocator.__init__"><a class="viewcode-back" href="../../errbot.backend_manager.html#errbot.backend_manager.SpecificBackendLocator.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name_to_find</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="s">&#39;SpecificBackendLocator&#39;</span><span class="p">,</span> <span class="s">&#39;plug&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_name_to_find</span> <span class="o">=</span> <span class="n">name_to_find</span>
+</div>
+<div class="viewcode-block" id="SpecificBackendLocator.getInfosDictFromPlugin"><a class="viewcode-back" href="../../errbot.backend_manager.html#errbot.backend_manager.SpecificBackendLocator.getInfosDictFromPlugin">[docs]</a>    <span class="k">def</span> <span class="nf">getInfosDictFromPlugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dirpath</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="n">plugin_info_dict</span><span class="p">,</span> <span class="n">config_parser</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">getInfosDictFromPlugin</span><span class="p">(</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plugin_info_dict</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name_to_find</span><span class="p">:</span>
+            <span class="c"># reject</span>
+            <span class="k">return</span> <span class="bp">None</span><span class="p">,</span> <span class="n">config_parser</span>
+        <span class="k">return</span> <span class="n">plugin_info_dict</span><span class="p">,</span> <span class="n">config_parser</span>
+
+</div></div>
+<div class="viewcode-block" id="BackendManager"><a class="viewcode-back" href="../../errbot.backend_manager.html#errbot.backend_manager.BackendManager">[docs]</a><span class="k">class</span> <span class="nc">BackendManager</span><span class="p">(</span><span class="n">PluginManager</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; BackendManager is a customized plugin manager to enumerate backends</span>
+<span class="sd">        and load only one.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="BackendManager.__init__"><a class="viewcode-back" href="../../errbot.backend_manager.html#errbot.backend_manager.BackendManager.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="c"># set a locator that gets every possible backends as a first discovery pass.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_locator</span> <span class="o">=</span> <span class="n">PluginFileLocator</span><span class="p">(</span><span class="n">analyzers</span><span class="o">=</span><span class="p">[</span><span class="n">PluginFileAnalyzerWithInfoFile</span><span class="p">(</span><span class="s">&#39;AllBackendLocator&#39;</span><span class="p">,</span> <span class="s">&#39;plug&#39;</span><span class="p">)])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_locator</span><span class="o">.</span><span class="n">disableRecursiveScan</span><span class="p">()</span>  <span class="c"># This is done below correctly with find_roots_with_extra</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">plugin_locator</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_locator</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setCategoriesFilter</span><span class="p">({</span><span class="s">&#39;backend&#39;</span><span class="p">:</span> <span class="n">ErrBot</span><span class="p">})</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s">&#39;BOT_EXTRA_BACKEND_DIR&#39;</span><span class="p">):</span>
+            <span class="n">extra</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">BOT_EXTRA_BACKEND_DIR</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">extra</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">all_backends_paths</span> <span class="o">=</span> <span class="n">find_roots_with_extra</span><span class="p">(</span><span class="n">CORE_BACKENDS</span><span class="p">,</span> <span class="n">extra</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Backends search paths </span><span class="si">%s</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">all_backends_paths</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setPluginPlaces</span><span class="p">(</span><span class="n">all_backends_paths</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">all_backends_paths</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">entry</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>  <span class="c"># so backends can relatively import their submodules</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">locatePlugins</span><span class="p">()</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Found those backends available:&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">plug</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPluginCandidates</span><span class="p">():</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t</span><span class="si">%10s</span><span class="s">  (</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">plug</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">plug</span><span class="o">.</span><span class="n">path</span> <span class="o">+</span> <span class="s">&#39;.py&#39;</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="BackendManager.instanciateElement"><a class="viewcode-back" href="../../errbot.backend_manager.html#errbot.backend_manager.BackendManager.instanciateElement">[docs]</a>    <span class="k">def</span> <span class="nf">instanciateElement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Override the loading method to inject config &quot;&quot;&quot;</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Class to load </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">element</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">element</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="BackendManager.get_candidate"><a class="viewcode-back" href="../../errbot.backend_manager.html#errbot.backend_manager.BackendManager.get_candidate">[docs]</a>    <span class="k">def</span> <span class="nf">get_candidate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Find the backend plugin by name.</span>
+
+<span class="sd">        :param name: The name of the plugin you are looking for.</span>
+<span class="sd">        :return: :raise Exception:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">plug</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPluginCandidates</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">plug</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">plug</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Backend &#39;</span><span class="si">%s</span><span class="s">&#39; not found.&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="BackendManager.get_backend_by_name"><a class="viewcode-back" href="../../errbot.backend_manager.html#errbot.backend_manager.BackendManager.get_backend_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_backend_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="c"># set a locator to narrow it to only one.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_locator</span><span class="o">.</span><span class="n">setAnalyzers</span><span class="p">([</span><span class="n">SpecificBackendLocator</span><span class="p">(</span><span class="n">name</span><span class="p">)])</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Refilter the backend plugins...&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">locatePlugins</span><span class="p">()</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Load the one remaining...&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loadPlugins</span><span class="p">()</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Find it back...&quot;</span><span class="p">)</span>
+        <span class="n">plugins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAllPlugins</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">plugins</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Could not find the backend &#39;</span><span class="si">%s</span><span class="s">&#39;.&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">plugins</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;There are 2 backends with the name &#39;</span><span class="si">%s</span><span class="s">&#39;.&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">plugins</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plugin_object</span></div></div>
+</pre></div>
+  <div id="prev_next_links">
+      
+          
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../../index.html" title="Back to home page">
+        <img class="logo" src="../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="../../index.html">Homepage</a></li>
+    <li><a href="../../genindex.html">Index</a></li>
+    <li><a href="../../py-modindex.html">Module index</a></li>
+    <li><a href="../../modules.html">API reference</a></li>
+        <li>
+        <a href="../index.html">Module code</a>
+        <ul>
+        <li>
+        <a href="../errbot.html">errbot</a>
+        <ul>
+        </ul>
+        </li>
+        </ul>
+        </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.html" >errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Oct 26, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

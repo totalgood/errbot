@@ -1,0 +1,458 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.backends.telegram &mdash; Err 3.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Err 3.1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="errbot.backends" href="../backends.html" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../../_static/err.png"/>
+    <link rel="stylesheet" href="../../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body role="document">
+    
+    
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="../backends.html" accesskey="U">errbot.backends</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for errbot.backends.telegram</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">RoomError</span>
+<span class="kn">from</span> <span class="nn">errbot.errBot</span> <span class="kn">import</span> <span class="n">ErrBot</span>
+<span class="kn">from</span> <span class="nn">errbot.rendering</span> <span class="kn">import</span> <span class="n">text</span>
+
+
+<span class="c"># Can&#39;t use __name__ because of Yapsy</span>
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;errbot.backends.telegram&#39;</span><span class="p">)</span>
+
+<span class="n">TELEGRAM_MESSAGE_SIZE_LIMIT</span> <span class="o">=</span> <span class="mi">1024</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">telegram</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&quot;Could not start the Telegram back-end&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span>
+        <span class="s">&quot;You need to install the python-telegram-bot package in order &quot;</span>
+        <span class="s">&quot;to use the Telegram back-end. &quot;</span>
+        <span class="s">&quot;You should be able to install this package using: &quot;</span>
+        <span class="s">&quot;pip install python-telegram-bot&quot;</span>
+    <span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="RoomsNotSupportedError"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.RoomsNotSupportedError">[docs]</a><span class="k">class</span> <span class="nc">RoomsNotSupportedError</span><span class="p">(</span><span class="n">RoomError</span><span class="p">):</span>
+<div class="viewcode-block" id="RoomsNotSupportedError.__init__"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.RoomsNotSupportedError.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">message</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s">&quot;Room operations are not supported on Telegram. &quot;</span>
+                <span class="s">&quot;While Telegram itself has groupchat functionality, it does not &quot;</span>
+                <span class="s">&quot;expose any APIs to bots to get group membership or otherwise &quot;</span>
+                <span class="s">&quot;interact with groupchats.&quot;</span>
+            <span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="TelegramBotFilter"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramBotFilter">[docs]</a><span class="k">class</span> <span class="nc">TelegramBotFilter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a filter for the logging library that filters the</span>
+<span class="sd">    &quot;No new updates found.&quot; log message generated by telegram.bot.</span>
+
+<span class="sd">    This is an INFO-level log message that gets logged for every</span>
+<span class="sd">    getUpdates() call where there are no new messages, so is way</span>
+<span class="sd">    too verbose.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="TelegramBotFilter.filter"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramBotFilter.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="n">record</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">record</span><span class="o">.</span><span class="n">getMessage</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;No new updates found.&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+</div></div>
+<div class="viewcode-block" id="TelegramIdentifier"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramIdentifier">[docs]</a><span class="k">class</span> <span class="nc">TelegramIdentifier</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TelegramIdentifier.__init__"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramIdentifier.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">first_name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="nb">id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_first_name</span> <span class="o">=</span> <span class="n">first_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_name</span> <span class="o">=</span> <span class="n">last_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_username</span> <span class="o">=</span> <span class="n">username</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_title</span> <span class="o">=</span> <span class="n">title</span>
+</div>
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">)</span>
+
+    <span class="n">__str__</span> <span class="o">=</span> <span class="n">__unicode__</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">first_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_first_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">last_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">fullname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">fullname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">fullname</span> <span class="o">+=</span> <span class="s">&quot; &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_name</span>
+        <span class="k">return</span> <span class="n">fullname</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">username</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_username</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the groupchat title (only applies to groupchats)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_title</span>
+
+    <span class="n">person</span> <span class="o">=</span> <span class="nb">id</span>
+    <span class="n">nick</span> <span class="o">=</span> <span class="n">username</span>
+
+</div>
+<div class="viewcode-block" id="TelegramMUCOccupant"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramMUCOccupant">[docs]</a><span class="k">class</span> <span class="nc">TelegramMUCOccupant</span><span class="p">(</span><span class="n">TelegramIdentifier</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class represents a person inside a MUC.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">room</span> <span class="o">=</span> <span class="n">TelegramIdentifier</span><span class="o">.</span><span class="n">id</span>
+
+</div>
+<div class="viewcode-block" id="TelegramBackend"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramBackend">[docs]</a><span class="k">class</span> <span class="nc">TelegramBackend</span><span class="p">(</span><span class="n">ErrBot</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TelegramBackend.__init__"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramBackend.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">MESSAGE_SIZE_LIMIT</span> <span class="o">=</span> <span class="n">TELEGRAM_MESSAGE_SIZE_LIMIT</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;telegram.bot&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">addFilter</span><span class="p">(</span><span class="n">TelegramBotFilter</span><span class="p">())</span>
+
+        <span class="n">identity</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">BOT_IDENTITY</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="n">identity</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;token&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">fatal</span><span class="p">(</span>
+                <span class="s">&quot;You need to supply a token for me to use. You can obtain &quot;</span>
+                <span class="s">&quot;a token by registering your bot with the Bot Father (@BotFather)&quot;</span>
+            <span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">telegram</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># Will be initialized in serve_once</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot_instance</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># Will be set in serve_once</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">md_converter</span> <span class="o">=</span> <span class="n">text</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="TelegramBackend.serve_once"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramBackend.serve_once">[docs]</a>    <span class="k">def</span> <span class="nf">serve_once</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Initializing connection&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">telegram</span> <span class="o">=</span> <span class="n">telegram</span><span class="o">.</span><span class="n">Bot</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">token</span><span class="p">)</span>
+            <span class="n">me</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">telegram</span><span class="o">.</span><span class="n">getMe</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">telegram</span><span class="o">.</span><span class="n">TelegramError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Connection failure: </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bot_identifier</span> <span class="o">=</span> <span class="n">TelegramIdentifier</span><span class="p">(</span>
+            <span class="nb">id</span><span class="o">=</span><span class="n">me</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+            <span class="n">first_name</span><span class="o">=</span><span class="n">me</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span>
+            <span class="n">last_name</span><span class="o">=</span><span class="n">me</span><span class="o">.</span><span class="n">last_name</span><span class="p">,</span>
+            <span class="n">username</span><span class="o">=</span><span class="n">me</span><span class="o">.</span><span class="n">username</span>
+        <span class="p">)</span>
+
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Connected&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_reconnection_count</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect_callback</span><span class="p">()</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shelf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;_telegram_updates_offset&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Getting updates with offset </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">update</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">telegram</span><span class="o">.</span><span class="n">getUpdates</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">):</span>
+                    <span class="n">offset</span> <span class="o">=</span> <span class="n">update</span><span class="o">.</span><span class="n">update_id</span> <span class="o">+</span> <span class="mi">1</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">shelf</span><span class="p">[</span><span class="s">&#39;_telegram_updates_offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">offset</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Processing update: </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">update</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">update</span><span class="p">,</span> <span class="s">&#39;message&#39;</span><span class="p">):</span>
+                        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Unknown update type (no message present)&quot;</span><span class="p">)</span>
+                        <span class="k">continue</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_handle_message</span><span class="p">(</span><span class="n">update</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                        <span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&quot;An exception occurred while processing update&quot;</span><span class="p">)</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;All updates processed, new offset is </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Interrupt received, shutting down..&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&quot;Error reading from Telegram updates stream:&quot;</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Triggering disconnect callback&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">disconnect_callback</span><span class="p">()</span>
+</div>
+    <span class="k">def</span> <span class="nf">_handle_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handle a received message.</span>
+
+<span class="sd">        :param message:</span>
+<span class="sd">            A message with a structure as defined at</span>
+<span class="sd">            https://core.telegram.org/bots/api#message</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">text</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Unhandled message type (not a text message) ignored&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">message_instance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_message</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">chat</span><span class="p">,</span> <span class="n">telegram</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">User</span><span class="p">):</span>
+            <span class="n">message_instance</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s">&quot;chat&quot;</span>
+            <span class="n">message_instance</span><span class="o">.</span><span class="n">frm</span> <span class="o">=</span> <span class="n">TelegramIdentifier</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="n">first_name</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span>
+                <span class="n">last_name</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">last_name</span><span class="p">,</span>
+                <span class="n">username</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">username</span>
+            <span class="p">)</span>
+            <span class="n">message_instance</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_identifier</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">message_instance</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s">&quot;groupchat&quot;</span>
+            <span class="n">message_instance</span><span class="o">.</span><span class="n">frm</span> <span class="o">=</span> <span class="n">TelegramMUCOccupant</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="n">first_name</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span>
+                <span class="n">last_name</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">last_name</span><span class="p">,</span>
+                <span class="n">username</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">from_user</span><span class="o">.</span><span class="n">username</span>
+            <span class="p">)</span>
+            <span class="n">message_instance</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="n">TelegramIdentifier</span><span class="p">(</span>
+                <span class="nb">id</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">title</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">callback_message</span><span class="p">(</span><span class="n">message_instance</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TelegramBackend.send_message"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramBackend.send_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">md_converter</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">telegram</span><span class="o">.</span><span class="n">sendMessage</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
+                <span class="s">&quot;An exception occurred while trying to send the following message &quot;</span>
+                <span class="s">&quot;to </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">to</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">mess</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="k">raise</span>
+</div>
+<div class="viewcode-block" id="TelegramBackend.build_identifier"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramBackend.build_identifier">[docs]</a>    <span class="k">def</span> <span class="nf">build_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txtrep</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a textual representation into a :class:`~TelegramIdentifier`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;building an identifier from </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">txtrep</span><span class="p">)</span>
+        <span class="n">id_</span> <span class="o">=</span> <span class="n">txtrep</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_numeric</span><span class="p">(</span><span class="n">id_</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Telegram identifiers must be numeric&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">TelegramIdentifier</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">id_</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="TelegramBackend.build_reply"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramBackend.build_reply">[docs]</a>    <span class="k">def</span> <span class="nf">build_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">private</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="n">msg_type</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">type</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_message</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+        <span class="n">response</span><span class="o">.</span><span class="n">frm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_identifier</span>
+        <span class="k">if</span> <span class="n">private</span><span class="p">:</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s">&#39;chat&#39;</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">frm</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">msg_type</span>
+            <span class="n">response</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">frm</span> <span class="k">if</span> <span class="n">mess</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s">&#39;chat&#39;</span> <span class="k">else</span> <span class="n">mess</span><span class="o">.</span><span class="n">to</span>
+
+        <span class="k">return</span> <span class="n">response</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;telegram&#39;</span>
+
+<div class="viewcode-block" id="TelegramBackend.query_room"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramBackend.query_room">[docs]</a>    <span class="k">def</span> <span class="nf">query_room</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Not supported on Telegram.</span>
+
+<span class="sd">        :raises: :class:`~RoomsNotSupportedError`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">RoomsNotSupportedError</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="TelegramBackend.rooms"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramBackend.rooms">[docs]</a>    <span class="k">def</span> <span class="nf">rooms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Not supported on Telegram.</span>
+
+<span class="sd">        :raises: :class:`~RoomsNotSupportedError`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="n">RoomsNotSupportedError</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="TelegramBackend.prefix_groupchat_reply"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramBackend.prefix_groupchat_reply">[docs]</a>    <span class="k">def</span> <span class="nf">prefix_groupchat_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">identifier</span><span class="p">):</span>
+        <span class="n">message</span><span class="o">.</span><span class="n">body</span> <span class="o">=</span> <span class="s">&#39;@{0}: {1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">identifier</span><span class="o">.</span><span class="n">nick</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+</div>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_is_numeric</span><span class="p">(</span><span class="n">input_</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return true if input is a number&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">input_</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span></div>
+</pre></div>
+  <div id="prev_next_links">
+      
+          
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../../../index.html" title="Back to home page">
+        <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="../../../index.html">Homepage</a></li>
+    <li><a href="../../../genindex.html">Index</a></li>
+    <li><a href="../../../py-modindex.html">Module index</a></li>
+    <li><a href="../../../modules.html">API reference</a></li>
+        <li>
+        <a href="../../index.html">Module code</a>
+        <ul>
+        <li>
+        <a href="../../errbot.html">errbot</a>
+        <ul>
+        <li>
+        <a href="../backends.html">errbot.backends</a>
+        <ul>
+        </ul>
+        </li>
+        </ul>
+        </li>
+        </ul>
+        </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li>
+          <li class="nav-item nav-item-3"><a href="../backends.html" >errbot.backends</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Oct 26, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

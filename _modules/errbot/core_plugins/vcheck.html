@@ -1,0 +1,222 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.core_plugins.vcheck &mdash; Err 3.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '3.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="Err 3.1.0 documentation" href="../../../index.html" />
+    <link rel="up" title="errbot" href="../../errbot.html" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../../_static/err.png"/>
+    <link rel="stylesheet" href="../../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body role="document">
+    
+    
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../../errbot.html" accesskey="U">errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for errbot.core_plugins.vcheck</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
+<span class="kn">from</span> <span class="nn">urllib.error</span> <span class="kn">import</span> <span class="n">HTTPError</span><span class="p">,</span> <span class="n">URLError</span>
+
+<span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span>
+<span class="kn">from</span> <span class="nn">errbot.version</span> <span class="kn">import</span> <span class="n">VERSION</span>
+<span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">version2array</span>
+
+<span class="n">HOME</span> <span class="o">=</span> <span class="s">&#39;http://gbin.github.io/err/version&#39;</span>
+
+<span class="n">installed_version</span> <span class="o">=</span> <span class="n">version2array</span><span class="p">(</span><span class="n">VERSION</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="VersionChecker"><a class="viewcode-back" href="../../../errbot.core_plugins.vcheck.html#errbot.core_plugins.vcheck.VersionChecker">[docs]</a><span class="k">class</span> <span class="nc">VersionChecker</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
+    <span class="n">min_err_version</span> <span class="o">=</span> <span class="n">VERSION</span>  <span class="c"># don&#39;t copy paste that for your plugin, it is just because it is a bundled plugin !</span>
+    <span class="n">max_err_version</span> <span class="o">=</span> <span class="n">VERSION</span>
+
+    <span class="n">connected</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">actived</span> <span class="o">=</span> <span class="bp">False</span>
+
+<div class="viewcode-block" id="VersionChecker.activate"><a class="viewcode-back" href="../../../errbot.core_plugins.vcheck.html#errbot.core_plugins.vcheck.VersionChecker.activate">[docs]</a>    <span class="k">def</span> <span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actived</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version_check</span><span class="p">()</span>  <span class="c"># once at startup anyway</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_poller</span><span class="p">(</span><span class="mi">3600</span> <span class="o">*</span> <span class="mi">24</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">version_check</span><span class="p">)</span>  <span class="c"># once every 24H</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">VersionChecker</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="VersionChecker.deactivate"><a class="viewcode-back" href="../../../errbot.core_plugins.vcheck.html#errbot.core_plugins.vcheck.VersionChecker.deactivate">[docs]</a>    <span class="k">def</span> <span class="nf">deactivate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actived</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">VersionChecker</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="VersionChecker.version_check"><a class="viewcode-back" href="../../../errbot.core_plugins.vcheck.html#errbot.core_plugins.vcheck.VersionChecker.version_check">[docs]</a>    <span class="k">def</span> <span class="nf">version_check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">actived</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Version check disabled&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Checking version&#39;</span><span class="p">)</span>
+        <span class="c"># noinspection PyBroadException</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">current_version_txt</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">HOME</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">current_version</span> <span class="o">=</span> <span class="n">version2array</span><span class="p">(</span><span class="n">current_version_txt</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">installed_version</span> <span class="o">&lt;</span> <span class="n">current_version</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;A new version </span><span class="si">%s</span><span class="s"> has been found, notify the admins !&#39;</span> <span class="o">%</span> <span class="n">current_version</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">warn_admins</span><span class="p">(</span>
+                    <span class="s">&#39;Version {0} of err is available. http://pypi.python.org/pypi/err/{0}. You can disable this check &#39;</span>
+                    <span class="s">&#39;by doing !unload VersionChecker followed by !blacklist VersionChecker&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_version_txt</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">except</span> <span class="p">(</span><span class="n">HTTPError</span><span class="p">,</span> <span class="n">URLError</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Could not establish connection to retrieve latest version.&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="VersionChecker.callback_connect"><a class="viewcode-back" href="../../../errbot.core_plugins.vcheck.html#errbot.core_plugins.vcheck.VersionChecker.callback_connect">[docs]</a>    <span class="k">def</span> <span class="nf">callback_connect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">connected</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">connected</span> <span class="o">=</span> <span class="bp">True</span></div></div>
+</pre></div>
+  <div id="prev_next_links">
+      
+          
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../../../index.html" title="Back to home page">
+        <img class="logo" src="../../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="../../../index.html">Homepage</a></li>
+    <li><a href="../../../genindex.html">Index</a></li>
+    <li><a href="../../../py-modindex.html">Module index</a></li>
+    <li><a href="../../../modules.html">API reference</a></li>
+        <li>
+        <a href="../../index.html">Module code</a>
+        <ul>
+        <li>
+        <a href="../../errbot.html">errbot</a>
+        <ul>
+        </ul>
+        </li>
+        </ul>
+        </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Oct 26, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

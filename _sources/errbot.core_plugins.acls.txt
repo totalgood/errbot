@@ -1,0 +1,7 @@
+errbot.core_plugins.acls module
+===============================
+
+.. automodule:: errbot.core_plugins.acls
+    :members:
+    :undoc-members:
+    :show-inheritance:

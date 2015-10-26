@@ -1,0 +1,436 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.err &mdash; Err 3.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Err 3.1.0 documentation" href="../../index.html" />
+    <link rel="up" title="errbot" href="../errbot.html" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../_static/err.png"/>
+    <link rel="stylesheet" href="../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body role="document">
+    
+    
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.html" accesskey="U">errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for errbot.err</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+
+<span class="c"># This program is free software; you can redistribute it and/or modify</span>
+<span class="c"># it under the terms of the GNU General Public License as published by</span>
+<span class="c"># the Free Software Foundation; either version 3 of the License, or</span>
+<span class="c">#    (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c">#    This program is distributed in the hope that it will be useful,</span>
+<span class="c">#    but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="c">#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="c">#    GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c">#    You should have received a copy of the GNU General Public License</span>
+<span class="c">#    along with this program; if not, write to the Free Software</span>
+<span class="c">#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
+
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">getcwd</span><span class="p">,</span> <span class="n">access</span><span class="p">,</span> <span class="n">W_OK</span>
+<span class="kn">from</span> <span class="nn">platform</span> <span class="kn">import</span> <span class="n">system</span>
+
+<span class="n">PY3</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span>
+<span class="n">PY2</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">PY3</span>
+
+<span class="c"># Fail early if the user tries to run err under the incorrect interpreter</span>
+
+
+<div class="viewcode-block" id="foo"><a class="viewcode-back" href="../../errbot.err.html#errbot.err.foo">[docs]</a><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">param</span><span class="o">=</span><span class="s">&#39;canary&#39;</span><span class="p">):</span>
+    <span class="k">pass</span>
+</div>
+<span class="n">foo_src</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">foo</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="k">if</span> <span class="n">PY3</span> <span class="ow">and</span> <span class="s">&quot;param=u&#39;canary&#39;&quot;</span> <span class="ow">in</span> <span class="n">foo_src</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Err has been converted to Python2 but you try to run it under Python3&#39;</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">PY2</span> <span class="ow">and</span> <span class="s">&quot;param=&#39;canary&#39;&quot;</span> <span class="ow">in</span> <span class="n">foo_src</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;You are trying to run err under python2 without converting the source code to py2 first.&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;Either use python3 or install err using ./setup.py develop.&#39;</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+
+<span class="c"># noinspection PyUnusedLocal</span>
+<div class="viewcode-block" id="debug"><a class="viewcode-back" href="../../errbot.err.html#errbot.err.debug">[docs]</a><span class="k">def</span> <span class="nf">debug</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Interrupt running process, and provide a python prompt for</span>
+<span class="sd">    interactive debugging.&quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;_frame&#39;</span><span class="p">:</span> <span class="n">frame</span><span class="p">}</span>  <span class="c"># Allow access to frame object.</span>
+    <span class="n">d</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_globals</span><span class="p">)</span>  <span class="c"># Unless shadowed by global</span>
+    <span class="n">d</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">)</span>
+
+    <span class="n">i</span> <span class="o">=</span> <span class="n">code</span><span class="o">.</span><span class="n">InteractiveConsole</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;Signal received : entering python shell.</span><span class="se">\n</span><span class="s">Traceback:</span><span class="se">\n</span><span class="s">&quot;</span>
+    <span class="n">message</span> <span class="o">+=</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">traceback</span><span class="o">.</span><span class="n">format_stack</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span>
+    <span class="n">i</span><span class="o">.</span><span class="n">interact</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="ispydevd"><a class="viewcode-back" href="../../errbot.err.html#errbot.err.ispydevd">[docs]</a><span class="k">def</span> <span class="nf">ispydevd</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">frame</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&quot;pydevd.py&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">return</span> <span class="bp">False</span>
+</div>
+<span class="n">ON_WINDOWS</span> <span class="o">=</span> <span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;Windows&#39;</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">ON_WINDOWS</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">daemonize</span> <span class="kn">import</span> <span class="n">Daemonize</span>
+    <span class="kn">from</span> <span class="nn">pwd</span> <span class="kn">import</span> <span class="n">getpwnam</span>
+    <span class="kn">from</span> <span class="nn">grp</span> <span class="kn">import</span> <span class="n">getgrnam</span>
+    <span class="kn">import</span> <span class="nn">code</span>
+    <span class="kn">import</span> <span class="nn">traceback</span>
+    <span class="kn">import</span> <span class="nn">signal</span>
+
+    <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGUSR1</span><span class="p">,</span> <span class="n">debug</span><span class="p">)</span>  <span class="c"># Register handler for debugging</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;yapsy&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>  <span class="c"># this one is way too verbose in debug</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s">&#39;Rocket.Errors.ThreadPool&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>  <span class="c"># this one is way too verbose in debug</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
+<span class="n">pydev</span> <span class="o">=</span> <span class="n">ispydevd</span><span class="p">()</span>
+<span class="n">stream</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="k">if</span> <span class="n">pydev</span> <span class="k">else</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span>
+<span class="n">isatty</span> <span class="o">=</span> <span class="n">pydev</span> <span class="ow">or</span> <span class="n">stream</span><span class="o">.</span><span class="n">isatty</span><span class="p">()</span>  <span class="c"># force isatty if we are under pydev because it supports coloring anyway.</span>
+<span class="n">console_hdlr</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">isatty</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">colorlog</span> <span class="kn">import</span> <span class="n">ColoredFormatter</span>  <span class="c"># noqa</span>
+    <span class="n">formatter</span> <span class="o">=</span> <span class="n">ColoredFormatter</span><span class="p">(</span>
+        <span class="s">&quot;</span><span class="si">%(asctime)s</span><span class="s"> </span><span class="si">%(log_color)s%(levelname)-8s%(reset)s</span><span class="s"> &quot;</span>
+        <span class="s">&quot;</span><span class="si">%(blue)s%(name)-25.25s%(reset)s</span><span class="s"> </span><span class="si">%(white)s%(message)s%(reset)s</span><span class="s">&quot;</span><span class="p">,</span>
+        <span class="n">datefmt</span><span class="o">=</span><span class="s">&quot;%H:%M:%S&quot;</span><span class="p">,</span>
+        <span class="n">reset</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+        <span class="n">log_colors</span><span class="o">=</span><span class="p">{</span>
+            <span class="s">&#39;DEBUG&#39;</span><span class="p">:</span> <span class="s">&#39;cyan&#39;</span><span class="p">,</span>
+            <span class="s">&#39;INFO&#39;</span><span class="p">:</span> <span class="s">&#39;green&#39;</span><span class="p">,</span>
+            <span class="s">&#39;WARNING&#39;</span><span class="p">:</span> <span class="s">&#39;yellow&#39;</span><span class="p">,</span>
+            <span class="s">&#39;ERROR&#39;</span><span class="p">:</span> <span class="s">&#39;red&#39;</span><span class="p">,</span>
+            <span class="s">&#39;CRITICAL&#39;</span><span class="p">:</span> <span class="s">&#39;red&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">console_hdlr</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">console_hdlr</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%(asctime)s</span><span class="s"> </span><span class="si">%(levelname)-8s</span><span class="s"> </span><span class="si">%(name)-25s</span><span class="s"> </span><span class="si">%(message)s</span><span class="s">&quot;</span><span class="p">))</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">console_hdlr</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_config"><a class="viewcode-back" href="../../errbot.err.html#errbot.err.get_config">[docs]</a><span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="n">config_path</span><span class="p">):</span>
+    <span class="nb">__import__</span><span class="p">(</span><span class="s">&#39;errbot.config-template&#39;</span><span class="p">)</span>  <span class="c"># - is on purpose, it should not be imported normally ;)</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s">&#39;errbot.config-template&#39;</span><span class="p">]</span>
+    <span class="n">config_fullpath</span> <span class="o">=</span> <span class="n">config_path</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">config_fullpath</span><span class="p">):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+            <span class="s">&#39;I cannot find the file </span><span class="si">%s</span><span class="s"> </span><span class="se">\n</span><span class="s">&#39;</span>
+            <span class="s">&#39;(You can change this path with the -c parameter see --help)&#39;</span> <span class="o">%</span> <span class="n">config_path</span>
+        <span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s">&#39;You can use the template </span><span class="si">%s</span><span class="s"> as a base and copy it to </span><span class="si">%s</span><span class="s">. </span><span class="se">\n</span><span class="s">You can then customize it.&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">template</span><span class="o">.</span><span class="n">__file__</span><span class="p">)</span> <span class="o">+</span> <span class="n">sep</span> <span class="o">+</span> <span class="s">&#39;config-template.py&#39;</span><span class="p">,</span> <span class="n">config_path</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="nb">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c"># noinspection PyBroadException</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">config_fullpath</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="n">diffs</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">template</span><span class="p">))</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">config</span><span class="p">))</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">item</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;_&#39;</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="n">diffs</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;You are missing configs defined from the template :&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">diff</span> <span class="ow">in</span> <span class="n">diffs</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Missing config : </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">diff</span><span class="p">)</span>
+            <span class="nb">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&#39;I could not import your config from </span><span class="si">%s</span><span class="s">, please check the error below...&#39;</span> <span class="o">%</span> <span class="n">config_fullpath</span><span class="p">)</span>
+        <span class="nb">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Config check passed...&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">config</span>
+
+</div>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../errbot.err.html#errbot.err.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+
+    <span class="n">execution_dir</span> <span class="o">=</span> <span class="n">getcwd</span><span class="p">()</span>
+
+    <span class="c"># By default insert the execution path (useful to be able to execute err from</span>
+    <span class="c"># the source tree directly without installing it.</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">execution_dir</span><span class="p">)</span>
+
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s">&#39;The main entry point of the XMPP bot err.&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-c&#39;</span><span class="p">,</span> <span class="s">&#39;--config&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Full path to your config.py (default: config.py in current working directory).&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-r&#39;</span><span class="p">,</span> <span class="s">&#39;--restore&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s">&#39;?&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">const</span><span class="o">=</span><span class="s">&#39;default&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s">&#39;Restores a bot from backup.py. (default: backup.py from the bot data directory).&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-l&#39;</span><span class="p">,</span> <span class="s">&#39;--list&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;Lists all the backends found.&#39;</span><span class="p">)</span>
+
+    <span class="n">backend_group</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_mutually_exclusive_group</span><span class="p">()</span>
+    <span class="n">backend_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-X&#39;</span><span class="p">,</span> <span class="s">&#39;--xmpp&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;XMPP backend [DEFAULT]&#39;</span><span class="p">)</span>
+    <span class="n">backend_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-H&#39;</span><span class="p">,</span> <span class="s">&#39;--hipchat&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;Hipchat backend&#39;</span><span class="p">)</span>
+    <span class="n">backend_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-I&#39;</span><span class="p">,</span> <span class="s">&#39;--irc&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;IRC backend&#39;</span><span class="p">)</span>
+    <span class="n">backend_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-S&#39;</span><span class="p">,</span> <span class="s">&#39;--slack&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;Slack backend&#39;</span><span class="p">)</span>
+    <span class="n">backend_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-T&#39;</span><span class="p">,</span> <span class="s">&#39;--text&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;locale text debug backend&#39;</span><span class="p">)</span>
+    <span class="n">backend_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-G&#39;</span><span class="p">,</span> <span class="s">&#39;--graphic&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;local graphical debug mode backend&#39;</span><span class="p">)</span>
+    <span class="n">backend_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-N&#39;</span><span class="p">,</span> <span class="s">&#39;--null&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;no backend&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ON_WINDOWS</span><span class="p">:</span>
+        <span class="n">option_group</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="s">&#39;arguments to run it as a Daemon&#39;</span><span class="p">)</span>
+        <span class="n">option_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-d&#39;</span><span class="p">,</span> <span class="s">&#39;--daemon&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;Detach the process from the console&#39;</span><span class="p">)</span>
+        <span class="n">option_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-p&#39;</span><span class="p">,</span> <span class="s">&#39;--pidfile&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                  <span class="n">help</span><span class="o">=</span><span class="s">&#39;Specify the pid file for the daemon (default: current bot data directory)&#39;</span><span class="p">)</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="nb">vars</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">())</span>  <span class="c"># create a dictionary of args</span>
+    <span class="n">config_path</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;config&#39;</span><span class="p">]</span>
+    <span class="c"># setup the environment to be able to import the config.py</span>
+    <span class="k">if</span> <span class="n">config_path</span><span class="p">:</span>
+        <span class="c"># appends the current config in order to find config.py</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">config_path</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">config_path</span> <span class="o">=</span> <span class="n">execution_dir</span> <span class="o">+</span> <span class="n">sep</span> <span class="o">+</span> <span class="s">&#39;config.py&#39;</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">(</span><span class="n">config_path</span><span class="p">)</span>  <span class="c"># will exit if load fails</span>
+    <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;list&#39;</span><span class="p">]:</span>
+        <span class="kn">from</span> <span class="nn">errbot.main</span> <span class="kn">import</span> <span class="n">enumerate_backends</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Available backends:&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">backend_name</span> <span class="ow">in</span> <span class="n">enumerate_backends</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t\t</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">backend_name</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c"># this is temporary until the modes are removed to translate the mode names to backend names</span>
+    <span class="n">classic_vs_plugin_names</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;text&#39;</span><span class="p">:</span> <span class="s">&#39;Text&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;graphic&#39;</span><span class="p">:</span> <span class="s">&#39;Graphic&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;hipchat&#39;</span><span class="p">:</span> <span class="s">&#39;Hipchat&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;irc&#39;</span><span class="p">:</span> <span class="s">&#39;IRC&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;xmpp&#39;</span><span class="p">:</span> <span class="s">&#39;XMPP&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;slack&#39;</span><span class="p">:</span> <span class="s">&#39;Slack&#39;</span><span class="p">,</span>
+                               <span class="s">&#39;null&#39;</span><span class="p">:</span> <span class="s">&#39;Null&#39;</span><span class="p">}</span>
+
+    <span class="n">filtered_mode</span> <span class="o">=</span> <span class="p">[</span><span class="n">mname</span> <span class="k">for</span> <span class="n">mname</span> <span class="ow">in</span> <span class="n">classic_vs_plugin_names</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="n">mname</span><span class="p">]]</span>
+    <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;restore&#39;</span><span class="p">]:</span>
+        <span class="n">backend</span> <span class="o">=</span> <span class="s">&#39;Null&#39;</span>  <span class="c"># we don&#39;t want any backend when we restore</span>
+    <span class="k">elif</span> <span class="n">filtered_mode</span><span class="p">:</span>
+        <span class="n">backend</span> <span class="o">=</span> <span class="n">classic_vs_plugin_names</span><span class="p">[</span><span class="n">filtered_mode</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="n">backend</span> <span class="o">!=</span> <span class="s">&#39;Text&#39;</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;&quot;&quot;Deprecation notice:</span>
+<span class="s">            Please add BACKEND=&#39;</span><span class="si">%s</span><span class="s">&#39; to your config.py instead of using the &#39;--</span><span class="si">%s</span><span class="s">&#39; command line parameter.</span>
+<span class="s">            The backend command line parameters will be removed on the next version of Err.</span>
+<span class="s">            &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">filtered_mode</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s">&#39;BACKEND&#39;</span><span class="p">):</span>
+        <span class="n">backend</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">BACKEND</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;&quot;&quot;Deprecation notice:</span>
+<span class="s">        Err is defaulting to XMPP because you did not specify any backend.</span>
+<span class="s">        Please add BACKEND=&#39;XMPP&#39; to your config.py if you really want that.</span>
+<span class="s">        This behaviour will be removed on the next version of Err.</span>
+<span class="s">        &quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="n">backend</span> <span class="o">=</span> <span class="s">&#39;XMPP&#39;</span>  <span class="c"># default value</span>
+
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Selected backend &#39;</span><span class="si">%s</span><span class="s">&#39;.&quot;</span> <span class="o">%</span> <span class="n">backend</span><span class="p">)</span>
+
+    <span class="c"># Check if at least we can start to log something before trying to start</span>
+    <span class="c"># the bot (esp. daemonize it).</span>
+
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Checking for &#39;</span><span class="si">%s</span><span class="s">&#39;...&quot;</span> <span class="o">%</span> <span class="n">config</span><span class="o">.</span><span class="n">BOT_DATA_DIR</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">BOT_DATA_DIR</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;The data directory &#39;</span><span class="si">%s</span><span class="s">&#39; for the bot does not exist&quot;</span> <span class="o">%</span> <span class="n">config</span><span class="o">.</span><span class="n">BOT_DATA_DIR</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">access</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">BOT_DATA_DIR</span><span class="p">,</span> <span class="n">W_OK</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;The data directory &#39;</span><span class="si">%s</span><span class="s">&#39; should be writable for the bot&quot;</span> <span class="o">%</span> <span class="n">config</span><span class="o">.</span><span class="n">BOT_DATA_DIR</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">ON_WINDOWS</span><span class="p">)</span> <span class="ow">and</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;daemon&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;text&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;You cannot run in text and daemon mode at the same time&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;restore&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;You cannot restore a backup in daemon mode.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;pidfile&#39;</span><span class="p">]:</span>
+            <span class="n">pid</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;pidfile&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pid</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">BOT_DATA_DIR</span> <span class="o">+</span> <span class="n">sep</span> <span class="o">+</span> <span class="s">&#39;err.pid&#39;</span>
+
+        <span class="kn">from</span> <span class="nn">errbot.pid</span> <span class="kn">import</span> <span class="n">PidFile</span>
+
+        <span class="n">pidfile</span> <span class="o">=</span> <span class="n">PidFile</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+
+        <span class="c"># noinspection PyBroadException</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">def</span> <span class="nf">action</span><span class="p">():</span>
+                <span class="kn">from</span> <span class="nn">errbot.main</span> <span class="kn">import</span> <span class="n">main</span>
+                <span class="n">main</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+
+            <span class="n">daemon</span> <span class="o">=</span> <span class="n">Daemonize</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="s">&quot;err&quot;</span><span class="p">,</span> <span class="n">pid</span><span class="o">=</span><span class="n">pid</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="n">action</span><span class="p">)</span>
+            <span class="n">daemon</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&#39;Failed to daemonize the process&#39;</span><span class="p">)</span>
+        <span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">errbot.main</span> <span class="kn">import</span> <span class="n">main</span>
+    <span class="n">restore</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="s">&#39;restore&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">restore</span> <span class="o">==</span> <span class="s">&#39;default&#39;</span><span class="p">:</span>  <span class="c"># restore with no argument, get the default location</span>
+        <span class="n">restore</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">BOT_DATA_DIR</span><span class="p">,</span> <span class="s">&#39;backup.py&#39;</span><span class="p">)</span>
+
+    <span class="n">main</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">logger</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">restore</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Process exiting&#39;</span><span class="p">)</span>
+</div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+  <div id="prev_next_links">
+      
+          
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../../index.html" title="Back to home page">
+        <img class="logo" src="../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="../../index.html">Homepage</a></li>
+    <li><a href="../../genindex.html">Index</a></li>
+    <li><a href="../../py-modindex.html">Module index</a></li>
+    <li><a href="../../modules.html">API reference</a></li>
+        <li>
+        <a href="../index.html">Module code</a>
+        <ul>
+        <li>
+        <a href="../errbot.html">errbot</a>
+        <ul>
+        </ul>
+        </li>
+        </ul>
+        </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.html" >errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Oct 26, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

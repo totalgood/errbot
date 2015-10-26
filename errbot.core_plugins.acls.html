@@ -1,0 +1,260 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.core_plugins.acls module &mdash; Err 3.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Err 3.1.0 documentation" href="index.html" />
+    <link rel="up" title="errbot.core_plugins package" href="errbot.core_plugins.html" />
+    <link rel="next" title="errbot.core_plugins.backup module" href="errbot.core_plugins.backup.html" />
+    <link rel="prev" title="errbot.core_plugins package" href="errbot.core_plugins.html" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="_static/err.png"/>
+    <link rel="apple-touch-icon" href="_static/err.png"/>
+    <link rel="stylesheet" href="_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body role="document">
+    
+    
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="errbot.core_plugins.backup.html" title="errbot.core_plugins.backup module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="errbot.core_plugins.html" title="errbot.core_plugins package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="errbot.core_plugins.html" accesskey="U">errbot.core_plugins package</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-errbot.core_plugins.acls">
+<span id="errbot-core-plugins-acls-module"></span><h1>errbot.core_plugins.acls module<a class="headerlink" href="#module-errbot.core_plugins.acls" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="errbot.core_plugins.acls.ACLS">
+<em class="property">class </em><code class="descclassname">errbot.core_plugins.acls.</code><code class="descname">ACLS</code><span class="sig-paren">(</span><em>bot=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/core_plugins/acls.html#ACLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.acls.ACLS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="errbot.botplugin.html#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><code class="xref py py-class docutils literal"><span class="pre">errbot.botplugin.BotPlugin</span></code></a></p>
+<p>This checks commands for potential ACL violations.</p>
+<dl class="method">
+<dt id="errbot.core_plugins.acls.ACLS.access_denied">
+<code class="descname">access_denied</code><span class="sig-paren">(</span><em>msg</em>, <em>reason</em>, <em>dry_run</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/core_plugins/acls.html#ACLS.access_denied"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.acls.ACLS.access_denied" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.acls.ACLS.acls">
+<code class="descname">acls</code><span class="sig-paren">(</span><em>msg</em>, <em>cmd</em>, <em>args</em>, <em>dry_run</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/core_plugins/acls.html#ACLS.acls"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.acls.ACLS.acls" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check command against ACL rules</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>msg</strong> -- The original message the commands is coming from.</li>
+<li><strong>cmd</strong> -- The command name</li>
+<li><strong>args</strong> -- Its arguments.</li>
+<li><strong>dry_run</strong> -- pass True to not act on the check (messages / deferred auth etc.)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Return None, None, None if the command is blocked or deferred</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.core_plugins.acls.ACLS.admin">
+<code class="descname">admin</code><span class="sig-paren">(</span><em>msg</em>, <em>cmd</em>, <em>args</em>, <em>dry_run</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/core_plugins/acls.html#ACLS.admin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.acls.ACLS.admin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check command against the is_admin criteria.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>msg</strong> -- The original message the commands is coming from.</li>
+<li><strong>cmd</strong> -- The command name</li>
+<li><strong>args</strong> -- Its arguments.</li>
+<li><strong>dry_run</strong> -- pass True to not act on the check (messages / deferred auth etc.)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="errbot.core_plugins.acls.get_acl_usr">
+<code class="descclassname">errbot.core_plugins.acls.</code><code class="descname">get_acl_usr</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/core_plugins/acls.html#get_acl_usr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.acls.get_acl_usr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+  <div id="prev_next_links">
+      
+          
+              Previous: <a href="errbot.core_plugins.html">errbot.core_plugins package</a>
+          
+          
+               | 
+              Next: <a href="errbot.core_plugins.backup.html">errbot.core_plugins.backup module</a>
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="index.html" title="Back to home page">
+        <img class="logo" src="_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="index.html">Homepage</a></li>
+    <li><a href="genindex.html">Index</a></li>
+    <li><a href="py-modindex.html">Module index</a></li>
+    <li><a href="modules.html">API reference</a></li>
+        <li>
+        <a href="errbot.html">errbot package</a>
+        <ul>
+        <li>
+        <a href="errbot.core_plugins.html">errbot.core_plugins package</a>
+        <ul>
+        <li>Previous: <a href="errbot.core_plugins.html" title="previous chapter">errbot.core_plugins package</a></li>
+        <li>Next: <a href="errbot.core_plugins.backup.html" title="next chapter">errbot.core_plugins.backup module</a></li>
+        </ul>
+        </li>
+        </ul>
+        </li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/errbot.core_plugins.acls.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="errbot.core_plugins.backup.html" title="errbot.core_plugins.backup module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="errbot.core_plugins.html" title="errbot.core_plugins package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="errbot.core_plugins.html" >errbot.core_plugins package</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Oct 26, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

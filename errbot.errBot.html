@@ -1,0 +1,410 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.errBot module &mdash; Err 3.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Err 3.1.0 documentation" href="index.html" />
+    <link rel="up" title="errbot package" href="errbot.html" />
+    <link rel="next" title="errbot.main module" href="errbot.main.html" />
+    <link rel="prev" title="errbot.err module" href="errbot.err.html" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="_static/err.png"/>
+    <link rel="apple-touch-icon" href="_static/err.png"/>
+    <link rel="stylesheet" href="_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body role="document">
+    
+    
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="errbot.main.html" title="errbot.main module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="errbot.err.html" title="errbot.err module"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="errbot.html" accesskey="U">errbot package</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-errbot.errBot">
+<span id="errbot-errbot-module"></span><h1>errbot.errBot module<a class="headerlink" href="#module-errbot.errBot" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="errbot.errBot.ErrBot">
+<em class="property">class </em><code class="descclassname">errbot.errBot.</code><code class="descname">ErrBot</code><span class="sig-paren">(</span><em>bot_config</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="errbot.backends.base.html#errbot.backends.base.Backend" title="errbot.backends.base.Backend"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.Backend</span></code></a>, <a class="reference internal" href="errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager" title="errbot.plugin_manager.BotPluginManager"><code class="xref py py-class docutils literal"><span class="pre">errbot.plugin_manager.BotPluginManager</span></code></a></p>
+<p>ErrBot is the layer of Err that takes care of the plugin management and dispatching</p>
+<dl class="attribute">
+<dt id="errbot.errBot.ErrBot.MSG_ERROR_OCCURRED">
+<code class="descname">MSG_ERROR_OCCURRED</code><em class="property"> = 'Computer says nooo. See logs for details.'</em><a class="headerlink" href="#errbot.errBot.ErrBot.MSG_ERROR_OCCURRED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.errBot.ErrBot.MSG_UNKNOWN_COMMAND">
+<code class="descname">MSG_UNKNOWN_COMMAND</code><em class="property"> = 'Unknown command: &quot;%(command)s&quot;. '</em><a class="headerlink" href="#errbot.errBot.ErrBot.MSG_UNKNOWN_COMMAND" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>bot_config</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.errBot.ErrBot.all_commands">
+<code class="descname">all_commands</code><a class="headerlink" href="#errbot.errBot.ErrBot.all_commands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return both commands and re_commands together.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.bottom_of_help_message">
+<code class="descname">bottom_of_help_message</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.bottom_of_help_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.bottom_of_help_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a string that forms the bottom of the help message</p>
+<p>Override this method in derived class if you
+want to add additional help text at the end
+of the help message.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.callback_message">
+<code class="descname">callback_message</code><span class="sig-paren">(</span><em>mess</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.callback_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.callback_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes for commands and dispatches the message to all the plugins.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.callback_presence">
+<code class="descname">callback_presence</code><span class="sig-paren">(</span><em>pres</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.callback_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.callback_presence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.callback_room_joined">
+<code class="descname">callback_room_joined</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.callback_room_joined"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.callback_room_joined" title="Permalink to this definition">¶</a></dt>
+<dd><p>Triggered when the bot has joined a MUC.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>room</strong> -- An instance of <a class="reference internal" href="errbot.backends.base.html#errbot.backends.base.MUCRoom" title="errbot.backends.base.MUCRoom"><code class="xref py py-class docutils literal"><span class="pre">MUCRoom</span></code></a>
+representing the room that was joined.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.callback_room_left">
+<code class="descname">callback_room_left</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.callback_room_left"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.callback_room_left" title="Permalink to this definition">¶</a></dt>
+<dd><p>Triggered when the bot has left a MUC.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>room</strong> -- An instance of <a class="reference internal" href="errbot.backends.base.html#errbot.backends.base.MUCRoom" title="errbot.backends.base.MUCRoom"><code class="xref py py-class docutils literal"><span class="pre">MUCRoom</span></code></a>
+representing the room that was left.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.callback_room_topic">
+<code class="descname">callback_room_topic</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.callback_room_topic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.callback_room_topic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Triggered when the topic in a MUC changes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>room</strong> -- An instance of <a class="reference internal" href="errbot.backends.base.html#errbot.backends.base.MUCRoom" title="errbot.backends.base.MUCRoom"><code class="xref py py-class docutils literal"><span class="pre">MUCRoom</span></code></a>
+representing the room for which the topic changed.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.callback_stream">
+<code class="descname">callback_stream</code><span class="sig-paren">(</span><em>stream</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.callback_stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.callback_stream" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.connect_callback">
+<code class="descname">connect_callback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.connect_callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.connect_callback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.disconnect_callback">
+<code class="descname">disconnect_callback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.disconnect_callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.disconnect_callback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.get_command_classes">
+<code class="descname">get_command_classes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.get_command_classes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.get_command_classes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.get_doc">
+<code class="descname">get_doc</code><span class="sig-paren">(</span><em>command</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.get_doc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.get_doc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get command documentation</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.inject_command_filters_from">
+<code class="descname">inject_command_filters_from</code><span class="sig-paren">(</span><em>instance_to_inject</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.inject_command_filters_from"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.inject_command_filters_from" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.inject_commands_from">
+<code class="descname">inject_commands_from</code><span class="sig-paren">(</span><em>instance_to_inject</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.inject_commands_from"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.inject_commands_from" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.process_message">
+<code class="descname">process_message</code><span class="sig-paren">(</span><em>mess</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.process_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.process_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the given message is a command for the bot and act on it.
+It return True for triggering the callback_messages on the .callback_messages on the plugins.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.remove_command_filters_from">
+<code class="descname">remove_command_filters_from</code><span class="sig-paren">(</span><em>instance_to_inject</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.remove_command_filters_from"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.remove_command_filters_from" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.remove_commands_from">
+<code class="descname">remove_commands_from</code><span class="sig-paren">(</span><em>instance_to_inject</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.remove_commands_from"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.remove_commands_from" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.send">
+<code class="descname">send</code><span class="sig-paren">(</span><em>user</em>, <em>text</em>, <em>in_reply_to=None</em>, <em>message_type='chat'</em>, <em>groupchat_nick_reply=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.send" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends a simple message to the specified user.
+:param user:</p>
+<blockquote>
+<div>an identifier from build_identifier or from an incoming message</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>in_reply_to</strong> -- the original message the bot is answering from</li>
+<li><strong>text</strong> -- the markdown text you want to send</li>
+<li><strong>message_type</strong> -- chat or groupchat</li>
+<li><strong>groupchat_nick_reply</strong> -- authorized the prefixing with the nick form the user</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.send_message">
+<code class="descname">send_message</code><span class="sig-paren">(</span><em>mess</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.send_message" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.send_simple_reply">
+<code class="descname">send_simple_reply</code><span class="sig-paren">(</span><em>mess</em>, <em>text</em>, <em>private=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.send_simple_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.send_simple_reply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send a simple response to a message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.signal_connect_to_all_plugins">
+<code class="descname">signal_connect_to_all_plugins</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.signal_connect_to_all_plugins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.signal_connect_to_all_plugins" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.errBot.ErrBot.startup_time">
+<code class="descname">startup_time</code><em class="property"> = datetime.datetime(2015, 10, 26, 22, 18, 15, 883392)</em><a class="headerlink" href="#errbot.errBot.ErrBot.startup_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.top_of_help_message">
+<code class="descname">top_of_help_message</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.top_of_help_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.top_of_help_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a string that forms the top of the help message</p>
+<p>Override this method in derived class if you
+want to add additional help text at the
+beginning of the help message.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.unknown_command">
+<code class="descname">unknown_command</code><span class="sig-paren">(</span><em>_</em>, <em>cmd</em>, <em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.unknown_command"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.unknown_command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override the default unknown command behavior</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.warn_admins">
+<code class="descname">warn_admins</code><span class="sig-paren">(</span><em>warning</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.warn_admins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.warn_admins" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="errbot.errBot.bot_config_defaults">
+<code class="descclassname">errbot.errBot.</code><code class="descname">bot_config_defaults</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#bot_config_defaults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.bot_config_defaults" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+  <div id="prev_next_links">
+      
+          
+              Previous: <a href="errbot.err.html">errbot.err module</a>
+          
+          
+               | 
+              Next: <a href="errbot.main.html">errbot.main module</a>
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="index.html" title="Back to home page">
+        <img class="logo" src="_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="index.html">Homepage</a></li>
+    <li><a href="genindex.html">Index</a></li>
+    <li><a href="py-modindex.html">Module index</a></li>
+    <li><a href="modules.html">API reference</a></li>
+        <li>
+        <a href="errbot.html">errbot package</a>
+        <ul>
+        <li>Previous: <a href="errbot.err.html" title="previous chapter">errbot.err module</a></li>
+        <li>Next: <a href="errbot.main.html" title="next chapter">errbot.main module</a></li>
+        </ul>
+        </li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/errbot.errBot.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="errbot.main.html" title="errbot.main module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="errbot.err.html" title="errbot.err module"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Oct 26, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

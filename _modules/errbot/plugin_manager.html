@@ -1,0 +1,605 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>errbot.plugin_manager &mdash; Err 3.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Err 3.1.0 documentation" href="../../index.html" />
+    <link rel="up" title="errbot" href="../errbot.html" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../_static/err.png"/>
+    <link rel="stylesheet" href="../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body role="document">
+    
+    
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.html" accesskey="U">errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for errbot.plugin_manager</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">configparser</span> <span class="kn">import</span> <span class="n">NoSectionError</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+<span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">import</span> <span class="nn">imp</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">pip</span>
+<span class="kn">from</span> <span class="nn">.botplugin</span> <span class="kn">import</span> <span class="n">BotPlugin</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">version2array</span><span class="p">,</span> <span class="n">PY3</span><span class="p">,</span> <span class="n">PY2</span><span class="p">,</span> <span class="n">find_roots_with_extra</span><span class="p">,</span> <span class="n">PLUGINS_SUBDIR</span><span class="p">,</span> <span class="n">which</span><span class="p">,</span> <span class="n">human_name_for_git_url</span>
+<span class="kn">from</span> <span class="nn">.templating</span> <span class="kn">import</span> <span class="n">remove_plugin_templates_path</span><span class="p">,</span> <span class="n">add_plugin_templates_path</span>
+<span class="kn">from</span> <span class="nn">.version</span> <span class="kn">import</span> <span class="n">VERSION</span>
+<span class="kn">from</span> <span class="nn">yapsy.PluginManager</span> <span class="kn">import</span> <span class="n">PluginManager</span>
+<span class="kn">from</span> <span class="nn">yapsy.PluginFileLocator</span> <span class="kn">import</span> <span class="n">PluginFileLocator</span><span class="p">,</span> <span class="n">PluginFileAnalyzerWithInfoFile</span>
+<span class="kn">from</span> <span class="nn">.core_plugins.wsview</span> <span class="kn">import</span> <span class="n">route</span>
+<span class="kn">from</span> <span class="nn">.storage</span> <span class="kn">import</span> <span class="n">StoreMixin</span>
+<span class="kn">from</span> <span class="nn">.repos</span> <span class="kn">import</span> <span class="n">KNOWN_PUBLIC_REPOS</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="n">CORE_PLUGINS</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">)),</span>
+                            <span class="s">&#39;core_plugins&#39;</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">importlib</span> <span class="kn">import</span> <span class="nb">reload</span>  <span class="c"># new in python 3.4</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">imp</span> <span class="kn">import</span> <span class="nb">reload</span>  <span class="c"># noqa</span>
+
+
+<div class="viewcode-block" id="IncompatiblePluginException"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.IncompatiblePluginException">[docs]</a><span class="k">class</span> <span class="nc">IncompatiblePluginException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="PluginConfigurationException"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.PluginConfigurationException">[docs]</a><span class="k">class</span> <span class="nc">PluginConfigurationException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+</div>
+<div class="viewcode-block" id="populate_doc"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.populate_doc">[docs]</a><span class="k">def</span> <span class="nf">populate_doc</span><span class="p">(</span><span class="n">plugin</span><span class="p">):</span>
+    <span class="n">plugin_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">plugin_object</span><span class="p">)</span>
+    <span class="n">plugin_type</span><span class="o">.</span><span class="n">__errdoc__</span> <span class="o">=</span> <span class="n">plugin_type</span><span class="o">.</span><span class="n">__doc__</span> <span class="k">if</span> <span class="n">plugin_type</span><span class="o">.</span><span class="n">__doc__</span> <span class="k">else</span> <span class="n">plugin</span><span class="o">.</span><span class="n">description</span>
+
+</div>
+<div class="viewcode-block" id="install_package"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.install_package">[docs]</a><span class="k">def</span> <span class="nf">install_package</span><span class="p">(</span><span class="n">package</span><span class="p">):</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Installing package &#39;</span><span class="si">%s</span><span class="s">&#39;.&quot;</span> <span class="o">%</span> <span class="n">package</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="s">&#39;real_prefix&#39;</span><span class="p">):</span>
+        <span class="c"># this is a virtualenv, so we can use it directly</span>
+        <span class="n">pip</span><span class="o">.</span><span class="n">main</span><span class="p">([</span><span class="s">&#39;install&#39;</span><span class="p">,</span> <span class="n">package</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># otherwise only install it as a user package</span>
+        <span class="n">pip</span><span class="o">.</span><span class="n">main</span><span class="p">([</span><span class="s">&#39;install&#39;</span><span class="p">,</span> <span class="s">&#39;--user&#39;</span><span class="p">,</span> <span class="n">package</span><span class="p">])</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">globals</span><span class="p">()[</span><span class="n">package</span><span class="p">]</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&quot;Failed to load the dependent package&quot;</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="check_dependencies"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.check_dependencies">[docs]</a><span class="k">def</span> <span class="nf">check_dependencies</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; This methods returns a pair of (message, packages missing).</span>
+<span class="sd">    Or None if everything is OK.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;check dependencies of </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+    <span class="c"># noinspection PyBroadException</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">pkg_resources</span> <span class="kn">import</span> <span class="n">get_distribution</span>
+
+        <span class="n">req_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="s">&#39;requirements.txt&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">req_path</span><span class="p">):</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="s"> has no requirements.txt file&#39;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="n">missing_pkg</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">req_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">stripped</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+                <span class="c"># noinspection PyBroadException</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">get_distribution</span><span class="p">(</span><span class="n">stripped</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="n">missing_pkg</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stripped</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">missing_pkg</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">((</span><span class="s">&#39;You need those dependencies for </span><span class="si">%s</span><span class="s">: &#39;</span> <span class="o">%</span> <span class="n">path</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing_pkg</span><span class="p">),</span>
+                    <span class="n">missing_pkg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">&#39;You need to have setuptools installed for the dependency check of the plugins&#39;</span><span class="p">,</span> <span class="p">[]</span>
+
+</div>
+<div class="viewcode-block" id="global_restart"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.global_restart">[docs]</a><span class="k">def</span> <span class="nf">global_restart</span><span class="p">():</span>
+    <span class="n">python</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">execl</span><span class="p">(</span><span class="n">python</span><span class="p">,</span> <span class="n">python</span><span class="p">,</span> <span class="o">*</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="BotPluginManager"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager">[docs]</a><span class="k">class</span> <span class="nc">BotPluginManager</span><span class="p">(</span><span class="n">PluginManager</span><span class="p">,</span> <span class="n">StoreMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Customized yapsy PluginManager for ErrBot.&quot;&quot;&quot;</span>
+
+    <span class="c"># Storage names</span>
+    <span class="n">REPOS</span> <span class="o">=</span> <span class="n">b</span><span class="s">&#39;repos&#39;</span> <span class="k">if</span> <span class="n">PY2</span> <span class="k">else</span> <span class="s">&#39;repos&#39;</span>
+    <span class="n">CONFIGS</span> <span class="o">=</span> <span class="n">b</span><span class="s">&#39;configs&#39;</span> <span class="k">if</span> <span class="n">PY2</span> <span class="k">else</span> <span class="s">&#39;configs&#39;</span>
+    <span class="n">BL_PLUGINS</span> <span class="o">=</span> <span class="n">b</span><span class="s">&#39;bl_plugins&#39;</span> <span class="k">if</span> <span class="n">PY2</span> <span class="k">else</span> <span class="s">&#39;bl_plugins&#39;</span>
+
+    <span class="c"># gbin: making an __init__ here will be tricky with the MRO</span>
+    <span class="c"># use _init_plugin_manager directly.</span>
+
+    <span class="k">def</span> <span class="nf">_init_plugin_manager</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bot_config</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bot_config</span><span class="o">.</span><span class="n">BOT_DATA_DIR</span><span class="p">,</span> <span class="n">PLUGINS_SUBDIR</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">open_storage</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bot_config</span><span class="o">.</span><span class="n">BOT_DATA_DIR</span><span class="p">,</span> <span class="s">&#39;core.db&#39;</span><span class="p">))</span>
+        <span class="c"># be sure we have a configs entry for the plugin configurations</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">CONFIGS</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">CONFIGS</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">setCategoriesFilter</span><span class="p">({</span><span class="s">&quot;bots&quot;</span><span class="p">:</span> <span class="n">BotPlugin</span><span class="p">})</span>
+        <span class="n">locator</span> <span class="o">=</span> <span class="n">PluginFileLocator</span><span class="p">([</span><span class="n">PluginFileAnalyzerWithInfoFile</span><span class="p">(</span><span class="s">&quot;info_ext&quot;</span><span class="p">,</span> <span class="s">&#39;plug&#39;</span><span class="p">)])</span>
+        <span class="n">locator</span><span class="o">.</span><span class="n">disableRecursiveScan</span><span class="p">()</span>  <span class="c"># We do that ourselves</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setPluginLocator</span><span class="p">(</span><span class="n">locator</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BotPluginManager.instanciateElement"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.instanciateElement">[docs]</a>    <span class="k">def</span> <span class="nf">instanciateElement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Override the loading method to inject bot &quot;&quot;&quot;</span>
+        <span class="c"># check if we have a plugin not overridding __init__ incorrectly</span>
+        <span class="n">args</span><span class="p">,</span> <span class="n">argslist</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getargspec</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">__init__</span><span class="p">)</span>
+
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;plugin __init__(args=</span><span class="si">%s</span><span class="s">, argslist=</span><span class="si">%s</span><span class="s">, kwargs=</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">argslist</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">argslist</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">kwargs</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">((</span><span class="s">&#39;Warning: </span><span class="si">%s</span><span class="s"> needs to implement __init__(self, *args, **kwargs) &#39;</span>
+                      <span class="s">&#39;and forward them to super().__init__&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="n">element</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">element</span><span class="p">()</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">_load_bot</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>  <span class="c"># sideload the bot</span>
+            <span class="k">return</span> <span class="n">obj</span>
+
+        <span class="k">return</span> <span class="n">element</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.get_plugin_by_name"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.get_plugin_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_plugin_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPluginByName</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s">&#39;bots&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.get_plugin_obj_by_name"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.get_plugin_obj_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_plugin_obj_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="n">plugin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">None</span> <span class="k">if</span> <span class="n">plugin</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">plugin</span><span class="o">.</span><span class="n">plugin_object</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.activate_plugin_with_version_check"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.activate_plugin_with_version_check">[docs]</a>    <span class="k">def</span> <span class="nf">activate_plugin_with_version_check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="n">pta_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPluginByName</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s">&#39;bots&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pta_item</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;Could not activate </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">python_version</span> <span class="o">=</span> <span class="n">pta_item</span><span class="o">.</span><span class="n">details</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;Python&quot;</span><span class="p">,</span> <span class="s">&quot;Version&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">NoSectionError</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> has no section [Python]. Assuming this &#39;</span>
+                <span class="s">&#39;plugin is runnning only under python 2.&#39;</span> <span class="o">%</span> <span class="n">name</span>
+            <span class="p">)</span>
+            <span class="n">python_version</span> <span class="o">=</span> <span class="s">&#39;2&#39;</span>
+
+        <span class="k">if</span> <span class="n">python_version</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;2&#39;</span><span class="p">,</span> <span class="s">&#39;2+&#39;</span><span class="p">,</span> <span class="s">&#39;3&#39;</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> has an invalid Version specified in section [Python]. &#39;</span>
+                <span class="s">&#39;The Version can only be 2, 2+ and 3&#39;</span> <span class="o">%</span> <span class="n">name</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+        <span class="k">if</span> <span class="n">python_version</span> <span class="o">==</span> <span class="s">&#39;2&#39;</span> <span class="ow">and</span> <span class="n">PY3</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s">&#39;</span><span class="se">\n</span><span class="s">Plugin </span><span class="si">%s</span><span class="s"> is made for python 2 only and you are running &#39;</span>
+                <span class="s">&#39;err under python 3.</span><span class="se">\n\n</span><span class="s">&#39;</span>
+                <span class="s">&#39;If the plugin can be run on python 2 and 3 please add this &#39;</span>
+                <span class="s">&#39;section to its .plug descriptor :</span><span class="se">\n</span><span class="s">[Python]</span><span class="se">\n</span><span class="s">Version=2+</span><span class="se">\n\n</span><span class="s">&#39;</span>
+                <span class="s">&#39;Or if the plugin is Python 3 only:</span><span class="se">\n</span><span class="s">[Python]</span><span class="se">\n</span><span class="s">Version=3</span><span class="se">\n\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">name</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+        <span class="k">if</span> <span class="n">python_version</span> <span class="o">==</span> <span class="s">&#39;3&#39;</span> <span class="ow">and</span> <span class="n">PY2</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">Plugin </span><span class="si">%s</span><span class="s"> is made for python 3 and you are running err under python 2.&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">pta_item</span><span class="o">.</span><span class="n">plugin_object</span>
+        <span class="n">min_version</span><span class="p">,</span> <span class="n">max_version</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">min_err_version</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">max_err_version</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Activating </span><span class="si">%s</span><span class="s"> with min_err_version = </span><span class="si">%s</span><span class="s"> and max_version = </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">min_version</span><span class="p">,</span> <span class="n">max_version</span><span class="p">))</span>
+        <span class="n">current_version</span> <span class="o">=</span> <span class="n">version2array</span><span class="p">(</span><span class="n">VERSION</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">min_version</span> <span class="ow">and</span> <span class="n">version2array</span><span class="p">(</span><span class="n">min_version</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">current_version</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">IncompatiblePluginException</span><span class="p">(</span>
+                <span class="s">&#39;The plugin </span><span class="si">%s</span><span class="s"> asks for err with a minimal version of </span><span class="si">%s</span><span class="s"> while err is version </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="n">name</span><span class="p">,</span> <span class="n">min_version</span><span class="p">,</span> <span class="n">VERSION</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">max_version</span> <span class="ow">and</span> <span class="n">version2array</span><span class="p">(</span><span class="n">max_version</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">current_version</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">IncompatiblePluginException</span><span class="p">(</span>
+                <span class="s">&#39;The plugin </span><span class="si">%s</span><span class="s"> asks for err with a maximal version of </span><span class="si">%s</span><span class="s"> while err is version </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="n">name</span><span class="p">,</span> <span class="n">max_version</span><span class="p">,</span> <span class="n">VERSION</span><span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_configuration_template</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Checking configuration for </span><span class="si">%s</span><span class="s">...&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+                <span class="n">obj</span><span class="o">.</span><span class="n">check_configuration</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Configuration for </span><span class="si">%s</span><span class="s"> checked OK.&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>  <span class="c"># even if it is None we pass it on</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&#39;Something is wrong with the configuration of the plugin </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">raise</span> <span class="n">PluginConfigurationException</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="n">add_plugin_templates_path</span><span class="p">(</span><span class="n">pta_item</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">populate_doc</span><span class="p">(</span><span class="n">pta_item</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">activatePluginByName</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s">&quot;bots&quot;</span><span class="p">)</span>
+            <span class="n">route</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">obj</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">pta_item</span><span class="o">.</span><span class="n">activated</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c"># Yapsy doesn&#39;t revert this in case of error</span>
+            <span class="n">remove_plugin_templates_path</span><span class="p">(</span><span class="n">pta_item</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Plugin </span><span class="si">%s</span><span class="s"> failed at activation stage, deactivating it...&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">deactivatePluginByName</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s">&quot;bots&quot;</span><span class="p">)</span>
+            <span class="k">raise</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.deactivate_plugin_by_name"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.deactivate_plugin_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">deactivate_plugin_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="c"># TODO handle the &quot;un&quot;routing.</span>
+
+        <span class="n">pta_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPluginByName</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s">&#39;bots&#39;</span><span class="p">)</span>
+        <span class="n">remove_plugin_templates_path</span><span class="p">(</span><span class="n">pta_item</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">deactivatePluginByName</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s">&quot;bots&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">add_plugin_templates_path</span><span class="p">(</span><span class="n">pta_item</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
+            <span class="k">raise</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.reload_plugin_by_name"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.reload_plugin_by_name">[docs]</a>    <span class="k">def</span> <span class="nf">reload_plugin_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Completely reload the given plugin, including reloading of the module&#39;s code</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">was_activated</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_all_active_plugin_names</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">was_activated</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">deactivate_plugin_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">plugin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">module_alias</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">plugin_object</span><span class="o">.</span><span class="n">__module__</span>
+        <span class="n">module_old</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="n">module_alias</span><span class="p">)</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">module_old</span><span class="o">.</span><span class="n">__file__</span>
+        <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.pyc&#39;</span><span class="p">):</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">f</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c"># py2 compat : load the .py</span>
+        <span class="n">module_new</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_source</span><span class="p">(</span><span class="n">module_alias</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+        <span class="n">class_name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">plugin_object</span><span class="p">)</span><span class="o">.</span><span class="n">__name__</span>
+        <span class="n">new_class</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module_new</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span>
+        <span class="n">plugin</span><span class="o">.</span><span class="n">plugin_object</span><span class="o">.</span><span class="n">__class__</span> <span class="o">=</span> <span class="n">new_class</span>
+
+        <span class="k">if</span> <span class="n">was_activated</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">activate_plugin</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.update_plugin_places"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.update_plugin_places">[docs]</a>    <span class="k">def</span> <span class="nf">update_plugin_places</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_list</span><span class="p">,</span> <span class="n">extra_plugin_dir</span><span class="p">,</span> <span class="n">autoinstall_deps</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="n">builtins</span> <span class="o">=</span> <span class="n">find_roots_with_extra</span><span class="p">(</span><span class="n">CORE_PLUGINS</span><span class="p">,</span> <span class="n">extra_plugin_dir</span><span class="p">)</span>
+
+        <span class="n">paths</span> <span class="o">=</span> <span class="n">path_list</span>
+        <span class="k">if</span> <span class="n">extra_plugin_dir</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">extra_plugin_dir</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">paths</span> <span class="o">+=</span> <span class="n">extra_plugin_dir</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">paths</span> <span class="o">+=</span> <span class="p">[</span><span class="n">extra_plugin_dir</span><span class="p">,</span> <span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">(</span><span class="n">builtins</span><span class="p">,</span> <span class="n">paths</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">entry</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Add </span><span class="si">%s</span><span class="s"> to sys.path&quot;</span> <span class="o">%</span> <span class="n">entry</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>  <span class="c"># so plugins can relatively import their repos</span>
+
+        <span class="n">dependencies_result</span> <span class="o">=</span> <span class="p">[</span><span class="n">check_dependencies</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">]</span>
+        <span class="n">deps_to_install</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">autoinstall_deps</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">dependencies_result</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+                    <span class="n">deps_to_install</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">deps_to_install</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">deps_to_install</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">dep</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+                        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Trying to install an unmet dependency: &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> <span class="n">dep</span><span class="p">)</span>
+                        <span class="n">install_package</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
+            <span class="n">errors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">errors</span> <span class="o">=</span> <span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">dependencies_result</span> <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setPluginPlaces</span><span class="p">(</span><span class="n">chain</span><span class="p">(</span><span class="n">builtins</span><span class="p">,</span> <span class="n">path_list</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">locatePlugins</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">all_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">candidate</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getPluginCandidates</span><span class="p">()]</span>
+
+        <span class="c"># noinspection PyBroadException</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loadPlugins</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&quot;Error while loading plugins&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">errors</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.get_all_active_plugin_objects"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.get_all_active_plugin_objects">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_active_plugin_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">plug</span><span class="o">.</span><span class="n">plugin_object</span>
+                <span class="k">for</span> <span class="n">plug</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAllPlugins</span><span class="p">()</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plug</span><span class="p">,</span> <span class="s">&#39;is_activated&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">plug</span><span class="o">.</span><span class="n">is_activated</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.get_all_active_plugin_names"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.get_all_active_plugin_names">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_active_plugin_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAllPlugins</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s">&#39;is_activated&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">p</span><span class="o">.</span><span class="n">is_activated</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.get_all_plugin_names"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.get_all_plugin_names">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_plugin_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAllPlugins</span><span class="p">()]</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.deactivate_all_plugins"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.deactivate_all_plugins">[docs]</a>    <span class="k">def</span> <span class="nf">deactivate_all_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_all_active_plugin_names</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">deactivatePluginByName</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="s">&quot;bots&quot;</span><span class="p">)</span>
+
+    <span class="c"># Repo management</span></div>
+<div class="viewcode-block" id="BotPluginManager.get_installed_plugin_repos"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.get_installed_plugin_repos">[docs]</a>    <span class="k">def</span> <span class="nf">get_installed_plugin_repos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">REPOS</span><span class="p">,</span> <span class="p">{})</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.add_plugin_repo"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.add_plugin_repo">[docs]</a>    <span class="k">def</span> <span class="nf">add_plugin_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">PY2</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="n">repos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_installed_plugin_repos</span><span class="p">()</span>
+        <span class="n">repos</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">url</span>
+        <span class="bp">self</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">REPOS</span><span class="p">]</span> <span class="o">=</span> <span class="n">repos</span>
+
+    <span class="c"># plugin blacklisting management</span></div>
+<div class="viewcode-block" id="BotPluginManager.get_blacklisted_plugin"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.get_blacklisted_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">get_blacklisted_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">BL_PLUGINS</span><span class="p">,</span> <span class="p">[])</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.is_plugin_blacklisted"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.is_plugin_blacklisted">[docs]</a>    <span class="k">def</span> <span class="nf">is_plugin_blacklisted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_blacklisted_plugin</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.blacklist_plugin"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.blacklist_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">blacklist_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_plugin_blacklisted</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> is already blacklisted&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> is already blacklisted&#39;</span> <span class="o">%</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">BL_PLUGINS</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_blacklisted_plugin</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> is now blacklisted&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> is now blacklisted&#39;</span> <span class="o">%</span> <span class="n">name</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.unblacklist_plugin"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.unblacklist_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">unblacklist_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_plugin_blacklisted</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> is not blacklisted&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> is not blacklisted&#39;</span> <span class="o">%</span> <span class="n">name</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_blacklisted_plugin</span><span class="p">()</span>
+        <span class="n">l</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">BL_PLUGINS</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> removed from blacklist&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s">&#39;Plugin </span><span class="si">%s</span><span class="s"> removed from blacklist&#39;</span> <span class="o">%</span> <span class="n">name</span>
+
+    <span class="c"># configurations management</span></div>
+<div class="viewcode-block" id="BotPluginManager.get_plugin_configuration"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.get_plugin_configuration">[docs]</a>    <span class="k">def</span> <span class="nf">get_plugin_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="n">configs</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">CONFIGS</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">configs</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">configs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.set_plugin_configuration"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.set_plugin_configuration">[docs]</a>    <span class="k">def</span> <span class="nf">set_plugin_configuration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="n">configs</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">CONFIGS</span><span class="p">]</span>
+        <span class="n">configs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="bp">self</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">CONFIGS</span><span class="p">]</span> <span class="o">=</span> <span class="n">configs</span>
+
+    <span class="c"># this will load the plugins the admin has setup at runtime</span></div>
+<div class="viewcode-block" id="BotPluginManager.update_dynamic_plugins"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.update_dynamic_plugins">[docs]</a>    <span class="k">def</span> <span class="nf">update_dynamic_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_plugin_places</span><span class="p">(</span>
+            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">REPOS</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">keys</span><span class="p">()],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span><span class="o">.</span><span class="n">BOT_EXTRA_PLUGIN_DIR</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span><span class="o">.</span><span class="n">AUTOINSTALL_DEPS</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.activate_non_started_plugins"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.activate_non_started_plugins">[docs]</a>    <span class="k">def</span> <span class="nf">activate_non_started_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Activating all the plugins...&#39;</span><span class="p">)</span>
+        <span class="n">configs</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">CONFIGS</span><span class="p">]</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">pluginInfo</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">getAllPlugins</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_plugin_blacklisted</span><span class="p">(</span><span class="n">pluginInfo</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
+                    <span class="n">errors</span> <span class="o">+=</span> <span class="p">(</span><span class="s">&#39;Notice: </span><span class="si">%s</span><span class="s"> is blacklisted, use </span><span class="si">%s</span><span class="s"> plugin unblacklist </span><span class="si">%s</span><span class="s"> to unblacklist it</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="n">pluginInfo</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">pluginInfo</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">pluginInfo</span><span class="p">,</span> <span class="s">&#39;is_activated&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pluginInfo</span><span class="o">.</span><span class="n">is_activated</span><span class="p">:</span>
+                    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Activate plugin: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">pluginInfo</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">activate_plugin_with_version_check</span><span class="p">(</span><span class="n">pluginInfo</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">configs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pluginInfo</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">None</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&quot;Error loading </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">pluginInfo</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">errors</span> <span class="o">+=</span> <span class="s">&#39;Error: </span><span class="si">%s</span><span class="s"> failed to start : </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pluginInfo</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">warn_admins</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">errors</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.activate_plugin"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.activate_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">activate_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_all_active_plugin_names</span><span class="p">():</span>
+                <span class="k">return</span> <span class="s">&quot;Plugin already in active list&quot;</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_all_plugin_names</span><span class="p">():</span>
+                <span class="k">return</span> <span class="s">&quot;I don&#39;t know this </span><span class="si">%s</span><span class="s"> plugin&quot;</span> <span class="o">%</span> <span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">activate_plugin_with_version_check</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin_configuration</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&quot;Error loading </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> failed to start : </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin_obj_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">callback_connect</span><span class="p">()</span>
+        <span class="k">return</span> <span class="s">&quot;Plugin </span><span class="si">%s</span><span class="s"> activated.&quot;</span> <span class="o">%</span> <span class="n">name</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.deactivate_plugin"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.deactivate_plugin">[docs]</a>    <span class="k">def</span> <span class="nf">deactivate_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_all_active_plugin_names</span><span class="p">():</span>
+            <span class="k">return</span> <span class="s">&quot;Plugin </span><span class="si">%s</span><span class="s"> not in active list&quot;</span> <span class="o">%</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deactivate_plugin_by_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s">&quot;Plugin </span><span class="si">%s</span><span class="s"> deactivated.&quot;</span> <span class="o">%</span> <span class="n">name</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.install_repo"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.install_repo">[docs]</a>    <span class="k">def</span> <span class="nf">install_repo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repo</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">repo</span> <span class="ow">in</span> <span class="n">KNOWN_PUBLIC_REPOS</span><span class="p">:</span>
+            <span class="n">repo</span> <span class="o">=</span> <span class="n">KNOWN_PUBLIC_REPOS</span><span class="p">[</span><span class="n">repo</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c"># replace it by the url</span>
+        <span class="n">git_path</span> <span class="o">=</span> <span class="n">which</span><span class="p">(</span><span class="s">&#39;git&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">git_path</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="s">&#39;git command not found: You need to have git installed on &#39;</span>
+                    <span class="s">&#39;your system to be able to install git based plugins.&#39;</span><span class="p">,</span> <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">repo</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;tar.gz&#39;</span><span class="p">):</span>
+            <span class="n">tar</span> <span class="o">=</span> <span class="n">TarFile</span><span class="p">(</span><span class="n">fileobj</span><span class="o">=</span><span class="n">urlopen</span><span class="p">(</span><span class="n">repo</span><span class="p">))</span>
+            <span class="n">tar</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span><span class="p">)</span>
+            <span class="n">human_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">][:</span><span class="o">-</span><span class="mi">7</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">human_name</span> <span class="o">=</span> <span class="n">human_name_for_git_url</span><span class="p">(</span><span class="n">repo</span><span class="p">)</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">([</span><span class="n">git_path</span><span class="p">,</span> <span class="s">&#39;clone&#39;</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">human_name</span><span class="p">],</span> <span class="n">cwd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_dir</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                                 <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
+            <span class="n">feedback</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+            <span class="n">error_feedback</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">wait</span><span class="p">():</span>
+                <span class="k">return</span> <span class="s">&quot;Could not load this plugin: </span><span class="se">\n\n</span><span class="si">%s</span><span class="se">\n\n</span><span class="s">---</span><span class="se">\n\n</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">feedback</span><span class="p">,</span> <span class="n">error_feedback</span><span class="p">),</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_plugin_repo</span><span class="p">(</span><span class="n">human_name</span><span class="p">,</span> <span class="n">repo</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_dynamic_plugins</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="BotPluginManager.shutdown"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.shutdown">[docs]</a>    <span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Shutdown.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">close_storage</span><span class="p">()</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Bye.&#39;</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># Ensures this class (and subclasses) are hashable.</span>
+        <span class="c"># Presumably the use of mixins causes __hash__ to be</span>
+        <span class="c"># None otherwise.</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span></div>
+</pre></div>
+  <div id="prev_next_links">
+      
+          
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../../index.html" title="Back to home page">
+        <img class="logo" src="../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div><h3>Related Topics</h3>
+<ul>
+    <li><a href="../../index.html">Homepage</a></li>
+    <li><a href="../../genindex.html">Index</a></li>
+    <li><a href="../../py-modindex.html">Module index</a></li>
+    <li><a href="../../modules.html">API reference</a></li>
+        <li>
+        <a href="../index.html">Module code</a>
+        <ul>
+        <li>
+        <a href="../errbot.html">errbot</a>
+        <ul>
+        </ul>
+        </li>
+        </ul>
+        </li>
+</ul>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
+          <li class="nav-item nav-item-2"><a href="../errbot.html" >errbot</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Oct 26, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>

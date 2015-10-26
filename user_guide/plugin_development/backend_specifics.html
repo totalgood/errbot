@@ -1,0 +1,303 @@
+
+    <!doctype html>
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>13. Backend-specifics &mdash; Err 3.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Err 3.1.0 documentation" href="../../index.html" />
+    <link rel="up" title="Plugin development" href="index.html" />
+    <link rel="next" title="Logging to Sentry" href="../sentry.html" />
+    <link rel="prev" title="12. Logging" href="logging.html" />
+    <script type="text/javascript">
+        // GitHub pages offers no way to redirect to a canonical location, so we
+        // have to make do with hacky javascript redirection :(
+        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+            var path = document.location.pathname.replace('/err/', '/');
+            document.location = "http://errbot.net" + path;
+        }
+    </script>
+    <link rel="icon" type="image/png" href="../../_static/err.png"/>
+    <link rel="apple-touch-icon" href="../../_static/err.png"/>
+    <link rel="stylesheet" href="../../_static/fancybox/jquery.fancybox.css" type="text/css"
+          media="screen"/>
+    <script type="text/javascript" src="../../_static/fancybox/jquery.fancybox.pack.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-32534172-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+  </head>
+  <body role="document">
+    
+    
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../sentry.html" title="Logging to Sentry"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="logging.html" title="12. Logging"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Plugin development</a> &raquo;</li> 
+      </ul>
+    </div>
+      
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="backend-specifics">
+<h1>13. Backend-specifics<a class="headerlink" href="#backend-specifics" title="Permalink to this headline">¶</a></h1>
+<p>Err uses external libraries for most backends, which may offer additional functionality not exposed by Err in a generic, backend-agnostic fashion.
+It is possible to access the underlying client used by the backend you are using in order to provide functionality that isn't otherwise available.
+Additionally, interacting directly with the bot internals gives you the freedom to control Err in highly specific ways that may not be officially supported.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The following instructions describe how to interface directly with the underlying bot object and clients of backends.
+We offer no guarantees that these internal APIs are stable or that a given backend will continue to use a given client in the future.
+The following information is provided <strong>as-is</strong> without any official support.
+We can give <strong>no</strong> guarantees about API stability on the topics described below.</p>
+</div>
+<div class="section" id="getting-to-the-bot-object">
+<h2>13.1. Getting to the bot object<a class="headerlink" href="#getting-to-the-bot-object" title="Permalink to this headline">¶</a></h2>
+<p>From within a plugin, you may access <cite>self._bot</cite> in order to get to the instance of the currently running bot class.
+For example, with the Telegram backend this would be an instance of <a class="reference internal" href="../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramBackend" title="errbot.backends.telegram.TelegramBackend"><code class="xref py py-class docutils literal"><span class="pre">TelegramBackend</span></code></a>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bot</span><span class="p">)</span>
+<span class="go">&lt;class &#39;yapsy_loaded_plugin_Telegram_0.TelegramBackend&#39;&gt;</span>
+</pre></div>
+</div>
+<p>To find out what methods each bot backend has, you can take a look at the documentation of the various backends in the <a class="reference internal" href="../../errbot.backends.html#module-errbot.backends" title="errbot.backends"><code class="xref py py-mod docutils literal"><span class="pre">errbot.backends</span></code></a> package.</p>
+<p>Plugins may use the <cite>self._bot</cite> object to offer tailored, backend-specific functionality on specific backends.
+To determine which backend is being used, a plugin can inspect the <cite>self._bot.mode</cite> property.
+The following table lists all the values for <cite>mode</cite> for the official backends:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="77%" />
+<col width="23%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Backend</th>
+<th class="head">Mode value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference internal" href="../../errbot.backends.hipchat.html#module-errbot.backends.hipchat" title="errbot.backends.hipchat"><code class="xref py py-class docutils literal"><span class="pre">hipchat</span></code></a></td>
+<td>hipchat</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../errbot.backends.irc.html#module-errbot.backends.irc" title="errbot.backends.irc"><code class="xref py py-class docutils literal"><span class="pre">irc</span></code></a></td>
+<td>irc</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../errbot.backends.slack.html#module-errbot.backends.slack" title="errbot.backends.slack"><code class="xref py py-class docutils literal"><span class="pre">slack</span></code></a></td>
+<td>slack</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../errbot.backends.telegram.html#module-errbot.backends.telegram" title="errbot.backends.telegram"><code class="xref py py-class docutils literal"><span class="pre">telegram</span></code></a></td>
+<td>telegram</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../errbot.backends.test.html#module-errbot.backends.test" title="errbot.backends.test"><code class="xref py py-class docutils literal"><span class="pre">test</span></code></a></td>
+<td>test</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../errbot.backends.text.html#module-errbot.backends.text" title="errbot.backends.text"><code class="xref py py-class docutils literal"><span class="pre">text</span></code></a></td>
+<td>text</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../errbot.backends.xmpp.html#module-errbot.backends.xmpp" title="errbot.backends.xmpp"><code class="xref py py-class docutils literal"><span class="pre">xmpp</span></code></a></td>
+<td>xmpp</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="getting-to-the-underlying-client-library">
+<h2>13.2. Getting to the underlying client library<a class="headerlink" href="#getting-to-the-underlying-client-library" title="Permalink to this headline">¶</a></h2>
+<p>Most of the backends use a third-party library in order to connect to their respective network.
+These libraries often support additional features which Err doesn't expose in a generic way so you may wish to make use of these in order to access advanced functionality.</p>
+<p>Backends set their own attribute(s) to point to the underlying libraries' client instance(s).
+The following table lists these attributes for the official backends, along with the library used by the backend:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="23%" />
+<col width="45%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Backend</th>
+<th class="head">Library</th>
+<th class="head">Attribute(s)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference internal" href="../../errbot.backends.hipchat.html#module-errbot.backends.hipchat" title="errbot.backends.hipchat"><code class="xref py py-class docutils literal"><span class="pre">hipchat</span></code></a></td>
+<td><a class="reference external" href="https://pypi.python.org/pypi/sleekxmpp">sleekxmpp</a> + <a class="reference external" href="https://pypi.python.org/pypi/hypchat/">hypchat</a></td>
+<td><code class="docutils literal"><span class="pre">self._bot.conn</span></code> <code class="docutils literal"><span class="pre">self._bot.conn.hypchat</span></code></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../errbot.backends.irc.html#module-errbot.backends.irc" title="errbot.backends.irc"><code class="xref py py-class docutils literal"><span class="pre">irc</span></code></a></td>
+<td><a class="reference external" href="https://pypi.python.org/pypi/irc/">irc</a></td>
+<td><code class="docutils literal"><span class="pre">self._bot.conn</span></code> <code class="docutils literal"><span class="pre">self._bot.conn.connection</span></code></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../errbot.backends.slack.html#module-errbot.backends.slack" title="errbot.backends.slack"><code class="xref py py-class docutils literal"><span class="pre">slack</span></code></a></td>
+<td><a class="reference external" href="https://pypi.python.org/pypi/slackclient/">slackclient</a></td>
+<td><code class="docutils literal"><span class="pre">self._bot.sc</span></code></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="../../errbot.backends.telegram.html#module-errbot.backends.telegram" title="errbot.backends.telegram"><code class="xref py py-class docutils literal"><span class="pre">telegram</span></code></a></td>
+<td><a class="reference external" href="https://pypi.python.org/pypi/python-telegram-bot">telegram-python-bot</a></td>
+<td><code class="docutils literal"><span class="pre">self._bot.telegram</span></code></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="../../errbot.backends.xmpp.html#module-errbot.backends.xmpp" title="errbot.backends.xmpp"><code class="xref py py-class docutils literal"><span class="pre">xmpp</span></code></a></td>
+<td><a class="reference external" href="https://pypi.python.org/pypi/sleekxmpp">sleekxmpp</a></td>
+<td><code class="docutils literal"><span class="pre">self._bot.conn</span></code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+  <div id="prev_next_links">
+      
+          
+              Previous: <a href="logging.html">12. Logging</a>
+          
+          
+               | 
+              Next: <a href="../sentry.html">Logging to Sentry</a>
+          
+      
+  </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+    <a class="logo" href="../../index.html" title="Back to home page">
+        <img class="logo" src="../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
+    </a>
+    <div class="ghbuttons">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
+                allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
+                frameborder="0" scrolling="0" width="95" height="20"></iframe>
+    </div>
+  <h3><a href="../../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">13. Backend-specifics</a><ul>
+<li><a class="reference internal" href="#getting-to-the-bot-object">13.1. Getting to the bot object</a></li>
+<li><a class="reference internal" href="#getting-to-the-underlying-client-library">13.2. Getting to the underlying client library</a></li>
+</ul>
+</li>
+</ul>
+<h3>Related Topics</h3>
+<ul>
+    <li><a href="../../index.html">Homepage</a></li>
+    <li><a href="../../genindex.html">Index</a></li>
+    <li><a href="../../py-modindex.html">Module index</a></li>
+    <li><a href="../../modules.html">API reference</a></li>
+        <li>
+        <a href="index.html">Plugin development</a>
+        <ul>
+        <li>Previous: <a href="logging.html" title="previous chapter">12. Logging</a></li>
+        <li>Next: <a href="../sentry.html" title="next chapter">Logging to Sentry</a></li>
+        </ul>
+        </li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/user_guide/plugin_development/backend_specifics.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                padding: 0,
+                openEffect: 'elastic'
+            });
+        });
+    </script>
+    <div class="relbar2">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../sentry.html" title="Logging to Sentry"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="logging.html" title="12. Logging"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.0 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Plugin development</a> &raquo;</li> 
+      </ul>
+    </div>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
+          Last updated on Oct 26, 2015.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+    </div>
+    
+  </body>
+</html>
