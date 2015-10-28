@@ -55,7 +55,13 @@
             var s = document.getElementsByTagName('script')[0];
             s.parentNode.insertBefore(ga, s);
         })();
-    </script>
+
+        // Gitter button
+        ((window.gitter = {}).chat = {}).options = {
+             room: 'gbin/err'
+        };
+   </script>
+   <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
 
   </head>
   <body role="document">
@@ -412,7 +418,7 @@
 
 <dl class="function">
 <dt id="errbot.rendering.ansi.translate">
-<code class="descclassname">errbot.rendering.ansi.</code><code class="descname">translate</code><span class="sig-paren">(</span><em>element</em>, <em>ct=CharacterTable(fg_black=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b12b70&gt;</em>, <em>fg_red=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b12b00&gt;</em>, <em>fg_green=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b186a0&gt;</em>, <em>fg_yellow=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b18710&gt;</em>, <em>fg_blue=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b18780&gt;</em>, <em>fg_magenta=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b187f0&gt;</em>, <em>fg_cyan=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b18860&gt;</em>, <em>fg_white=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b188d0&gt;</em>, <em>fg_default=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b18940&gt;</em>, <em>bg_black=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b18f98&gt;</em>, <em>bg_red=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b1a048&gt;</em>, <em>bg_green=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b1a080&gt;</em>, <em>bg_yellow=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b1a0f0&gt;</em>, <em>bg_blue=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b1a160&gt;</em>, <em>bg_magenta=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b1a1d0&gt;</em>, <em>bg_cyan=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b1a240&gt;</em>, <em>bg_white=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b1a2b0&gt;</em>, <em>bg_default=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b1a320&gt;</em>, <em>fx_reset=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b21668&gt;</em>, <em>fx_bold=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b216a0&gt;</em>, <em>fx_italic=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b21780&gt;</em>, <em>fx_underline=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b217f0&gt;</em>, <em>fx_not_italic=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b180f0&gt;</em>, <em>fx_not_underline=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b18240&gt;</em>, <em>fx_normal=&lt;ansi.colour.base.Graphic object at 0x7fa3b8b18080&gt;</em>, <em>fixed_width=''</em>, <em>end_fixed_width=''</em>, <em>inline_code=''</em>, <em>end_inline_code='')</em>, <em>borders=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/rendering/ansi.html#translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.translate" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.rendering.ansi.</code><code class="descname">translate</code><span class="sig-paren">(</span><em>element</em>, <em>ct=CharacterTable(fg_black=&lt;ansi.colour.base.Graphic object at 0x2b2226de16d8&gt;</em>, <em>fg_red=&lt;ansi.colour.base.Graphic object at 0x2b2226de1748&gt;</em>, <em>fg_green=&lt;ansi.colour.base.Graphic object at 0x2b2226dd0f28&gt;</em>, <em>fg_yellow=&lt;ansi.colour.base.Graphic object at 0x2b2226dd0c88&gt;</em>, <em>fg_blue=&lt;ansi.colour.base.Graphic object at 0x2b2226dd0128&gt;</em>, <em>fg_magenta=&lt;ansi.colour.base.Graphic object at 0x2b2226dd02b0&gt;</em>, <em>fg_cyan=&lt;ansi.colour.base.Graphic object at 0x2b2225935048&gt;</em>, <em>fg_white=&lt;ansi.colour.base.Graphic object at 0x2b2225a05940&gt;</em>, <em>fg_default=&lt;ansi.colour.base.Graphic object at 0x2b2225a05198&gt;</em>, <em>bg_black=&lt;ansi.colour.base.Graphic object at 0x2b22259fe208&gt;</em>, <em>bg_red=&lt;ansi.colour.base.Graphic object at 0x2b22259fe0b8&gt;</em>, <em>bg_green=&lt;ansi.colour.base.Graphic object at 0x2b22259feac8&gt;</em>, <em>bg_yellow=&lt;ansi.colour.base.Graphic object at 0x2b22259fea20&gt;</em>, <em>bg_blue=&lt;ansi.colour.base.Graphic object at 0x2b22259fe160&gt;</em>, <em>bg_magenta=&lt;ansi.colour.base.Graphic object at 0x2b22259fe278&gt;</em>, <em>bg_cyan=&lt;ansi.colour.base.Graphic object at 0x2b22259fe2b0&gt;</em>, <em>bg_white=&lt;ansi.colour.base.Graphic object at 0x2b22259fe198&gt;</em>, <em>bg_default=&lt;ansi.colour.base.Graphic object at 0x2b22259fe7f0&gt;</em>, <em>fx_reset=&lt;ansi.colour.base.Graphic object at 0x2b2226de1898&gt;</em>, <em>fx_bold=&lt;ansi.colour.base.Graphic object at 0x2b2226de10b8&gt;</em>, <em>fx_italic=&lt;ansi.colour.base.Graphic object at 0x2b2226de1a90&gt;</em>, <em>fx_underline=&lt;ansi.colour.base.Graphic object at 0x2b2226de17f0&gt;</em>, <em>fx_not_italic=&lt;ansi.colour.base.Graphic object at 0x2b2226dd01d0&gt;</em>, <em>fx_not_underline=&lt;ansi.colour.base.Graphic object at 0x2b2226dd0e48&gt;</em>, <em>fx_normal=&lt;ansi.colour.base.Graphic object at 0x2b2226dd0cc0&gt;</em>, <em>fixed_width=''</em>, <em>end_fixed_width=''</em>, <em>inline_code=''</em>, <em>end_inline_code='')</em>, <em>borders=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/rendering/ansi.html#translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.translate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -518,7 +524,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Oct 27, 2015.
+          Last updated on Oct 28, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     
