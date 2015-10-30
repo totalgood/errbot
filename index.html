@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Err - the pluggable chatbot &mdash; Err 3.1.1 documentation</title>
+    <title>Errbot &mdash; Err 3.1.1 documentation</title>
     
     <link rel="stylesheet" href="_static/err.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -90,17 +90,35 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="err-the-pluggable-chatbot">
-<h1>Err - the pluggable chatbot<a class="headerlink" href="#err-the-pluggable-chatbot" title="Permalink to this headline">¶</a></h1>
-<p><em>Err is a GPL3-licensed chatbot designed to be easily deployable, extensible
-and maintainable. Our goal is to make it easy for you to write your own plugins
-so you can make it do whatever you want.</em></p>
+  <div class="section" id="errbot">
+<h1>Errbot<a class="headerlink" href="#errbot" title="Permalink to this headline">¶</a></h1>
+<p><a href="#id1"><span class="problematic" id="id2">*</span></a>Errbot is a chatbot, a daemon that connects to your favorite chat service and bring
+your tools into the conversation.</p>
+<p>The goal of the project is to make it easy for you to write your own plugins so you
+can make it do whatever you want: a deployment, retrieving some information online,
+trigger a tool via an API, troll a co-worker,...</p>
+<p>Errbot is being used in a lot of different contexts: chatops (tools for devops),
+online gaming chatrooms like EVE, video streaming chatrooms like livecoders.tv,
+home security, etc.*</p>
+<div class="section" id="screenshots">
+<h2>Screenshots<a class="headerlink" href="#screenshots" title="Permalink to this headline">¶</a></h2>
+<div class="screenshots">
+    <a href="_static/screenshots/help.png" class="fancybox" title="Showing output of the built-in help command">
+        <img src="_static/screenshots/thumb_help.png" width="155" height="150" alt="Showing output of the built-in help command" />
+    </a>
+    <a href="_static/screenshots/quota.png" class="fancybox" title="Err running on HipChat, showing off a (businesss-specific) command to get and set the disk quotas for mail accounts">
+        <img src="_static/screenshots/thumb_quota.png" width="268" height= "150" alt="Err running on HipChat, showing off a (businesss-specific) command to get and set the disk quotas for mail accounts" />
+    </a>
+    <a href="_static/screenshots/basecamp.png" class="fancybox" title="An older version of Err, running on Basecamp">
+        <img src="_static/screenshots/thumb_basecamp.png" width="181" height= "150" alt="An older version of Err, running on Basecamp" />
+    </a>
+</div></div>
 <div class="section" id="simple-to-build-upon">
 <h2>Simple to build upon<a class="headerlink" href="#simple-to-build-upon" title="Permalink to this headline">¶</a></h2>
-<p>Extending Err and adding your own commands can be done by creating a plugin, which
-is merely a Python module containing a class derived from
-<a class="reference internal" href="errbot.botplugin.html#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><code class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></code></a>, the docstrings will be automatically reused
-By the <a class="reference internal" href="user_guide/interaction.html#builtin-help-function"><span>!help</span></a> command:</p>
+<p>Extending Errbot and adding your own commands can be done by creating a plugin, which
+is simply a class derived from <a class="reference internal" href="errbot.botplugin.html#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><code class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></code></a>.
+The docstrings will be automatically reused by the <a class="reference internal" href="user_guide/interaction.html#builtin-help-function"><span>!help</span></a>
+command:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span><span class="p">,</span> <span class="n">botcmd</span>
 
 <span class="k">class</span> <span class="nc">HelloWorld</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
@@ -112,6 +130,7 @@ By the <a class="reference internal" href="user_guide/interaction.html#builtin-h
         <span class="k">return</span> <span class="s">&quot;Hello, world!&quot;</span>
 </pre></div>
 </div>
+<p>Once you said &quot;!hello&quot; in your chatroom, the bot will answer &quot;Hello, world!&quot;.</p>
 </div>
 <div class="section" id="batteries-included">
 <h2>Batteries included<a class="headerlink" href="#batteries-included" title="Permalink to this headline">¶</a></h2>
@@ -136,19 +155,6 @@ plugin available through this command only requires you to publish it as a publi
 available Git repository.</p>
 <p>You may also discover plugins from the community on our <a class="reference external" href="https://github.com/gbin/err/wiki">plugin list</a> that we update from plugins found on github.</p>
 </div>
-<div class="section" id="screenshots">
-<h2>Screenshots<a class="headerlink" href="#screenshots" title="Permalink to this headline">¶</a></h2>
-<div class="screenshots">
-    <a href="_static/screenshots/help.png" class="fancybox" title="Showing output of the built-in help command">
-        <img src="_static/screenshots/thumb_help.png" width="155" height="150" alt="Showing output of the built-in help command" />
-    </a>
-    <a href="_static/screenshots/quota.png" class="fancybox" title="Err running on HipChat, showing off a (businesss-specific) command to get and set the disk quotas for mail accounts">
-        <img src="_static/screenshots/thumb_quota.png" width="268" height= "150" alt="Err running on HipChat, showing off a (businesss-specific) command to get and set the disk quotas for mail accounts" />
-    </a>
-    <a href="_static/screenshots/basecamp.png" class="fancybox" title="An older version of Err, running on Basecamp">
-        <img src="_static/screenshots/thumb_basecamp.png" width="181" height= "150" alt="An older version of Err, running on Basecamp" />
-    </a>
-</div></div>
 <div class="section" id="community">
 <h2>Community<a class="headerlink" href="#community" title="Permalink to this headline">¶</a></h2>
 <p>Err has a <a class="reference external" href="https://plus.google.com/b/101905029512356212669/communities/117050256560830486288">Google plus community</a>, which is the best place to discuss anything
@@ -344,11 +350,11 @@ you can <a class="reference external" href="https://github.com/gbin/err/issues">
     </div>
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Err - the pluggable chatbot</a><ul>
+<li><a class="reference internal" href="#">Errbot</a><ul>
+<li><a class="reference internal" href="#screenshots">Screenshots</a></li>
 <li><a class="reference internal" href="#simple-to-build-upon">Simple to build upon</a></li>
 <li><a class="reference internal" href="#batteries-included">Batteries included</a></li>
 <li><a class="reference internal" href="#sharing">Sharing</a></li>
-<li><a class="reference internal" href="#screenshots">Screenshots</a></li>
 <li><a class="reference internal" href="#community">Community</a></li>
 <li><a class="reference internal" href="#getting-involved">Getting involved</a></li>
 <li><a class="reference internal" href="#user-guide">User guide</a></li>
