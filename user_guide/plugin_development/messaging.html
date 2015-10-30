@@ -141,17 +141,13 @@ this with <a class="reference internal" href="../../errbot.botplugin.html#errbot
 </div>
 <div class="section" id="templating">
 <h2>5.3. Templating<a class="headerlink" href="#templating" title="Permalink to this headline">¶</a></h2>
-<p>It's possible to send <a class="reference external" href="http://xmpp.org/extensions/xep-0071.html">XHTML-IM</a> responses using <a class="reference external" href="http://jinja.pocoo.org/">Jinja2</a> templates.</p>
+<p>It's possible to send <a class="reference external" href="http://daringfireball.net/projects/markdown/">Markdown</a> responses using <a class="reference external" href="http://jinja.pocoo.org/">Jinja2</a> templates.</p>
 <p>To do this, first create a directory called <em>templates</em> in the
 directory that also holds your plugin's <em>.plug</em> file.</p>
-<p>Inside this directory, you can place XHTML-IM templates (with a
-<em>.html</em> extension) that extend <cite>base.html</cite> and contain a block
-called <cite>body</cite> in place of the content you wish to show. For example
-this <em>hello.html</em>:</p>
-<div class="highlight-html"><div class="highlight"><pre>{% extends &quot;base.html&quot; %}
-{% block body %}
-<span class="nt">&lt;p</span> <span class="na">style=</span><span class="s">&#39;font-weight:bold&#39;</span><span class="nt">&gt;</span>Hello, {{name}}!<span class="nt">&lt;/p&gt;</span>
-{% endblock %}
+<p>Inside this directory, you can place Markdown templates (with a
+<em>.md</em> extension) in place of the content you wish to show. For
+example this <em>hello.md</em>:</p>
+<div class="highlight-python"><div class="highlight"><pre>Hello, {{name}}!
 </pre></div>
 </div>
 <div class="admonition note">
@@ -161,7 +157,7 @@ the available template syntax.</p>
 </div>
 <p>Next, tell Err which template to use by specifying the <cite>template</cite>
 parameter to <code class="xref py py-func docutils literal"><span class="pre">botcmd()</span></code> (leaving off the
-<em>.html</em> suffix).</p>
+<em>.md</em> suffix).</p>
 <p>Finally, instead of returning a string, return a dictionary where
 the keys refer to the variables you're substituting inside the
 template (<cite>{{name}}</cite> in the above template example):</p>
@@ -184,14 +180,9 @@ like so:</p>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="s">&quot;hello&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Say hello to someone&quot;&quot;&quot;</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">tenv</span><span class="p">()</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="s">&#39;hello.html&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">tenv</span><span class="p">()</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="s">&#39;hello.md&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">frm</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">message_type</span><span class="o">=</span><span class="n">msg</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
 </pre></div>
-</div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">In both cases a plain-text version of your template is automatically
-generated for clients and back-ends that do not support XHTML-IM.</p>
 </div>
 </div>
 <div class="section" id="trigger-a-callback-with-every-message-received">
@@ -320,7 +311,7 @@ in:</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Oct 28, 2015.
+          Last updated on Oct 30, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     
