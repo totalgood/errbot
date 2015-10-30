@@ -92,14 +92,15 @@
             
   <div class="section" id="err-the-pluggable-chatbot">
 <h1>Err - the pluggable chatbot<a class="headerlink" href="#err-the-pluggable-chatbot" title="Permalink to this headline">¶</a></h1>
-<p><em>Err is a GPL3-licensed chat-bot designed to be easily deployable, extensible
+<p><em>Err is a GPL3-licensed chatbot designed to be easily deployable, extensible
 and maintainable. Our goal is to make it easy for you to write your own plugins
 so you can make it do whatever you want.</em></p>
 <div class="section" id="simple-to-build-upon">
 <h2>Simple to build upon<a class="headerlink" href="#simple-to-build-upon" title="Permalink to this headline">¶</a></h2>
 <p>Extending Err and adding your own commands can be done by creating a plugin, which
 is merely a Python module containing a class derived from
-<a class="reference internal" href="errbot.botplugin.html#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><code class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></code></a>:</p>
+<a class="reference internal" href="errbot.botplugin.html#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><code class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></code></a>, the docstrings will be automatically reused
+By the <a class="reference internal" href="user_guide/interaction.html#builtin-help-function"><span>!help</span></a> command:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span><span class="p">,</span> <span class="n">botcmd</span>
 
 <span class="k">class</span> <span class="nc">HelloWorld</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
@@ -111,13 +112,10 @@ is merely a Python module containing a class derived from
         <span class="k">return</span> <span class="s">&quot;Hello, world!&quot;</span>
 </pre></div>
 </div>
-<p>By default, Err looks at your docstrings to automatically document commands for the
-built-in <a class="reference internal" href="user_guide/interaction.html#builtin-help-function"><span>!help</span></a> command. It will use the class' docstring as the description of
-your plugin and use the method docstrings as documentation for the bot commands.</p>
 </div>
 <div class="section" id="batteries-included">
 <h2>Batteries included<a class="headerlink" href="#batteries-included" title="Permalink to this headline">¶</a></h2>
-<p>We aim to give you all the tools you need to build the bot you want, without
+<p>We aim to give you all the tools you need to build a customized bot safely, without
 having to worry about basic functionality. As such, Err comes with a wealth of
 features out of the box.</p>
 <div class="toctree-wrapper compound">
@@ -131,13 +129,12 @@ features out of the box.</p>
 </div>
 <div class="section" id="sharing">
 <h2>Sharing<a class="headerlink" href="#sharing" title="Permalink to this headline">¶</a></h2>
-<p>One of the principal goals of Err is to make it easy to not only create your own
-plugins with little effort, but to make it easy to share them with others as well.</p>
+<p>One of the main goals of Errbot is to make it easy to share your plugin with others as well.</p>
 <p>Err features a built-in <em>repositories command</em> (<cite>!repos</cite>) which can be used to
 install, uninstall and update plugins made available by the community. Making your
 plugin available through this command only requires you to publish it as a publicly
-available Git repository and letting us know the URL so we can add it.</p>
-<p>You may also discover plugins from the community on our <a class="reference external" href="https://github.com/gbin/err/wiki">plugin list</a>.</p>
+available Git repository.</p>
+<p>You may also discover plugins from the community on our <a class="reference external" href="https://github.com/gbin/err/wiki">plugin list</a> that we update from plugins found on github.</p>
 </div>
 <div class="section" id="screenshots">
 <h2>Screenshots<a class="headerlink" href="#screenshots" title="Permalink to this headline">¶</a></h2>
@@ -154,10 +151,15 @@ available Git repository and letting us know the URL so we can add it.</p>
 </div></div>
 <div class="section" id="community">
 <h2>Community<a class="headerlink" href="#community" title="Permalink to this headline">¶</a></h2>
-<p>Err has a <a class="reference external" href="https://plus.google.com/b/101905029512356212669/communities/117050256560830486288">Google plus community</a>, which is the best place to go for help and ask
-questions, discuss anything related to Err as well as promote your own creations.
+<p>Err has a <a class="reference external" href="https://plus.google.com/b/101905029512356212669/communities/117050256560830486288">Google plus community</a>, which is the best place to discuss anything
+related to Errbot as well as promote your own creations !
 This is also the place where you will find announcements of new versions and other
 news related to the project.</p>
+<p>You can also interact directly with the community online from the &quot;Open Chat&quot;
+button at the bottom of this page. Don't be shy and feel free to ask any question
+there, we are more than happy to help you.</p>
+<p>If you think you hit a bug or the documentation is not clear enough,
+you can <a class="reference external" href="https://github.com/gbin/err/issues">open an issue</a> or even better, open a pull request.</p>
 </div>
 <div class="section" id="getting-involved">
 <h2>Getting involved<a class="headerlink" href="#getting-involved" title="Permalink to this headline">¶</a></h2>
