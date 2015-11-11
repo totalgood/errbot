@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.test module &mdash; Err 3.1.1 documentation</title>
+    <title>errbot.backends.test module &mdash; Err 3.1.2 documentation</title>
     
     <link rel="stylesheet" href="_static/err.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.1.1',
+        VERSION:     '3.1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.1 documentation" href="index.html" />
+    <link rel="top" title="Err 3.1.2 documentation" href="index.html" />
     <link rel="up" title="errbot.backends package" href="errbot.backends.html" />
     <link rel="next" title="errbot.backends.text module" href="errbot.backends.text.html" />
     <link rel="prev" title="errbot.backends.telegram module" href="errbot.backends.telegram.html" />
@@ -83,7 +83,7 @@
         <li class="right" >
           <a href="errbot.backends.telegram.html" title="errbot.backends.telegram module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.1 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="errbot.backends.html" accesskey="U">errbot.backends package</a> &raquo;</li> 
       </ul>
@@ -105,12 +105,12 @@
 against a fully functioning bot.</p>
 <p>For example, if you wanted to test the builtin <cite>!about</cite> command,
 you could write a test file with the following:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">FullStackTest</span><span class="p">,</span> <span class="n">push_message</span><span class="p">,</span> <span class="n">pop_message</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">FullStackTest</span>
 
 <span class="k">class</span> <span class="nc">TestCommands</span><span class="p">(</span><span class="n">FullStackTest</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">test_about</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">push_message</span><span class="p">(</span><span class="s">&#39;!about&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Err version&#39;</span><span class="p">,</span> <span class="n">pop_message</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">push_message</span><span class="p">(</span><span class="s">&#39;!about&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Err version&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_message</span><span class="p">())</span>
 </pre></div>
 </div>
 <dl class="method">
@@ -392,7 +392,7 @@ Exception being raised.</p>
 <dd><p>Pytest fixture to write tests against a fully functioning bot.</p>
 <p>For example, if you wanted to test the builtin <cite>!about</cite> command,
 you could write a test file with the following:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">testbot</span><span class="p">,</span> <span class="n">push_message</span><span class="p">,</span> <span class="n">pop_message</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">testbot</span>
 
 <span class="k">def</span> <span class="nf">test_about</span><span class="p">(</span><span class="n">testbot</span><span class="p">):</span>
     <span class="n">testbot</span><span class="o">.</span><span class="n">push_message</span><span class="p">(</span><span class="s">&#39;!about&#39;</span><span class="p">)</span>
@@ -402,7 +402,7 @@ you could write a test file with the following:</p>
 <p>It's possible to provide additional configuration to this fixture,
 by setting variables at module level or as class attributes (the
 latter taking precedence over the former). For example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">testbot</span><span class="p">,</span> <span class="n">push_message</span><span class="p">,</span> <span class="n">pop_message</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">testbot</span>
 
 <span class="n">extra_plugin_dir</span> <span class="o">=</span> <span class="s">&#39;/foo/bar&#39;</span>
 
@@ -412,7 +412,7 @@ latter taking precedence over the former). For example:</p>
 </pre></div>
 </div>
 <p>..or:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">testbot</span><span class="p">,</span> <span class="n">push_message</span><span class="p">,</span> <span class="n">pop_message</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">testbot</span>
 
 <span class="n">extra_plugin_dir</span> <span class="o">=</span> <span class="s">&#39;/foo/bar&#39;</span>
 
@@ -529,7 +529,7 @@ passed to the constructor of <a class="reference internal" href="#errbot.backend
         <li class="right" >
           <a href="errbot.backends.telegram.html" title="errbot.backends.telegram module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.1 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="errbot.backends.html" >errbot.backends package</a> &raquo;</li> 
       </ul>
@@ -537,7 +537,7 @@ passed to the constructor of <a class="reference internal" href="#errbot.backend
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Oct 30, 2015.
+          Last updated on Nov 11, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.test &mdash; Err 3.1.1 documentation</title>
+    <title>errbot.backends.test &mdash; Err 3.1.2 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '3.1.1',
+        VERSION:     '3.1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.1 documentation" href="../../../index.html" />
+    <link rel="top" title="Err 3.1.2 documentation" href="../../../index.html" />
     <link rel="up" title="errbot.backends" href="../backends.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
@@ -75,7 +75,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.1 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li>
           <li class="nav-item nav-item-3"><a href="../backends.html" accesskey="U">errbot.backends</a> &raquo;</li> 
@@ -431,12 +431,12 @@
 <span class="sd">    For example, if you wanted to test the builtin `!about` command,</span>
 <span class="sd">    you could write a test file with the following::</span>
 
-<span class="sd">        from errbot.backends.test import FullStackTest, push_message, pop_message</span>
+<span class="sd">        from errbot.backends.test import FullStackTest</span>
 
 <span class="sd">        class TestCommands(FullStackTest):</span>
 <span class="sd">            def test_about(self):</span>
-<span class="sd">                push_message(&#39;!about&#39;)</span>
-<span class="sd">                self.assertIn(&#39;Err version&#39;, pop_message())</span>
+<span class="sd">                self.push_message(&#39;!about&#39;)</span>
+<span class="sd">                self.assertIn(&#39;Err version&#39;, self.pop_message())</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="FullStackTest.setUp"><a class="viewcode-back" href="../../../errbot.backends.test.html#errbot.backends.test.FullStackTest.setUp">[docs]</a>    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_plugin_dir</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">extra_test_file</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">loglevel</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">):</span>
@@ -467,7 +467,7 @@
 <span class="sd">    For example, if you wanted to test the builtin `!about` command,</span>
 <span class="sd">    you could write a test file with the following::</span>
 
-<span class="sd">        from errbot.backends.test import testbot, push_message, pop_message</span>
+<span class="sd">        from errbot.backends.test import testbot</span>
 
 <span class="sd">        def test_about(testbot):</span>
 <span class="sd">            testbot.push_message(&#39;!about&#39;)</span>
@@ -477,7 +477,7 @@
 <span class="sd">    by setting variables at module level or as class attributes (the</span>
 <span class="sd">    latter taking precedence over the former). For example::</span>
 
-<span class="sd">        from errbot.backends.test import testbot, push_message, pop_message</span>
+<span class="sd">        from errbot.backends.test import testbot</span>
 
 <span class="sd">        extra_plugin_dir = &#39;/foo/bar&#39;</span>
 
@@ -487,7 +487,7 @@
 
 <span class="sd">    ..or::</span>
 
-<span class="sd">        from errbot.backends.test import testbot, push_message, pop_message</span>
+<span class="sd">        from errbot.backends.test import testbot</span>
 
 <span class="sd">        extra_plugin_dir = &#39;/foo/bar&#39;</span>
 
@@ -613,7 +613,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.1 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li>
           <li class="nav-item nav-item-3"><a href="../backends.html" >errbot.backends</a> &raquo;</li> 
@@ -622,7 +622,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Oct 30, 2015.
+          Last updated on Nov 11, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

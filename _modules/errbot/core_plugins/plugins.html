@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.core_plugins.plugins &mdash; Err 3.1.1 documentation</title>
+    <title>errbot.core_plugins.plugins &mdash; Err 3.1.2 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '3.1.1',
+        VERSION:     '3.1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.1 documentation" href="../../../index.html" />
+    <link rel="top" title="Err 3.1.2 documentation" href="../../../index.html" />
     <link rel="up" title="errbot" href="../../errbot.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
@@ -75,7 +75,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.1 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../../errbot.html" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
@@ -350,10 +350,15 @@
     <span class="c"># noinspection PyUnusedLocal</span></div>
     <span class="nd">@botcmd</span><span class="p">(</span><span class="n">admin_only</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <div class="viewcode-block" id="Plugins.plugin_blacklist"><a class="viewcode-back" href="../../../errbot.core_plugins.plugins.html#errbot.core_plugins.plugins.Plugins.plugin_blacklist">[docs]</a>    <span class="k">def</span> <span class="nf">plugin_blacklist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Blacklist a plugin so that it will not be loaded automatically during bot startup&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Blacklist a plugin so that it will not be loaded automatically during bot startup.</span>
+<span class="sd">        If the plugin is currently activated, it will deactiveate it first.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">args</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bot</span><span class="o">.</span><span class="n">get_all_plugin_names</span><span class="p">():</span>
             <span class="k">return</span> <span class="p">(</span><span class="s">&quot;{} isn&#39;t a valid plugin name. The current plugins are:</span><span class="se">\n</span><span class="s">&quot;</span>
                     <span class="s">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatted_plugin_list</span><span class="p">(</span><span class="n">active_only</span><span class="o">=</span><span class="bp">False</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="n">args</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bot</span><span class="o">.</span><span class="n">get_all_active_plugin_names</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_bot</span><span class="o">.</span><span class="n">deactivate_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bot</span><span class="o">.</span><span class="n">blacklist_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
     <span class="c"># noinspection PyUnusedLocal</span></div>
@@ -363,6 +368,10 @@
         <span class="k">if</span> <span class="n">args</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bot</span><span class="o">.</span><span class="n">get_all_plugin_names</span><span class="p">():</span>
             <span class="k">return</span> <span class="p">(</span><span class="s">&quot;{} isn&#39;t a valid plugin name. The current plugins are:</span><span class="se">\n</span><span class="s">&quot;</span>
                     <span class="s">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">formatted_plugin_list</span><span class="p">(</span><span class="n">active_only</span><span class="o">=</span><span class="bp">False</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="n">args</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bot</span><span class="o">.</span><span class="n">get_all_active_plugin_names</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_bot</span><span class="o">.</span><span class="n">activate_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bot</span><span class="o">.</span><span class="n">unblacklist_plugin</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></div></div>
 </pre></div>
   <div id="prev_next_links">
@@ -438,7 +447,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.1 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li> 
       </ul>
@@ -446,7 +455,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Oct 30, 2015.
+          Last updated on Nov 11, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

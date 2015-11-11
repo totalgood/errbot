@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.errBot &mdash; Err 3.1.1 documentation</title>
+    <title>errbot.errBot &mdash; Err 3.1.2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.1.1',
+        VERSION:     '3.1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.1 documentation" href="../../index.html" />
+    <link rel="top" title="Err 3.1.2 documentation" href="../../index.html" />
     <link rel="up" title="errbot" href="../errbot.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
@@ -75,7 +75,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.1 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../errbot.html" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
@@ -568,9 +568,9 @@
 <span class="sd">            :param groupchat_nick_reply:</span>
 <span class="sd">                authorized the prefixing with the nick form the user</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="n">compat_str</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_identifier</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s">&#39;person&#39;</span><span class="p">):</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;user is not an identifier, build one&quot;</span><span class="p">)</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_identifier</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
 
         <span class="n">mess</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_message</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
         <span class="n">mess</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="n">user</span>
@@ -596,15 +596,7 @@
                 <span class="c"># noinspection PyBroadException</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Trigger callback_message on </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">plugin</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-
-                    <span class="c"># backward compatibility from the time we needed conn</span>
-                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getargspec</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">callback_message</span><span class="p">)</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;Deprecation: Plugin </span><span class="si">%s</span><span class="s"> uses the old callback_message convention, &#39;</span>
-                                        <span class="s">&#39;now the signature should be simply def callback_message(self, mess)&#39;</span>
-                                        <span class="o">%</span> <span class="n">plugin</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-                        <span class="n">plugin</span><span class="o">.</span><span class="n">callback_message</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="n">mess</span><span class="p">)</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">plugin</span><span class="o">.</span><span class="n">callback_message</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
+                    <span class="n">plugin</span><span class="o">.</span><span class="n">callback_message</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&quot;Crash in a callback_message handler&quot;</span><span class="p">)</span>
 </div>
@@ -753,7 +745,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.1 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../errbot.html" >errbot</a> &raquo;</li> 
       </ul>
@@ -761,7 +753,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Oct 30, 2015.
+          Last updated on Nov 11, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

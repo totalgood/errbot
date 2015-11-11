@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>11. Testing your plugins &mdash; Err 3.1.1 documentation</title>
+    <title>11. Testing your plugins &mdash; Err 3.1.2 documentation</title>
     
     <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.1.1',
+        VERSION:     '3.1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.1 documentation" href="../../index.html" />
+    <link rel="top" title="Err 3.1.2 documentation" href="../../index.html" />
     <link rel="up" title="Plugin development" href="index.html" />
     <link rel="next" title="12. Logging" href="logging.html" />
     <link rel="prev" title="10. Webhooks" href="webhooks.html" />
@@ -83,7 +83,7 @@
         <li class="right" >
           <a href="webhooks.html" title="10. Webhooks"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.1 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Plugin development</a> &raquo;</li> 
       </ul>
     </div>
@@ -121,20 +121,20 @@
 <p>This does absolutely nothing shocking, but how do you test it? We need to interact with the bot somehow, send it <cite>!mycommand</cite> and validate the reply. Fortunatly Err provides some help.</p>
 <p>Our test, <em>test_myplugin.py</em>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">testbot</span><span class="p">,</span> <span class="n">push_message</span><span class="p">,</span> <span class="n">pop_message</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">testbot</span>
 
 
 <span class="k">class</span> <span class="nc">TestMyPlugin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="n">extra_plugin_dir</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span>
 
     <span class="k">def</span> <span class="nf">test_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testbot</span><span class="p">):</span>
-        <span class="n">push_message</span><span class="p">(</span><span class="s">&#39;!mycommand&#39;</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="s">&#39;This is my awesome command&#39;</span> <span class="ow">in</span> <span class="n">pop_message</span><span class="p">()</span>
+        <span class="n">testbot</span><span class="o">.</span><span class="n">push_message</span><span class="p">(</span><span class="s">&#39;!mycommand&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="s">&#39;This is my awesome command&#39;</span> <span class="ow">in</span> <span class="n">testbot</span><span class="o">.</span><span class="n">pop_message</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Lets walk through this line for line. First of all, we import <a class="reference internal" href="../../errbot.backends.test.html#errbot.backends.test.testbot" title="errbot.backends.test.testbot"><code class="xref py py-class docutils literal"><span class="pre">testbot</span></code></a>, <code class="xref py py-func docutils literal"><span class="pre">push_message()</span></code> and <code class="xref py py-func docutils literal"><span class="pre">pop_message()</span></code> from the backends tests, there allow us to spin up a bot for testing purposes and interact with the message queue.</p>
+<p>Lets walk through this line for line. First of all, we import <a class="reference internal" href="../../errbot.backends.test.html#errbot.backends.test.testbot" title="errbot.backends.test.testbot"><code class="xref py py-class docutils literal"><span class="pre">testbot</span></code></a> from the backends tests, to allow us to spin up a bot for testing purposes and interact with the message queue.</p>
 <p>Then we define our own test class and inside of it we set <cite>extra_plugin_dir</cite> to <cite>.</cite>, the current directory so that the test bot will pick up on your plugin.</p>
-<p>After that we define our first <cite>test_</cite> method which simply sends a command to the bot using <code class="xref py py-func docutils literal"><span class="pre">push_message()</span></code> and then asserts that the response we expect, <em>&quot;This is my awesome command&quot;</em> is in the message we receive from the bot which we get by calling <code class="xref py py-func docutils literal"><span class="pre">pop_message()</span></code>.</p>
+<p>After that we define our first <cite>test_</cite> method which simply sends a command to the bot using <a class="reference internal" href="../../errbot.backends.test.html#errbot.backends.test.TestBot.push_message" title="errbot.backends.test.TestBot.push_message"><code class="xref py py-func docutils literal"><span class="pre">push_message()</span></code></a> and then asserts that the response we expect, <em>&quot;This is my awesome command&quot;</em> is in the message we receive from the bot which we get by calling <a class="reference internal" href="../../errbot.backends.test.html#errbot.backends.test.TestBot.pop_message" title="errbot.backends.test.TestBot.pop_message"><code class="xref py py-func docutils literal"><span class="pre">pop_message()</span></code></a>.</p>
 </div>
 <div class="section" id="helper-methods">
 <h2>11.2. Helper methods<a class="headerlink" href="#helper-methods" title="Permalink to this headline">¶</a></h2>
@@ -233,19 +233,19 @@
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">unittest</span>
 <span class="kn">import</span> <span class="nn">myplugin</span>
-<span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">testbot</span><span class="p">,</span> <span class="n">push_message</span><span class="p">,</span> <span class="n">pop_message</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">testbot</span>
 <span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">plugin_manager</span>
 
 <span class="k">class</span> <span class="nc">TestMyPluginBot</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="n">extra_plugin_dir</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span>
 
     <span class="k">def</span> <span class="nf">test_mycommand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testbot</span><span class="p">):</span>
-        <span class="n">push_message</span><span class="p">(</span><span class="s">&#39;!mycommand&#39;</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="s">&#39;This is my awesome command&#39;</span> <span class="ow">in</span> <span class="n">pop_message</span><span class="p">()</span>
+        <span class="n">testbot</span><span class="o">.</span><span class="n">push_message</span><span class="p">(</span><span class="s">&#39;!mycommand&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="s">&#39;This is my awesome command&#39;</span> <span class="ow">in</span> <span class="n">testbot</span><span class="o">.</span><span class="n">pop_message</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">test_mycommand_another</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">testbot</span><span class="p">):</span>
-        <span class="n">push_message</span><span class="p">(</span><span class="s">&#39;!mycommand another&#39;</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="s">&#39;This is another awesome command&#39;</span> <span class="ow">in</span> <span class="n">pop_message</span><span class="p">()</span>
+        <span class="n">testbot</span><span class="o">.</span><span class="n">push_message</span><span class="p">(</span><span class="s">&#39;!mycommand another&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="s">&#39;This is another awesome command&#39;</span> <span class="ow">in</span> <span class="n">testbot</span><span class="o">.</span><span class="n">pop_message</span><span class="p">()</span>
 
 
 <span class="k">class</span> <span class="nc">TestMyPluginStaticMethods</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -271,7 +271,7 @@
 <div class="section" id="pep-8-and-code-coverage">
 <h2>11.5. PEP-8 and code coverage<a class="headerlink" href="#pep-8-and-code-coverage" title="Permalink to this headline">¶</a></h2>
 <p>If you feel like it you can also add syntax checkers like <cite>pep8</cite> into the mix to validate your code behaves to certain stylistic best practices set out in PEP-8.</p>
-<p>First, install the pep8 for <a class="reference external" href="http://pytest.org">py.test</a>: <strong class="command">pip instal pytest-pep8</strong>.</p>
+<p>First, install the pep8 for <a class="reference external" href="http://pytest.org">py.test</a>: <strong class="command">pip install pytest-pep8</strong>.</p>
 <p>Then, simply add <cite>--pep8</cite> to the test invocation command: <cite>py.test --pep8</cite>.</p>
 <p>You also want to know how well your tests cover you code.</p>
 <p>To that end, install coverage: <strong class="command">pip install coverage</strong> and then run your tests like this: <strong class="command">coverage run --source myplugin -m py.test --pep8</strong>.</p>
@@ -293,7 +293,7 @@ myplugin      49      0   100%
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">3.3</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">3.4</span>
 <span class="l-Scalar-Plain">install</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">pip instal -q err pytest pytest-pep8 --use-wheel</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">pip install -q err pytest pytest-pep8 --use-wheel</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">pip install -q coverage coveralls --use-wheel</span>
 <span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">coverage run --source myplugin -m py.test --pep8</span>
@@ -410,14 +410,14 @@ myplugin      49      0   100%
         <li class="right" >
           <a href="webhooks.html" title="10. Webhooks"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.1 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Plugin development</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Oct 30, 2015.
+          Last updated on Nov 11, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     
