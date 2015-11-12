@@ -31,9 +31,9 @@
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
-        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+        if (document.location.protocol != "file:" && document.location.host != "errbot.io") {
             var path = document.location.pathname.replace('/err/', '/');
-            document.location = "http://errbot.net" + path;
+            document.location = "http://errbot.io" + path;
         }
     </script>
     <link rel="icon" type="image/png" href="_static/err.png"/>
@@ -418,7 +418,7 @@
 
 <dl class="function">
 <dt id="errbot.rendering.ansi.translate">
-<code class="descclassname">errbot.rendering.ansi.</code><code class="descname">translate</code><span class="sig-paren">(</span><em>element</em>, <em>ct=CharacterTable(fg_black=&lt;ansi.colour.base.Graphic object at 0x7f4e06d5e160&gt;</em>, <em>fg_red=&lt;ansi.colour.base.Graphic object at 0x7f4e06d5ea58&gt;</em>, <em>fg_green=&lt;ansi.colour.base.Graphic object at 0x7f4e06cec5f8&gt;</em>, <em>fg_yellow=&lt;ansi.colour.base.Graphic object at 0x7f4e06cec668&gt;</em>, <em>fg_blue=&lt;ansi.colour.base.Graphic object at 0x7f4e06cec6d8&gt;</em>, <em>fg_magenta=&lt;ansi.colour.base.Graphic object at 0x7f4e06cec748&gt;</em>, <em>fg_cyan=&lt;ansi.colour.base.Graphic object at 0x7f4e06cec7b8&gt;</em>, <em>fg_white=&lt;ansi.colour.base.Graphic object at 0x7f4e06cec828&gt;</em>, <em>fg_default=&lt;ansi.colour.base.Graphic object at 0x7f4e06cec898&gt;</em>, <em>bg_black=&lt;ansi.colour.base.Graphic object at 0x7f4e06cecef0&gt;</em>, <em>bg_red=&lt;ansi.colour.base.Graphic object at 0x7f4e06cecf28&gt;</em>, <em>bg_green=&lt;ansi.colour.base.Graphic object at 0x7f4e06cecf98&gt;</em>, <em>bg_yellow=&lt;ansi.colour.base.Graphic object at 0x7f4e06cee048&gt;</em>, <em>bg_blue=&lt;ansi.colour.base.Graphic object at 0x7f4e06cee0b8&gt;</em>, <em>bg_magenta=&lt;ansi.colour.base.Graphic object at 0x7f4e06cee128&gt;</em>, <em>bg_cyan=&lt;ansi.colour.base.Graphic object at 0x7f4e06cee198&gt;</em>, <em>bg_white=&lt;ansi.colour.base.Graphic object at 0x7f4e06cee208&gt;</em>, <em>bg_default=&lt;ansi.colour.base.Graphic object at 0x7f4e06cee278&gt;</em>, <em>fx_reset=&lt;ansi.colour.base.Graphic object at 0x7f4e06ceb5c0&gt;</em>, <em>fx_bold=&lt;ansi.colour.base.Graphic object at 0x7f4e06ceb5f8&gt;</em>, <em>fx_italic=&lt;ansi.colour.base.Graphic object at 0x7f4e06ceb6d8&gt;</em>, <em>fx_underline=&lt;ansi.colour.base.Graphic object at 0x7f4e06ceb748&gt;</em>, <em>fx_not_italic=&lt;ansi.colour.base.Graphic object at 0x7f4e06cec048&gt;</em>, <em>fx_not_underline=&lt;ansi.colour.base.Graphic object at 0x7f4e06cec198&gt;</em>, <em>fx_normal=&lt;ansi.colour.base.Graphic object at 0x7f4e06cebf98&gt;</em>, <em>fixed_width=''</em>, <em>end_fixed_width=''</em>, <em>inline_code=''</em>, <em>end_inline_code='')</em>, <em>borders=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/rendering/ansi.html#translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.translate" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.rendering.ansi.</code><code class="descname">translate</code><span class="sig-paren">(</span><em>element</em>, <em>ct=CharacterTable(fg_black=&lt;ansi.colour.base.Graphic object at 0x2b1163bcb828&gt;</em>, <em>fg_red=&lt;ansi.colour.base.Graphic object at 0x2b1163ac2f60&gt;</em>, <em>fg_green=&lt;ansi.colour.base.Graphic object at 0x2b116466ad30&gt;</em>, <em>fg_yellow=&lt;ansi.colour.base.Graphic object at 0x2b116466a908&gt;</em>, <em>fg_blue=&lt;ansi.colour.base.Graphic object at 0x2b116466a898&gt;</em>, <em>fg_magenta=&lt;ansi.colour.base.Graphic object at 0x2b116466a7f0&gt;</em>, <em>fg_cyan=&lt;ansi.colour.base.Graphic object at 0x2b116466add8&gt;</em>, <em>fg_white=&lt;ansi.colour.base.Graphic object at 0x2b116466a748&gt;</em>, <em>fg_default=&lt;ansi.colour.base.Graphic object at 0x2b116466ae10&gt;</em>, <em>bg_black=&lt;ansi.colour.base.Graphic object at 0x2b116466a1d0&gt;</em>, <em>bg_red=&lt;ansi.colour.base.Graphic object at 0x2b1164706198&gt;</em>, <em>bg_green=&lt;ansi.colour.base.Graphic object at 0x2b1164706630&gt;</em>, <em>bg_yellow=&lt;ansi.colour.base.Graphic object at 0x2b1164706320&gt;</em>, <em>bg_blue=&lt;ansi.colour.base.Graphic object at 0x2b11647067b8&gt;</em>, <em>bg_magenta=&lt;ansi.colour.base.Graphic object at 0x2b1164706940&gt;</em>, <em>bg_cyan=&lt;ansi.colour.base.Graphic object at 0x2b11647064a8&gt;</em>, <em>bg_white=&lt;ansi.colour.base.Graphic object at 0x2b1164706240&gt;</em>, <em>bg_default=&lt;ansi.colour.base.Graphic object at 0x2b11647061d0&gt;</em>, <em>fx_reset=&lt;ansi.colour.base.Graphic object at 0x2b1163ac2ef0&gt;</em>, <em>fx_bold=&lt;ansi.colour.base.Graphic object at 0x2b1163bb1be0&gt;</em>, <em>fx_italic=&lt;ansi.colour.base.Graphic object at 0x2b1163bb1dd8&gt;</em>, <em>fx_underline=&lt;ansi.colour.base.Graphic object at 0x2b1163bb17b8&gt;</em>, <em>fx_not_italic=&lt;ansi.colour.base.Graphic object at 0x2b1163af0b38&gt;</em>, <em>fx_not_underline=&lt;ansi.colour.base.Graphic object at 0x2b1163af0ef0&gt;</em>, <em>fx_normal=&lt;ansi.colour.base.Graphic object at 0x2b1163af04a8&gt;</em>, <em>fixed_width=''</em>, <em>end_fixed_width=''</em>, <em>inline_code=''</em>, <em>end_inline_code='')</em>, <em>borders=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/rendering/ansi.html#translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.rendering.ansi.translate" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -444,9 +444,9 @@
         <img class="logo" src="_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
     </a>
     <div class="ghbuttons">
-        <iframe src="http://ghbtns.com/github-btn.html?user=errbotio&repo=errbot&type=watch&count=true"
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
                 allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
-        <iframe src="http://ghbtns.com/github-btn.html?user=errbotio&repo=errbot&type=fork&count=true" allowtransparency="true"
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
                 frameborder="0" scrolling="0" width="95" height="20"></iframe>
     </div><h3>Related Topics</h3>
 <ul>
@@ -524,7 +524,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 11, 2015.
+          Last updated on Nov 12, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

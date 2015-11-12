@@ -29,9 +29,9 @@
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
-        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+        if (document.location.protocol != "file:" && document.location.host != "errbot.io") {
             var path = document.location.pathname.replace('/err/', '/');
-            document.location = "http://errbot.net" + path;
+            document.location = "http://errbot.io" + path;
         }
     </script>
     <link rel="icon" type="image/png" href="../../_static/err.png"/>
@@ -98,7 +98,7 @@
 
 <span class="n">lib3to2_input_sources</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;errbot&quot;</span><span class="p">,</span> <span class="s">&quot;scripts&quot;</span><span class="p">,</span> <span class="s">&quot;tests&quot;</span><span class="p">]</span>
 <span class="c"># Avoid running config templates through lib3to2. For background info,</span>
-<span class="c"># see https://github.com/gbin/err/issues/339</span>
+<span class="c"># see https://github.com/errbotio/errbot/issues/339</span>
 <span class="n">lib3to2_exclude</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s">&quot;errbot&quot;</span><span class="p">,</span> <span class="s">&quot;config-*.py&quot;</span><span class="p">))</span>
 <span class="n">PY2</span> <span class="o">=</span> <span class="n">py_version</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span>
 
@@ -159,9 +159,9 @@
         <img class="logo" src="../../_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
     </a>
     <div class="ghbuttons">
-        <iframe src="http://ghbtns.com/github-btn.html?user=errbotio&repo=errbot&type=watch&count=true"
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
                 allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
-        <iframe src="http://ghbtns.com/github-btn.html?user=errbotio&repo=errbot&type=fork&count=true" allowtransparency="true"
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
                 frameborder="0" scrolling="0" width="95" height="20"></iframe>
     </div><h3>Related Topics</h3>
 <ul>
@@ -224,7 +224,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 11, 2015.
+          Last updated on Nov 12, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

@@ -30,9 +30,9 @@
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
-        if (document.location.protocol != "file:" && document.location.host != "errbot.net") {
+        if (document.location.protocol != "file:" && document.location.host != "errbot.io") {
             var path = document.location.pathname.replace('/err/', '/');
-            document.location = "http://errbot.net" + path;
+            document.location = "http://errbot.io" + path;
         }
     </script>
     <link rel="icon" type="image/png" href="_static/err.png"/>
@@ -98,8 +98,8 @@
 involved! Here you can find how best to get started.</p>
 <div class="section" id="contributing-to-err-itself">
 <h2>Contributing to Err itself<a class="headerlink" href="#contributing-to-err-itself" title="Permalink to this headline">¶</a></h2>
-<p>All development on Err happens on <a class="reference external" href="https://github.com/gbin/err">GitHub</a>. If you'd like to get involved, just
-<a class="reference external" href="https://github.com/gbin/err/fork">fork</a> the repository and make changes in your own repo. When you are satisfied
+<p>All development on Err happens on <a class="reference external" href="https://github.com/errbotio/errbot">GitHub</a>. If you'd like to get involved, just
+<a class="reference external" href="https://github.com/errbotio/errbot/fork">fork</a> the repository and make changes in your own repo. When you are satisfied
 with your changes, just open a <a class="reference external" href="https://help.github.com/articles/using-pull-requests">pull request</a> with us and we'll get it reviewed
 as soon as we can! Depending on our thoughts, we might decide to merge it in
 right away, or we may ask you to change certain parts before we will accept the
@@ -120,9 +120,9 @@ are missing tests, so we won't reject your code if it lacks tests, though.</li>
 </div>
 <div class="section" id="contributing-documentation-making-changes-to-the-website">
 <h2>Contributing documentation &amp; making changes to the website<a class="headerlink" href="#contributing-documentation-making-changes-to-the-website" title="Permalink to this headline">¶</a></h2>
-<p><a class="reference external" href="http://www.errbot.net/">errbot.net</a> is created using <a class="reference external" href="http://sphinx-doc.org/">Sphinx</a>, which also doubles
+<p><a class="reference external" href="http://www.errbot.io/">errbot.io</a> is created using <a class="reference external" href="http://sphinx-doc.org/">Sphinx</a>, which also doubles
 as a generator for our (API) documentation. The code for it is in the same repository
-as err itself, inside the <a class="reference external" href="https://github.com/gbin/err/tree/master/docs/">docs</a> folder. To make changes to the documentation or the
+as err itself, inside the <a class="reference external" href="https://github.com/errbotio/errbot/tree/master/docs/">docs</a> folder. To make changes to the documentation or the
 website, you can build the HTML locally as follows:</p>
 <div class="highlight-python"><div class="highlight"><pre># Change directory into the docs folder
 cd docs/
@@ -143,12 +143,12 @@ described in the previous section, then open a pull request with us.</p>
 <div class="section" id="contributing-plugins">
 <h2>Contributing plugins<a class="headerlink" href="#contributing-plugins" title="Permalink to this headline">¶</a></h2>
 <p>If you've written a cool plugin of your own and would like to see it included in
-the repositories, please send us a pull request after adding it to <a class="reference external" href="https://github.com/gbin/err/blob/master/errbot/repos.py">repos.py</a>.</p>
+the repositories, please send us a pull request after adding it to <a class="reference external" href="https://github.com/errbotio/errbot/blob/master/errbot/repos.py">repos.py</a>.</p>
 </div>
 </div>
 <div class="section" id="issues-and-feature-requests">
 <h1>Issues and feature requests<a class="headerlink" href="#issues-and-feature-requests" title="Permalink to this headline">¶</a></h1>
-<p>Please report issues or feature requests on the <a class="reference external" href="https://github.com/gbin/err/issues/">issue tracker</a> on GitHub.</p>
+<p>Please report issues or feature requests on the <a class="reference external" href="https://github.com/errbotio/errbot/issues/">issue tracker</a> on GitHub.</p>
 <p>When reporting issues, please be as specific as possible. Include things such as
 your Python version, platform, debug logs, and a description of what is happening.
 If you can tell us how to reproduce the issue ourselves, this makes it a lot
@@ -180,9 +180,9 @@ easier for us to figure out what is going on, as well.</p>
         <img class="logo" src="_static/err_speech.png" width="220" height="135" alt="Logo of Err"/>
     </a>
     <div class="ghbuttons">
-        <iframe src="http://ghbtns.com/github-btn.html?user=errbotio&repo=errbot&type=watch&count=true"
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=watch&count=true"
                 allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
-        <iframe src="http://ghbtns.com/github-btn.html?user=errbotio&repo=errbot&type=fork&count=true" allowtransparency="true"
+        <iframe src="http://ghbtns.com/github-btn.html?user=gbin&repo=err&type=fork&count=true" allowtransparency="true"
                 frameborder="0" scrolling="0" width="95" height="20"></iframe>
     </div>
   <h3><a href="index.html">Table Of Contents</a></h3>
@@ -260,7 +260,7 @@ easier for us to figure out what is going on, as well.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 11, 2015.
+          Last updated on Nov 12, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     
