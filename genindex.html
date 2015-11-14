@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Index &mdash; Err 3.1.2 documentation</title>
+    <title>Index &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="_static/err.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="index.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -56,7 +56,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -75,7 +75,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -127,14 +127,6 @@
       <dd><dl>
         
   <dt><a href="errbot.backend_manager.html#errbot.backend_manager.SpecificBackendLocator.__init__">(errbot.backend_manager.SpecificBackendLocator method)</a>
-  </dt>
-
-        
-  <dt><a href="errbot.backends.html#errbot.backends.SimpleIdentifier.__init__">(errbot.backends.SimpleIdentifier method)</a>
-  </dt>
-
-        
-  <dt><a href="errbot.backends.html#errbot.backends.SimpleMUCOccupant.__init__">(errbot.backends.SimpleMUCOccupant method)</a>
   </dt>
 
         
@@ -230,6 +222,14 @@
   </dt>
 
         
+  <dt><a href="errbot.backends.test.html#errbot.backends.test.TestIdentifier.__init__">(errbot.backends.test.TestIdentifier method)</a>
+  </dt>
+
+        
+  <dt><a href="errbot.backends.test.html#errbot.backends.test.TestMUCOccupant.__init__">(errbot.backends.test.TestMUCOccupant method)</a>
+  </dt>
+
+        
   <dt><a href="errbot.backends.test.html#errbot.backends.test.TestMUCRoom.__init__">(errbot.backends.test.TestMUCRoom method)</a>
   </dt>
 
@@ -286,15 +286,15 @@
   </dt>
 
         
+  <dt><a href="errbot.core_plugins.wsview.html#errbot.core_plugins.wsview.DynamicBottle.__init__">(errbot.core_plugins.wsview.DynamicBottle method)</a>
+  </dt>
+
+        
   <dt><a href="errbot.core_plugins.wsview.html#errbot.core_plugins.wsview.WebView.__init__">(errbot.core_plugins.wsview.WebView method)</a>
   </dt>
 
         
   <dt><a href="errbot.errBot.html#errbot.errBot.ErrBot.__init__">(errbot.errBot.ErrBot method)</a>
-  </dt>
-
-        
-  <dt><a href="errbot.pid.html#errbot.pid.PidFile.__init__">(errbot.pid.PidFile method)</a>
   </dt>
 
         
@@ -345,9 +345,31 @@
   </dt>
 
       
-  <dt><a href="errbot.backends.slack.html#errbot.backends.slack.SlackIdentifier.aclattr">aclattr (errbot.backends.slack.SlackIdentifier attribute)</a>
+  <dt><a href="errbot.backends.base.html#errbot.backends.base.Identifier.aclattr">aclattr (errbot.backends.base.Identifier attribute)</a>
   </dt>
 
+      <dd><dl>
+        
+  <dt><a href="errbot.backends.irc.html#errbot.backends.irc.IRCIdentifier.aclattr">(errbot.backends.irc.IRCIdentifier attribute)</a>
+  </dt>
+
+        
+  <dt><a href="errbot.backends.slack.html#errbot.backends.slack.SlackIdentifier.aclattr">(errbot.backends.slack.SlackIdentifier attribute)</a>
+  </dt>
+
+        
+  <dt><a href="errbot.backends.telegram.html#errbot.backends.telegram.TelegramIdentifier.aclattr">(errbot.backends.telegram.TelegramIdentifier attribute)</a>
+  </dt>
+
+        
+  <dt><a href="errbot.backends.test.html#errbot.backends.test.TestIdentifier.aclattr">(errbot.backends.test.TestIdentifier attribute)</a>
+  </dt>
+
+        
+  <dt><a href="errbot.backends.xmpp.html#errbot.backends.xmpp.XMPPIdentifier.aclattr">(errbot.backends.xmpp.XMPPIdentifier attribute)</a>
+  </dt>
+
+      </dl></dd>
       
   <dt><a href="errbot.core_plugins.acls.html#errbot.core_plugins.acls.ACLS">ACLS (class in errbot.core_plugins.acls)</a>
   </dt>
@@ -391,7 +413,7 @@
   </dt>
 
       
-  <dt><a href="errbot.core_plugins.vcheck.html#errbot.core_plugins.vcheck.VersionChecker.actived">actived (errbot.core_plugins.vcheck.VersionChecker attribute)</a>
+  <dt><a href="errbot.core_plugins.vcheck.html#errbot.core_plugins.vcheck.VersionChecker.activated">activated (errbot.core_plugins.vcheck.VersionChecker attribute)</a>
   </dt>
 
       
@@ -408,8 +430,6 @@
   <dt><a href="errbot.backends.xmpp.html#errbot.backends.xmpp.XMPPConnection.add_event_handler">add_event_handler() (errbot.backends.xmpp.XMPPConnection method)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="errbot.rendering.ansi.html#errbot.rendering.ansi.BorderlessTable.add_header">add_header() (errbot.rendering.ansi.BorderlessTable method)</a>
   </dt>
@@ -420,6 +440,8 @@
   </dt>
 
       </dl></dd>
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.add_plugin_repo">add_plugin_repo() (errbot.plugin_manager.BotPluginManager method)</a>
   </dt>
@@ -472,6 +494,10 @@
   <dt><a href="errbot.backends.test.html#errbot.backends.test.TestBot.assertCommandFound">assertCommandFound() (errbot.backends.test.TestBot method)</a>
   </dt>
 
+      
+  <dt><a href="errbot.backends.irc.html#errbot.backends.irc.IRCConnection.away">away() (errbot.backends.irc.IRCConnection method)</a>
+  </dt>
+
   </dl></td>
 </tr></table>
 
@@ -498,20 +524,6 @@
   <dt><a href="errbot.core_plugins.backup.html#errbot.core_plugins.backup.Backup.backup">backup() (errbot.core_plugins.backup.Backup method)</a>
   </dt>
 
-      
-  <dt><a href="errbot.backends.xmpp.html#errbot.backends.xmpp.XMPPIdentifier.bare_match">bare_match (errbot.backends.xmpp.XMPPIdentifier attribute)</a>
-  </dt>
-
-      
-  <dt><a href="errbot.html#errbot.BotPlugin.bare_send">bare_send() (errbot.BotPlugin method)</a>
-  </dt>
-
-      <dd><dl>
-        
-  <dt><a href="errbot.botplugin.html#errbot.botplugin.BotPlugin.bare_send">(errbot.botplugin.BotPlugin method)</a>
-  </dt>
-
-      </dl></dd>
       
   <dt><a href="errbot.rendering.ansi.html#errbot.rendering.ansi.BorderlessTable.begin_headers">begin_headers() (errbot.rendering.ansi.BorderlessTable method)</a>
   </dt>
@@ -612,10 +624,6 @@
 
       
   <dt><a href="errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager">BotPluginManager (class in errbot.plugin_manager)</a>
-  </dt>
-
-      
-  <dt><a href="errbot.errBot.html#errbot.errBot.ErrBot.bottom_of_help_message">bottom_of_help_message() (errbot.errBot.ErrBot method)</a>
   </dt>
 
       
@@ -839,6 +847,48 @@
 
       </dl></dd>
       
+  <dt><a href="errbot.backends.base.html#errbot.backends.base.Backend.change_presence">change_presence() (errbot.backends.base.Backend method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="errbot.html#errbot.BotPlugin.change_presence">(errbot.BotPlugin method)</a>
+  </dt>
+
+        
+  <dt><a href="errbot.backends.irc.html#errbot.backends.irc.IRCBackend.change_presence">(errbot.backends.irc.IRCBackend method)</a>
+  </dt>
+
+        
+  <dt><a href="errbot.backends.null.html#errbot.backends.null.NullBackend.change_presence">(errbot.backends.null.NullBackend method)</a>
+  </dt>
+
+        
+  <dt><a href="errbot.backends.slack.html#errbot.backends.slack.SlackBackend.change_presence">(errbot.backends.slack.SlackBackend method)</a>
+  </dt>
+
+        
+  <dt><a href="errbot.backends.telegram.html#errbot.backends.telegram.TelegramBackend.change_presence">(errbot.backends.telegram.TelegramBackend method)</a>
+  </dt>
+
+        
+  <dt><a href="errbot.backends.test.html#errbot.backends.test.TestBackend.change_presence">(errbot.backends.test.TestBackend method)</a>
+  </dt>
+
+        
+  <dt><a href="errbot.backends.text.html#errbot.backends.text.TextBackend.change_presence">(errbot.backends.text.TextBackend method)</a>
+  </dt>
+
+        
+  <dt><a href="errbot.backends.xmpp.html#errbot.backends.xmpp.XMPPBackend.change_presence">(errbot.backends.xmpp.XMPPBackend method)</a>
+  </dt>
+
+        
+  <dt><a href="errbot.botplugin.html#errbot.botplugin.BotPlugin.change_presence">(errbot.botplugin.BotPlugin method)</a>
+  </dt>
+
+      </dl></dd>
+      
   <dt><a href="errbot.backends.slack.html#errbot.backends.slack.SlackIdentifier.channelid">channelid (errbot.backends.slack.SlackIdentifier attribute)</a>
   </dt>
 
@@ -897,12 +947,12 @@
   </dt>
 
       
-  <dt><a href="errbot.backends.irc.html#errbot.backends.irc.IRCIdentifier.client">client (errbot.backends.irc.IRCIdentifier attribute)</a>
+  <dt><a href="errbot.backends.base.html#errbot.backends.base.Identifier.client">client (errbot.backends.base.Identifier attribute)</a>
   </dt>
 
       <dd><dl>
         
-  <dt><a href="errbot.backends.html#errbot.backends.SimpleIdentifier.client">(errbot.backends.SimpleIdentifier attribute)</a>
+  <dt><a href="errbot.backends.irc.html#errbot.backends.irc.IRCIdentifier.client">(errbot.backends.irc.IRCIdentifier attribute)</a>
   </dt>
 
         
@@ -914,6 +964,10 @@
   </dt>
 
         
+  <dt><a href="errbot.backends.test.html#errbot.backends.test.TestIdentifier.client">(errbot.backends.test.TestIdentifier attribute)</a>
+  </dt>
+
+        
   <dt><a href="errbot.backends.xmpp.html#errbot.backends.xmpp.XMPPIdentifier.client">(errbot.backends.xmpp.XMPPIdentifier attribute)</a>
   </dt>
 
@@ -921,9 +975,15 @@
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="errbot.backends.base.html#errbot.backends.base.Stream.clone">clone() (errbot.backends.base.Stream method)</a>
+  <dt><a href="errbot.backends.base.html#errbot.backends.base.Message.clone">clone() (errbot.backends.base.Message method)</a>
   </dt>
 
+      <dd><dl>
+        
+  <dt><a href="errbot.backends.base.html#errbot.backends.base.Stream.clone">(errbot.backends.base.Stream method)</a>
+  </dt>
+
+      </dl></dd>
       
   <dt><a href="errbot.storage.html#errbot.storage.StoreMixin.close_storage">close_storage() (errbot.storage.StoreMixin method)</a>
   </dt>
@@ -1144,10 +1204,6 @@
   <dt><a href="errbot.utils.html#errbot.utils.deprecated">deprecated (class in errbot.utils)</a>
   </dt>
 
-      
-  <dt><a href="errbot.backends.html#errbot.backends.DeprecationBridgeIdentifier">DeprecationBridgeIdentifier (class in errbot.backends)</a>
-  </dt>
-
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
@@ -1207,14 +1263,10 @@
   </dt>
 
       
-  <dt><a href="errbot.backends.html#errbot.backends.DeprecationBridgeIdentifier.domain">domain (errbot.backends.DeprecationBridgeIdentifier attribute)</a>
+  <dt><a href="errbot.backends.hipchat.html#errbot.backends.hipchat.HipChatMUCRoom.domain">domain (errbot.backends.hipchat.HipChatMUCRoom attribute)</a>
   </dt>
 
       <dd><dl>
-        
-  <dt><a href="errbot.backends.hipchat.html#errbot.backends.hipchat.HipChatMUCRoom.domain">(errbot.backends.hipchat.HipChatMUCRoom attribute)</a>
-  </dt>
-
         
   <dt><a href="errbot.backends.irc.html#errbot.backends.irc.IRCIdentifier.domain">(errbot.backends.irc.IRCIdentifier attribute)</a>
   </dt>
@@ -1413,10 +1465,6 @@
   </dt>
 
       
-  <dt><a href="errbot.pid.html#module-errbot.pid">errbot.pid (module)</a>
-  </dt>
-
-      
   <dt><a href="errbot.plugin_manager.html#module-errbot.plugin_manager">errbot.plugin_manager (module)</a>
   </dt>
 
@@ -1504,6 +1552,10 @@
   </dt>
 
       </dl></dd>
+      
+  <dt><a href="errbot.backends.slack.html#errbot.backends.slack.SlackBackend.extract_identifiers_from_string">extract_identifiers_from_string() (errbot.backends.slack.SlackBackend static method)</a>
+  </dt>
+
       
   <dt><a href="errbot.backends.base.html#errbot.backends.base.Message.extras">extras (errbot.backends.base.Message attribute)</a>
   </dt>
@@ -1593,12 +1645,12 @@
   </dt>
 
       
-  <dt><a href="errbot.backends.irc.html#errbot.backends.irc.IRCIdentifier.fullname">fullname (errbot.backends.irc.IRCIdentifier attribute)</a>
+  <dt><a href="errbot.backends.base.html#errbot.backends.base.Identifier.fullname">fullname (errbot.backends.base.Identifier attribute)</a>
   </dt>
 
       <dd><dl>
         
-  <dt><a href="errbot.backends.html#errbot.backends.SimpleIdentifier.fullname">(errbot.backends.SimpleIdentifier attribute)</a>
+  <dt><a href="errbot.backends.irc.html#errbot.backends.irc.IRCIdentifier.fullname">(errbot.backends.irc.IRCIdentifier attribute)</a>
   </dt>
 
         
@@ -1607,6 +1659,10 @@
 
         
   <dt><a href="errbot.backends.telegram.html#errbot.backends.telegram.TelegramIdentifier.fullname">(errbot.backends.telegram.TelegramIdentifier attribute)</a>
+  </dt>
+
+        
+  <dt><a href="errbot.backends.test.html#errbot.backends.test.TestIdentifier.fullname">(errbot.backends.test.TestIdentifier attribute)</a>
   </dt>
 
         
@@ -1696,6 +1752,8 @@
   <dt><a href="errbot.utils.html#errbot.utils.get_class_that_defined_method">get_class_that_defined_method() (in module errbot.utils)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="errbot.errBot.html#errbot.errBot.ErrBot.get_command_classes">get_command_classes() (errbot.errBot.ErrBot method)</a>
   </dt>
@@ -1704,8 +1762,6 @@
   <dt><a href="errbot.err.html#errbot.err.get_config">get_config() (in module errbot.err)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="errbot.html#errbot.BotPlugin.get_configuration_template">get_configuration_template() (errbot.BotPlugin method)</a>
   </dt>
@@ -1755,23 +1811,7 @@
   </dt>
 
       
-  <dt><a href="errbot.backends.base.html#errbot.backends.base.Message.getBody">getBody() (errbot.backends.base.Message method)</a>
-  </dt>
-
-      
-  <dt><a href="errbot.backends.base.html#errbot.backends.base.Message.getFrom">getFrom() (errbot.backends.base.Message method)</a>
-  </dt>
-
-      
   <dt><a href="errbot.backend_manager.html#errbot.backend_manager.SpecificBackendLocator.getInfosDictFromPlugin">getInfosDictFromPlugin() (errbot.backend_manager.SpecificBackendLocator method)</a>
-  </dt>
-
-      
-  <dt><a href="errbot.backends.base.html#errbot.backends.base.Message.getTo">getTo() (errbot.backends.base.Message method)</a>
-  </dt>
-
-      
-  <dt><a href="errbot.backends.base.html#errbot.backends.base.Message.getType">getType() (errbot.backends.base.Message method)</a>
   </dt>
 
       
@@ -1851,6 +1891,10 @@
 
       </dl></dd>
       
+  <dt><a href="errbot.backends.base.html#errbot.backends.base.Identifier">Identifier (class in errbot.backends.base)</a>
+  </dt>
+
+      
   <dt><a href="errbot.backends.base.html#errbot.backends.base.Presence.identifier">identifier (errbot.backends.base.Presence attribute)</a>
   </dt>
 
@@ -1896,6 +1940,8 @@
   <dt><a href="errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.install_repo">install_repo() (errbot.plugin_manager.BotPluginManager method)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="errbot.backend_manager.html#errbot.backend_manager.BackendManager.instanciateElement">instanciateElement() (errbot.backend_manager.BackendManager method)</a>
   </dt>
@@ -1906,8 +1952,6 @@
   </dt>
 
       </dl></dd>
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="errbot.backends.base.html#errbot.backends.base.MUCRoom.invite">invite() (errbot.backends.base.MUCRoom method)</a>
   </dt>
@@ -1944,15 +1988,7 @@
 
       <dd><dl>
         
-  <dt><a href="errbot.html#errbot.BotPlugin.invite_in_room">(errbot.BotPlugin method)</a>
-  </dt>
-
-        
   <dt><a href="errbot.backends.xmpp.html#errbot.backends.xmpp.XMPPConnection.invite_in_room">(errbot.backends.xmpp.XMPPConnection method)</a>
-  </dt>
-
-        
-  <dt><a href="errbot.botplugin.html#errbot.botplugin.BotPlugin.invite_in_room">(errbot.botplugin.BotPlugin method)</a>
   </dt>
 
       </dl></dd>
@@ -1982,10 +2018,6 @@
 
       
   <dt><a href="errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.is_plugin_blacklisted">is_plugin_blacklisted() (errbot.plugin_manager.BotPluginManager method)</a>
-  </dt>
-
-      
-  <dt><a href="errbot.backends.base.html#errbot.backends.base.Message.isDelayed">isDelayed() (errbot.backends.base.Message method)</a>
   </dt>
 
       
@@ -2045,16 +2077,12 @@
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="errbot.backends.base.html#errbot.backends.base.Backend.join_room">join_room() (errbot.backends.base.Backend method)</a>
+  <dt><a href="errbot.backends.null.html#errbot.backends.null.NullBackend.join_room">join_room() (errbot.backends.null.NullBackend method)</a>
   </dt>
 
       <dd><dl>
         
   <dt><a href="errbot.html#errbot.BotPlugin.join_room">(errbot.BotPlugin method)</a>
-  </dt>
-
-        
-  <dt><a href="errbot.backends.null.html#errbot.backends.null.NullBackend.join_room">(errbot.backends.null.NullBackend method)</a>
   </dt>
 
         
@@ -2244,12 +2272,12 @@
   <dt><a href="errbot.rendering.html#errbot.rendering.Mde2mdConverter">Mde2mdConverter (class in errbot.rendering)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="errbot.backends.base.html#errbot.backends.base.Message">Message (class in errbot.backends.base)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="errbot.backends.base.html#errbot.backends.base.Presence.message">message (errbot.backends.base.Presence attribute)</a>
   </dt>
@@ -2357,6 +2385,10 @@
   </dt>
 
       
+  <dt><a href="errbot.backends.base.html#errbot.backends.base.MUCIdentifier">MUCIdentifier (class in errbot.backends.base)</a>
+  </dt>
+
+      
   <dt><a href="errbot.backends.base.html#errbot.backends.base.MUCRoom">MUCRoom (class in errbot.backends.base)</a>
   </dt>
 
@@ -2391,12 +2423,12 @@
 
       </dl></dd>
       
-  <dt><a href="errbot.backends.base.html#errbot.backends.base.Presence.nick">nick (errbot.backends.base.Presence attribute)</a>
+  <dt><a href="errbot.backends.base.html#errbot.backends.base.Identifier.nick">nick (errbot.backends.base.Identifier attribute)</a>
   </dt>
 
       <dd><dl>
         
-  <dt><a href="errbot.backends.html#errbot.backends.SimpleIdentifier.nick">(errbot.backends.SimpleIdentifier attribute)</a>
+  <dt><a href="errbot.backends.base.html#errbot.backends.base.Presence.nick">(errbot.backends.base.Presence attribute)</a>
   </dt>
 
         
@@ -2412,19 +2444,19 @@
   </dt>
 
         
+  <dt><a href="errbot.backends.test.html#errbot.backends.test.TestIdentifier.nick">(errbot.backends.test.TestIdentifier attribute)</a>
+  </dt>
+
+        
   <dt><a href="errbot.backends.xmpp.html#errbot.backends.xmpp.XMPPIdentifier.nick">(errbot.backends.xmpp.XMPPIdentifier attribute)</a>
   </dt>
 
       </dl></dd>
       
-  <dt><a href="errbot.backends.html#errbot.backends.DeprecationBridgeIdentifier.node">node (errbot.backends.DeprecationBridgeIdentifier attribute)</a>
+  <dt><a href="errbot.backends.hipchat.html#errbot.backends.hipchat.HipChatMUCRoom.node">node (errbot.backends.hipchat.HipChatMUCRoom attribute)</a>
   </dt>
 
       <dd><dl>
-        
-  <dt><a href="errbot.backends.hipchat.html#errbot.backends.hipchat.HipChatMUCRoom.node">(errbot.backends.hipchat.HipChatMUCRoom attribute)</a>
-  </dt>
-
         
   <dt><a href="errbot.backends.xmpp.html#errbot.backends.xmpp.XMPPIdentifier.node">(errbot.backends.xmpp.XMPPIdentifier attribute)</a>
   </dt>
@@ -2555,12 +2587,12 @@
 
       </dl></dd>
       
-  <dt><a href="errbot.backends.irc.html#errbot.backends.irc.IRCIdentifier.person">person (errbot.backends.irc.IRCIdentifier attribute)</a>
+  <dt><a href="errbot.backends.base.html#errbot.backends.base.Identifier.person">person (errbot.backends.base.Identifier attribute)</a>
   </dt>
 
       <dd><dl>
         
-  <dt><a href="errbot.backends.html#errbot.backends.SimpleIdentifier.person">(errbot.backends.SimpleIdentifier attribute)</a>
+  <dt><a href="errbot.backends.irc.html#errbot.backends.irc.IRCIdentifier.person">(errbot.backends.irc.IRCIdentifier attribute)</a>
   </dt>
 
         
@@ -2572,6 +2604,10 @@
   </dt>
 
         
+  <dt><a href="errbot.backends.test.html#errbot.backends.test.TestIdentifier.person">(errbot.backends.test.TestIdentifier attribute)</a>
+  </dt>
+
+        
   <dt><a href="errbot.backends.xmpp.html#errbot.backends.xmpp.XMPPIdentifier.person">(errbot.backends.xmpp.XMPPIdentifier attribute)</a>
   </dt>
 
@@ -2580,10 +2616,6 @@
   </dt>
 
       </dl></dd>
-      
-  <dt><a href="errbot.pid.html#errbot.pid.PidFile">PidFile (class in errbot.pid)</a>
-  </dt>
-
       
   <dt><a href="errbot.core_plugins.plugins.html#errbot.core_plugins.plugins.Plugins.plugin_activate">plugin_activate() (errbot.core_plugins.plugins.Plugins method)</a>
   </dt>
@@ -2620,12 +2652,12 @@
   <dt><a href="errbot.bundled.threadpool.html#errbot.bundled.threadpool.ThreadPool.poll">poll() (errbot.bundled.threadpool.ThreadPool method)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="errbot.botplugin.html#errbot.botplugin.BotPluginBase.poller">poller() (errbot.botplugin.BotPluginBase method)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="errbot.backends.test.html#errbot.backends.test.TestBackend.pop_message">pop_message() (errbot.backends.test.TestBackend method)</a>
   </dt>
@@ -2688,6 +2720,10 @@
 
       
   <dt><a href="errbot.errBot.html#errbot.errBot.ErrBot.process_message">process_message() (errbot.errBot.ErrBot method)</a>
+  </dt>
+
+      
+  <dt><a href="errbot.errBot.html#errbot.errBot.ErrBot.process_template">process_template() (errbot.errBot.ErrBot static method)</a>
   </dt>
 
       
@@ -2781,7 +2817,7 @@
   </dt>
 
       
-  <dt><a href="errbot.utils.html#errbot.utils.RateLimited">RateLimited() (in module errbot.utils)</a>
+  <dt><a href="errbot.utils.html#errbot.utils.rate_limited">rate_limited() (in module errbot.utils)</a>
   </dt>
 
       
@@ -2863,14 +2899,10 @@
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="errbot.backends.html#errbot.backends.DeprecationBridgeIdentifier.resource">resource (errbot.backends.DeprecationBridgeIdentifier attribute)</a>
+  <dt><a href="errbot.backends.hipchat.html#errbot.backends.hipchat.HipChatMUCRoom.resource">resource (errbot.backends.hipchat.HipChatMUCRoom attribute)</a>
   </dt>
 
       <dd><dl>
-        
-  <dt><a href="errbot.backends.hipchat.html#errbot.backends.hipchat.HipChatMUCRoom.resource">(errbot.backends.hipchat.HipChatMUCRoom attribute)</a>
-  </dt>
-
         
   <dt><a href="errbot.backends.xmpp.html#errbot.backends.xmpp.XMPPIdentifier.resource">(errbot.backends.xmpp.XMPPIdentifier attribute)</a>
   </dt>
@@ -2891,12 +2923,12 @@
   </dt>
 
       
-  <dt><a href="errbot.backends.hipchat.html#errbot.backends.hipchat.HipChatMUCRoom.room">room (errbot.backends.hipchat.HipChatMUCRoom attribute)</a>
+  <dt><a href="errbot.backends.base.html#errbot.backends.base.MUCIdentifier.room">room (errbot.backends.base.MUCIdentifier attribute)</a>
   </dt>
 
       <dd><dl>
         
-  <dt><a href="errbot.backends.html#errbot.backends.SimpleMUCOccupant.room">(errbot.backends.SimpleMUCOccupant attribute)</a>
+  <dt><a href="errbot.backends.hipchat.html#errbot.backends.hipchat.HipChatMUCRoom.room">(errbot.backends.hipchat.HipChatMUCRoom attribute)</a>
   </dt>
 
         
@@ -2909,6 +2941,10 @@
 
         
   <dt><a href="errbot.backends.telegram.html#errbot.backends.telegram.TelegramMUCOccupant.room">(errbot.backends.telegram.TelegramMUCOccupant attribute)</a>
+  </dt>
+
+        
+  <dt><a href="errbot.backends.test.html#errbot.backends.test.TestMUCOccupant.room">(errbot.backends.test.TestMUCOccupant attribute)</a>
   </dt>
 
         
@@ -2961,16 +2997,16 @@
   </dt>
 
       
-  <dt><a href="errbot.backends.base.html#errbot.backends.base.Backend.rooms">rooms() (errbot.backends.base.Backend method)</a>
+  <dt><a href="errbot.backends.base.html#errbot.backends.base.Backend.rooms">rooms (errbot.backends.base.Backend attribute)</a>
+  </dt>
+
+      
+  <dt><a href="errbot.backends.hipchat.html#errbot.backends.hipchat.HipchatBackend.rooms">rooms() (errbot.backends.hipchat.HipchatBackend method)</a>
   </dt>
 
       <dd><dl>
         
   <dt><a href="errbot.html#errbot.BotPlugin.rooms">(errbot.BotPlugin method)</a>
-  </dt>
-
-        
-  <dt><a href="errbot.backends.hipchat.html#errbot.backends.hipchat.HipchatBackend.rooms">(errbot.backends.hipchat.HipchatBackend method)</a>
   </dt>
 
         
@@ -3133,6 +3169,20 @@
 
       </dl></dd>
       
+  <dt><a href="errbot.html#errbot.BotPlugin.send_templated">send_templated() (errbot.BotPlugin method)</a>
+  </dt>
+
+      <dd><dl>
+        
+  <dt><a href="errbot.botplugin.html#errbot.botplugin.BotPlugin.send_templated">(errbot.botplugin.BotPlugin method)</a>
+  </dt>
+
+        
+  <dt><a href="errbot.errBot.html#errbot.errBot.ErrBot.send_templated">(errbot.errBot.ErrBot method)</a>
+  </dt>
+
+      </dl></dd>
+      
   <dt><a href="errbot.botplugin.html#errbot.botplugin.SeparatorArgParser">SeparatorArgParser (class in errbot.botplugin)</a>
   </dt>
 
@@ -3189,22 +3239,6 @@
   </dt>
 
       
-  <dt><a href="errbot.backends.base.html#errbot.backends.base.Message.setDelayed">setDelayed() (errbot.backends.base.Message method)</a>
-  </dt>
-
-      
-  <dt><a href="errbot.backends.base.html#errbot.backends.base.Message.setFrom">setFrom() (errbot.backends.base.Message method)</a>
-  </dt>
-
-      
-  <dt><a href="errbot.backends.base.html#errbot.backends.base.Message.setTo">setTo() (errbot.backends.base.Message method)</a>
-  </dt>
-
-      
-  <dt><a href="errbot.backends.base.html#errbot.backends.base.Message.setType">setType() (errbot.backends.base.Message method)</a>
-  </dt>
-
-      
   <dt><a href="errbot.backends.test.html#errbot.backends.test.FullStackTest.setUp">setUp() (errbot.backends.test.FullStackTest method)</a>
   </dt>
 
@@ -3247,14 +3281,6 @@
   </dt>
 
       
-  <dt><a href="errbot.backends.html#errbot.backends.SimpleIdentifier">SimpleIdentifier (class in errbot.backends)</a>
-  </dt>
-
-      
-  <dt><a href="errbot.backends.html#errbot.backends.SimpleMUCOccupant">SimpleMUCOccupant (class in errbot.backends)</a>
-  </dt>
-
-      
   <dt><a href="errbot.backends.base.html#errbot.backends.base.Stream.size">size (errbot.backends.base.Stream attribute)</a>
   </dt>
 
@@ -3262,8 +3288,6 @@
   <dt><a href="errbot.backends.slack.html#errbot.backends.slack.SlackAPIResponseError">SlackAPIResponseError</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="errbot.backends.slack.html#errbot.backends.slack.SlackBackend">SlackBackend (class in errbot.backends.slack)</a>
   </dt>
@@ -3276,12 +3300,18 @@
   <dt><a href="errbot.backends.slack.html#errbot.backends.slack.SlackMUCOccupant">SlackMUCOccupant (class in errbot.backends.slack)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="errbot.backends.slack.html#errbot.backends.slack.SlackRoom">SlackRoom (class in errbot.backends.slack)</a>
   </dt>
 
       
   <dt><a href="errbot.backend_manager.html#errbot.backend_manager.SpecificBackendLocator">SpecificBackendLocator (class in errbot.backend_manager)</a>
+  </dt>
+
+      
+  <dt><a href="errbot.errBot.html#errbot.errBot.ErrBot.split_and_send_message">split_and_send_message() (errbot.errBot.ErrBot method)</a>
   </dt>
 
       
@@ -3395,7 +3425,7 @@
   </dt>
 
       
-  <dt><a href="errbot.backends.xmpp.html#errbot.backends.xmpp.XMPPIdentifier.stripped">stripped (errbot.backends.xmpp.XMPPIdentifier attribute)</a>
+  <dt><a href="errbot.core_plugins.wsview.html#errbot.core_plugins.wsview.strip_path">strip_path() (in module errbot.core_plugins.wsview)</a>
   </dt>
 
       
@@ -3457,11 +3487,19 @@
   </dt>
 
       
-  <dt><a href="errbot.backends.test.html#errbot.backends.test.TestMUCRoom">TestMUCRoom (class in errbot.backends.test)</a>
+  <dt><a href="errbot.backends.test.html#errbot.backends.test.TestIdentifier">TestIdentifier (class in errbot.backends.test)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="errbot.backends.test.html#errbot.backends.test.TestMUCOccupant">TestMUCOccupant (class in errbot.backends.test)</a>
+  </dt>
+
+      
+  <dt><a href="errbot.backends.test.html#errbot.backends.test.TestMUCRoom">TestMUCRoom (class in errbot.backends.test)</a>
+  </dt>
+
       
   <dt><a href="errbot.rendering.html#errbot.rendering.text">text() (in module errbot.rendering)</a>
   </dt>
@@ -3484,10 +3522,6 @@
 
       
   <dt><a href="errbot.backends.base.html#errbot.backends.base.Message.to">to (errbot.backends.base.Message attribute)</a>
-  </dt>
-
-      
-  <dt><a href="errbot.errBot.html#errbot.errBot.ErrBot.top_of_help_message">top_of_help_message() (errbot.errBot.ErrBot method)</a>
   </dt>
 
       
@@ -3838,13 +3872,13 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

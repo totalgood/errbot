@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends package &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.backends package &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="_static/err.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="index.html" />
     <link rel="up" title="errbot package" href="errbot.html" />
     <link rel="next" title="errbot.backends.base module" href="errbot.backends.base.html" />
     <link rel="prev" title="errbot package" href="errbot.html" />
@@ -58,7 +58,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -83,7 +83,7 @@
         <li class="right" >
           <a href="errbot.html" title="errbot package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" accesskey="U">errbot package</a> &raquo;</li> 
       </ul>
     </div>
@@ -114,93 +114,6 @@
 </div>
 <div class="section" id="module-errbot.backends">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-errbot.backends" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="errbot.backends.DeprecationBridgeIdentifier">
-<em class="property">class </em><code class="descclassname">errbot.backends.</code><code class="descname">DeprecationBridgeIdentifier</code><a class="reference internal" href="_modules/errbot/backends.html#DeprecationBridgeIdentifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.DeprecationBridgeIdentifier" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>This is a Deprecation bridge that will be removed.
-Originally identifier were mapped to XMPP, this emulate that with a deprecation notice.</p>
-<dl class="attribute">
-<dt id="errbot.backends.DeprecationBridgeIdentifier.domain">
-<code class="descname">domain</code><a class="headerlink" href="#errbot.backends.DeprecationBridgeIdentifier.domain" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="errbot.backends.DeprecationBridgeIdentifier.node">
-<code class="descname">node</code><a class="headerlink" href="#errbot.backends.DeprecationBridgeIdentifier.node" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="errbot.backends.DeprecationBridgeIdentifier.resource">
-<code class="descname">resource</code><a class="headerlink" href="#errbot.backends.DeprecationBridgeIdentifier.resource" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="errbot.backends.SimpleIdentifier">
-<em class="property">class </em><code class="descclassname">errbot.backends.</code><code class="descname">SimpleIdentifier</code><span class="sig-paren">(</span><em>person</em>, <em>client=None</em>, <em>nick=None</em>, <em>fullname=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends.html#SimpleIdentifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.SimpleIdentifier" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#errbot.backends.DeprecationBridgeIdentifier" title="errbot.backends.DeprecationBridgeIdentifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.DeprecationBridgeIdentifier</span></code></a></p>
-<p>This is an identifier just represented as a string.
-DO NOT USE THIS DIRECTLY AS IT IS NOT COMPATIBLE WITH MOST BACKENDS,
-use self.build_identifier(identifier_as_string) instead.</p>
-<p>Note to back-end implementors: You should provide a custom
-&lt;yourbackend&gt;Identifier object that adheres to this interface.</p>
-<p>You should not directly inherit from SimpleIdentifier, inherit
-from object instead and make sure it includes all properties and
-methods exposed by this class.</p>
-<dl class="method">
-<dt id="errbot.backends.SimpleIdentifier.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>person</em>, <em>client=None</em>, <em>nick=None</em>, <em>fullname=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends.html#SimpleIdentifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.SimpleIdentifier.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="errbot.backends.SimpleIdentifier.client">
-<code class="descname">client</code><a class="headerlink" href="#errbot.backends.SimpleIdentifier.client" title="Permalink to this definition">¶</a></dt>
-<dd><p>This needs to return the part of the identifier pointing to a client from which a person is sending a message from.
-Returns None is unspecified</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="errbot.backends.SimpleIdentifier.fullname">
-<code class="descname">fullname</code><a class="headerlink" href="#errbot.backends.SimpleIdentifier.fullname" title="Permalink to this definition">¶</a></dt>
-<dd><p>This needs to return a long display name for this identifier e.g. Guillaume Binet.
-Returns None is unspecified</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="errbot.backends.SimpleIdentifier.nick">
-<code class="descname">nick</code><a class="headerlink" href="#errbot.backends.SimpleIdentifier.nick" title="Permalink to this definition">¶</a></dt>
-<dd><p>This needs to return a short display name for this identifier e.g. gbin.
-Returns None is unspecified</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="errbot.backends.SimpleIdentifier.person">
-<code class="descname">person</code><a class="headerlink" href="#errbot.backends.SimpleIdentifier.person" title="Permalink to this definition">¶</a></dt>
-<dd><p>This needs to return the part of the identifier pointing to a person.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="errbot.backends.SimpleMUCOccupant">
-<em class="property">class </em><code class="descclassname">errbot.backends.</code><code class="descname">SimpleMUCOccupant</code><span class="sig-paren">(</span><em>person</em>, <em>room</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends.html#SimpleMUCOccupant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.SimpleMUCOccupant" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#errbot.backends.SimpleIdentifier" title="errbot.backends.SimpleIdentifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.SimpleIdentifier</span></code></a></p>
-<p>This is a MUC occupant represented as a string.
-DO NOT USE THIS DIRECTLY AS IT IS NOT COMPATIBLE WITH MOST BACKENDS,</p>
-<dl class="method">
-<dt id="errbot.backends.SimpleMUCOccupant.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>person</em>, <em>room</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends.html#SimpleMUCOccupant.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.SimpleMUCOccupant.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="errbot.backends.SimpleMUCOccupant.room">
-<code class="descname">room</code><a class="headerlink" href="#errbot.backends.SimpleMUCOccupant.room" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 </div>
 </div>
 
@@ -301,14 +214,14 @@ DO NOT USE THIS DIRECTLY AS IT IS NOT COMPATIBLE WITH MOST BACKENDS,</p>
         <li class="right" >
           <a href="errbot.html" title="errbot package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

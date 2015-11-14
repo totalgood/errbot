@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot package &mdash; Err 3.1.2 documentation</title>
+    <title>errbot package &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="_static/err.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="index.html" />
     <link rel="next" title="errbot.backends package" href="errbot.backends.html" />
     <link rel="prev" title="[Advanced] Backend development" href="user_guide/backend_development/index.html" />
     <script type="text/javascript">
@@ -57,7 +57,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -82,7 +82,7 @@
         <li class="right" >
           <a href="user_guide/backend_development/index.html" title="[Advanced] Backend development"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -170,7 +170,6 @@
 <li class="toctree-l1"><a class="reference internal" href="errbot.err.html">errbot.err module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="errbot.errBot.html">errbot.errBot module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="errbot.main.html">errbot.main module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="errbot.pid.html">errbot.pid module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="errbot.plugin_manager.html">errbot.plugin_manager module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="errbot.py2conv.html">errbot.py2conv module</a></li>
 <li class="toctree-l1"><a class="reference internal" href="errbot.repos.html">errbot.repos module</a></li>
@@ -186,35 +185,27 @@
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-errbot" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="errbot.BotPlugin">
-<em class="property">class </em><code class="descclassname">errbot.</code><code class="descname">BotPlugin</code><span class="sig-paren">(</span><em>bot=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">errbot.</code><code class="descname">BotPlugin</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="errbot.botplugin.html#errbot.botplugin.BotPluginBase" title="errbot.botplugin.BotPluginBase"><code class="xref py py-class docutils literal"><span class="pre">errbot.botplugin.BotPluginBase</span></code></a></p>
 <dl class="method">
 <dt id="errbot.BotPlugin.activate">
-<code class="descname">activate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.activate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.activate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">activate</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; None<a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.activate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.activate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Triggered on plugin activation.</p>
 <p>Override this method if you want to do something at initialization phase
 (don't forget to <cite>super().activate()</cite>).</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="errbot.BotPlugin.bare_send">
-<code class="descname">bare_send</code><span class="sig-paren">(</span><em>xmppy_msg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.bare_send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.bare_send" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>A bypass to send directly a crafted xmppy message.</dt>
-<dd>Usefull to extend to bot in not forseen ways.</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
 <dt id="errbot.BotPlugin.build_identifier">
-<code class="descname">build_identifier</code><span class="sig-paren">(</span><em>txtrep</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.build_identifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.build_identifier" title="Permalink to this definition">¶</a></dt>
+<code class="descname">build_identifier</code><span class="sig-paren">(</span><em>txtrep: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.build_identifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.build_identifier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transform a textual representation of a user or room identifier to the correct
-Identifier object you can set in Message.to and Message.frm.</p>
+Identifier object you can set in Message.to and Message.frm.
+:param txtrep: the textual representation of the identifier (it is backend dependent).</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.BotPlugin.callback_botmessage">
-<code class="descname">callback_botmessage</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.callback_botmessage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.callback_botmessage" title="Permalink to this definition">¶</a></dt>
+<code class="descname">callback_botmessage</code><span class="sig-paren">(</span><em>message: errbot.backends.base.Message</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.callback_botmessage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.callback_botmessage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Triggered on every message coming from the bot itself.</p>
 <p>Override this method to get notified on all messages coming from
 the bot itself (including those from other plugins).</p>
@@ -231,22 +222,21 @@ representing the message that was received.</td>
 
 <dl class="method">
 <dt id="errbot.BotPlugin.callback_connect">
-<code class="descname">callback_connect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.callback_connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.callback_connect" title="Permalink to this definition">¶</a></dt>
+<code class="descname">callback_connect</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; None<a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.callback_connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.callback_connect" title="Permalink to this definition">¶</a></dt>
 <dd><p>Triggered when the bot has successfully connected to the chat network.</p>
 <p>Override this method to get notified when the bot is connected.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.BotPlugin.callback_message">
-<code class="descname">callback_message</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.callback_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.callback_message" title="Permalink to this definition">¶</a></dt>
+<code class="descname">callback_message</code><span class="sig-paren">(</span><em>message: errbot.backends.base.Message</em><span class="sig-paren">)</span> &rarr; None<a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.callback_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.callback_message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Triggered on every message not coming from the bot itself.</p>
 <p>Override this method to get notified on <em>ANY</em> message.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>message</strong> -- An instance of <a class="reference internal" href="errbot.backends.base.html#errbot.backends.base.Message" title="errbot.backends.base.Message"><code class="xref py py-class docutils literal"><span class="pre">Message</span></code></a>
-representing the message that was received.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>message</strong> -- representing the message that was received.</td>
 </tr>
 </tbody>
 </table>
@@ -254,7 +244,7 @@ representing the message that was received.</td>
 
 <dl class="method">
 <dt id="errbot.BotPlugin.callback_presence">
-<code class="descname">callback_presence</code><span class="sig-paren">(</span><em>presence</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.callback_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.callback_presence" title="Permalink to this definition">¶</a></dt>
+<code class="descname">callback_presence</code><span class="sig-paren">(</span><em>presence: errbot.backends.base.Presence</em><span class="sig-paren">)</span> &rarr; None<a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.callback_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.callback_presence" title="Permalink to this definition">¶</a></dt>
 <dd><p>Triggered on every presence change.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -269,7 +259,7 @@ representing the new presence state that was received.</td>
 
 <dl class="method">
 <dt id="errbot.BotPlugin.callback_room_joined">
-<code class="descname">callback_room_joined</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.callback_room_joined"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.callback_room_joined" title="Permalink to this definition">¶</a></dt>
+<code class="descname">callback_room_joined</code><span class="sig-paren">(</span><em>room: errbot.backends.base.MUCRoom</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.callback_room_joined"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.callback_room_joined" title="Permalink to this definition">¶</a></dt>
 <dd><p>Triggered when the bot has joined a MUC.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -284,7 +274,7 @@ representing the room that was joined.</td>
 
 <dl class="method">
 <dt id="errbot.BotPlugin.callback_room_left">
-<code class="descname">callback_room_left</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.callback_room_left"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.callback_room_left" title="Permalink to this definition">¶</a></dt>
+<code class="descname">callback_room_left</code><span class="sig-paren">(</span><em>room: errbot.backends.base.MUCRoom</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.callback_room_left"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.callback_room_left" title="Permalink to this definition">¶</a></dt>
 <dd><p>Triggered when the bot has left a MUC.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -299,7 +289,7 @@ representing the room that was left.</td>
 
 <dl class="method">
 <dt id="errbot.BotPlugin.callback_room_topic">
-<code class="descname">callback_room_topic</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.callback_room_topic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.callback_room_topic" title="Permalink to this definition">¶</a></dt>
+<code class="descname">callback_room_topic</code><span class="sig-paren">(</span><em>room: errbot.backends.base.MUCRoom</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.callback_room_topic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.callback_room_topic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Triggered when the topic in a MUC changes.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -314,7 +304,7 @@ representing the room for which the topic changed.</td>
 
 <dl class="method">
 <dt id="errbot.BotPlugin.callback_stream">
-<code class="descname">callback_stream</code><span class="sig-paren">(</span><em>stream</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.callback_stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.callback_stream" title="Permalink to this definition">¶</a></dt>
+<code class="descname">callback_stream</code><span class="sig-paren">(</span><em>stream: errbot.backends.base.Stream</em><span class="sig-paren">)</span> &rarr; None<a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.callback_stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.callback_stream" title="Permalink to this definition">¶</a></dt>
 <dd><p>Triggered asynchronously (in a different thread context) on every incoming stream
 request or file transfert requests.
 You can block this call until you are done with the stream.
@@ -326,8 +316,30 @@ or stream.reject() and return.
 </dd></dl>
 
 <dl class="method">
+<dt id="errbot.BotPlugin.change_presence">
+<code class="descname">change_presence</code><span class="sig-paren">(</span><em>status: str='online'</em>, <em>message: str=''</em><span class="sig-paren">)</span> &rarr; None<a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.change_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.change_presence" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>Changes the presence/status of the bot.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>status</strong> -- One of the constant defined in base.py : ONLINE, OFFLINE, DND,...</li>
+<li><strong>message</strong> -- Additional message</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="errbot.BotPlugin.check_configuration">
-<code class="descname">check_configuration</code><span class="sig-paren">(</span><em>configuration</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.check_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.check_configuration" title="Permalink to this definition">¶</a></dt>
+<code class="descname">check_configuration</code><span class="sig-paren">(</span><em>configuration: typing.Mapping</em><span class="sig-paren">)</span> &rarr; None<a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.check_configuration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.check_configuration" title="Permalink to this definition">¶</a></dt>
 <dd><p>By default, this method will do only a BASIC check. You need to override
 it if you want to do more complex checks. It will be called before the
 configure callback. Note if the config_template is None, it will never
@@ -340,22 +352,24 @@ be called.</p>
 <li>in case of an array or tuple, it will assume array members of the
 same type of first element of the template (no mix typed is supported)</li>
 </ol>
-<p>In case of validation error it should raise a errbot.utils.ValidationException</p>
+<p>In case of validation error it should raise a errbot.utils.ValidationException
+:param configuration: the configuration to be checked.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.BotPlugin.configure">
-<code class="descname">configure</code><span class="sig-paren">(</span><em>configuration</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.configure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.configure" title="Permalink to this definition">¶</a></dt>
-<dd><p>By default, it will just store the current configuation in the self.config
+<code class="descname">configure</code><span class="sig-paren">(</span><em>configuration: typing.Mapping</em><span class="sig-paren">)</span> &rarr; None<a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.configure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.configure" title="Permalink to this definition">¶</a></dt>
+<dd><p>By default, it will just store the current configuration in the self.config
 field of your plugin. If this plugin has no configuration yet, the framework
 will call this function anyway with None.</p>
 <p>This method will be called before activation so don't expect to be activated
-at that point.</p>
+at that point.
+:param configuration: injected configuration for the plugin.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.BotPlugin.deactivate">
-<code class="descname">deactivate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.deactivate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.deactivate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">deactivate</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; None<a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.deactivate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.deactivate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Triggered on plugin deactivation.</p>
 <p>Override this method if you want to do something at tear-down phase
 (don't forget to <cite>super().deactivate()</cite>).</p>
@@ -363,7 +377,7 @@ at that point.</p>
 
 <dl class="method">
 <dt id="errbot.BotPlugin.get_configuration_template">
-<code class="descname">get_configuration_template</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.get_configuration_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.get_configuration_template" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_configuration_template</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; typing.Mapping<a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.get_configuration_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.get_configuration_template" title="Permalink to this definition">¶</a></dt>
 <dd><p>If your plugin needs a configuration, override this method and return
 a configuration template.</p>
 <p>For example a dictionary like:
@@ -373,19 +387,13 @@ return {'LOGIN' : <a class="reference external" href="mailto:'example&#37;&#52;&
 
 <dl class="method">
 <dt id="errbot.BotPlugin.get_installed_plugin_repos">
-<code class="descname">get_installed_plugin_repos</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.get_installed_plugin_repos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.get_installed_plugin_repos" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_installed_plugin_repos</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; typing.Mapping<a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.get_installed_plugin_repos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.get_installed_plugin_repos" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the current installed plugin repos in a dictionary of name / url</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="errbot.BotPlugin.invite_in_room">
-<code class="descname">invite_in_room</code><span class="sig-paren">(</span><em>room</em>, <em>identifiers_to_invite</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.invite_in_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.invite_in_room" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make the bot invite a list of identifiers to a room</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="errbot.BotPlugin.join_room">
-<code class="descname">join_room</code><span class="sig-paren">(</span><em>room</em>, <em>username=None</em>, <em>password=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.join_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.join_room" title="Permalink to this definition">¶</a></dt>
+<code class="descname">join_room</code><span class="sig-paren">(</span><em>room: str</em>, <em>username: str=None</em>, <em>password: str=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.join_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.join_room" title="Permalink to this definition">¶</a></dt>
 <dd><p>Join a room (MUC).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -422,7 +430,7 @@ minimum version. It MUST be in a 3 dotted numbers format or None</p>
 
 <dl class="method">
 <dt id="errbot.BotPlugin.query_room">
-<code class="descname">query_room</code><span class="sig-paren">(</span><em>room</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.query_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.query_room" title="Permalink to this definition">¶</a></dt>
+<code class="descname">query_room</code><span class="sig-paren">(</span><em>room: str</em><span class="sig-paren">)</span> &rarr; errbot.backends.base.MUCRoom<a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.query_room"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.query_room" title="Permalink to this definition">¶</a></dt>
 <dd><p>Query a room for information.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -440,60 +448,89 @@ minimum version. It MUST be in a 3 dotted numbers format or None</p>
 
 <dl class="method">
 <dt id="errbot.BotPlugin.rooms">
-<code class="descname">rooms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.rooms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.rooms" title="Permalink to this definition">¶</a></dt>
+<code class="descname">rooms</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; typing.Sequence<a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.rooms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.rooms" title="Permalink to this definition">¶</a></dt>
 <dd><p>The list of rooms the bot is currently in.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.BotPlugin.send">
-<code class="descname">send</code><span class="sig-paren">(</span><em>user</em>, <em>text</em>, <em>in_reply_to=None</em>, <em>message_type='chat'</em>, <em>groupchat_nick_reply=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.send" title="Permalink to this definition">¶</a></dt>
+<code class="descname">send</code><span class="sig-paren">(</span><em>user: object</em>, <em>text: str</em>, <em>in_reply_to: errbot.backends.base.Message=None</em>, <em>message_type: str='chat'</em>, <em>groupchat_nick_reply: bool=False</em><span class="sig-paren">)</span> &rarr; None<a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.send"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.send" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Sends asynchronously a message to a room or a user.</dt>
-<dd>if it is a room message_type needs to by 'groupchat' and user the room.</dd>
+<dd>if it is a room message_type needs to by 'groupchat' and user the room.
+:param groupchat_nick_reply: if True it will mention the user in the chatroom.
+:param message_type: 'chat' or 'groupchat'
+:param in_reply_to: optionally, the original message this message is the answer to.
+:param text: markdown formatted text to send to the user.
+:param user: identifier of the user to which you want to send a message to. see build_identifier.</dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.BotPlugin.send_stream_request">
-<code class="descname">send_stream_request</code><span class="sig-paren">(</span><em>user</em>, <em>fsource</em>, <em>name=None</em>, <em>size=None</em>, <em>stream_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.send_stream_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.send_stream_request" title="Permalink to this definition">¶</a></dt>
+<code class="descname">send_stream_request</code><span class="sig-paren">(</span><em>user: errbot.backends.base.Identifier</em>, <em>fsource: io.IOBase</em>, <em>name: str=None</em>, <em>size: int=None</em>, <em>stream_type: str=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.send_stream_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.send_stream_request" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sends asynchronously a stream/file to a user.
-user is the identifier of the person you want to send it to.
-fsource is a file object you want to send.
-name is an optional filename for it.
-size is optional and is the espected size for it.
-stream_type is optional for the mime_type of the content.</p>
+:param user: is the identifier of the person you want to send it to.
+:param fsource: is a file object you want to send.
+:param name: is an optional filename for it.
+:param size: is optional and is the espected size for it.
+:param stream_type: is optional for the mime_type of the content.</p>
 <p>It will return a Stream object on which you can monitor the progress of it.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="errbot.BotPlugin.send_templated">
+<code class="descname">send_templated</code><span class="sig-paren">(</span><em>user: errbot.backends.base.Identifier</em>, <em>template_name: str</em>, <em>template_parameters: typing.Mapping</em>, <em>in_reply_to: errbot.backends.base.Message=None</em>, <em>message_type: str='chat'</em>, <em>groupchat_nick_reply: bool=False</em><span class="sig-paren">)</span> &rarr; None<a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.send_templated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.send_templated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends asynchronously a message to a room or a user.
+Same as send but passing a template name and parameters instead of directly the markdown text.</p>
+<blockquote>
+<div>if it is a room message_type needs to by 'groupchat' and user the room.
+:param template_parameters: arguments for the template.
+:param template_name: name of the template to use.
+:param groupchat_nick_reply: if True it will mention the user in the chatroom.
+:param message_type: 'chat' or 'groupchat'
+:param in_reply_to: optionally, the original message this message is the answer to.
+:param text: markdown formatted text to send to the user.
+:param user: identifier of the user to which you want to send a message to. see build_identifier.</div></blockquote>
+</dd></dl>
+
+<dl class="method">
 <dt id="errbot.BotPlugin.start_poller">
-<code class="descname">start_poller</code><span class="sig-paren">(</span><em>interval</em>, <em>method</em>, <em>args=None</em>, <em>kwargs=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.start_poller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.start_poller" title="Permalink to this definition">¶</a></dt>
+<code class="descname">start_poller</code><span class="sig-paren">(</span><em>interval: float</em>, <em>method: typing.Callable</em>, <em>args: typing.Tuple=None</em>, <em>kwargs: typing.Mapping=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.start_poller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.start_poller" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start to poll a method at specific interval in seconds.</p>
 <p>Note: it will call the method with the initial interval delay for the first time
 Also, you can program
-for example : self.program_poller(self,30, fetch_stuff)
-where you have def fetch_stuff(self) in your plugin</p>
+for example : self.program_poller(self, 30, fetch_stuff)
+where you have def fetch_stuff(self) in your plugin
+:param kwargs: kwargs for the method to callback.
+:param args: args for the method to callback.
+:param method: method to callback.
+:param interval: interval in seconds.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.BotPlugin.stop_poller">
-<code class="descname">stop_poller</code><span class="sig-paren">(</span><em>method=None</em>, <em>args=None</em>, <em>kwargs=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.stop_poller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.stop_poller" title="Permalink to this definition">¶</a></dt>
+<code class="descname">stop_poller</code><span class="sig-paren">(</span><em>method: typing.Callable</em>, <em>args: typing.Tuple=None</em>, <em>kwargs: typing.Mapping=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.stop_poller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.stop_poller" title="Permalink to this definition">¶</a></dt>
 <dd><p>stop poller(s).</p>
 <p>If the method equals None -&gt; it stops all the pollers
-you need to regive the same parameters as the original start_poller to match a specific poller to stop</p>
+you need to regive the same parameters as the original start_poller to match a specific poller to stop
+:param kwargs: The initial kwargs you gave to start_poller.
+:param args: The initial args you gave to start_poller.
+:param method: The initial method you passed to start_poller.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.BotPlugin.warn_admins">
-<code class="descname">warn_admins</code><span class="sig-paren">(</span><em>warning</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.warn_admins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.warn_admins" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sends a warning to the administrators of the bot</p>
+<code class="descname">warn_admins</code><span class="sig-paren">(</span><em>warning: str</em><span class="sig-paren">)</span> &rarr; None<a class="reference internal" href="_modules/errbot/botplugin.html#BotPlugin.warn_admins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.BotPlugin.warn_admins" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends a warning to the administrators of the bot
+:param warning: mardown formatted text of the warning.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="errbot.webhook">
-<code class="descclassname">errbot.</code><code class="descname">webhook</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot.html#webhook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.webhook" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.</code><code class="descname">webhook</code><span class="sig-paren">(</span><em>*args</em>, <em>methods: typing.Tuple=('POST'</em>, <em>'GET')</em>, <em>form_param: str=None</em>, <em>raw: bool=False</em><span class="sig-paren">)</span> &rarr; typing.Callable<a class="reference internal" href="_modules/errbot.html#webhook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.webhook" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for webhooks</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -536,7 +573,7 @@ The bundled <em>Webserver</em> plugin needs to be configured before these URL's 
 
 <dl class="function">
 <dt id="errbot.botcmd">
-<code class="descclassname">errbot.</code><code class="descname">botcmd</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot.html#botcmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botcmd" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.</code><code class="descname">botcmd</code><span class="sig-paren">(</span><em>*args</em>, <em>hidden: bool=False</em>, <em>name: str=None</em>, <em>split_args_with: str=''</em>, <em>admin_only: bool=False</em>, <em>historize: bool=True</em>, <em>template: str=None</em><span class="sig-paren">)</span> &rarr; typing.Callable<a class="reference internal" href="_modules/errbot.html#botcmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.botcmd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for bot command functions</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -550,7 +587,7 @@ Behaviour of this argument is identical to <code class="xref py py-func docutils
 <li><strong>admin_only</strong> -- Only allow the command to be executed by admins when <cite>True</cite>.</li>
 <li><strong>historize</strong> -- Store the command in the history list (<cite>!history</cite>). This is enabled
 by default.</li>
-<li><strong>template</strong> -- The template to use when using XHTML-IM output</li>
+<li><strong>template</strong> -- The markdown template to use.</li>
 </ul>
 </td>
 </tr>
@@ -572,7 +609,7 @@ were given to the command by the user.</p>
 
 <dl class="function">
 <dt id="errbot.re_botcmd">
-<code class="descclassname">errbot.</code><code class="descname">re_botcmd</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot.html#re_botcmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.re_botcmd" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.</code><code class="descname">re_botcmd</code><span class="sig-paren">(</span><em>*args</em>, <em>hidden: bool=False</em>, <em>name: str=None</em>, <em>admin_only: bool=False</em>, <em>historize: bool=True</em>, <em>template: str=None</em>, <em>pattern: str=None</em>, <em>flags: int=0</em>, <em>matchall: bool=False</em>, <em>prefixed: bool=True</em><span class="sig-paren">)</span> &rarr; typing.Callable<a class="reference internal" href="_modules/errbot.html#re_botcmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.re_botcmd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for regex-based bot command functions</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -616,7 +653,7 @@ user's input.</p>
 
 <dl class="function">
 <dt id="errbot.arg_botcmd">
-<code class="descclassname">errbot.</code><code class="descname">arg_botcmd</code><span class="sig-paren">(</span><em>*args</em>, <em>hidden=False</em>, <em>name=None</em>, <em>admin_only=False</em>, <em>historize=True</em>, <em>template=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot.html#arg_botcmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.arg_botcmd" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">errbot.</code><code class="descname">arg_botcmd</code><span class="sig-paren">(</span><em>*args</em>, <em>hidden: bool=False</em>, <em>name: str=None</em>, <em>admin_only: bool=False</em>, <em>historize: bool=True</em>, <em>template: str=None</em>, <em>unpack_args: bool=True</em>, <em>**kwargs</em><span class="sig-paren">)</span> &rarr; typing.Callable<a class="reference internal" href="_modules/errbot.html#arg_botcmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.arg_botcmd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for argparse-based bot command functions</p>
 <p><a class="reference external" href="https://docs.python.org/3/library/argparse.html">https://docs.python.org/3/library/argparse.html</a></p>
 <p>This decorator creates an argparse.ArgumentParser and uses it to parse the commands arguments.</p>
@@ -634,6 +671,10 @@ Each time this decorator is used it adds a new argparse argument to the command.
 <li><strong>historize</strong> -- Store the command in the history list (<cite>!history</cite>). This is enabled
 by default.</li>
 <li><strong>template</strong> -- The template to use when using XHTML-IM output</li>
+<li><strong>unpack_args</strong> -- Should the argparser arguments be &quot;unpacked&quot; and passed on the the bot
+command individually? If this is True (the default) you must define all arguments in the
+function separately. If this is False you must define a single argument <cite>args</cite> (or
+whichever name you prefer) to receive the result of <cite>ArgumentParser.parse_args()</cite>.</li>
 </ul>
 </td>
 </tr>
@@ -642,9 +683,9 @@ by default.</li>
 <p>This decorator should be applied to methods of <a class="reference internal" href="errbot.botplugin.html#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><code class="xref py py-class docutils literal"><span class="pre">BotPlugin</span></code></a>
 classes to turn them into commands that can be given to the bot. The methods will be called
 with the original msg and the argparse parsed arguments. These methods are
-expected to have a signature like the following:</p>
+expected to have a signature like the following (assuming <cite>unpack_args=True</cite>):</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="nd">@arg_botcmd</span><span class="p">(</span><span class="s">&#39;value&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-<span class="nd">@arg_botcmd</span><span class="p">(</span><span class="s">&#39;--repeat-count&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;repeat_count&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="nd">@arg_botcmd</span><span class="p">(</span><span class="s">&#39;--repeat-count&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;repeat&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">repeat_the_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">value</span> <span class="o">*</span> <span class="n">repeat</span>
 </pre></div>
@@ -653,6 +694,18 @@ expected to have a signature like the following:</p>
 like sender, receiver, the plain-text and html body (if applicable), etc. <cite>args</cite> will
 be a string or list (depending on your value of <cite>split_args_with</cite>) of parameters that
 were given to the command by the user.</p>
+<p>If you wish to use <cite>unpack_args=False</cite>, define the function like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@arg_botcmd</span><span class="p">(</span><span class="s">&#39;value&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+<span class="nd">@arg_botcmd</span><span class="p">(</span><span class="s">&#39;--repeat-count&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&#39;repeat&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">unpack_args</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">repeat_the_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">arg</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">args</span><span class="o">.</span><span class="n">repeat</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <cite>unpack_args=False</cite> only needs to be specified once, on the bottom <cite>&#64;args_botcmd</cite>
+statement.</p>
+</div>
 </dd></dl>
 
 </div>
@@ -751,13 +804,13 @@ were given to the command by the user.</p>
         <li class="right" >
           <a href="user_guide/backend_development/index.html" title="[Advanced] Backend development"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.irc module &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.backends.irc module &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="_static/err.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="index.html" />
     <link rel="up" title="errbot.backends package" href="errbot.backends.html" />
     <link rel="next" title="errbot.backends.null module" href="errbot.backends.null.html" />
     <link rel="prev" title="errbot.backends.hipchat module" href="errbot.backends.hipchat.html" />
@@ -58,7 +58,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -83,7 +83,7 @@
         <li class="right" >
           <a href="errbot.backends.hipchat.html" title="errbot.backends.hipchat module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="errbot.backends.html" accesskey="U">errbot.backends package</a> &raquo;</li> 
       </ul>
@@ -119,6 +119,11 @@
 <dl class="method">
 <dt id="errbot.backends.irc.IRCBackend.build_reply">
 <code class="descname">build_reply</code><span class="sig-paren">(</span><em>mess</em>, <em>text=None</em>, <em>private=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/irc.html#IRCBackend.build_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.build_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.irc.IRCBackend.change_presence">
+<code class="descname">change_presence</code><span class="sig-paren">(</span><em>status: str='online'</em>, <em>message: str=''</em><span class="sig-paren">)</span> &rarr; None<a class="reference internal" href="_modules/errbot/backends/irc.html#IRCBackend.change_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCBackend.change_presence" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -198,6 +203,14 @@
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="errbot.backends.irc.IRCConnection.away">
+<code class="descname">away</code><span class="sig-paren">(</span><em>message=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/irc.html#IRCConnection.away"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.away" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extend the original implementation to support AWAY.
+To set an away message, set message to something.
+To cancel an away message, leave message at empty string.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="errbot.backends.irc.IRCConnection.connect">
 <code class="descname">connect</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/irc.html#IRCConnection.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCConnection.connect" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -267,10 +280,15 @@
 <dl class="class">
 <dt id="errbot.backends.irc.IRCIdentifier">
 <em class="property">class </em><code class="descclassname">errbot.backends.irc.</code><code class="descname">IRCIdentifier</code><span class="sig-paren">(</span><em>nick</em>, <em>domain=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/irc.html#IRCIdentifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCIdentifier" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="errbot.backends.html#errbot.backends.DeprecationBridgeIdentifier" title="errbot.backends.DeprecationBridgeIdentifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.DeprecationBridgeIdentifier</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="errbot.backends.base.html#errbot.backends.base.Identifier" title="errbot.backends.base.Identifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.Identifier</span></code></a></p>
 <dl class="method">
 <dt id="errbot.backends.irc.IRCIdentifier.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><em>nick</em>, <em>domain=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/irc.html#IRCIdentifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCIdentifier.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.irc.IRCIdentifier.aclattr">
+<code class="descname">aclattr</code><a class="headerlink" href="#errbot.backends.irc.IRCIdentifier.aclattr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -303,7 +321,7 @@
 <dl class="class">
 <dt id="errbot.backends.irc.IRCMUCOccupant">
 <em class="property">class </em><code class="descclassname">errbot.backends.irc.</code><code class="descname">IRCMUCOccupant</code><span class="sig-paren">(</span><em>nick</em>, <em>room</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/irc.html#IRCMUCOccupant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCOccupant" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#errbot.backends.irc.IRCIdentifier" title="errbot.backends.irc.IRCIdentifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.irc.IRCIdentifier</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="errbot.backends.base.html#errbot.backends.base.MUCIdentifier" title="errbot.backends.base.MUCIdentifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.MUCIdentifier</span></code></a>, <a class="reference internal" href="#errbot.backends.irc.IRCIdentifier" title="errbot.backends.irc.IRCIdentifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.irc.IRCIdentifier</span></code></a></p>
 <dl class="method">
 <dt id="errbot.backends.irc.IRCMUCOccupant.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><em>nick</em>, <em>room</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/irc.html#IRCMUCOccupant.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.irc.IRCMUCOccupant.__init__" title="Permalink to this definition">¶</a></dt>
@@ -535,7 +553,7 @@ topic has been set at all.</td>
         <li class="right" >
           <a href="errbot.backends.hipchat.html" title="errbot.backends.hipchat module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="errbot.backends.html" >errbot.backends package</a> &raquo;</li> 
       </ul>
@@ -543,7 +561,7 @@ topic has been set at all.</td>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

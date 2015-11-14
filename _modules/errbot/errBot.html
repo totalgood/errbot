@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.errBot &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.errBot &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="../../index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="../../index.html" />
     <link rel="up" title="errbot" href="../errbot.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
@@ -56,7 +56,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -75,7 +75,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../errbot.html" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
@@ -149,7 +149,8 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s">&#39;SUPPRESS_CMD_NOT_FOUND&#39;</span><span class="p">):</span>
         <span class="n">config</span><span class="o">.</span><span class="n">SUPPRESS_CMD_NOT_FOUND</span> <span class="o">=</span> <span class="bp">False</span>
 
-</div>
+
+<span class="c"># noinspection PyAbstractClass</span></div>
 <div class="viewcode-block" id="ErrBot"><a class="viewcode-back" href="../../errbot.errBot.html#errbot.errBot.ErrBot">[docs]</a><span class="k">class</span> <span class="nc">ErrBot</span><span class="p">(</span><span class="n">Backend</span><span class="p">,</span> <span class="n">BotPluginManager</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; ErrBot is the layer of Err that takes care of the plugin management and dispatching</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -160,7 +161,7 @@
 
 <div class="viewcode-block" id="ErrBot.__init__"><a class="viewcode-back" href="../../errbot.errBot.html#errbot.errBot.ErrBot.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bot_config</span><span class="p">):</span>
         <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;ErrBot init.&quot;</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">ErrBot</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">bot_config</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">bot_config</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_init_plugin_manager</span><span class="p">(</span><span class="n">bot_config</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span> <span class="o">=</span> <span class="n">bot_config</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="n">bot_config</span><span class="o">.</span><span class="n">BOT_PREFIX</span>
@@ -203,7 +204,69 @@
             <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                 <span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&quot;{} on {} crashed&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">plugin_name</span><span class="p">))</span>
 
+<div class="viewcode-block" id="ErrBot.send"><a class="viewcode-back" href="../../errbot.errBot.html#errbot.errBot.ErrBot.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">in_reply_to</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">message_type</span><span class="o">=</span><span class="s">&#39;chat&#39;</span><span class="p">,</span> <span class="n">groupchat_nick_reply</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Sends a simple message to the specified user.</span>
+<span class="sd">            :param user:</span>
+<span class="sd">                an identifier from build_identifier or from an incoming message</span>
+<span class="sd">            :param in_reply_to:</span>
+<span class="sd">                the original message the bot is answering from</span>
+<span class="sd">            :param text:</span>
+<span class="sd">                the markdown text you want to send</span>
+<span class="sd">            :param message_type:</span>
+<span class="sd">                chat or groupchat</span>
+<span class="sd">            :param groupchat_nick_reply:</span>
+<span class="sd">                authorized the prefixing with the nick form the user</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s">&#39;person&#39;</span><span class="p">):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">compat_str</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">s</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_identifier</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+        <span class="n">mess</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_message</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="n">mess</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="n">user</span>
+
+        <span class="k">if</span> <span class="n">in_reply_to</span><span class="p">:</span>
+            <span class="n">mess</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">in_reply_to</span><span class="o">.</span><span class="n">type</span>
+            <span class="n">mess</span><span class="o">.</span><span class="n">frm</span> <span class="o">=</span> <span class="n">in_reply_to</span><span class="o">.</span><span class="n">to</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mess</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">message_type</span>
+            <span class="n">mess</span><span class="o">.</span><span class="n">frm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_identifier</span>
+
+        <span class="n">nick_reply</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span><span class="o">.</span><span class="n">GROUPCHAT_NICK_PREFIXED</span>
+        <span class="k">if</span> <span class="n">message_type</span> <span class="o">==</span> <span class="s">&#39;groupchat&#39;</span> <span class="ow">and</span> <span class="n">in_reply_to</span> <span class="ow">and</span> <span class="n">nick_reply</span> <span class="ow">and</span> <span class="n">groupchat_nick_reply</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">prefix_groupchat_reply</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">in_reply_to</span><span class="o">.</span><span class="n">frm</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">split_and_send_message</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ErrBot.send_templated"><a class="viewcode-back" href="../../errbot.errBot.html#errbot.errBot.ErrBot.send_templated">[docs]</a>    <span class="k">def</span> <span class="nf">send_templated</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">template_parameters</span><span class="p">,</span> <span class="n">in_reply_to</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">message_type</span><span class="o">=</span><span class="s">&#39;chat&#39;</span><span class="p">,</span>
+                       <span class="n">groupchat_nick_reply</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Sends a simple message to the specified user using a template.</span>
+<span class="sd">            :param template_parameters: the parameters for the template.</span>
+<span class="sd">            :param template_name: the template name you want to use.</span>
+<span class="sd">            :param user:</span>
+<span class="sd">                an identifier from build_identifier or from an incoming message</span>
+<span class="sd">            :param in_reply_to:</span>
+<span class="sd">                the original message the bot is answering from</span>
+<span class="sd">            :param message_type:</span>
+<span class="sd">                chat or groupchat</span>
+<span class="sd">            :param groupchat_nick_reply:</span>
+<span class="sd">                authorized the prefixing with the nick form the user</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_template</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="n">template_parameters</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">in_reply_to</span><span class="p">,</span> <span class="n">message_type</span><span class="p">,</span> <span class="n">groupchat_nick_reply</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ErrBot.split_and_send_message"><a class="viewcode-back" href="../../errbot.errBot.html#errbot.errBot.ErrBot.split_and_send_message">[docs]</a>    <span class="k">def</span> <span class="nf">split_and_send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">split_string_after</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span><span class="o">.</span><span class="n">MESSAGE_SIZE_LIMIT</span><span class="p">):</span>
+            <span class="n">partial_message</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+            <span class="n">partial_message</span><span class="o">.</span><span class="n">body</span> <span class="o">=</span> <span class="n">part</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">partial_message</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="ErrBot.send_message"><a class="viewcode-back" href="../../errbot.errBot.html#errbot.errBot.ErrBot.send_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This needs to be overridden by the backends with a super() call.</span>
+<span class="sd">        :param mess: the message to send.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">bot</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_all_active_plugin_objects</span><span class="p">():</span>
             <span class="c"># noinspection PyBroadException</span>
             <span class="k">try</span><span class="p">:</span>
@@ -212,12 +275,17 @@
                 <span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&quot;Crash in a callback_botmessage handler&quot;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="ErrBot.send_simple_reply"><a class="viewcode-back" href="../../errbot.errBot.html#errbot.errBot.ErrBot.send_simple_reply">[docs]</a>    <span class="k">def</span> <span class="nf">send_simple_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">private</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Send a simple response to a message&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">build_reply</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">private</span><span class="p">))</span>
+        <span class="sd">&quot;&quot;&quot;Send a simple response to a given incoming message</span>
+<span class="sd">        :param private: if True will force a response in private.</span>
+<span class="sd">        :param text: the markdown text of the message.</span>
+<span class="sd">        :param mess: the message you are replying to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">split_and_send_message</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">build_reply</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">private</span><span class="p">))</span>
 </div>
 <div class="viewcode-block" id="ErrBot.process_message"><a class="viewcode-back" href="../../errbot.errBot.html#errbot.errBot.ErrBot.process_message">[docs]</a>    <span class="k">def</span> <span class="nf">process_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Check if the given message is a command for the bot and act on it.</span>
 <span class="sd">        It return True for triggering the callback_messages on the .callback_messages on the plugins.</span>
+<span class="sd">        :param mess: the incoming message.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># Prepare to handle either private chats or group chats</span>
         <span class="n">type_</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">type</span>
@@ -429,6 +497,15 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_execute_and_send</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span> <span class="n">match</span><span class="o">=</span><span class="n">match</span><span class="p">,</span> <span class="n">mess</span><span class="o">=</span><span class="n">mess</span><span class="p">,</span>
                                    <span class="n">template_name</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">_err_command_template</span><span class="p">)</span>
 
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ErrBot.process_template"><a class="viewcode-back" href="../../errbot.errBot.html#errbot.errBot.ErrBot.process_template">[docs]</a>    <span class="k">def</span> <span class="nf">process_template</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="n">template_parameters</span><span class="p">):</span>
+        <span class="c"># integrated templating</span>
+        <span class="k">if</span> <span class="n">template_name</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">tenv</span><span class="p">()</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="n">template_name</span> <span class="o">+</span> <span class="s">&#39;.md&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="o">**</span><span class="n">template_parameters</span><span class="p">)</span>
+
+        <span class="c"># Reply should be all text at this point (See https://github.com/errbotio/errbot/issues/96)</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">template_parameters</span><span class="p">)</span>
+</div>
     <span class="k">def</span> <span class="nf">_execute_and_send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">match</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Execute a bot command and send output back to the caller</span>
 
@@ -440,35 +517,24 @@
 <span class="sd">            the markdown output, if any</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">def</span> <span class="nf">process_reply</span><span class="p">(</span><span class="n">reply_</span><span class="p">):</span>
-            <span class="c"># integrated templating</span>
-            <span class="k">if</span> <span class="n">template_name</span><span class="p">:</span>
-                <span class="n">reply_</span> <span class="o">=</span> <span class="n">tenv</span><span class="p">()</span><span class="o">.</span><span class="n">get_template</span><span class="p">(</span><span class="n">template_name</span> <span class="o">+</span> <span class="s">&#39;.md&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="o">**</span><span class="n">reply_</span><span class="p">)</span>
-
-            <span class="c"># Reply should be all text at this point (See https://github.com/gbin/err/issues/96)</span>
-            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">reply_</span><span class="p">)</span>
-
-        <span class="k">def</span> <span class="nf">send_reply</span><span class="p">(</span><span class="n">reply_</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">split_string_after</span><span class="p">(</span><span class="n">reply_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span><span class="o">.</span><span class="n">MESSAGE_SIZE_LIMIT</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">send_simple_reply</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span><span class="o">.</span><span class="n">DIVERT_TO_PRIVATE</span><span class="p">)</span>
-
+        <span class="n">private</span> <span class="o">=</span> <span class="n">cmd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span><span class="o">.</span><span class="n">DIVERT_TO_PRIVATE</span>
         <span class="n">commands</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">re_commands</span> <span class="k">if</span> <span class="n">match</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">commands</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isgeneratorfunction</span><span class="p">(</span><span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">]):</span>
                 <span class="n">replies</span> <span class="o">=</span> <span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">](</span><span class="n">mess</span><span class="p">,</span> <span class="n">match</span><span class="p">)</span> <span class="k">if</span> <span class="n">match</span> <span class="k">else</span> <span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">](</span><span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">reply</span> <span class="ow">in</span> <span class="n">replies</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">reply</span><span class="p">:</span>
-                        <span class="n">send_reply</span><span class="p">(</span><span class="n">process_reply</span><span class="p">(</span><span class="n">reply</span><span class="p">))</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">send_simple_reply</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_template</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="n">reply</span><span class="p">),</span> <span class="n">private</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">reply</span> <span class="o">=</span> <span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">](</span><span class="n">mess</span><span class="p">,</span> <span class="n">match</span><span class="p">)</span> <span class="k">if</span> <span class="n">match</span> <span class="k">else</span> <span class="n">commands</span><span class="p">[</span><span class="n">cmd</span><span class="p">](</span><span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">reply</span><span class="p">:</span>
-                    <span class="n">send_reply</span><span class="p">(</span><span class="n">process_reply</span><span class="p">(</span><span class="n">reply</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">send_simple_reply</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">process_template</span><span class="p">(</span><span class="n">template_name</span><span class="p">,</span> <span class="n">reply</span><span class="p">),</span> <span class="n">private</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">tb</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()</span>
             <span class="n">log</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s">&#39;An error happened while processing &#39;</span>
                           <span class="s">&#39;a message (&quot;</span><span class="si">%s</span><span class="s">&quot;): </span><span class="si">%s</span><span class="s">&quot;&#39;</span> <span class="o">%</span>
                           <span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">body</span><span class="p">,</span> <span class="n">tb</span><span class="p">))</span>
-            <span class="n">send_reply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">MSG_ERROR_OCCURRED</span> <span class="o">+</span> <span class="s">&#39;:</span><span class="se">\n</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">e</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_simple_reply</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">MSG_ERROR_OCCURRED</span> <span class="o">+</span> <span class="s">&#39;:</span><span class="se">\n</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">e</span><span class="p">,</span> <span class="n">private</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ErrBot.unknown_command"><a class="viewcode-back" href="../../errbot.errBot.html#errbot.errBot.ErrBot.unknown_command">[docs]</a>    <span class="k">def</span> <span class="nf">unknown_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Override the default unknown command behavior</span>
@@ -512,7 +578,6 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">commands</span> <span class="o">=</span> <span class="n">commands</span>
 </div>
 <div class="viewcode-block" id="ErrBot.inject_command_filters_from"><a class="viewcode-back" href="../../errbot.errBot.html#errbot.errBot.ErrBot.inject_command_filters_from">[docs]</a>    <span class="k">def</span> <span class="nf">inject_command_filters_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance_to_inject</span><span class="p">):</span>
-        <span class="n">classname</span> <span class="o">=</span> <span class="n">instance_to_inject</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">instance_to_inject</span><span class="p">,</span> <span class="n">inspect</span><span class="o">.</span><span class="n">ismethod</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="s">&#39;_err_command_filter&#39;</span><span class="p">,</span> <span class="bp">False</span><span class="p">):</span>
                 <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Adding command filter: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
@@ -536,57 +601,6 @@
 <div class="viewcode-block" id="ErrBot.warn_admins"><a class="viewcode-back" href="../../errbot.errBot.html#errbot.errBot.ErrBot.warn_admins">[docs]</a>    <span class="k">def</span> <span class="nf">warn_admins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">warning</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">admin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span><span class="o">.</span><span class="n">BOT_ADMINS</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">admin</span><span class="p">,</span> <span class="n">warning</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="ErrBot.top_of_help_message"><a class="viewcode-back" href="../../errbot.errBot.html#errbot.errBot.ErrBot.top_of_help_message">[docs]</a>    <span class="k">def</span> <span class="nf">top_of_help_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Returns a string that forms the top of the help message</span>
-
-<span class="sd">        Override this method in derived class if you</span>
-<span class="sd">        want to add additional help text at the</span>
-<span class="sd">        beginning of the help message.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s">&quot;&quot;</span>
-</div>
-<div class="viewcode-block" id="ErrBot.bottom_of_help_message"><a class="viewcode-back" href="../../errbot.errBot.html#errbot.errBot.ErrBot.bottom_of_help_message">[docs]</a>    <span class="k">def</span> <span class="nf">bottom_of_help_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Returns a string that forms the bottom of the help message</span>
-
-<span class="sd">        Override this method in derived class if you</span>
-<span class="sd">        want to add additional help text at the end</span>
-<span class="sd">        of the help message.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s">&quot;&quot;</span>
-</div>
-<div class="viewcode-block" id="ErrBot.send"><a class="viewcode-back" href="../../errbot.errBot.html#errbot.errBot.ErrBot.send">[docs]</a>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">in_reply_to</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">message_type</span><span class="o">=</span><span class="s">&#39;chat&#39;</span><span class="p">,</span> <span class="n">groupchat_nick_reply</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Sends a simple message to the specified user.</span>
-<span class="sd">            :param user:</span>
-<span class="sd">                an identifier from build_identifier or from an incoming message</span>
-<span class="sd">            :param in_reply_to:</span>
-<span class="sd">                the original message the bot is answering from</span>
-<span class="sd">            :param text:</span>
-<span class="sd">                the markdown text you want to send</span>
-<span class="sd">            :param message_type:</span>
-<span class="sd">                chat or groupchat</span>
-<span class="sd">            :param groupchat_nick_reply:</span>
-<span class="sd">                authorized the prefixing with the nick form the user</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="s">&#39;person&#39;</span><span class="p">):</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;user is not an identifier, build one&quot;</span><span class="p">)</span>
-            <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_identifier</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
-
-        <span class="n">mess</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_message</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-        <span class="n">mess</span><span class="o">.</span><span class="n">to</span> <span class="o">=</span> <span class="n">user</span>
-
-        <span class="k">if</span> <span class="n">in_reply_to</span><span class="p">:</span>
-            <span class="n">mess</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">in_reply_to</span><span class="o">.</span><span class="n">type</span>
-            <span class="n">mess</span><span class="o">.</span><span class="n">frm</span> <span class="o">=</span> <span class="n">in_reply_to</span><span class="o">.</span><span class="n">to</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">mess</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">message_type</span>
-            <span class="n">mess</span><span class="o">.</span><span class="n">frm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_identifier</span>
-
-        <span class="n">nick_reply</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bot_config</span><span class="o">.</span><span class="n">GROUPCHAT_NICK_PREFIXED</span>
-        <span class="k">if</span> <span class="n">message_type</span> <span class="o">==</span> <span class="s">&#39;groupchat&#39;</span> <span class="ow">and</span> <span class="n">in_reply_to</span> <span class="ow">and</span> <span class="n">nick_reply</span> <span class="ow">and</span> <span class="n">groupchat_nick_reply</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">prefix_groupchat_reply</span><span class="p">(</span><span class="n">mess</span><span class="p">,</span> <span class="n">in_reply_to</span><span class="o">.</span><span class="n">frm</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">mess</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="ErrBot.callback_message"><a class="viewcode-back" href="../../errbot.errBot.html#errbot.errBot.ErrBot.callback_message">[docs]</a>    <span class="k">def</span> <span class="nf">callback_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Processes for commands and dispatches the message to all the plugins.&quot;&quot;&quot;</span>
@@ -745,7 +759,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../errbot.html" >errbot</a> &raquo;</li> 
       </ul>
@@ -753,7 +767,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

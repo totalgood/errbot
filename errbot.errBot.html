@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.errBot module &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.errBot module &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="_static/err.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="index.html" />
     <link rel="up" title="errbot package" href="errbot.html" />
     <link rel="next" title="errbot.main module" href="errbot.main.html" />
     <link rel="prev" title="errbot.err module" href="errbot.err.html" />
@@ -58,7 +58,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -83,7 +83,7 @@
         <li class="right" >
           <a href="errbot.err.html" title="errbot.err module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" accesskey="U">errbot package</a> &raquo;</li> 
       </ul>
     </div>
@@ -120,15 +120,6 @@
 <dt id="errbot.errBot.ErrBot.all_commands">
 <code class="descname">all_commands</code><a class="headerlink" href="#errbot.errBot.ErrBot.all_commands" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return both commands and re_commands together.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="errbot.errBot.ErrBot.bottom_of_help_message">
-<code class="descname">bottom_of_help_message</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.bottom_of_help_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.bottom_of_help_message" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a string that forms the bottom of the help message</p>
-<p>Override this method in derived class if you
-want to add additional help text at the end
-of the help message.</p>
 </dd></dl>
 
 <dl class="method">
@@ -227,8 +218,14 @@ representing the room for which the topic changed.</td>
 <dt id="errbot.errBot.ErrBot.process_message">
 <code class="descname">process_message</code><span class="sig-paren">(</span><em>mess</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.process_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.process_message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if the given message is a command for the bot and act on it.
-It return True for triggering the callback_messages on the .callback_messages on the plugins.</p>
+It return True for triggering the callback_messages on the .callback_messages on the plugins.
+:param mess: the incoming message.</p>
 </dd></dl>
+
+<dl class="staticmethod">
+<dt id="errbot.errBot.ErrBot.process_template">
+<em class="property">static </em><code class="descname">process_template</code><span class="sig-paren">(</span><em>template_name</em>, <em>template_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.process_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.process_template" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.errBot.ErrBot.remove_command_filters_from">
@@ -266,12 +263,42 @@ It return True for triggering the callback_messages on the .callback_messages on
 <dl class="method">
 <dt id="errbot.errBot.ErrBot.send_message">
 <code class="descname">send_message</code><span class="sig-paren">(</span><em>mess</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.send_message" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This needs to be overridden by the backends with a super() call.
+:param mess: the message to send.
+:return: None</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="errbot.errBot.ErrBot.send_simple_reply">
 <code class="descname">send_simple_reply</code><span class="sig-paren">(</span><em>mess</em>, <em>text</em>, <em>private=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.send_simple_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.send_simple_reply" title="Permalink to this definition">¶</a></dt>
-<dd><p>Send a simple response to a message</p>
+<dd><p>Send a simple response to a given incoming message
+:param private: if True will force a response in private.
+:param text: the markdown text of the message.
+:param mess: the message you are replying to.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.send_templated">
+<code class="descname">send_templated</code><span class="sig-paren">(</span><em>user</em>, <em>template_name</em>, <em>template_parameters</em>, <em>in_reply_to=None</em>, <em>message_type='chat'</em>, <em>groupchat_nick_reply=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.send_templated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.send_templated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends a simple message to the specified user using a template.
+:param template_parameters: the parameters for the template.
+:param template_name: the template name you want to use.
+:param user:</p>
+<blockquote>
+<div>an identifier from build_identifier or from an incoming message</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>in_reply_to</strong> -- the original message the bot is answering from</li>
+<li><strong>message_type</strong> -- chat or groupchat</li>
+<li><strong>groupchat_nick_reply</strong> -- authorized the prefixing with the nick form the user</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -279,19 +306,15 @@ It return True for triggering the callback_messages on the .callback_messages on
 <code class="descname">signal_connect_to_all_plugins</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.signal_connect_to_all_plugins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.signal_connect_to_all_plugins" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="errbot.errBot.ErrBot.startup_time">
-<code class="descname">startup_time</code><em class="property"> = datetime.datetime(2015, 11, 12, 15, 13, 30, 327536)</em><a class="headerlink" href="#errbot.errBot.ErrBot.startup_time" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="errbot.errBot.ErrBot.split_and_send_message">
+<code class="descname">split_and_send_message</code><span class="sig-paren">(</span><em>mess</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.split_and_send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.split_and_send_message" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="errbot.errBot.ErrBot.top_of_help_message">
-<code class="descname">top_of_help_message</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/errBot.html#ErrBot.top_of_help_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.errBot.ErrBot.top_of_help_message" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a string that forms the top of the help message</p>
-<p>Override this method in derived class if you
-want to add additional help text at the
-beginning of the help message.</p>
-</dd></dl>
+<dl class="attribute">
+<dt id="errbot.errBot.ErrBot.startup_time">
+<code class="descname">startup_time</code><em class="property"> = datetime.datetime(2015, 11, 13, 16, 33, 7, 151148)</em><a class="headerlink" href="#errbot.errBot.ErrBot.startup_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.errBot.ErrBot.unknown_command">
@@ -401,14 +424,14 @@ beginning of the help message.</p>
         <li class="right" >
           <a href="errbot.err.html" title="errbot.err module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

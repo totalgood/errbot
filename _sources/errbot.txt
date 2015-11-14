@@ -24,7 +24,6 @@ Submodules
    errbot.err
    errbot.errBot
    errbot.main
-   errbot.pid
    errbot.plugin_manager
    errbot.py2conv
    errbot.repos

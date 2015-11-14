@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.utils module &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.utils module &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="_static/err.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="index.html" />
     <link rel="up" title="errbot package" href="errbot.html" />
     <link rel="next" title="errbot.version module" href="errbot.version.html" />
     <link rel="prev" title="errbot.templating module" href="errbot.templating.html" />
@@ -58,7 +58,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -83,7 +83,7 @@
         <li class="right" >
           <a href="errbot.templating.html" title="errbot.templating module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" accesskey="U">errbot package</a> &raquo;</li> 
       </ul>
     </div>
@@ -96,11 +96,6 @@
             
   <div class="section" id="module-errbot.utils">
 <span id="errbot-utils-module"></span><h1>errbot.utils module<a class="headerlink" href="#module-errbot.utils" title="Permalink to this headline">¶</a></h1>
-<dl class="function">
-<dt id="errbot.utils.RateLimited">
-<code class="descclassname">errbot.utils.</code><code class="descname">RateLimited</code><span class="sig-paren">(</span><em>minInterval</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/utils.html#RateLimited"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.RateLimited" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="exception">
 <dt id="errbot.utils.ValidationException">
 <em class="property">exception </em><code class="descclassname">errbot.utils.</code><code class="descname">ValidationException</code><a class="reference internal" href="_modules/errbot/utils.html#ValidationException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.ValidationException" title="Permalink to this definition">¶</a></dt>
@@ -111,7 +106,8 @@
 <dt id="errbot.utils.compat_str">
 <code class="descclassname">errbot.utils.</code><code class="descname">compat_str</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/utils.html#compat_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.compat_str" title="Permalink to this definition">¶</a></dt>
 <dd><p>Detect if s is a string and convert it to unicode if it is a byte or
-py2 string</p>
+py2 string
+:param s: the string to ensure compatibility from.</p>
 </dd></dl>
 
 <dl class="class">
@@ -135,7 +131,7 @@ py2 string</p>
 <dt id="errbot.utils.find_roots">
 <code class="descclassname">errbot.utils.</code><code class="descname">find_roots</code><span class="sig-paren">(</span><em>path</em>, <em>file_sig='*.plug'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/utils.html#find_roots"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.find_roots" title="Permalink to this definition">¶</a></dt>
 <dd><p>Collects all the paths from path recursively that contains files of type <cite>file_sig</cite>.
-:param base:</p>
+:param path:</p>
 <blockquote>
 <div>a base path to walk from</div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
@@ -195,6 +191,22 @@ py2 string</p>
 <dd></dd></dl>
 
 <dl class="function">
+<dt id="errbot.utils.rate_limited">
+<code class="descclassname">errbot.utils.</code><code class="descname">rate_limited</code><span class="sig-paren">(</span><em>min_interval</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/utils.html#rate_limited"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.rate_limited" title="Permalink to this definition">¶</a></dt>
+<dd><p>decorator to rate limit a function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>min_interval</strong> -- minimum interval allowed between 2 consecutive calls.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the decorated function</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="errbot.utils.recurse_check_structure">
 <code class="descclassname">errbot.utils.</code><code class="descname">recurse_check_structure</code><span class="sig-paren">(</span><em>sample</em>, <em>to_check</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/utils.html#recurse_check_structure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.recurse_check_structure" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -203,13 +215,18 @@ py2 string</p>
 <dt id="errbot.utils.repeatfunc">
 <code class="descclassname">errbot.utils.</code><code class="descname">repeatfunc</code><span class="sig-paren">(</span><em>func</em>, <em>times=None</em>, <em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/utils.html#repeatfunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.repeatfunc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Repeat calls to func with specified arguments.</p>
-<p>Example:  repeatfunc(random.random)</p>
+<p>Example:  repeatfunc(random.random)
+:param args: params to the function to call.
+:param times: number of times to repeat.
+:param func:  the function to repeatedly call.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="errbot.utils.split_string_after">
 <code class="descclassname">errbot.utils.</code><code class="descname">split_string_after</code><span class="sig-paren">(</span><em>str_</em>, <em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/utils.html#split_string_after"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.utils.split_string_after" title="Permalink to this definition">¶</a></dt>
-<dd><p>Yield chunks of length <cite>n</cite> from the given string</p>
+<dd><p>Yield chunks of length <cite>n</cite> from the given string
+:param n: length of the chunks.
+:param <a href="#id1"><span class="problematic" id="id2">str_</span></a>: the given string.</p>
 </dd></dl>
 
 <dl class="function">
@@ -330,14 +347,14 @@ py2 string</p>
         <li class="right" >
           <a href="errbot.templating.html" title="errbot.templating module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

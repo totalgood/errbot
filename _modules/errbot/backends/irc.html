@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.irc &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.backends.irc &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="../../../index.html" />
-    <link rel="up" title="errbot.backends" href="../backends.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="../../../index.html" />
+    <link rel="up" title="errbot" href="../../errbot.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -56,7 +56,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -75,10 +75,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="../backends.html" accesskey="U">errbot.backends</a> &raquo;</li> 
+          <li class="nav-item nav-item-2"><a href="../../errbot.html" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -99,10 +98,10 @@
 <span class="kn">from</span> <span class="nn">markdown</span> <span class="kn">import</span> <span class="n">Markdown</span>
 <span class="kn">from</span> <span class="nn">markdown.extensions.extra</span> <span class="kn">import</span> <span class="n">ExtraExtension</span>
 
-<span class="kn">from</span> <span class="nn">errbot.backends</span> <span class="kn">import</span> <span class="n">DeprecationBridgeIdentifier</span>
-<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">MUCRoom</span><span class="p">,</span> <span class="n">RoomError</span><span class="p">,</span> <span class="n">RoomNotJoinedError</span><span class="p">,</span> <span class="n">Stream</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">MUCRoom</span><span class="p">,</span> <span class="n">RoomError</span><span class="p">,</span> <span class="n">RoomNotJoinedError</span><span class="p">,</span> <span class="n">Stream</span><span class="p">,</span> <span class="n">Identifier</span><span class="p">,</span> <span class="n">MUCIdentifier</span><span class="p">,</span> \
+    <span class="n">ONLINE</span>
 <span class="kn">from</span> <span class="nn">errbot.errBot</span> <span class="kn">import</span> <span class="n">ErrBot</span>
-<span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">RateLimited</span>
+<span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">rate_limited</span>
 <span class="kn">from</span> <span class="nn">errbot.rendering.ansi</span> <span class="kn">import</span> <span class="n">AnsiExtension</span><span class="p">,</span> <span class="n">enable_format</span><span class="p">,</span> <span class="n">CharacterTable</span><span class="p">,</span> <span class="n">NSC</span>
 
 
@@ -167,7 +166,7 @@
     <span class="k">return</span> <span class="n">md</span>
 
 </div>
-<div class="viewcode-block" id="IRCIdentifier"><a class="viewcode-back" href="../../../errbot.backends.irc.html#errbot.backends.irc.IRCIdentifier">[docs]</a><span class="k">class</span> <span class="nc">IRCIdentifier</span><span class="p">(</span><span class="n">DeprecationBridgeIdentifier</span><span class="p">):</span>
+<div class="viewcode-block" id="IRCIdentifier"><a class="viewcode-back" href="../../../errbot.backends.irc.html#errbot.backends.irc.IRCIdentifier">[docs]</a><span class="k">class</span> <span class="nc">IRCIdentifier</span><span class="p">(</span><span class="n">Identifier</span><span class="p">):</span>
     <span class="c"># TODO(gbin): remove the deprecation warnings at one point.</span>
 
 <div class="viewcode-block" id="IRCIdentifier.__init__"><a class="viewcode-back" href="../../../errbot.backends.irc.html#errbot.backends.irc.IRCIdentifier.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -191,6 +190,8 @@
         <span class="c"># TODO: this should be possible to get</span>
         <span class="k">return</span> <span class="bp">None</span>
 
+    <span class="n">aclattr</span> <span class="o">=</span> <span class="n">person</span>
+
     <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">!</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nick</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_domain</span><span class="p">)</span>
 
@@ -198,7 +199,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unicode__</span><span class="p">()</span>
 
 </div>
-<div class="viewcode-block" id="IRCMUCOccupant"><a class="viewcode-back" href="../../../errbot.backends.irc.html#errbot.backends.irc.IRCMUCOccupant">[docs]</a><span class="k">class</span> <span class="nc">IRCMUCOccupant</span><span class="p">(</span><span class="n">IRCIdentifier</span><span class="p">):</span>
+<div class="viewcode-block" id="IRCMUCOccupant"><a class="viewcode-back" href="../../../errbot.backends.irc.html#errbot.backends.irc.IRCMUCOccupant">[docs]</a><span class="k">class</span> <span class="nc">IRCMUCOccupant</span><span class="p">(</span><span class="n">MUCIdentifier</span><span class="p">,</span> <span class="n">IRCIdentifier</span><span class="p">):</span>
 <div class="viewcode-block" id="IRCMUCOccupant.__init__"><a class="viewcode-back" href="../../../errbot.backends.irc.html#errbot.backends.irc.IRCMUCOccupant.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nick</span><span class="p">,</span> <span class="n">room</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">nick</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_room</span> <span class="o">=</span> <span class="n">room</span>
@@ -359,10 +360,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span>
         <span class="c"># manually decorate functions</span>
         <span class="k">if</span> <span class="n">private_rate</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send_private_message</span> <span class="o">=</span> <span class="n">RateLimited</span><span class="p">(</span><span class="n">private_rate</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">send_private_message</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_private_message</span> <span class="o">=</span> <span class="n">rate_limited</span><span class="p">(</span><span class="n">private_rate</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">send_private_message</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">channel_rate</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">send_public_message</span> <span class="o">=</span> <span class="n">RateLimited</span><span class="p">(</span><span class="n">channel_rate</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">send_public_message</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_public_message</span> <span class="o">=</span> <span class="n">rate_limited</span><span class="p">(</span><span class="n">channel_rate</span><span class="p">)(</span><span class="bp">self</span><span class="o">.</span><span class="n">send_public_message</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_reconnect_on_kick</span> <span class="o">=</span> <span class="n">reconnect_on_kick</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_pending_transfers</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -488,6 +489,14 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Partial chunk for file </span><span class="si">%s</span><span class="s"> successfully transfered to </span><span class="si">%s</span><span class="s"> (</span><span class="si">%d</span><span class="s">/</span><span class="si">%d</span><span class="s">), wait for more&quot;</span> <span class="o">%</span>
                       <span class="p">(</span><span class="n">stream</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">stream</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">stream</span><span class="o">.</span><span class="n">transfered</span><span class="p">,</span> <span class="n">stream</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="IRCConnection.away"><a class="viewcode-back" href="../../../errbot.backends.irc.html#errbot.backends.irc.IRCConnection.away">[docs]</a>    <span class="k">def</span> <span class="nf">away</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extend the original implementation to support AWAY.</span>
+<span class="sd">        To set an away message, set message to something.</span>
+<span class="sd">        To cancel an away message, leave message at empty string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">send_raw</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s">&quot;AWAY&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">])</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
 
 </div></div>
 <div class="viewcode-block" id="IRCBackend"><a class="viewcode-back" href="../../../errbot.backends.irc.html#errbot.backends.irc.IRCBackend">[docs]</a><span class="k">class</span> <span class="nc">IRCBackend</span><span class="p">(</span><span class="n">ErrBot</span><span class="p">):</span>
@@ -538,6 +547,12 @@
         <span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">md</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">body</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">):</span>
             <span class="n">msg_func</span><span class="p">(</span><span class="n">msg_to</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="IRCBackend.change_presence"><a class="viewcode-back" href="../../../errbot.backends.irc.html#errbot.backends.irc.IRCBackend.change_presence">[docs]</a>    <span class="k">def</span> <span class="nf">change_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ONLINE</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">ONLINE</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">away</span><span class="p">()</span>  <span class="c"># cancels the away message</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">away</span><span class="p">(</span><span class="s">&#39;[</span><span class="si">%s</span><span class="s">] </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">message</span><span class="p">))</span>
 </div>
 <div class="viewcode-block" id="IRCBackend.send_stream_request"><a class="viewcode-back" href="../../../errbot.backends.irc.html#errbot.backends.irc.IRCBackend.send_stream_request">[docs]</a>    <span class="k">def</span> <span class="nf">send_stream_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">fsource</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">stream_type</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">send_stream_request</span><span class="p">(</span><span class="n">identifier</span><span class="p">,</span> <span class="n">fsource</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">stream_type</span><span class="p">)</span>
@@ -652,11 +667,6 @@
         <li>
         <a href="../../errbot.html">errbot</a>
         <ul>
-        <li>
-        <a href="../backends.html">errbot.backends</a>
-        <ul>
-        </ul>
-        </li>
         </ul>
         </li>
         </ul>
@@ -698,16 +708,15 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="../backends.html" >errbot.backends</a> &raquo;</li> 
+          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.core_plugins.vcheck module &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.core_plugins.vcheck module &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="_static/err.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="index.html" />
     <link rel="up" title="errbot.core_plugins package" href="errbot.core_plugins.html" />
     <link rel="next" title="errbot.core_plugins.webserver module" href="errbot.core_plugins.webserver.html" />
     <link rel="prev" title="errbot.core_plugins.utils module" href="errbot.core_plugins.utils.html" />
@@ -58,7 +58,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -83,7 +83,7 @@
         <li class="right" >
           <a href="errbot.core_plugins.utils.html" title="errbot.core_plugins.utils module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="errbot.core_plugins.html" accesskey="U">errbot.core_plugins package</a> &raquo;</li> 
       </ul>
@@ -99,7 +99,7 @@
 <span id="errbot-core-plugins-vcheck-module"></span><h1>errbot.core_plugins.vcheck module<a class="headerlink" href="#module-errbot.core_plugins.vcheck" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="errbot.core_plugins.vcheck.VersionChecker">
-<em class="property">class </em><code class="descclassname">errbot.core_plugins.vcheck.</code><code class="descname">VersionChecker</code><span class="sig-paren">(</span><em>bot=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/core_plugins/vcheck.html#VersionChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.vcheck.VersionChecker" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">errbot.core_plugins.vcheck.</code><code class="descname">VersionChecker</code><span class="sig-paren">(</span><em>bot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/core_plugins/vcheck.html#VersionChecker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.vcheck.VersionChecker" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="errbot.botplugin.html#errbot.botplugin.BotPlugin" title="errbot.botplugin.BotPlugin"><code class="xref py py-class docutils literal"><span class="pre">errbot.botplugin.BotPlugin</span></code></a></p>
 <dl class="method">
 <dt id="errbot.core_plugins.vcheck.VersionChecker.activate">
@@ -107,8 +107,8 @@
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="errbot.core_plugins.vcheck.VersionChecker.actived">
-<code class="descname">actived</code><em class="property"> = False</em><a class="headerlink" href="#errbot.core_plugins.vcheck.VersionChecker.actived" title="Permalink to this definition">¶</a></dt>
+<dt id="errbot.core_plugins.vcheck.VersionChecker.activated">
+<code class="descname">activated</code><em class="property"> = False</em><a class="headerlink" href="#errbot.core_plugins.vcheck.VersionChecker.activated" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -128,12 +128,12 @@
 
 <dl class="attribute">
 <dt id="errbot.core_plugins.vcheck.VersionChecker.max_err_version">
-<code class="descname">max_err_version</code><em class="property"> = '3.1.2'</em><a class="headerlink" href="#errbot.core_plugins.vcheck.VersionChecker.max_err_version" title="Permalink to this definition">¶</a></dt>
+<code class="descname">max_err_version</code><em class="property"> = '3.2.0'</em><a class="headerlink" href="#errbot.core_plugins.vcheck.VersionChecker.max_err_version" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="errbot.core_plugins.vcheck.VersionChecker.min_err_version">
-<code class="descname">min_err_version</code><em class="property"> = '3.1.2'</em><a class="headerlink" href="#errbot.core_plugins.vcheck.VersionChecker.min_err_version" title="Permalink to this definition">¶</a></dt>
+<code class="descname">min_err_version</code><em class="property"> = '3.2.0'</em><a class="headerlink" href="#errbot.core_plugins.vcheck.VersionChecker.min_err_version" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -238,7 +238,7 @@
         <li class="right" >
           <a href="errbot.core_plugins.utils.html" title="errbot.core_plugins.utils module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="errbot.core_plugins.html" >errbot.core_plugins package</a> &raquo;</li> 
       </ul>
@@ -246,7 +246,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

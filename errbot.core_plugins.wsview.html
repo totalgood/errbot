@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.core_plugins.wsview module &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.core_plugins.wsview module &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="_static/err.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="index.html" />
     <link rel="up" title="errbot.core_plugins package" href="errbot.core_plugins.html" />
     <link rel="next" title="errbot.rendering package" href="errbot.rendering.html" />
     <link rel="prev" title="errbot.core_plugins.webserver module" href="errbot.core_plugins.webserver.html" />
@@ -58,7 +58,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -83,7 +83,7 @@
         <li class="right" >
           <a href="errbot.core_plugins.webserver.html" title="errbot.core_plugins.webserver module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="errbot.core_plugins.html" accesskey="U">errbot.core_plugins package</a> &raquo;</li> 
       </ul>
@@ -101,6 +101,11 @@
 <dt id="errbot.core_plugins.wsview.DynamicBottle">
 <em class="property">class </em><code class="descclassname">errbot.core_plugins.wsview.</code><code class="descname">DynamicBottle</code><span class="sig-paren">(</span><em>catchall=True</em>, <em>autojson=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/core_plugins/wsview.html#DynamicBottle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.wsview.DynamicBottle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">bottle.Bottle</span></code></p>
+<dl class="method">
+<dt id="errbot.core_plugins.wsview.DynamicBottle.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>catchall=True</em>, <em>autojson=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/core_plugins/wsview.html#DynamicBottle.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.wsview.DynamicBottle.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="errbot.core_plugins.wsview.DynamicBottle.del_route">
 <code class="descname">del_route</code><span class="sig-paren">(</span><em>route_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/core_plugins/wsview.html#DynamicBottle.del_route"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.wsview.DynamicBottle.del_route" title="Permalink to this definition">¶</a></dt>
@@ -130,6 +135,11 @@
 <code class="descclassname">errbot.core_plugins.wsview.</code><code class="descname">route</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/core_plugins/wsview.html#route"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.wsview.route" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check for functions to route in obj and route them.</p>
 </dd></dl>
+
+<dl class="function">
+<dt id="errbot.core_plugins.wsview.strip_path">
+<code class="descclassname">errbot.core_plugins.wsview.</code><code class="descname">strip_path</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/core_plugins/wsview.html#strip_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.core_plugins.wsview.strip_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="function">
 <dt id="errbot.core_plugins.wsview.try_decode_json">
@@ -231,7 +241,7 @@
         <li class="right" >
           <a href="errbot.core_plugins.webserver.html" title="errbot.core_plugins.webserver module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="errbot.core_plugins.html" >errbot.core_plugins package</a> &raquo;</li> 
       </ul>
@@ -239,7 +249,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

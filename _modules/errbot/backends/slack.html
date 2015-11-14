@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.slack &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.backends.slack &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="../../../index.html" />
-    <link rel="up" title="errbot.backends" href="../backends.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="../../../index.html" />
+    <link rel="up" title="errbot" href="../../errbot.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -56,7 +56,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -75,10 +75,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="../backends.html" accesskey="U">errbot.backends</a> &raquo;</li> 
+          <li class="nav-item nav-item-2"><a href="../../errbot.html" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -96,9 +95,8 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">pprint</span>
 
-<span class="kn">from</span> <span class="nn">errbot.backends</span> <span class="kn">import</span> <span class="n">DeprecationBridgeIdentifier</span>
 <span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">Presence</span><span class="p">,</span> <span class="n">ONLINE</span><span class="p">,</span> <span class="n">AWAY</span><span class="p">,</span> <span class="n">MUCRoom</span><span class="p">,</span> <span class="n">RoomError</span><span class="p">,</span> <span class="n">RoomDoesNotExistError</span><span class="p">,</span> \
-    <span class="n">UserDoesNotExistError</span>
+    <span class="n">UserDoesNotExistError</span><span class="p">,</span> <span class="n">Identifier</span><span class="p">,</span> <span class="n">MUCIdentifier</span>
 <span class="kn">from</span> <span class="nn">errbot.errBot</span> <span class="kn">import</span> <span class="n">ErrBot</span>
 <span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">deprecated</span><span class="p">,</span> <span class="n">PY3</span><span class="p">,</span> <span class="n">split_string_after</span>
 <span class="kn">from</span> <span class="nn">errbot.rendering</span> <span class="kn">import</span> <span class="n">imtext</span>
@@ -167,15 +165,17 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="SlackIdentifier"><a class="viewcode-back" href="../../../errbot.backends.slack.html#errbot.backends.slack.SlackIdentifier">[docs]</a><span class="k">class</span> <span class="nc">SlackIdentifier</span><span class="p">(</span><span class="n">DeprecationBridgeIdentifier</span><span class="p">):</span>
-    <span class="c"># TODO(gbin): remove this deprecation warnings at one point.</span>
+<div class="viewcode-block" id="SlackIdentifier"><a class="viewcode-back" href="../../../errbot.backends.slack.html#errbot.backends.slack.SlackIdentifier">[docs]</a><span class="k">class</span> <span class="nc">SlackIdentifier</span><span class="p">(</span><span class="n">Identifier</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class describes a person on Slack&#39;s network.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="SlackIdentifier.__init__"><a class="viewcode-back" href="../../../errbot.backends.slack.html#errbot.backends.slack.SlackIdentifier.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">userid</span><span class="p">,</span> <span class="n">channelid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">userid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;U&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;This is not a Slack user or bot id: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">userid</span><span class="p">)</span>
+<div class="viewcode-block" id="SlackIdentifier.__init__"><a class="viewcode-back" href="../../../errbot.backends.slack.html#errbot.backends.slack.SlackIdentifier.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sc</span><span class="p">,</span> <span class="n">userid</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">channelid</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">userid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">userid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;U&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;This is not a Slack user or bot id: </span><span class="si">%s</span><span class="s"> (should start with U or B)&#39;</span> <span class="o">%</span> <span class="n">userid</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">channelid</span> <span class="ow">and</span> <span class="n">channelid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;D&#39;</span><span class="p">,</span> <span class="s">&#39;C&#39;</span><span class="p">,</span> <span class="s">&#39;G&#39;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;This is not a valid Slack channelid: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">channelid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">channelid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">channelid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;D&#39;</span><span class="p">,</span> <span class="s">&#39;C&#39;</span><span class="p">,</span> <span class="s">&#39;G&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;This is not a valid Slack channelid: </span><span class="si">%s</span><span class="s"> (should start with D, C or G)&#39;</span> <span class="o">%</span> <span class="n">channelid</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_userid</span> <span class="o">=</span> <span class="n">userid</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_channelid</span> <span class="o">=</span> <span class="n">channelid</span>
@@ -221,7 +221,9 @@
     <span class="c"># Override for ACLs</span>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">aclattr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;@&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c"># Note: Don&#39;t use str(self) here because that will return</span>
+        <span class="c"># an incorrect format from SlackMUCOccupant.</span>
+        <span class="k">return</span> <span class="s">&quot;@</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">username</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">fullname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -239,7 +241,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unicode__</span><span class="p">()</span>
 
 </div>
-<div class="viewcode-block" id="SlackMUCOccupant"><a class="viewcode-back" href="../../../errbot.backends.slack.html#errbot.backends.slack.SlackMUCOccupant">[docs]</a><span class="k">class</span> <span class="nc">SlackMUCOccupant</span><span class="p">(</span><span class="n">SlackIdentifier</span><span class="p">):</span>
+<div class="viewcode-block" id="SlackMUCOccupant"><a class="viewcode-back" href="../../../errbot.backends.slack.html#errbot.backends.slack.SlackMUCOccupant">[docs]</a><span class="k">class</span> <span class="nc">SlackMUCOccupant</span><span class="p">(</span><span class="n">MUCIdentifier</span><span class="p">,</span> <span class="n">SlackIdentifier</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class represents a person inside a MUC.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -534,6 +536,9 @@
                 <span class="s">&quot;to </span><span class="si">%s</span><span class="s">: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">to_humanreadable</span><span class="p">,</span> <span class="n">mess</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
             <span class="p">)</span>
 </div>
+<div class="viewcode-block" id="SlackBackend.change_presence"><a class="viewcode-back" href="../../../errbot.backends.slack.html#errbot.backends.slack.SlackBackend.change_presence">[docs]</a>    <span class="k">def</span> <span class="nf">change_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ONLINE</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_call</span><span class="p">(</span><span class="s">&#39;users.setPresence&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;presence&#39;</span><span class="p">:</span> <span class="s">&#39;auto&#39;</span> <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="n">ONLINE</span> <span class="k">else</span> <span class="s">&#39;away&#39;</span><span class="p">})</span>
+</div>
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="SlackBackend.prepare_message_body"><a class="viewcode-back" href="../../../errbot.backends.slack.html#errbot.backends.slack.SlackBackend.prepare_message_body">[docs]</a>    <span class="k">def</span> <span class="nf">prepare_message_body</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">size_limit</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -570,32 +575,88 @@
 
         <span class="k">return</span> <span class="n">parts</span>
 </div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="SlackBackend.extract_identifiers_from_string"><a class="viewcode-back" href="../../../errbot.backends.slack.html#errbot.backends.slack.SlackBackend.extract_identifiers_from_string">[docs]</a>    <span class="k">def</span> <span class="nf">extract_identifiers_from_string</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse a string for Slack user/channel IDs.</span>
+
+<span class="sd">        Supports strings with the following formats::</span>
+
+<span class="sd">            &lt;#C12345&gt;</span>
+<span class="sd">            &lt;@U12345&gt;</span>
+<span class="sd">            @user</span>
+<span class="sd">            #channel/user</span>
+<span class="sd">            #channel</span>
+
+<span class="sd">        Returns the tuple (username, userid, channelname, channelid).</span>
+<span class="sd">        Some elements may come back as None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">exception_message</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s">&quot;Unparseable slack identifier, should be of the format `&lt;#C12345&gt;`, `&lt;@U12345&gt;`, &quot;</span>
+            <span class="s">&quot;`@user`, `#channel/user` or `#channel`. (Got `</span><span class="si">%s</span><span class="s">`)&quot;</span>
+        <span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">exception_message</span> <span class="o">%</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="n">channelname</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">channelid</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">userid</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="k">if</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;&lt;&quot;</span> <span class="ow">and</span> <span class="n">text</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;&gt;&quot;</span><span class="p">:</span>
+            <span class="n">exception_message</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s">&quot;Unparseable slack ID, should start with U, B, C, G or D &quot;</span>
+                <span class="s">&quot;(got `</span><span class="si">%s</span><span class="s">`)&quot;</span>
+            <span class="p">)</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">exception_message</span> <span class="o">%</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;U&#39;</span><span class="p">,</span> <span class="s">&#39;B&#39;</span><span class="p">):</span>
+                <span class="n">userid</span> <span class="o">=</span> <span class="n">text</span>
+            <span class="k">elif</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;C&#39;</span><span class="p">,</span> <span class="s">&#39;G&#39;</span><span class="p">,</span> <span class="s">&#39;D&#39;</span><span class="p">):</span>
+                <span class="n">channelid</span> <span class="o">=</span> <span class="n">text</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">exception_message</span> <span class="o">%</span> <span class="n">text</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;@&#39;</span><span class="p">:</span>
+            <span class="n">username</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">elif</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;#&#39;</span><span class="p">:</span>
+            <span class="n">plainrep</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="k">if</span> <span class="s">&#39;/&#39;</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+                <span class="n">channelname</span><span class="p">,</span> <span class="n">username</span> <span class="o">=</span> <span class="n">plainrep</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">channelname</span> <span class="o">=</span> <span class="n">plainrep</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">exception_message</span> <span class="o">%</span> <span class="n">text</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">username</span><span class="p">,</span> <span class="n">userid</span><span class="p">,</span> <span class="n">channelname</span><span class="p">,</span> <span class="n">channelid</span>
+</div>
 <div class="viewcode-block" id="SlackBackend.build_identifier"><a class="viewcode-back" href="../../../errbot.backends.slack.html#errbot.backends.slack.SlackBackend.build_identifier">[docs]</a>    <span class="k">def</span> <span class="nf">build_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txtrep</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; #channelname/username</span>
-<span class="sd">            or @username</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build a :class:`SlackIdentifier` from the given string txtrep.</span>
+
+<span class="sd">        Supports strings with the formats accepted by</span>
+<span class="sd">        :func:`~extract_identifiers_from_string`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;building an identifier from </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">txtrep</span><span class="p">)</span>
-        <span class="n">txtrep</span> <span class="o">=</span> <span class="n">txtrep</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="n">channelname</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="n">username</span><span class="p">,</span> <span class="n">userid</span><span class="p">,</span> <span class="n">channelname</span><span class="p">,</span> <span class="n">channelid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_identifiers_from_string</span><span class="p">(</span><span class="n">txtrep</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">txtrep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;@&#39;</span><span class="p">:</span>
-            <span class="n">username</span> <span class="o">=</span> <span class="n">txtrep</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-        <span class="k">elif</span> <span class="n">txtrep</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;#&#39;</span><span class="p">:</span>
-            <span class="n">plainrep</span> <span class="o">=</span> <span class="n">txtrep</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-            <span class="k">if</span> <span class="s">&#39;/&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">txtrep</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Unparseable slack identifier, &quot;</span> <span class="o">+</span>
-                                <span class="s">&quot;should be #channelname/username or @username : &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> <span class="n">txtrep</span><span class="p">)</span>
-            <span class="n">channelname</span><span class="p">,</span> <span class="n">username</span> <span class="o">=</span> <span class="n">plainrep</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Unparseable slack identifier, &quot;</span> <span class="o">+</span>
-                            <span class="s">&quot;should be #channelname/username or @username : &#39;</span><span class="si">%s</span><span class="s">&#39;&quot;</span> <span class="o">%</span> <span class="n">txtrep</span><span class="p">)</span>
-
-        <span class="n">userid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">username_to_userid</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">channelname</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">userid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SlackIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sc</span><span class="p">,</span> <span class="n">userid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_im_channel</span><span class="p">(</span><span class="n">userid</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">channelid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">SlackIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sc</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="n">channelid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">username</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">userid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">username_to_userid</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">SlackIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sc</span><span class="p">,</span> <span class="n">userid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_im_channel</span><span class="p">(</span><span class="n">userid</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">channelname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">channelid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">channelname_to_channelid</span><span class="p">(</span><span class="n">channelname</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">SlackMUCOccupant</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sc</span><span class="p">,</span> <span class="n">userid</span><span class="p">,</span> <span class="n">channelid</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">SlackIdentifier</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sc</span><span class="p">,</span> <span class="n">userid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_im_channel</span><span class="p">(</span><span class="n">userid</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="s">&quot;You found a bug. I expected at least one of userid, channelid, username or channelname &quot;</span>
+            <span class="s">&quot;to be resolved but none of them were. This shouldn&#39;t happen so, please file a bug.&quot;</span>
+        <span class="p">)</span>
 </div>
 <div class="viewcode-block" id="SlackBackend.build_reply"><a class="viewcode-back" href="../../../errbot.backends.slack.html#errbot.backends.slack.SlackBackend.build_reply">[docs]</a>    <span class="k">def</span> <span class="nf">build_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">private</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="n">msg_type</span> <span class="o">=</span> <span class="n">mess</span><span class="o">.</span><span class="n">type</span>
@@ -863,11 +924,6 @@
         <li>
         <a href="../../errbot.html">errbot</a>
         <ul>
-        <li>
-        <a href="../backends.html">errbot.backends</a>
-        <ul>
-        </ul>
-        </li>
         </ul>
         </li>
         </ul>
@@ -909,16 +965,15 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="../backends.html" >errbot.backends</a> &raquo;</li> 
+          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

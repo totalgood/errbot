@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.slack module &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.backends.slack module &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="_static/err.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="index.html" />
     <link rel="up" title="errbot.backends package" href="errbot.backends.html" />
     <link rel="next" title="errbot.backends.telegram module" href="errbot.backends.telegram.html" />
     <link rel="prev" title="errbot.backends.null module" href="errbot.backends.null.html" />
@@ -58,7 +58,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -83,7 +83,7 @@
         <li class="right" >
           <a href="errbot.backends.null.html" title="errbot.backends.null module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="errbot.backends.html" accesskey="U">errbot.backends package</a> &raquo;</li> 
       </ul>
@@ -157,13 +157,19 @@ API responds with <cite>{&quot;ok&quot;: false}</cite></p>
 <dl class="method">
 <dt id="errbot.backends.slack.SlackBackend.build_identifier">
 <code class="descname">build_identifier</code><span class="sig-paren">(</span><em>txtrep</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/slack.html#SlackBackend.build_identifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.build_identifier" title="Permalink to this definition">¶</a></dt>
-<dd><p>#channelname/username
-or &#64;username</p>
+<dd><p>Build a <a class="reference internal" href="#errbot.backends.slack.SlackIdentifier" title="errbot.backends.slack.SlackIdentifier"><code class="xref py py-class docutils literal"><span class="pre">SlackIdentifier</span></code></a> from the given string txtrep.</p>
+<p>Supports strings with the formats accepted by
+<a class="reference internal" href="#errbot.backends.slack.SlackBackend.extract_identifiers_from_string" title="errbot.backends.slack.SlackBackend.extract_identifiers_from_string"><code class="xref py py-func docutils literal"><span class="pre">extract_identifiers_from_string()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.slack.SlackBackend.build_reply">
 <code class="descname">build_reply</code><span class="sig-paren">(</span><em>mess</em>, <em>text=None</em>, <em>private=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/slack.html#SlackBackend.build_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.build_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.slack.SlackBackend.change_presence">
+<code class="descname">change_presence</code><span class="sig-paren">(</span><em>status: str='online'</em>, <em>message: str=''</em><span class="sig-paren">)</span> &rarr; None<a class="reference internal" href="_modules/errbot/backends/slack.html#SlackBackend.change_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.change_presence" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -206,6 +212,22 @@ and group (<a class="reference external" href="https://api.slack.com/types/group
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="errbot.backends.slack.SlackBackend.extract_identifiers_from_string">
+<em class="property">static </em><code class="descname">extract_identifiers_from_string</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/slack.html#SlackBackend.extract_identifiers_from_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackBackend.extract_identifiers_from_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a string for Slack user/channel IDs.</p>
+<p>Supports strings with the following formats:</p>
+<div class="highlight-python"><div class="highlight"><pre>&lt;#C12345&gt;
+&lt;@U12345&gt;
+@user
+#channel/user
+#channel
+</pre></div>
+</div>
+<p>Returns the tuple (username, userid, channelname, channelid).
+Some elements may come back as None.</p>
 </dd></dl>
 
 <dl class="method">
@@ -299,11 +321,12 @@ size_limit (int): chunk the body into sizes capped at this maximum</dd>
 
 <dl class="class">
 <dt id="errbot.backends.slack.SlackIdentifier">
-<em class="property">class </em><code class="descclassname">errbot.backends.slack.</code><code class="descname">SlackIdentifier</code><span class="sig-paren">(</span><em>sc</em>, <em>userid</em>, <em>channelid=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/slack.html#SlackIdentifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackIdentifier" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="errbot.backends.html#errbot.backends.DeprecationBridgeIdentifier" title="errbot.backends.DeprecationBridgeIdentifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.DeprecationBridgeIdentifier</span></code></a></p>
+<em class="property">class </em><code class="descclassname">errbot.backends.slack.</code><code class="descname">SlackIdentifier</code><span class="sig-paren">(</span><em>sc</em>, <em>userid=None</em>, <em>channelid=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/slack.html#SlackIdentifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackIdentifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="errbot.backends.base.html#errbot.backends.base.Identifier" title="errbot.backends.base.Identifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.Identifier</span></code></a></p>
+<p>This class describes a person on Slack's network.</p>
 <dl class="method">
 <dt id="errbot.backends.slack.SlackIdentifier.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>sc</em>, <em>userid</em>, <em>channelid=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/slack.html#SlackIdentifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackIdentifier.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>sc</em>, <em>userid=None</em>, <em>channelid=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/slack.html#SlackIdentifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackIdentifier.__init__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -364,8 +387,8 @@ size_limit (int): chunk the body into sizes capped at this maximum</dd>
 
 <dl class="class">
 <dt id="errbot.backends.slack.SlackMUCOccupant">
-<em class="property">class </em><code class="descclassname">errbot.backends.slack.</code><code class="descname">SlackMUCOccupant</code><span class="sig-paren">(</span><em>sc</em>, <em>userid</em>, <em>channelid=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/slack.html#SlackMUCOccupant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackMUCOccupant" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#errbot.backends.slack.SlackIdentifier" title="errbot.backends.slack.SlackIdentifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.slack.SlackIdentifier</span></code></a></p>
+<em class="property">class </em><code class="descclassname">errbot.backends.slack.</code><code class="descname">SlackMUCOccupant</code><span class="sig-paren">(</span><em>sc</em>, <em>userid=None</em>, <em>channelid=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/slack.html#SlackMUCOccupant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.slack.SlackMUCOccupant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="errbot.backends.base.html#errbot.backends.base.MUCIdentifier" title="errbot.backends.base.MUCIdentifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.MUCIdentifier</span></code></a>, <a class="reference internal" href="#errbot.backends.slack.SlackIdentifier" title="errbot.backends.slack.SlackIdentifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.slack.SlackIdentifier</span></code></a></p>
 <p>This class represents a person inside a MUC.</p>
 <dl class="attribute">
 <dt id="errbot.backends.slack.SlackMUCOccupant.room">
@@ -549,7 +572,7 @@ size_limit (int): chunk the body into sizes capped at this maximum</dd>
         <li class="right" >
           <a href="errbot.backends.null.html" title="errbot.backends.null module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="errbot.backends.html" >errbot.backends package</a> &raquo;</li> 
       </ul>
@@ -557,7 +580,7 @@ size_limit (int): chunk the body into sizes capped at this maximum</dd>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

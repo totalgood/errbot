@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.rendering &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.rendering &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="../../index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="../../index.html" />
     <link rel="up" title="errbot" href="../errbot.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
@@ -56,7 +56,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -75,7 +75,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../errbot.html" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
@@ -96,6 +96,8 @@
 <span class="kn">from</span> <span class="nn">markdown.extensions.attr_list</span> <span class="kn">import</span> <span class="n">AttrListTreeprocessor</span>
 
 <span class="n">ATTR_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">AttrListTreeprocessor</span><span class="o">.</span><span class="n">BASE_RE</span><span class="p">)</span>
+<span class="n">MD_ESCAPE_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Markdown</span><span class="o">.</span><span class="n">ESCAPED_CHARS</span><span class="p">))</span>
+
 <span class="c"># Here are few helpers to simplify the conversion from markdown to various</span>
 <span class="c"># backend formats.</span>
 
@@ -172,11 +174,11 @@
     <span class="k">return</span> <span class="n">Markdown</span><span class="p">(</span><span class="n">output_format</span><span class="o">=</span><span class="s">&#39;xhtml&#39;</span><span class="p">,</span> <span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="n">ExtraExtension</span><span class="p">()])</span>
 
 </div>
-<div class="viewcode-block" id="md_escape"><a class="viewcode-back" href="../../errbot.rendering.html#errbot.rendering.md_escape">[docs]</a><span class="k">def</span> <span class="nf">md_escape</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Call this if you want to be sure your text won&#39;t be interpreted as markdown &quot;&quot;&quot;</span>
-    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;{&#39;</span><span class="p">,</span> <span class="s">&#39;\{&#39;</span><span class="p">)</span>
-    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;}&#39;</span><span class="p">,</span> <span class="s">&#39;\}&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">text</span></div>
+<div class="viewcode-block" id="md_escape"><a class="viewcode-back" href="../../errbot.rendering.html#errbot.rendering.md_escape">[docs]</a><span class="k">def</span> <span class="nf">md_escape</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Call this if you want to be sure your text won&#39;t be interpreted as markdown</span>
+<span class="sd">    :param txt: bare text to escape.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">MD_ESCAPE_RE</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="k">lambda</span> <span class="n">match</span><span class="p">:</span> <span class="s">&#39;</span><span class="se">\\</span><span class="s">&#39;</span> <span class="o">+</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">txt</span><span class="p">)</span></div>
 </pre></div>
   <div id="prev_next_links">
       
@@ -251,7 +253,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../errbot.html" >errbot</a> &raquo;</li> 
       </ul>
@@ -259,7 +261,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.rendering.ansi &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.rendering.ansi &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="../../../index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="../../../index.html" />
     <link rel="up" title="errbot.rendering" href="../rendering.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
@@ -56,7 +56,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -75,7 +75,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li>
           <li class="nav-item nav-item-3"><a href="../rendering.html" accesskey="U">errbot.rendering</a> &raquo;</li> 
@@ -257,11 +257,11 @@
 
 <div class="viewcode-block" id="Table"><a class="viewcode-back" href="../../../errbot.rendering.ansi.html#errbot.rendering.ansi.Table">[docs]</a><span class="k">class</span> <span class="nc">Table</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-<div class="viewcode-block" id="Table.__init__"><a class="viewcode-back" href="../../../errbot.rendering.ansi.html#errbot.rendering.ansi.Table.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>  <span class="n">ct</span><span class="p">):</span>
+<div class="viewcode-block" id="Table.__init__"><a class="viewcode-back" href="../../../errbot.rendering.ansi.html#errbot.rendering.ansi.Table.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chr_table</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">in_headers</span> <span class="o">=</span> <span class="bp">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ct</span> <span class="o">=</span> <span class="n">ct</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ct</span> <span class="o">=</span> <span class="n">chr_table</span>
 </div>
 <div class="viewcode-block" id="Table.next_row"><a class="viewcode-back" href="../../../errbot.rendering.ansi.html#errbot.rendering.ansi.Table.next_row">[docs]</a>    <span class="k">def</span> <span class="nf">next_row</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_headers</span><span class="p">:</span>
@@ -349,11 +349,11 @@
 </div>
 <div class="viewcode-block" id="BorderlessTable"><a class="viewcode-back" href="../../../errbot.rendering.ansi.html#errbot.rendering.ansi.BorderlessTable">[docs]</a><span class="k">class</span> <span class="nc">BorderlessTable</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-<div class="viewcode-block" id="BorderlessTable.__init__"><a class="viewcode-back" href="../../../errbot.rendering.ansi.html#errbot.rendering.ansi.BorderlessTable.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>  <span class="n">ct</span><span class="p">):</span>
+<div class="viewcode-block" id="BorderlessTable.__init__"><a class="viewcode-back" href="../../../errbot.rendering.ansi.html#errbot.rendering.ansi.BorderlessTable.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chr_table</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">headers</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">in_headers</span> <span class="o">=</span> <span class="bp">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ct</span> <span class="o">=</span> <span class="n">ct</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ct</span> <span class="o">=</span> <span class="n">chr_table</span>
 </div>
 <div class="viewcode-block" id="BorderlessTable.next_row"><a class="viewcode-back" href="../../../errbot.rendering.ansi.html#errbot.rendering.ansi.BorderlessTable.next_row">[docs]</a>    <span class="k">def</span> <span class="nf">next_row</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_headers</span><span class="p">:</span>
@@ -418,8 +418,8 @@
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ct</span><span class="o">.</span><span class="n">fixed_width</span><span class="p">)</span> <span class="o">+</span> <span class="n">output</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ct</span><span class="o">.</span><span class="n">end_fixed_width</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="recurse"><a class="viewcode-back" href="../../../errbot.rendering.ansi.html#errbot.rendering.ansi.recurse">[docs]</a><span class="k">def</span> <span class="nf">recurse</span><span class="p">(</span><span class="n">write</span><span class="p">,</span> <span class="n">ct</span><span class="p">,</span> <span class="n">element</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">borders</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-    <span class="nb">exit</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="viewcode-block" id="recurse"><a class="viewcode-back" href="../../../errbot.rendering.ansi.html#errbot.rendering.ansi.recurse">[docs]</a><span class="k">def</span> <span class="nf">recurse</span><span class="p">(</span><span class="n">write</span><span class="p">,</span> <span class="n">chr_table</span><span class="p">,</span> <span class="n">element</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">borders</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="n">post_element</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
         <span class="n">text</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">text</span>
     <span class="k">else</span><span class="p">:</span>
@@ -427,64 +427,64 @@
     <span class="n">items</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s">&#39;color&#39;</span><span class="p">:</span>
-            <span class="n">color_attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="s">&#39;fg_&#39;</span> <span class="o">+</span> <span class="n">v</span><span class="p">)</span>
+            <span class="n">color_attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">chr_table</span><span class="p">,</span> <span class="s">&#39;fg_&#39;</span> <span class="o">+</span> <span class="n">v</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">color_attr</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;there is no &#39;</span><span class="si">%s</span><span class="s">&#39; color in ansi&quot;</span> <span class="o">%</span> <span class="n">v</span><span class="p">)</span>
             <span class="n">write</span><span class="p">(</span><span class="n">color_attr</span><span class="p">)</span>
-            <span class="nb">exit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">fg_default</span><span class="p">)</span>
+            <span class="n">post_element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chr_table</span><span class="o">.</span><span class="n">fg_default</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s">&#39;bgcolor&#39;</span><span class="p">:</span>
-            <span class="n">color_attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="s">&#39;bg_&#39;</span> <span class="o">+</span> <span class="n">v</span><span class="p">)</span>
+            <span class="n">color_attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">chr_table</span><span class="p">,</span> <span class="s">&#39;bg_&#39;</span> <span class="o">+</span> <span class="n">v</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">color_attr</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s">&quot;there is no &#39;</span><span class="si">%s</span><span class="s">&#39; bgcolor in ansi&quot;</span> <span class="o">%</span> <span class="n">v</span><span class="p">)</span>
             <span class="n">write</span><span class="p">(</span><span class="n">color_attr</span><span class="p">)</span>
-            <span class="nb">exit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">bg_default</span><span class="p">)</span>
+            <span class="n">post_element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chr_table</span><span class="o">.</span><span class="n">bg_default</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;img&#39;</span><span class="p">:</span>
         <span class="n">text</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">items</span><span class="p">)[</span><span class="s">&#39;src&#39;</span><span class="p">]</span>
     <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;strong&#39;</span><span class="p">:</span>
-        <span class="n">write</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">fx_bold</span><span class="p">)</span>
-        <span class="nb">exit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">fx_normal</span><span class="p">)</span>
+        <span class="n">write</span><span class="p">(</span><span class="n">chr_table</span><span class="o">.</span><span class="n">fx_bold</span><span class="p">)</span>
+        <span class="n">post_element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chr_table</span><span class="o">.</span><span class="n">fx_normal</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;code&#39;</span><span class="p">:</span>
-        <span class="n">write</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">inline_code</span><span class="p">)</span>
-        <span class="nb">exit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">end_inline_code</span><span class="p">)</span>
+        <span class="n">write</span><span class="p">(</span><span class="n">chr_table</span><span class="o">.</span><span class="n">inline_code</span><span class="p">)</span>
+        <span class="n">post_element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chr_table</span><span class="o">.</span><span class="n">end_inline_code</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;em&#39;</span><span class="p">:</span>
-        <span class="n">write</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">fx_underline</span><span class="p">)</span>
-        <span class="nb">exit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">fx_not_underline</span><span class="p">)</span>
+        <span class="n">write</span><span class="p">(</span><span class="n">chr_table</span><span class="o">.</span><span class="n">fx_underline</span><span class="p">)</span>
+        <span class="n">post_element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chr_table</span><span class="o">.</span><span class="n">fx_not_underline</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;p&#39;</span><span class="p">:</span>
         <span class="n">write</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)</span>
-        <span class="nb">exit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="n">post_element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;a&#39;</span><span class="p">:</span>
-        <span class="nb">exit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39; (&#39;</span> <span class="o">+</span> <span class="n">element</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;href&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;)&#39;</span><span class="p">)</span>
+        <span class="n">post_element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39; (&#39;</span> <span class="o">+</span> <span class="n">element</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;href&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;)&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;li&#39;</span><span class="p">:</span>
         <span class="n">write</span><span class="p">(</span><span class="s">&#39;• &#39;</span><span class="p">)</span>
-        <span class="nb">exit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="n">post_element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;hr&#39;</span><span class="p">:</span>
         <span class="n">write</span><span class="p">(</span><span class="s">&#39;─&#39;</span> <span class="o">*</span> <span class="mi">80</span><span class="p">)</span>
         <span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;ul&#39;</span><span class="p">:</span>  <span class="c"># ignore the text part</span>
         <span class="n">text</span> <span class="o">=</span> <span class="bp">None</span>
     <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;h1&#39;</span><span class="p">:</span>
-        <span class="n">write</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">fx_bold</span><span class="p">)</span>
+        <span class="n">write</span><span class="p">(</span><span class="n">chr_table</span><span class="o">.</span><span class="n">fx_bold</span><span class="p">)</span>
         <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-        <span class="nb">exit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">fx_normal</span><span class="p">)</span>
-        <span class="nb">exit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="n">post_element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chr_table</span><span class="o">.</span><span class="n">fx_normal</span><span class="p">)</span>
+        <span class="n">post_element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;h2&#39;</span><span class="p">:</span>
         <span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
         <span class="n">write</span><span class="p">(</span><span class="s">&#39;  &#39;</span><span class="p">)</span>
-        <span class="n">write</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">fx_bold</span><span class="p">)</span>
-        <span class="nb">exit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">fx_normal</span><span class="p">)</span>
-        <span class="nb">exit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="n">write</span><span class="p">(</span><span class="n">chr_table</span><span class="o">.</span><span class="n">fx_bold</span><span class="p">)</span>
+        <span class="n">post_element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chr_table</span><span class="o">.</span><span class="n">fx_normal</span><span class="p">)</span>
+        <span class="n">post_element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;h3&#39;</span><span class="p">:</span>
         <span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
         <span class="n">write</span><span class="p">(</span><span class="s">&#39;    &#39;</span><span class="p">)</span>
-        <span class="n">write</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">fx_underline</span><span class="p">)</span>
-        <span class="nb">exit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">fx_not_underline</span><span class="p">)</span>
-        <span class="nb">exit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="n">write</span><span class="p">(</span><span class="n">chr_table</span><span class="o">.</span><span class="n">fx_underline</span><span class="p">)</span>
+        <span class="n">post_element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chr_table</span><span class="o">.</span><span class="n">fx_not_underline</span><span class="p">)</span>
+        <span class="n">post_element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;h4&#39;</span><span class="p">,</span> <span class="s">&#39;h5&#39;</span><span class="p">,</span> <span class="s">&#39;h6&#39;</span><span class="p">):</span>
         <span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
         <span class="n">write</span><span class="p">(</span><span class="s">&#39;      &#39;</span><span class="p">)</span>
-        <span class="nb">exit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+        <span class="n">post_element</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;table&#39;</span><span class="p">:</span>
-        <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">ct</span><span class="p">)</span> <span class="k">if</span> <span class="n">borders</span> <span class="k">else</span> <span class="n">BorderlessTable</span><span class="p">(</span><span class="n">ct</span><span class="p">)</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">chr_table</span><span class="p">)</span> <span class="k">if</span> <span class="n">borders</span> <span class="k">else</span> <span class="n">BorderlessTable</span><span class="p">(</span><span class="n">chr_table</span><span class="p">)</span>
         <span class="n">orig_write</span> <span class="o">=</span> <span class="n">write</span>
         <span class="n">write</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">write</span>
         <span class="n">text</span> <span class="o">=</span> <span class="bp">None</span>
@@ -504,7 +504,7 @@
     <span class="k">if</span> <span class="n">text</span><span class="p">:</span>
         <span class="n">write</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">element</span><span class="p">:</span>
-        <span class="n">recurse</span><span class="p">(</span><span class="n">write</span><span class="p">,</span> <span class="n">ct</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">borders</span><span class="p">)</span>
+        <span class="n">recurse</span><span class="p">(</span><span class="n">write</span><span class="p">,</span> <span class="n">chr_table</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">borders</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;table&#39;</span><span class="p">:</span>
         <span class="n">write</span> <span class="o">=</span> <span class="n">orig_write</span>
         <span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">table</span><span class="p">))</span>
@@ -512,7 +512,7 @@
     <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">tag</span> <span class="o">==</span> <span class="s">&#39;thead&#39;</span><span class="p">:</span>
         <span class="n">table</span><span class="o">.</span><span class="n">end_headers</span><span class="p">()</span>
 
-    <span class="k">for</span> <span class="n">restore</span> <span class="ow">in</span> <span class="nb">exit</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">restore</span> <span class="ow">in</span> <span class="n">post_element</span><span class="p">:</span>
         <span class="n">write</span><span class="p">(</span><span class="n">restore</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">element</span><span class="o">.</span><span class="n">tail</span><span class="p">:</span>
         <span class="n">tail</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">tail</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
@@ -520,22 +520,22 @@
             <span class="n">write</span><span class="p">(</span><span class="n">tail</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="translate"><a class="viewcode-back" href="../../../errbot.rendering.ansi.html#errbot.rendering.ansi.translate">[docs]</a><span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">ct</span><span class="o">=</span><span class="n">ANSI_CHRS</span><span class="p">,</span> <span class="n">borders</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="translate"><a class="viewcode-back" href="../../../errbot.rendering.ansi.html#errbot.rendering.ansi.translate">[docs]</a><span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">chr_table</span><span class="o">=</span><span class="n">ANSI_CHRS</span><span class="p">,</span> <span class="n">borders</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">ansi_obj</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ansi_obj</span><span class="p">))</span>
-    <span class="n">recurse</span><span class="p">(</span><span class="n">write</span><span class="p">,</span> <span class="n">ct</span><span class="p">,</span> <span class="n">element</span><span class="p">,</span> <span class="n">borders</span><span class="o">=</span><span class="n">borders</span><span class="p">)</span>
+    <span class="n">recurse</span><span class="p">(</span><span class="n">write</span><span class="p">,</span> <span class="n">chr_table</span><span class="p">,</span> <span class="n">element</span><span class="p">,</span> <span class="n">borders</span><span class="o">=</span><span class="n">borders</span><span class="p">)</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>  <span class="c"># remove the useless final \n</span>
-    <span class="k">return</span> <span class="n">result</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">fx_reset</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">chr_table</span><span class="o">.</span><span class="n">fx_reset</span><span class="p">)</span>
 
 
 <span class="c"># patch us in</span></div>
-<div class="viewcode-block" id="enable_format"><a class="viewcode-back" href="../../../errbot.rendering.ansi.html#errbot.rendering.ansi.enable_format">[docs]</a><span class="k">def</span> <span class="nf">enable_format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ct</span><span class="p">,</span> <span class="n">borders</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-    <span class="n">Markdown</span><span class="o">.</span><span class="n">output_formats</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">translate</span><span class="p">,</span> <span class="n">ct</span><span class="o">=</span><span class="n">ct</span><span class="p">,</span> <span class="n">borders</span><span class="o">=</span><span class="n">borders</span><span class="p">)</span>
+<div class="viewcode-block" id="enable_format"><a class="viewcode-back" href="../../../errbot.rendering.ansi.html#errbot.rendering.ansi.enable_format">[docs]</a><span class="k">def</span> <span class="nf">enable_format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">chr_table</span><span class="p">,</span> <span class="n">borders</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="n">Markdown</span><span class="o">.</span><span class="n">output_formats</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">translate</span><span class="p">,</span> <span class="n">chr_table</span><span class="o">=</span><span class="n">chr_table</span><span class="p">,</span> <span class="n">borders</span><span class="o">=</span><span class="n">borders</span><span class="p">)</span>
 </div>
-<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">ct</span> <span class="ow">in</span> <span class="p">((</span><span class="s">&#39;ansi&#39;</span><span class="p">,</span> <span class="n">ANSI_CHRS</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;text&#39;</span><span class="p">,</span> <span class="n">TEXT_CHRS</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;imtext&#39;</span><span class="p">,</span> <span class="n">IMTEXT_CHRS</span><span class="p">)):</span>
-    <span class="n">enable_format</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">ct</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">ct</span> <span class="ow">in</span> <span class="p">((</span><span class="s">&#39;ansi&#39;</span><span class="p">,</span> <span class="n">ANSI_CHRS</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;text&#39;</span><span class="p">,</span> <span class="n">TEXT_CHRS</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;imtext&#39;</span><span class="p">,</span> <span class="n">IMTEXT_CHRS</span><span class="p">)):</span>
+    <span class="n">enable_format</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">ct</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="AnsiPostprocessor"><a class="viewcode-back" href="../../../errbot.rendering.ansi.html#errbot.rendering.ansi.AnsiPostprocessor">[docs]</a><span class="k">class</span> <span class="nc">AnsiPostprocessor</span><span class="p">(</span><span class="n">Postprocessor</span><span class="p">):</span>
@@ -665,7 +665,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li>
           <li class="nav-item nav-item-3"><a href="../rendering.html" >errbot.rendering</a> &raquo;</li> 
@@ -674,7 +674,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

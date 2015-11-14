@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.null &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.backends.null &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="../../../index.html" />
-    <link rel="up" title="errbot.backends" href="../backends.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="../../../index.html" />
+    <link rel="up" title="errbot" href="../../errbot.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -56,7 +56,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -75,10 +75,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="../backends.html" accesskey="U">errbot.backends</a> &raquo;</li> 
+          <li class="nav-item nav-item-2"><a href="../../errbot.html" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -91,8 +90,9 @@
   <h1>Source code for errbot.backends.null</h1><div class="highlight"><pre>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">ONLINE</span>
 
-<span class="kn">from</span> <span class="nn">errbot.backends</span> <span class="kn">import</span> <span class="n">SimpleIdentifier</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">TestIdentifier</span>
 <span class="kn">from</span> <span class="nn">errbot.errBot</span> <span class="kn">import</span> <span class="n">ErrBot</span>
 
 
@@ -139,7 +139,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span>
 </div>
 <div class="viewcode-block" id="NullBackend.build_identifier"><a class="viewcode-back" href="../../../errbot.backends.null.html#errbot.backends.null.NullBackend.build_identifier">[docs]</a>    <span class="k">def</span> <span class="nf">build_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strrep</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">SimpleIdentifier</span><span class="p">(</span><span class="n">strrep</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">TestIdentifier</span><span class="p">(</span><span class="n">strrep</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="NullBackend.join_room"><a class="viewcode-back" href="../../../errbot.backends.null.html#errbot.backends.null.NullBackend.join_room">[docs]</a>    <span class="k">def</span> <span class="nf">join_room</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="k">pass</span>  <span class="c"># just ignore that</span>
@@ -148,6 +148,9 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">running</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="bp">False</span>
             <span class="nb">super</span><span class="p">(</span><span class="n">NullBackend</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>  <span class="c"># only once (hackish)</span>
+</div>
+<div class="viewcode-block" id="NullBackend.change_presence"><a class="viewcode-back" href="../../../errbot.backends.null.html#errbot.backends.null.NullBackend.change_presence">[docs]</a>    <span class="k">def</span> <span class="nf">change_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ONLINE</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">pass</span>
 </div>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -185,11 +188,6 @@
         <li>
         <a href="../../errbot.html">errbot</a>
         <ul>
-        <li>
-        <a href="../backends.html">errbot.backends</a>
-        <ul>
-        </ul>
-        </li>
         </ul>
         </li>
         </ul>
@@ -231,16 +229,15 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="../backends.html" >errbot.backends</a> &raquo;</li> 
+          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

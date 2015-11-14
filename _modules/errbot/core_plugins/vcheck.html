@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.core_plugins.vcheck &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.core_plugins.vcheck &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="../../../index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="../../../index.html" />
     <link rel="up" title="errbot" href="../../errbot.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
@@ -56,7 +56,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -75,7 +75,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../../errbot.html" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
@@ -95,7 +95,7 @@
 <span class="kn">from</span> <span class="nn">errbot.version</span> <span class="kn">import</span> <span class="n">VERSION</span>
 <span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">version2array</span>
 
-<span class="n">HOME</span> <span class="o">=</span> <span class="s">&#39;http://errbot.io/version&#39;</span>
+<span class="n">HOME</span> <span class="o">=</span> <span class="s">&#39;http://version.errbot.io/&#39;</span>
 
 <span class="n">installed_version</span> <span class="o">=</span> <span class="n">version2array</span><span class="p">(</span><span class="n">VERSION</span><span class="p">)</span>
 
@@ -105,26 +105,31 @@
     <span class="n">max_err_version</span> <span class="o">=</span> <span class="n">VERSION</span>
 
     <span class="n">connected</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="n">actived</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">activated</span> <span class="o">=</span> <span class="bp">False</span>
 
 <div class="viewcode-block" id="VersionChecker.activate"><a class="viewcode-back" href="../../../errbot.core_plugins.vcheck.html#errbot.core_plugins.vcheck.VersionChecker.activate">[docs]</a>    <span class="k">def</span> <span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">actived</span> <span class="o">=</span> <span class="bp">True</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">version_check</span><span class="p">()</span>  <span class="c"># once at startup anyway</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">start_poller</span><span class="p">(</span><span class="mi">3600</span> <span class="o">*</span> <span class="mi">24</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">version_check</span><span class="p">)</span>  <span class="c"># once every 24H</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">VersionChecker</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;null&#39;</span><span class="p">,</span> <span class="s">&#39;test&#39;</span><span class="p">,</span> <span class="s">&#39;Dummy&#39;</span><span class="p">):</span>  <span class="c"># skip in all test confs.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">activated</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">version_check</span><span class="p">()</span>  <span class="c"># once at startup anyway</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">start_poller</span><span class="p">(</span><span class="mi">3600</span> <span class="o">*</span> <span class="mi">24</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">version_check</span><span class="p">)</span>  <span class="c"># once every 24H</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">VersionChecker</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Skip version checking under </span><span class="si">%s</span><span class="s"> mode&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="VersionChecker.deactivate"><a class="viewcode-back" href="../../../errbot.core_plugins.vcheck.html#errbot.core_plugins.vcheck.VersionChecker.deactivate">[docs]</a>    <span class="k">def</span> <span class="nf">deactivate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">actived</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activated</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">VersionChecker</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="VersionChecker.version_check"><a class="viewcode-back" href="../../../errbot.core_plugins.vcheck.html#errbot.core_plugins.vcheck.VersionChecker.version_check">[docs]</a>    <span class="k">def</span> <span class="nf">version_check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">actived</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">activated</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Version check disabled&#39;</span><span class="p">)</span>
             <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Checking version&#39;</span><span class="p">)</span>
         <span class="c"># noinspection PyBroadException</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">current_version_txt</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">HOME</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">current_version_txt</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">HOME</span> <span class="o">+</span> <span class="s">&#39;?&#39;</span> <span class="o">+</span> <span class="n">VERSION</span><span class="p">,</span>
+                                          <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Tested current Errbot version and it is &quot;</span> <span class="o">+</span> <span class="n">current_version_txt</span><span class="p">)</span>
             <span class="n">current_version</span> <span class="o">=</span> <span class="n">version2array</span><span class="p">(</span><span class="n">current_version_txt</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">installed_version</span> <span class="o">&lt;</span> <span class="n">current_version</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;A new version </span><span class="si">%s</span><span class="s"> has been found, notify the admins !&#39;</span> <span class="o">%</span> <span class="n">current_version</span><span class="p">)</span>
@@ -212,7 +217,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li> 
       </ul>
@@ -220,7 +225,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

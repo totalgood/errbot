@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>6. Presence &mdash; Err 3.1.2 documentation</title>
+    <title>6. Presence &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="../../index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="../../index.html" />
     <link rel="up" title="Plugin development" href="index.html" />
     <link rel="next" title="7. Persistence" href="persistence.html" />
     <link rel="prev" title="5. Messaging" href="messaging.html" />
@@ -58,7 +58,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -83,7 +83,7 @@
         <li class="right" >
           <a href="messaging.html" title="5. Messaging"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Plugin development</a> &raquo;</li> 
       </ul>
     </div>
@@ -112,6 +112,24 @@ when it includes a status message:</p>
     <span class="k">def</span> <span class="nf">callback_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">presence</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">presence</span><span class="o">.</span><span class="n">get_message</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">presence</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="change-the-presence-status-of-the-bot">
+<h2>6.2. Change the presence/status of the bot<a class="headerlink" href="#change-the-presence-status-of-the-bot" title="Permalink to this headline">¶</a></h2>
+<p>You can also, depending on the backend you use, change the current status of
+the bot. This allows you to make a moody bot that leaves the room when it is
+in a bad mood ;)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span><span class="p">,</span> <span class="n">botcmd</span><span class="p">,</span> <span class="n">ONLINE</span><span class="p">,</span> <span class="n">AWAY</span>
+
+<span class="k">class</span> <span class="nc">PluginExample</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
+    <span class="nd">@botcmd</span>
+    <span class="k">def</span> <span class="nf">grumpy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">change_presence</span><span class="p">(</span><span class="n">AWAY</span><span class="p">,</span> <span class="s">&#39;I am tired of you all!&#39;</span><span class="p">)</span>
+
+    <span class="nd">@botcmd</span>
+    <span class="k">def</span> <span class="nf">happy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">change_presence</span><span class="p">(</span><span class="n">ONLINE</span><span class="p">,</span> <span class="s">&#39;I am back and so happy to see you!&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -147,6 +165,7 @@ when it includes a status message:</p>
   <ul>
 <li><a class="reference internal" href="#">6. Presence</a><ul>
 <li><a class="reference internal" href="#callbacks-for-presence-changes">6.1. Callbacks for presence changes</a></li>
+<li><a class="reference internal" href="#change-the-presence-status-of-the-bot">6.2. Change the presence/status of the bot</a></li>
 </ul>
 </li>
 </ul>
@@ -213,14 +232,14 @@ when it includes a status message:</p>
         <li class="right" >
           <a href="messaging.html" title="5. Messaging"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Plugin development</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

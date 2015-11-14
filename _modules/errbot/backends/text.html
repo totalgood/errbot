@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.text &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.backends.text &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="../../../index.html" />
-    <link rel="up" title="errbot.backends" href="../backends.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="../../../index.html" />
+    <link rel="up" title="errbot" href="../../errbot.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -56,7 +56,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -75,10 +75,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="../backends.html" accesskey="U">errbot.backends</a> &raquo;</li> 
+          <li class="nav-item nav-item-2"><a href="../../errbot.html" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -101,8 +100,8 @@
 
 <span class="kn">from</span> <span class="nn">errbot.rendering</span> <span class="kn">import</span> <span class="n">ansi</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">xhtml</span><span class="p">,</span> <span class="n">imtext</span>
 <span class="kn">from</span> <span class="nn">errbot.rendering.ansi</span> <span class="kn">import</span> <span class="n">enable_format</span><span class="p">,</span> <span class="n">ANSI_CHRS</span><span class="p">,</span> <span class="n">AnsiExtension</span>
-<span class="kn">from</span> <span class="nn">errbot.backends</span> <span class="kn">import</span> <span class="n">SimpleIdentifier</span>
 <span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">Message</span><span class="p">,</span> <span class="n">Presence</span><span class="p">,</span> <span class="n">ONLINE</span><span class="p">,</span> <span class="n">OFFLINE</span><span class="p">,</span> <span class="n">MUCRoom</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">TestIdentifier</span>
 <span class="kn">from</span> <span class="nn">errbot.errBot</span> <span class="kn">import</span> <span class="n">ErrBot</span>
 <span class="kn">from</span> <span class="nn">errbot.utils</span> <span class="kn">import</span> <span class="n">deprecated</span>
 
@@ -133,12 +132,11 @@
 
 </div>
 <div class="viewcode-block" id="TextBackend"><a class="viewcode-back" href="../../../errbot.backends.text.html#errbot.backends.text.TextBackend">[docs]</a><span class="k">class</span> <span class="nc">TextBackend</span><span class="p">(</span><span class="n">ErrBot</span><span class="p">):</span>
-
 <div class="viewcode-block" id="TextBackend.__init__"><a class="viewcode-back" href="../../../errbot.backends.text.html#errbot.backends.text.TextBackend.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
         <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Text Backend Init.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bot_identifier</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_identifier</span><span class="p">(</span><span class="s">&#39;Err&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rooms</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">md_html</span> <span class="o">=</span> <span class="n">xhtml</span><span class="p">()</span>  <span class="c"># for more debug feedback on md</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">md_text</span> <span class="o">=</span> <span class="n">text</span><span class="p">()</span>  <span class="c"># for more debug feedback on md</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">md_ansi</span> <span class="o">=</span> <span class="n">ansi</span><span class="p">()</span>
@@ -199,8 +197,11 @@
             <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">md_borderless_ansi</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">mess</span><span class="o">.</span><span class="n">body</span><span class="p">))</span>
         <span class="k">print</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n\n</span><span class="s">&#39;</span><span class="p">)</span>
 </div>
+<div class="viewcode-block" id="TextBackend.change_presence"><a class="viewcode-back" href="../../../errbot.backends.text.html#errbot.backends.text.TextBackend.change_presence">[docs]</a>    <span class="k">def</span> <span class="nf">change_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ONLINE</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;*** Changed presence to [</span><span class="si">%s</span><span class="s">] </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">message</span><span class="p">))</span>
+</div>
 <div class="viewcode-block" id="TextBackend.build_identifier"><a class="viewcode-back" href="../../../errbot.backends.text.html#errbot.backends.text.TextBackend.build_identifier">[docs]</a>    <span class="k">def</span> <span class="nf">build_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_representation</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">SimpleIdentifier</span><span class="p">(</span><span class="n">text_representation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">TestIdentifier</span><span class="p">(</span><span class="n">text_representation</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="TextBackend.build_reply"><a class="viewcode-back" href="../../../errbot.backends.text.html#errbot.backends.text.TextBackend.build_reply">[docs]</a>    <span class="k">def</span> <span class="nf">build_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mess</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">private</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_message</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
@@ -222,11 +223,11 @@
 
 <div class="viewcode-block" id="TextBackend.query_room"><a class="viewcode-back" href="../../../errbot.backends.text.html#errbot.backends.text.TextBackend.query_room">[docs]</a>    <span class="k">def</span> <span class="nf">query_room</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">):</span>
         <span class="n">room</span> <span class="o">=</span> <span class="n">TextMUCRoom</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rooms</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">room</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">room</span>
 </div>
 <div class="viewcode-block" id="TextBackend.rooms"><a class="viewcode-back" href="../../../errbot.backends.text.html#errbot.backends.text.TextBackend.rooms">[docs]</a>    <span class="k">def</span> <span class="nf">rooms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rooms</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rooms</span>
 </div>
 <div class="viewcode-block" id="TextBackend.prefix_groupchat_reply"><a class="viewcode-back" href="../../../errbot.backends.text.html#errbot.backends.text.TextBackend.prefix_groupchat_reply">[docs]</a>    <span class="k">def</span> <span class="nf">prefix_groupchat_reply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">identifier</span><span class="p">):</span>
         <span class="n">message</span><span class="o">.</span><span class="n">body</span> <span class="o">=</span> <span class="s">&#39;{0} {1}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">identifier</span><span class="o">.</span><span class="n">nick</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
@@ -305,11 +306,6 @@
         <li>
         <a href="../../errbot.html">errbot</a>
         <ul>
-        <li>
-        <a href="../backends.html">errbot.backends</a>
-        <ul>
-        </ul>
-        </li>
         </ul>
         </li>
         </ul>
@@ -351,16 +347,15 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="../backends.html" >errbot.backends</a> &raquo;</li> 
+          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

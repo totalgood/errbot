@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.test module &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.backends.test module &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="_static/err.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="index.html" />
     <link rel="up" title="errbot.backends package" href="errbot.backends.html" />
     <link rel="next" title="errbot.backends.text module" href="errbot.backends.text.html" />
     <link rel="prev" title="errbot.backends.telegram module" href="errbot.backends.telegram.html" />
@@ -58,7 +58,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -83,7 +83,7 @@
         <li class="right" >
           <a href="errbot.backends.telegram.html" title="errbot.backends.telegram module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="errbot.backends.html" accesskey="U">errbot.backends package</a> &raquo;</li> 
       </ul>
@@ -159,6 +159,11 @@ defined by the logging module.</li>
 <dl class="method">
 <dt id="errbot.backends.test.TestBackend.build_reply">
 <code class="descname">build_reply</code><span class="sig-paren">(</span><em>mess</em>, <em>text=None</em>, <em>private=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBackend.build_reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBackend.build_reply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.test.TestBackend.change_presence">
+<code class="descname">change_presence</code><span class="sig-paren">(</span><em>status: str='online'</em>, <em>message: str=''</em><span class="sig-paren">)</span> &rarr; None<a class="reference internal" href="_modules/errbot/backends/test.html#TestBackend.change_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBackend.change_presence" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -307,6 +312,76 @@ Exception being raised.</p>
 <dl class="method">
 <dt id="errbot.backends.test.TestBot.zap_queues">
 <code class="descname">zap_queues</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestBot.zap_queues"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestBot.zap_queues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.test.TestIdentifier">
+<em class="property">class </em><code class="descclassname">errbot.backends.test.</code><code class="descname">TestIdentifier</code><span class="sig-paren">(</span><em>person</em>, <em>client=None</em>, <em>nick=None</em>, <em>fullname=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestIdentifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestIdentifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="errbot.backends.base.html#errbot.backends.base.Identifier" title="errbot.backends.base.Identifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.Identifier</span></code></a></p>
+<p>This is an identifier just represented as a string.
+DO NOT USE THIS DIRECTLY AS IT IS NOT COMPATIBLE WITH MOST BACKENDS,
+use self.build_identifier(identifier_as_string) instead.</p>
+<p>Note to back-end implementors: You should provide a custom
+&lt;yourbackend&gt;Identifier object that adheres to this interface.</p>
+<p>You should not directly inherit from SimpleIdentifier, inherit
+from object instead and make sure it includes all properties and
+methods exposed by this class.</p>
+<dl class="method">
+<dt id="errbot.backends.test.TestIdentifier.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>person</em>, <em>client=None</em>, <em>nick=None</em>, <em>fullname=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestIdentifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestIdentifier.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.test.TestIdentifier.aclattr">
+<code class="descname">aclattr</code><a class="headerlink" href="#errbot.backends.test.TestIdentifier.aclattr" title="Permalink to this definition">¶</a></dt>
+<dd><p>This needs to return the part of the identifier pointing to a person.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.test.TestIdentifier.client">
+<code class="descname">client</code><a class="headerlink" href="#errbot.backends.test.TestIdentifier.client" title="Permalink to this definition">¶</a></dt>
+<dd><p>This needs to return the part of the identifier pointing to a client from which a person is sending a message from.
+Returns None is unspecified</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.test.TestIdentifier.fullname">
+<code class="descname">fullname</code><a class="headerlink" href="#errbot.backends.test.TestIdentifier.fullname" title="Permalink to this definition">¶</a></dt>
+<dd><p>This needs to return a long display name for this identifier e.g. Guillaume Binet.
+Returns None is unspecified</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.test.TestIdentifier.nick">
+<code class="descname">nick</code><a class="headerlink" href="#errbot.backends.test.TestIdentifier.nick" title="Permalink to this definition">¶</a></dt>
+<dd><p>This needs to return a short display name for this identifier e.g. gbin.
+Returns None is unspecified</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.test.TestIdentifier.person">
+<code class="descname">person</code><a class="headerlink" href="#errbot.backends.test.TestIdentifier.person" title="Permalink to this definition">¶</a></dt>
+<dd><p>This needs to return the part of the identifier pointing to a person.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="errbot.backends.test.TestMUCOccupant">
+<em class="property">class </em><code class="descclassname">errbot.backends.test.</code><code class="descname">TestMUCOccupant</code><span class="sig-paren">(</span><em>person</em>, <em>room</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestMUCOccupant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestMUCOccupant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#errbot.backends.test.TestIdentifier" title="errbot.backends.test.TestIdentifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.test.TestIdentifier</span></code></a>, <a class="reference internal" href="errbot.backends.base.html#errbot.backends.base.MUCIdentifier" title="errbot.backends.base.MUCIdentifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.MUCIdentifier</span></code></a></p>
+<p>This is a MUC occupant represented as a string.
+DO NOT USE THIS DIRECTLY AS IT IS NOT COMPATIBLE WITH MOST BACKENDS,</p>
+<dl class="method">
+<dt id="errbot.backends.test.TestMUCOccupant.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>person</em>, <em>room</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/test.html#TestMUCOccupant.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.test.TestMUCOccupant.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="errbot.backends.test.TestMUCOccupant.room">
+<code class="descname">room</code><a class="headerlink" href="#errbot.backends.test.TestMUCOccupant.room" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -529,7 +604,7 @@ passed to the constructor of <a class="reference internal" href="#errbot.backend
         <li class="right" >
           <a href="errbot.backends.telegram.html" title="errbot.backends.telegram module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="errbot.backends.html" >errbot.backends package</a> &raquo;</li> 
       </ul>
@@ -537,7 +612,7 @@ passed to the constructor of <a class="reference internal" href="#errbot.backend
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

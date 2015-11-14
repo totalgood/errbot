@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.pid module &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.pid module &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="_static/err.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,10 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="index.html" />
-    <link rel="up" title="errbot package" href="errbot.html" />
-    <link rel="next" title="errbot.plugin_manager module" href="errbot.plugin_manager.html" />
-    <link rel="prev" title="errbot.main module" href="errbot.main.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="index.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -58,7 +55,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -77,14 +74,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="errbot.plugin_manager.html" title="errbot.plugin_manager module"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="errbot.main.html" title="errbot.main module"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="errbot.html" accesskey="U">errbot package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -94,32 +84,13 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-errbot.pid">
-<span id="errbot-pid-module"></span><h1>errbot.pid module<a class="headerlink" href="#module-errbot.pid" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
-<dt id="errbot.pid.PidFile">
-<em class="property">class </em><code class="descclassname">errbot.pid.</code><code class="descname">PidFile</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/pid.html#PidFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.pid.PidFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Context manager that locks a pid file.  Implemented as class
-not generator because daemon.py is calling .__exit__() with no parameters
-instead of the None, None, None specified by PEP-343.</p>
-<dl class="method">
-<dt id="errbot.pid.PidFile.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/pid.html#PidFile.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.pid.PidFile.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+  <div class="section" id="errbot-pid-module">
+<h1>errbot.pid module<a class="headerlink" href="#errbot-pid-module" title="Permalink to this headline">¶</a></h1>
 </div>
 
   <div id="prev_next_links">
       
           
-              Previous: <a href="errbot.main.html">errbot.main module</a>
-          
-          
-               | 
-              Next: <a href="errbot.plugin_manager.html">errbot.plugin_manager module</a>
           
       
   </div>
@@ -143,13 +114,6 @@ instead of the None, None, None specified by PEP-343.</p>
     <li><a href="genindex.html">Index</a></li>
     <li><a href="py-modindex.html">Module index</a></li>
     <li><a href="modules.html">API reference</a></li>
-        <li>
-        <a href="errbot.html">errbot package</a>
-        <ul>
-        <li>Previous: <a href="errbot.main.html" title="previous chapter">errbot.main module</a></li>
-        <li>Next: <a href="errbot.plugin_manager.html" title="next chapter">errbot.plugin_manager module</a></li>
-        </ul>
-        </li>
 </ul>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
@@ -194,20 +158,13 @@ instead of the None, None, None specified by PEP-343.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="errbot.plugin_manager.html" title="errbot.plugin_manager module"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="errbot.main.html" title="errbot.main module"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
-          <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

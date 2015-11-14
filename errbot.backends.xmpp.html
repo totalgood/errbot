@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.xmpp module &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.backends.xmpp module &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="_static/err.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="index.html" />
     <link rel="up" title="errbot.backends package" href="errbot.backends.html" />
     <link rel="next" title="errbot.bundled package" href="errbot.bundled.html" />
     <link rel="prev" title="errbot.backends.text module" href="errbot.backends.text.html" />
@@ -58,7 +58,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -83,7 +83,7 @@
         <li class="right" >
           <a href="errbot.backends.text.html" title="errbot.backends.text module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="errbot.backends.html" accesskey="U">errbot.backends package</a> &raquo;</li> 
       </ul>
@@ -117,6 +117,11 @@
 <dd><p>Build a message for responding to another message.
 Message is NOT sent</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="errbot.backends.xmpp.XMPPBackend.change_presence">
+<code class="descname">change_presence</code><span class="sig-paren">(</span><em>status: str='online'</em>, <em>message: str=''</em><span class="sig-paren">)</span> &rarr; None<a class="reference internal" href="_modules/errbot/backends/xmpp.html#XMPPBackend.change_presence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPBackend.change_presence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="errbot.backends.xmpp.XMPPBackend.chat_topic">
@@ -304,7 +309,7 @@ a custom room configuration instead.</p>
 <dl class="class">
 <dt id="errbot.backends.xmpp.XMPPIdentifier">
 <em class="property">class </em><code class="descclassname">errbot.backends.xmpp.</code><code class="descname">XMPPIdentifier</code><span class="sig-paren">(</span><em>node</em>, <em>domain</em>, <em>resource</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/xmpp.html#XMPPIdentifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPIdentifier" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="errbot.backends.base.html#errbot.backends.base.Identifier" title="errbot.backends.base.Identifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.Identifier</span></code></a></p>
 <p>This class is the parent and the basic contract of all the ways the backends
 are identifying a person on their system.</p>
 <dl class="method">
@@ -313,8 +318,8 @@ are identifying a person on their system.</p>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="errbot.backends.xmpp.XMPPIdentifier.bare_match">
-<code class="descname">bare_match</code><em class="property"> = &lt;errbot.utils.deprecated object&gt;</em><a class="headerlink" href="#errbot.backends.xmpp.XMPPIdentifier.bare_match" title="Permalink to this definition">¶</a></dt>
+<dt id="errbot.backends.xmpp.XMPPIdentifier.aclattr">
+<code class="descname">aclattr</code><a class="headerlink" href="#errbot.backends.xmpp.XMPPIdentifier.aclattr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -352,17 +357,12 @@ are identifying a person on their system.</p>
 <code class="descname">resource</code><a class="headerlink" href="#errbot.backends.xmpp.XMPPIdentifier.resource" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt id="errbot.backends.xmpp.XMPPIdentifier.stripped">
-<code class="descname">stripped</code><a class="headerlink" href="#errbot.backends.xmpp.XMPPIdentifier.stripped" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 <dl class="class">
 <dt id="errbot.backends.xmpp.XMPPMUCOccupant">
 <em class="property">class </em><code class="descclassname">errbot.backends.xmpp.</code><code class="descname">XMPPMUCOccupant</code><span class="sig-paren">(</span><em>node</em>, <em>domain</em>, <em>resource</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/errbot/backends/xmpp.html#XMPPMUCOccupant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#errbot.backends.xmpp.XMPPMUCOccupant" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#errbot.backends.xmpp.XMPPIdentifier" title="errbot.backends.xmpp.XMPPIdentifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.xmpp.XMPPIdentifier</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="errbot.backends.base.html#errbot.backends.base.MUCIdentifier" title="errbot.backends.base.MUCIdentifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.base.MUCIdentifier</span></code></a>, <a class="reference internal" href="#errbot.backends.xmpp.XMPPIdentifier" title="errbot.backends.xmpp.XMPPIdentifier"><code class="xref py py-class docutils literal"><span class="pre">errbot.backends.xmpp.XMPPIdentifier</span></code></a></p>
 <dl class="attribute">
 <dt id="errbot.backends.xmpp.XMPPMUCOccupant.person">
 <code class="descname">person</code><a class="headerlink" href="#errbot.backends.xmpp.XMPPMUCOccupant.person" title="Permalink to this definition">¶</a></dt>
@@ -601,7 +601,7 @@ topic has been set at all.</td>
         <li class="right" >
           <a href="errbot.backends.text.html" title="errbot.backends.text module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="errbot.html" >errbot package</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="errbot.backends.html" >errbot.backends package</a> &raquo;</li> 
       </ul>
@@ -609,7 +609,7 @@ topic has been set at all.</td>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

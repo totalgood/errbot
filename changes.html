@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>v3.1.2 (2015-11-05) &mdash; Err 3.1.2 documentation</title>
+    <title>v3.2.0 &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="_static/err.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="index.html" />
     <link rel="prev" title="errbot.version module" href="errbot.version.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
@@ -56,7 +56,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -78,7 +78,7 @@
         <li class="right" >
           <a href="errbot.version.html" title="errbot.version module"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -88,7 +88,39 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="v3-1-2-2015-11-05">
+  <div class="section" id="v3-2-0">
+<h1>v3.2.0<a class="headerlink" href="#v3-2-0" title="Permalink to this headline">¶</a></h1>
+<p>features:</p>
+<ul class="simple">
+<li>Official support for Python 3.5</li>
+<li>The API surface is now type hinted (<a class="reference external" href="https://www.python.org/dev/peps/pep-0484/">https://www.python.org/dev/peps/pep-0484/</a>) and base classes are tagged Abstract.</li>
+<li>Added send_templated() to the BotPlugin class to be able to use send() with a template</li>
+<li>Various improvements to the <code class="docutils literal"><span class="pre">&#64;arg_botcmd</span></code> decorator (<a class="reference external" href="https://github.com/errbotio/errbot/pull/516">#516</a>)</li>
+<li>Now the bot can set its own status/presence with change_presence</li>
+<li>Non-standard hipchat server (thx Barak Schiller)</li>
+</ul>
+<p>bugs:</p>
+<ul class="simple">
+<li>Fixed various bugs with the <code class="docutils literal"><span class="pre">&#64;arg_botcmd</span></code> decorator (<a class="reference external" href="https://github.com/errbotio/errbot/pull/516">#516</a>)</li>
+<li>Fixed warn_admins() on Telegram</li>
+<li>Slack ACLs now properly check against usernames starting with <cite>&#64;</cite></li>
+<li>Slack identifiers can now be built from a bare <cite>#channel</cite> string (without a username part)</li>
+<li>Slack identifiers can now be built from a <cite>&lt;#C12345&gt;</cite> or <cite>&lt;&#64;username&gt;</cite> string (the webclient formats them like this automatically when chatting with the bot)</li>
+<li>HipChat backend now respects the <cite>server</cite> option under <cite>BOT_IDENTITY</cite> (<a class="reference external" href="https://github.com/errbotio/errbot/pull/544/">#544</a>)</li>
+</ul>
+<p>other:</p>
+<ul class="simple">
+<li>various internal improvements and refactoring</li>
+<li>Removed some dead code</li>
+<li>Removed deprecated bare_send and invite_to_room bot methods</li>
+<li>Doc improvements (thx Anita Woodruff)</li>
+</ul>
+</div>
+<div class="section" id="v3-1-3-2015-11-12">
+<h1>v3.1.3 (2015-11-12)<a class="headerlink" href="#v3-1-3-2015-11-12" title="Permalink to this headline">¶</a></h1>
+<p>updated the version checker to errbot.io.</p>
+</div>
+<div class="section" id="v3-1-2-2015-11-05">
 <h1>v3.1.2 (2015-11-05)<a class="headerlink" href="#v3-1-2-2015-11-05" title="Permalink to this headline">¶</a></h1>
 <p>bugs:</p>
 <ul class="simple">
@@ -167,14 +199,14 @@
 <p><code class="docutils literal"><span class="pre">Release</span> <span class="pre">date:</span> <span class="pre">2015-08-17</span></code></p>
 <p>We have decided to promote this release as the v3 \o/.</p>
 <p>This document includes all the changes since the last stable version (2.2.0).</p>
-<p>If you have any difficulty using this new release, feel free to jump into our <a class="reference external" href="https://gitter.im/gbin/err">dev room on gitter</a>.</p>
+<p>If you have any difficulty using this new release, feel free to jump into our <a class="reference external" href="https://gitter.im/errbotio/errbot">dev room on gitter</a>.</p>
 <div class="section" id="new-and-noteworthy">
 <h2>New and noteworthy<a class="headerlink" href="#new-and-noteworthy" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>backends are now plugins too</li>
-<li>new Slack backend (see the <a class="reference external" href="https://github.com/gbin/err/blob/master/errbot/config-template.py#L118">config template</a> for details)</li>
+<li>new Slack backend (see the <a class="reference external" href="https://github.com/errbotio/errbot/blob/master/errbot/config-template.py#L118">config template</a> for details)</li>
 <li>new Telegram backend</li>
-<li>new Gitter backend (see <a class="reference external" href="http://www.github.com/gbin/err-backend-gitter">the gitter backend repo</a> for more info about installing it)</li>
+<li>new Gitter backend (see <a class="reference external" href="http://www.github.com/errbotio/err-backend-gitter">the gitter backend repo</a> for more info about installing it)</li>
 <li>completely new rendering engine: now all text from either a plugin return or a template is <strong>markdown extras</strong></li>
 <li>you can test the various formatting under your backend with the <code class="docutils literal"><span class="pre">!render</span> <span class="pre">test</span></code> command.</li>
 <li>the text backend exposes the original md, its html representation and ansi representation so plugin developers can anticipate what the rendering will look like under various backends</li>
@@ -182,10 +214,10 @@
 <p>See the screenshots below: <a class="reference internal" href="#slack">Slack</a>, <a class="reference internal" href="#hipchat">Hipchat</a>, <a class="reference internal" href="#irc">IRC</a>, <a class="reference internal" href="#gitter">Gitter</a> and finally <a class="reference internal" href="#text">Text</a>.</p>
 <ul class="simple">
 <li>completely revamped backup/restore feature (see <code class="docutils literal"><span class="pre">!help</span> <span class="pre">backup</span></code>).</li>
-<li>Identifiers are now generic (and not tight to XMPP anymore) with common notions of <code class="docutils literal"><span class="pre">.person</span></code> <code class="docutils literal"><span class="pre">.room</span></code> (for MUCIdentifiers) <code class="docutils literal"><span class="pre">.client</span></code> <code class="docutils literal"><span class="pre">.nick</span></code> and <code class="docutils literal"><span class="pre">.displayname</span></code> see <a class="reference external" href="https://github.com/gbin/err/blob/master/docs/user_guide/backend_development/index.rst#identifiers">this doc</a> for details.</li>
+<li>Identifiers are now generic (and not tight to XMPP anymore) with common notions of <code class="docutils literal"><span class="pre">.person</span></code> <code class="docutils literal"><span class="pre">.room</span></code> (for MUCIdentifiers) <code class="docutils literal"><span class="pre">.client</span></code> <code class="docutils literal"><span class="pre">.nick</span></code> and <code class="docutils literal"><span class="pre">.displayname</span></code> see <a class="reference external" href="https://github.com/errbotio/errbot/blob/master/docs/user_guide/backend_development/index.rst#identifiers">this doc</a> for details.</li>
 <li>New <code class="docutils literal"><span class="pre">!whoami</span></code> command to debug identity problems for your plugins.</li>
 <li>New <code class="docutils literal"><span class="pre">!killbot</span></code> command to stop your bot remotely in case of emergency.</li>
-<li>New support for <a class="reference external" href="https://github.com/gbin/err/blob/master/docs/user_guide/plugin_development/botcommands.rst#argparse-argument-splitting">argparse style command arguments</a> with the <code class="docutils literal"><span class="pre">&#64;arg_botcmd</span></code> decorator.</li>
+<li>New support for <a class="reference external" href="https://github.com/errbotio/errbot/blob/master/docs/user_guide/plugin_development/botcommands.rst#argparse-argument-splitting">argparse style command arguments</a> with the <code class="docutils literal"><span class="pre">&#64;arg_botcmd</span></code> decorator.</li>
 <li>IRC: file transfer from the bot is now supported (DCC)</li>
 </ul>
 </div>
@@ -206,7 +238,7 @@
 <li>XMPP properties <code class="docutils literal"><span class="pre">.node</span></code>, <code class="docutils literal"><span class="pre">.domain</span></code> and <code class="docutils literal"><span class="pre">.resource</span></code> on identifiers are deprecated, a backward compatibility layer has been added but we highly encourage you to not rely on those but use the generic ones from now on: <code class="docutils literal"><span class="pre">.person</span></code>, <code class="docutils literal"><span class="pre">.client</span></code> and for MUCOccupants <code class="docutils literal"><span class="pre">.room</span></code> on top of <code class="docutils literal"><span class="pre">.person</span></code> and <code class="docutils literal"><span class="pre">.client</span></code>.</li>
 <li>To create identifiers from a string (i.e. if you don't get it from the bot itself) you now have to use <code class="docutils literal"><span class="pre">build_identifier(string)</span></code> to make the backend parse it</li>
 <li>command line parameter -c needs to be the full path of your config file, it allows us to have different set of configs to test the bot.</li>
-<li>campfire and TOX backends are now external plugins: see <a class="reference external" href="http://www.github.com/gbin/err-backend-tox">the tox backend repo</a> and <a class="reference external" href="http://www.github.com/gbin/err-backend-campfire">the campfire backend repo</a> for more info about installing them.</li>
+<li>campfire and TOX backends are now external plugins: see <a class="reference external" href="http://www.github.com/errbotio/err-backend-tox">the tox backend repo</a> and <a class="reference external" href="http://www.github.com/errbotio/err-backend-campfire">the campfire backend repo</a> for more info about installing them.</li>
 <li>any output from plugin is now considered markdown, it might break some of your output if you had any markup characters (#, -, * ...).</li>
 <li>we removed the gtalk support as it is going away.</li>
 </ul>
@@ -506,7 +538,7 @@ to write tests using <a class="reference external" href="http://pytest.org/">pyt
 <h1>v1.6.5 (2012-09-10)<a class="headerlink" href="#v1-6-5-2012-09-10" title="Permalink to this headline">¶</a></h1>
 <p>Bugs:</p>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/gbin/err/issues/59">https://github.com/gbin/err/issues/59</a> [Thx to <a class="reference external" href="https://github.com/bubba-h57">https://github.com/bubba-h57</a> &amp; <a class="reference external" href="https://github.com/zoni">https://github.com/zoni</a> for helping to diagnose it]</li>
+<li><a class="reference external" href="https://github.com/errbotio/errbot/issues/59">https://github.com/errbotio/errbot/issues/59</a> [Thx to <a class="reference external" href="https://github.com/bubba-h57">https://github.com/bubba-h57</a> &amp; <a class="reference external" href="https://github.com/zoni">https://github.com/zoni</a> for helping to diagnose it]</li>
 </ul>
 <p>Features:</p>
 <ul class="simple">
@@ -584,9 +616,9 @@ to write tests using <a class="reference external" href="http://pytest.org/">pyt
 </ul>
 <p>Features:</p>
 <ul class="simple">
-<li>Added support for CampFire (see: <a class="reference external" href="https://github.com/gbin/err/wiki/Setup-with-CampFire">https://github.com/gbin/err/wiki/Setup-with-CampFire</a>)</li>
-<li>Added support for Hipchat API with basic html messages (<a class="reference external" href="https://github.com/gbin/err/wiki/Setup-with-Hipchat">https://github.com/gbin/err/wiki/Setup-with-Hipchat</a>)</li>
-<li>Added support for webhooks (see: <a class="reference external" href="https://github.com/gbin/err/wiki/webhooks">https://github.com/gbin/err/wiki/webhooks</a>)</li>
+<li>Added support for CampFire</li>
+<li>Added support for Hipchat API with basic html messages</li>
+<li>Added support for webhooks</li>
 <li>Independent backends can be implemented</li>
 <li>In order to simplify : now botcmd and BotPlugin are both imported from errbot (we left a big fat warning for the old deprecated spot, they will be removed in next release)</li>
 <li>Better status report from !status (including Errors and non-configured plugins)</li>
@@ -609,7 +641,7 @@ to write tests using <a class="reference external" href="http://pytest.org/">pyt
 </ul>
 <p>Features:</p>
 <ul class="simple">
-<li>Added XHTML-IM support with Jinja2 templating see <a class="reference external" href="https://github.com/gbin/err/wiki/xhtml-im-templating">https://github.com/gbin/err/wiki/xhtml-im-templating</a> to get started.</li>
+<li>Added XHTML-IM support with Jinja2 templating</li>
 <li>Better presentation on the !repos command</li>
 <li>load / unload of plugins is now persistent (they are blacklisted when unloaded)</li>
 <li>Better presentation of the !status command : Now you can see loaded, blacklisted and Erroneous plugins from there</li>
@@ -726,7 +758,7 @@ err-tourney</li>
 </ul>
 <p>Features:</p>
 <ul class="simple">
-<li>Added a split_args_with to the botcmd decorator to ease the burden of parsing args on the plugin side (see <a class="reference external" href="https://github.com/gbin/err/wiki/plugin-dev">https://github.com/gbin/err/wiki/plugin-dev</a>)</li>
+<li>Added a split_args_with to the botcmd decorator to ease the burden of parsing args on the plugin side</li>
 <li>Added the pid, uid, gid parameters to the daemon group to be able to package it on linux distributions</li>
 </ul>
 </div>
@@ -797,7 +829,9 @@ err-tourney</li>
     </div>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">v3.1.2 (2015-11-05)</a></li>
+<li><a class="reference internal" href="#">v3.2.0</a></li>
+<li><a class="reference internal" href="#v3-1-3-2015-11-12">v3.1.3 (2015-11-12)</a></li>
+<li><a class="reference internal" href="#v3-1-2-2015-11-05">v3.1.2 (2015-11-05)</a></li>
 <li><a class="reference internal" href="#v3-1-1-2015-10-26">v3.1.1 (2015-10-26)</a></li>
 <li><a class="reference internal" href="#v3-1-0-2015-10-22">v3.1.0 (2015-10-22)</a></li>
 <li><a class="reference internal" href="#v3-0-4">v3.0.4</a></li>
@@ -899,13 +933,13 @@ err-tourney</li>
         <li class="right" >
           <a href="errbot.version.html" title="errbot.version module"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Err 3.1.2 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Err 3.2.0 documentation</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

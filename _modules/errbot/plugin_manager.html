@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.plugin_manager &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.plugin_manager &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="../../index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="../../index.html" />
     <link rel="up" title="errbot" href="../errbot.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
@@ -56,7 +56,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -75,7 +75,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../errbot.html" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
@@ -206,16 +206,17 @@
 
 <div class="viewcode-block" id="BotPluginManager.instanciateElement"><a class="viewcode-back" href="../../errbot.plugin_manager.html#errbot.plugin_manager.BotPluginManager.instanciateElement">[docs]</a>    <span class="k">def</span> <span class="nf">instanciateElement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Override the loading method to inject bot &quot;&quot;&quot;</span>
-        <span class="c"># check if we have a plugin not overridding __init__ incorrectly</span>
-        <span class="n">args</span><span class="p">,</span> <span class="n">argslist</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getargspec</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">__init__</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">PY3</span><span class="p">:</span>
+            <span class="c"># check if we have a plugin not overridding __init__ incorrectly</span>
+            <span class="n">sig</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">__init__</span><span class="p">)</span>
 
-        <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;plugin __init__(args=</span><span class="si">%s</span><span class="s">, argslist=</span><span class="si">%s</span><span class="s">, kwargs=</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">argslist</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">argslist</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">kwargs</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">((</span><span class="s">&#39;Warning: </span><span class="si">%s</span><span class="s"> needs to implement __init__(self, *args, **kwargs) &#39;</span>
-                      <span class="s">&#39;and forward them to super().__init__&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="n">element</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
-            <span class="n">obj</span> <span class="o">=</span> <span class="n">element</span><span class="p">()</span>
-            <span class="n">obj</span><span class="o">.</span><span class="n">_load_bot</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>  <span class="c"># sideload the bot</span>
-            <span class="k">return</span> <span class="n">obj</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;plugin __init__(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">parameters</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">warn</span><span class="p">((</span><span class="s">&#39;Warning: </span><span class="si">%s</span><span class="s"> needs to implement __init__(self, *args, **kwargs) &#39;</span>
+                          <span class="s">&#39;and forward them to super().__init__&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="n">element</span><span class="o">.</span><span class="n">__name__</span><span class="p">)</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">element</span><span class="p">()</span>
+                <span class="n">obj</span><span class="o">.</span><span class="n">_load_bot</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>  <span class="c"># sideload the bot</span>
+                <span class="k">return</span> <span class="n">obj</span>
 
         <span class="k">return</span> <span class="n">element</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </div>
@@ -595,7 +596,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../errbot.html" >errbot</a> &raquo;</li> 
       </ul>
@@ -603,7 +604,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

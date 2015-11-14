@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.backends.telegram &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.backends.telegram &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="../../../index.html" />
-    <link rel="up" title="errbot.backends" href="../backends.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="../../../index.html" />
+    <link rel="up" title="errbot" href="../../errbot.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
         // have to make do with hacky javascript redirection :(
@@ -56,7 +56,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -75,10 +75,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="../backends.html" accesskey="U">errbot.backends</a> &raquo;</li> 
+          <li class="nav-item nav-item-2"><a href="../../errbot.html" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
     </div>
       
@@ -92,7 +91,7 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
-<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">RoomError</span>
+<span class="kn">from</span> <span class="nn">errbot.backends.base</span> <span class="kn">import</span> <span class="n">RoomError</span><span class="p">,</span> <span class="n">Identifier</span><span class="p">,</span> <span class="n">MUCIdentifier</span><span class="p">,</span> <span class="n">ONLINE</span>
 <span class="kn">from</span> <span class="nn">errbot.errBot</span> <span class="kn">import</span> <span class="n">ErrBot</span>
 <span class="kn">from</span> <span class="nn">errbot.rendering</span> <span class="kn">import</span> <span class="n">text</span>
 
@@ -143,8 +142,7 @@
             <span class="k">return</span> <span class="mi">0</span>
 
 </div></div>
-<div class="viewcode-block" id="TelegramIdentifier"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramIdentifier">[docs]</a><span class="k">class</span> <span class="nc">TelegramIdentifier</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
+<div class="viewcode-block" id="TelegramIdentifier"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramIdentifier">[docs]</a><span class="k">class</span> <span class="nc">TelegramIdentifier</span><span class="p">(</span><span class="n">Identifier</span><span class="p">):</span>
 <div class="viewcode-block" id="TelegramIdentifier.__init__"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramIdentifier.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">first_name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="nb">id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_first_name</span> <span class="o">=</span> <span class="n">first_name</span>
@@ -191,9 +189,10 @@
 
     <span class="n">person</span> <span class="o">=</span> <span class="nb">id</span>
     <span class="n">nick</span> <span class="o">=</span> <span class="n">username</span>
+    <span class="n">aclattr</span> <span class="o">=</span> <span class="nb">id</span>
 
 </div>
-<div class="viewcode-block" id="TelegramMUCOccupant"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramMUCOccupant">[docs]</a><span class="k">class</span> <span class="nc">TelegramMUCOccupant</span><span class="p">(</span><span class="n">TelegramIdentifier</span><span class="p">):</span>
+<div class="viewcode-block" id="TelegramMUCOccupant"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramMUCOccupant">[docs]</a><span class="k">class</span> <span class="nc">TelegramMUCOccupant</span><span class="p">(</span><span class="n">MUCIdentifier</span><span class="p">,</span> <span class="n">TelegramIdentifier</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This class represents a person inside a MUC.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -201,7 +200,6 @@
 
 </div>
 <div class="viewcode-block" id="TelegramBackend"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramBackend">[docs]</a><span class="k">class</span> <span class="nc">TelegramBackend</span><span class="p">(</span><span class="n">ErrBot</span><span class="p">):</span>
-
 <div class="viewcode-block" id="TelegramBackend.__init__"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramBackend.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
         <span class="n">config</span><span class="o">.</span><span class="n">MESSAGE_SIZE_LIMIT</span> <span class="o">=</span> <span class="n">TELEGRAM_MESSAGE_SIZE_LIMIT</span>
@@ -313,6 +311,10 @@
             <span class="p">)</span>
             <span class="k">raise</span>
 </div>
+<div class="viewcode-block" id="TelegramBackend.change_presence"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramBackend.change_presence">[docs]</a>    <span class="k">def</span> <span class="nf">change_presence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">ONLINE</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="c"># It looks like telegram doesn&#39;t supports online presence for privacy reason.</span>
+        <span class="k">pass</span>
+</div>
 <div class="viewcode-block" id="TelegramBackend.build_identifier"><a class="viewcode-back" href="../../../errbot.backends.telegram.html#errbot.backends.telegram.TelegramBackend.build_identifier">[docs]</a>    <span class="k">def</span> <span class="nf">build_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txtrep</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert a textual representation into a :class:`~TelegramIdentifier`.</span>
@@ -401,11 +403,6 @@
         <li>
         <a href="../../errbot.html">errbot</a>
         <ul>
-        <li>
-        <a href="../backends.html">errbot.backends</a>
-        <ul>
-        </ul>
-        </li>
         </ul>
         </li>
         </ul>
@@ -447,16 +444,15 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li>
-          <li class="nav-item nav-item-3"><a href="../backends.html" >errbot.backends</a> &raquo;</li> 
+          <li class="nav-item nav-item-2"><a href="../../errbot.html" >errbot</a> &raquo;</li> 
       </ul>
     </div>
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     

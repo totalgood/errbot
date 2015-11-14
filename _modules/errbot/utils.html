@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>errbot.utils &mdash; Err 3.1.2 documentation</title>
+    <title>errbot.utils &mdash; Err 3.2.0 documentation</title>
     
     <link rel="stylesheet" href="../../_static/err.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.1.2',
+        VERSION:     '3.2.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="Err 3.1.2 documentation" href="../../index.html" />
+    <link rel="top" title="Err 3.2.0 documentation" href="../../index.html" />
     <link rel="up" title="errbot" href="../errbot.html" />
     <script type="text/javascript">
         // GitHub pages offers no way to redirect to a canonical location, so we
@@ -56,7 +56,7 @@
 
         // Gitter button
         ((window.gitter = {}).chat = {}).options = {
-             room: 'gbin/err'
+             room: 'errbotio/errbot'
         };
    </script>
    <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
@@ -75,7 +75,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../errbot.html" accesskey="U">errbot</a> &raquo;</li> 
       </ul>
@@ -100,7 +100,6 @@
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
 <span class="kn">from</span> <span class="nn">html</span> <span class="kn">import</span> <span class="n">entities</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">starmap</span><span class="p">,</span> <span class="n">repeat</span>
-<span class="kn">from</span> <span class="nn">xml.etree.ElementTree</span> <span class="kn">import</span> <span class="n">tostring</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
 
@@ -111,6 +110,7 @@
 <span class="n">PLUGINS_SUBDIR</span> <span class="o">=</span> <span class="n">b</span><span class="s">&#39;plugins&#39;</span> <span class="k">if</span> <span class="n">PY2</span> <span class="k">else</span> <span class="s">&#39;plugins&#39;</span>
 
 
+<span class="c"># noinspection PyPep8Naming</span>
 <div class="viewcode-block" id="deprecated"><a class="viewcode-back" href="../../errbot.utils.html#errbot.backends.slack.deprecated">[docs]</a><span class="k">class</span> <span class="nc">deprecated</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; deprecated decorator. emits a warning on a call on an old method and call the new method anyway &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="deprecated.__init__"><a class="viewcode-back" href="../../errbot.utils.html#errbot.backends.slack.deprecated.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -145,12 +145,6 @@
         <span class="k">return</span> <span class="n">wrapper</span>
 
 </div>
-<span class="nd">@deprecated</span>
-<span class="k">def</span> <span class="nf">get_sender_username</span><span class="p">(</span><span class="n">mess</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Extract the sender&#39;s user name from a message&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">mess</span><span class="o">.</span><span class="n">frm</span><span class="o">.</span><span class="n">person</span>
-
-
 <div class="viewcode-block" id="format_timedelta"><a class="viewcode-back" href="../../errbot.utils.html#errbot.backends.slack.format_timedelta">[docs]</a><span class="k">def</span> <span class="nf">format_timedelta</span><span class="p">(</span><span class="n">timedelta</span><span class="p">):</span>
     <span class="n">total_seconds</span> <span class="o">=</span> <span class="n">timedelta</span><span class="o">.</span><span class="n">seconds</span> <span class="o">+</span> <span class="p">(</span><span class="mi">86400</span> <span class="o">*</span> <span class="n">timedelta</span><span class="o">.</span><span class="n">days</span><span class="p">)</span>
     <span class="n">hours</span><span class="p">,</span> <span class="n">remainder</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">total_seconds</span><span class="p">,</span> <span class="mi">3600</span><span class="p">)</span>
@@ -328,28 +322,37 @@
     <span class="k">return</span> <span class="n">key</span>
 
 </div>
-<div class="viewcode-block" id="RateLimited"><a class="viewcode-back" href="../../errbot.utils.html#errbot.backends.slack.RateLimited">[docs]</a><span class="k">def</span> <span class="nf">RateLimited</span><span class="p">(</span><span class="n">minInterval</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-        <span class="n">lastTimeCalled</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+<div class="viewcode-block" id="rate_limited"><a class="viewcode-back" href="../../errbot.utils.html#errbot.backends.slack.rate_limited">[docs]</a><span class="k">def</span> <span class="nf">rate_limited</span><span class="p">(</span><span class="n">min_interval</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    decorator to rate limit a function.</span>
 
-        <span class="k">def</span> <span class="nf">rateLimitedFunction</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
-            <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">lastTimeCalled</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="sd">    :param min_interval: minimum interval allowed between 2 consecutive calls.</span>
+<span class="sd">    :return: the decorated function</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="n">last_time_called</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">rate_limited_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">):</span>
+            <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">last_time_called</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Elapsed </span><span class="si">%f</span><span class="s"> since last call&#39;</span> <span class="o">%</span> <span class="n">elapsed</span><span class="p">)</span>
-            <span class="n">leftToWait</span> <span class="o">=</span> <span class="n">minInterval</span> <span class="o">-</span> <span class="n">elapsed</span>
-            <span class="k">if</span> <span class="n">leftToWait</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Wait </span><span class="si">%f</span><span class="s"> due to rate limiting...&#39;</span> <span class="o">%</span> <span class="n">leftToWait</span><span class="p">)</span>
-                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">leftToWait</span><span class="p">)</span>
+            <span class="n">left_to_wait</span> <span class="o">=</span> <span class="n">min_interval</span> <span class="o">-</span> <span class="n">elapsed</span>
+            <span class="k">if</span> <span class="n">left_to_wait</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Wait </span><span class="si">%f</span><span class="s"> due to rate limiting...&#39;</span> <span class="o">%</span> <span class="n">left_to_wait</span><span class="p">)</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">left_to_wait</span><span class="p">)</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kargs</span><span class="p">)</span>
-            <span class="n">lastTimeCalled</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+            <span class="n">last_time_called</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
             <span class="k">return</span> <span class="n">ret</span>
 
-        <span class="k">return</span> <span class="n">rateLimitedFunction</span>
+        <span class="k">return</span> <span class="n">rate_limited_function</span>
 
     <span class="k">return</span> <span class="n">decorate</span>
 
 </div>
 <div class="viewcode-block" id="split_string_after"><a class="viewcode-back" href="../../errbot.utils.html#errbot.backends.slack.split_string_after">[docs]</a><span class="k">def</span> <span class="nf">split_string_after</span><span class="p">(</span><span class="n">str_</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Yield chunks of length `n` from the given string&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Yield chunks of length `n` from the given string</span>
+<span class="sd">    :param n: length of the chunks.</span>
+<span class="sd">    :param str_: the given string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">str_</span><span class="p">),</span> <span class="n">n</span><span class="p">):</span>
         <span class="k">yield</span> <span class="n">str_</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span> <span class="o">+</span> <span class="n">n</span><span class="p">]</span>
 
@@ -358,6 +361,9 @@
     <span class="sd">&quot;&quot;&quot;Repeat calls to func with specified arguments.</span>
 
 <span class="sd">    Example:  repeatfunc(random.random)</span>
+<span class="sd">    :param args: params to the function to call.</span>
+<span class="sd">    :param times: number of times to repeat.</span>
+<span class="sd">    :param func:  the function to repeatedly call.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">times</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">starmap</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">repeat</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
@@ -366,7 +372,7 @@
 </div>
 <div class="viewcode-block" id="find_roots"><a class="viewcode-back" href="../../errbot.utils.html#errbot.backends.slack.find_roots">[docs]</a><span class="k">def</span> <span class="nf">find_roots</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file_sig</span><span class="o">=</span><span class="s">&#39;*.plug&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Collects all the paths from path recursively that contains files of type `file_sig`.</span>
-<span class="sd">       :param base:</span>
+<span class="sd">       :param path:</span>
 <span class="sd">            a base path to walk from</span>
 <span class="sd">       :param file_sig:</span>
 <span class="sd">            the file pattern to look for</span>
@@ -417,12 +423,14 @@
 </div>
 <div class="viewcode-block" id="compat_str"><a class="viewcode-back" href="../../errbot.utils.html#errbot.backends.slack.compat_str">[docs]</a><span class="k">def</span> <span class="nf">compat_str</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Detect if s is a string and convert it to unicode if it is a byte or</span>
-<span class="sd">        py2 string &quot;&quot;&quot;</span>
+<span class="sd">        py2 string</span>
+<span class="sd">        :param s: the string to ensure compatibility from.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">s</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
-    <span class="k">return</span> <span class="bp">None</span></div>
+        <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
 </pre></div>
   <div id="prev_next_links">
       
@@ -497,7 +505,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.1.2 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Err 3.2.0 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &raquo;</li>
           <li class="nav-item nav-item-2"><a href="../errbot.html" >errbot</a> &raquo;</li> 
       </ul>
@@ -505,7 +513,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2013, Guillaume Binet, Tali Davidovich Petrover and Nick Groenen.
-          Last updated on Nov 12, 2015.
+          Last updated on Nov 13, 2015.
         Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
     </div>
     
