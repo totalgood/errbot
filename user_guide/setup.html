@@ -96,15 +96,15 @@
 <h1>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
-<p>Err runs under Python 2.7 as well as Python 3.2+ on Linux, Windows and Mac.</p>
+<p>Errbot runs under Python 2.7 as well as Python 3.2+ on Linux, Windows and Mac.</p>
 <p>You need to have registered a user for the bot to use on the XMPP or IRC server that
 you wish to run Err on. A lot of plugins use multi user chatrooms (MUC) as well, so
 it is recommended (but not required) to have a least one MUC for Err to use as well.</p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>Err may be installed directly from PyPi using <cite>pip</cite> (<cite>easy_install</cite> works too) by issuing:</p>
-<div class="highlight-python"><div class="highlight"><pre>pip install err
+<p>Errbot may be installed directly from PyPi using <cite>pip</cite> (<cite>easy_install</cite> works too) by issuing:</p>
+<div class="highlight-python"><div class="highlight"><pre>pip install errbot
 </pre></div>
 </div>
 <p>Or if you wish to try out the latest, bleeding edge version:</p>
@@ -112,7 +112,7 @@ it is recommended (but not required) to have a least one MUC for Err to use as w
 </pre></div>
 </div>
 <p>However, in these cases, installing into a dedicated <a class="reference external" href="https://pypi.python.org/pypi/virtualenv">virtualenv</a> is recommended.</p>
-<p>On some distributions, Err is available as a package via your usual package manager.
+<p>On some distributions, Errbot is available as a package via your usual package manager.
 In these cases, it is generally recommended to use your distribution's package instead
 of installing from PyPi.</p>
 <div class="section" id="extra-dependencies">
@@ -138,39 +138,47 @@ Depending on the backend you choose, additional requirements need to be installe
 </div>
 <div class="section" id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
-<p>After installing Err, you must create a data directory somewhere on your system where
-config and data may be stored. Find the installation directory of Err, then copy the
-file <a class="reference download internal" href="../_downloads/config-template.py"><code class="xref download docutils literal"><span class="pre">config-template.py</span></code></a> to your data directory as <em>config.py</em></p>
+<p>After installing Errbot, you must create a data directory somewhere on your system where
+config and data may be stored.</p>
+<p>You need to create there a config.py file to setup the basic parameters of your bot.</p>
+<p>Option 1: you can generate it directly from your errbot installation with:</p>
+<div class="highlight-python"><div class="highlight"><pre>python -c &quot;import errbot;import os;import shutil;shutil.copyfile(os.path.dirname(errbot.__file__) + os.path.sep + &#39;config-template.py&#39;, &#39;config.py&#39;)&quot;
+</pre></div>
+</div>
+<p>Option 2: You can download a template from <a class="reference external" href="https://raw.githubusercontent.com/errbotio/errbot/master/errbot/config-template.py">this link</a>
+and rename it <cite>config.py</cite>.</p>
+<p>Option 3: Or you can download this same template from curl too:</p>
+<div class="highlight-python"><div class="highlight"><pre>curl -o config.py https://raw.githubusercontent.com/errbotio/errbot/master/errbot/config-template.py
+</pre></div>
+</div>
 <p>Read the documentation within this file and edit the values as needed so the bot can
-connect to your chosen XMPP or IRC server.</p>
+connect to your chosen chat server.</p>
 </div>
 <div class="section" id="starting-the-daemon">
 <h2>Starting the daemon<a class="headerlink" href="#starting-the-daemon" title="Permalink to this headline">¶</a></h2>
 <p>The first time you start Err, it is recommended to run it in foreground mode. This can
 be done with:</p>
-<div class="highlight-python"><div class="highlight"><pre>&lt;path_to_install_directory&gt;/scripts/err.py
+<div class="highlight-python"><div class="highlight"><pre><span class="n">errbot</span>
 </pre></div>
 </div>
-<p>In many cases, just typing err.py will be enough as it is generally added to the PATH
-automatically. Please pass -h or --help to err.py to get a list of supported parameters.
-Depending on your situation, you may need to pass --config or --backend when starting
-Err.</p>
-<p>If all that worked, you can now use the -d (or --daemon) parameter to run it in a
+<p>Please pass -h or --help to errbot to get a list of supported parameters.
+Depending on your situation, you may need to pass --config (or -c) pointing to config.py
+when starting Errbot.</p>
+<p>If all that worked out, you can now use the -d (or --daemon) parameter to run it in a
 detached mode:</p>
-<div class="highlight-python"><div class="highlight"><pre>&lt;path_to_install_directory&gt;/scripts/err.py --daemon
+<div class="highlight-python"><div class="highlight"><pre><span class="n">errbot</span> <span class="o">--</span><span class="n">daemon</span>
 </pre></div>
 </div>
 <p>If you are going to run your bot all the time then using some process control system
 such as <a class="reference external" href="http://supervisord.org/">supervisor</a> is highly recommended. Installing and configuring such a system
 is outside the scope of this document however.</p>
 </div>
-<div class="section" id="hacking-on-err-s-code-directly">
-<h2>Hacking on Err's code directly<a class="headerlink" href="#hacking-on-err-s-code-directly" title="Permalink to this headline">¶</a></h2>
-<p>It's important to know that as of version 2.0, Err is written for Python 3. In order
-to run under Python 2.7 the code is run through 3to2 at install time. This means that
-while it is possible to run Err under Python 3.2+ directly from a source checkout, it
-is not possible to do so with Python 2.7. If you wish to develop or test with Err's
-code under 2.7, you must run:</p>
+<div class="section" id="hacking-on-errbot-s-code-directly">
+<h2>Hacking on Errbot's code directly<a class="headerlink" href="#hacking-on-errbot-s-code-directly" title="Permalink to this headline">¶</a></h2>
+<p>Errbot is written for Python 3. In order to run under Python 2.7 the code is run through
+3to2 at install time. This means that while it is possible to run Err under Python 3.3+
+directly from a source checkout, it is not possible to do so with Python 2.7.
+If you wish to develop or test with Errbot's code under 2.7, you must run:</p>
 <div class="highlight-python"><div class="highlight"><pre>python setup.py install
 </pre></div>
 </div>
@@ -214,7 +222,7 @@ code under 2.7, you must run:</p>
 </li>
 <li><a class="reference internal" href="#configuration">Configuration</a></li>
 <li><a class="reference internal" href="#starting-the-daemon">Starting the daemon</a></li>
-<li><a class="reference internal" href="#hacking-on-err-s-code-directly">Hacking on Err's code directly</a></li>
+<li><a class="reference internal" href="#hacking-on-errbot-s-code-directly">Hacking on Errbot's code directly</a></li>
 </ul>
 </li>
 </ul>
