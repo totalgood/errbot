@@ -98,7 +98,7 @@
 <h1>8. Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="plugin-configuration-through-the-built-in-config-command">
 <h2>8.1. Plugin configuration through the built-in <cite>!config</cite> command<a class="headerlink" href="#plugin-configuration-through-the-built-in-config-command" title="Permalink to this headline">¶</a></h2>
-<p>Err can keep a simple python object for the configuration of your
+<p>Errbot can keep a simple python object for the configuration of your
 plugin. This avoids the need for admins to configure settings in
 some kind of configuration file, instead allowing configuration to
 happen directly through chat commands.</p>
@@ -172,7 +172,7 @@ and return the <cite>CONFIG_TEMPLATE</cite> in that function:</p>
 </div>
 <div class="section" id="using-custom-configuration-checks">
 <h2>8.3. Using custom configuration checks<a class="headerlink" href="#using-custom-configuration-checks" title="Permalink to this headline">¶</a></h2>
-<p>By default, Err will check the supplied configuration against the
+<p>By default, Errbot will check the supplied configuration against the
 configuration template, and raise an error if the structure of the
 two doesn't match.</p>
 <p>You need to override the <a class="reference internal" href="../../errbot.botplugin.html#errbot.botplugin.BotPlugin.check_configuration" title="errbot.botplugin.BotPlugin.check_configuration"><code class="xref py py-meth docutils literal"><span class="pre">check_configuration()</span></code></a>

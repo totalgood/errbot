@@ -96,7 +96,7 @@
             
   <div class="section" id="webhooks">
 <h1>10. Webhooks<a class="headerlink" href="#webhooks" title="Permalink to this headline">¶</a></h1>
-<p>Err has a small integrated webserver that is capable of hooking up
+<p>Errbot has a small integrated webserver that is capable of hooking up
 endpoints to methods inside your plugins.</p>
 <p>You must configure the <em>Webserver</em> plugin before this functionality
 can be used. You can get the configuration template using <cite>!config
@@ -110,7 +110,7 @@ connections and do not have a certificate.</p>
 </div>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">It is not recommended to expose Err's webserver directly to the
+<p class="last">It is not recommended to expose Errbot's webserver directly to the
 network. Instead, we recommend placing it behind a webserver
 such as <a class="reference external" href="http://nginx.org/">nginx</a> or <a class="reference external" href="https://httpd.apache.org/">Apache</a>.</p>
 </div>
@@ -208,7 +208,7 @@ custom header:</p>
 <span class="k">class</span> <span class="nc">PluginExample</span><span class="p">(</span><span class="n">BotPlugin</span><span class="p">):</span>
     <span class="nd">@webhook</span>
     <span class="k">def</span> <span class="nf">example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">incoming_request</span><span class="p">):</span>
-        <span class="n">response</span><span class="o">.</span><span class="n">set_header</span><span class="p">(</span><span class="s">&quot;X-Powered-By&quot;</span><span class="p">,</span> <span class="s">&quot;Err&quot;</span><span class="p">)</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">set_header</span><span class="p">(</span><span class="s">&quot;X-Powered-By&quot;</span><span class="p">,</span> <span class="s">&quot;Errbot&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="s">&quot;OK&quot;</span>
 </pre></div>
 </div>

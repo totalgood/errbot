@@ -96,8 +96,10 @@
             
   <div class="section" id="logging">
 <h1>12. Logging<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h1>
-<p>Logging information on what your plugin is doing can be a tremendous asset when managing your bot in production, especially when something is going wrong.</p>
-<p>Err uses the standard Python <a class="reference external" href="https://docs.python.org/3/library/logging.html">logging</a> library to log messages internally and provides a logger for your own plugins to use as well as <cite>self.log</cite>.
+<p>Logging information on what your plugin is doing can be a tremendous asset when managing
+your bot in production, especially when something is going wrong.</p>
+<p>Errbot uses the standard Python <a class="reference external" href="https://docs.python.org/3/library/logging.html">logging</a>
+library to log messages internally and provides a logger for your own plugins to use as well as <cite>self.log</cite>.
 You can use this logger to log status messages to the log like this:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">errbot</span> <span class="kn">import</span> <span class="n">BotPlugin</span>
 

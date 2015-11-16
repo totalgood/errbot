@@ -98,8 +98,8 @@
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
 <p>Errbot runs under Python 2.7 as well as Python 3.2+ on Linux, Windows and Mac.</p>
 <p>You need to have registered a user for the bot to use on the XMPP or IRC server that
-you wish to run Err on. A lot of plugins use multi user chatrooms (MUC) as well, so
-it is recommended (but not required) to have a least one MUC for Err to use as well.</p>
+you wish to run Errbot on. A lot of plugins use multi user chatrooms (MUC) as well, so
+it is recommended (but not required) to have a least one MUC for Errbot to use as well.</p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
@@ -117,7 +117,7 @@ In these cases, it is generally recommended to use your distribution's package i
 of installing from PyPi.</p>
 <div class="section" id="extra-dependencies">
 <h3>Extra dependencies<a class="headerlink" href="#extra-dependencies" title="Permalink to this headline">¶</a></h3>
-<p>requirements.txt lists only the bare minimum list of dependencies needed to run Err.
+<p>requirements.txt lists only the bare minimum list of dependencies needed to run Errbot.
 Depending on the backend you choose, additional requirements need to be installed.</p>
 <p>For the XMPP based backends you must also install:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">sleekxmpp</span>
@@ -156,7 +156,7 @@ connect to your favorite chat server.</p>
 </div>
 <div class="section" id="starting-the-daemon">
 <h2>Starting the daemon<a class="headerlink" href="#starting-the-daemon" title="Permalink to this headline">¶</a></h2>
-<p>The first time you start Err, it is recommended to run it in foreground mode. This can
+<p>The first time you start Errbot, it is recommended to run it in foreground mode. This can
 be done with:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">errbot</span>
 </pre></div>
@@ -176,7 +176,7 @@ is outside the scope of this document however.</p>
 <div class="section" id="hacking-on-errbot-s-code-directly">
 <h2>Hacking on Errbot's code directly<a class="headerlink" href="#hacking-on-errbot-s-code-directly" title="Permalink to this headline">¶</a></h2>
 <p>Errbot is written for Python 3. In order to run under Python 2.7 the code is run through
-3to2 at install time. This means that while it is possible to run Err under Python 3.3+
+3to2 at install time. This means that while it is possible to run Errbot under Python 3.3+
 directly from a source checkout, it is not possible to do so with Python 2.7.
 If you wish to develop or test with Errbot's code under 2.7, you must run:</p>
 <div class="highlight-python"><div class="highlight"><pre>python setup.py install

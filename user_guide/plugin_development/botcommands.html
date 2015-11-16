@@ -118,7 +118,7 @@ fit.</p>
 </div>
 <div class="section" id="subcommands">
 <h2>4.2. Subcommands<a class="headerlink" href="#subcommands" title="Permalink to this headline">¶</a></h2>
-<p>If you put an _ in the name of the function, Err will create what
+<p>If you put an _ in the name of the function, Errbot will create what
 looks like a subcommand for you. This is useful to group commands
 that belong to each other together.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="nd">@botcmd</span>
@@ -162,7 +162,7 @@ a command's arguments in <a class="reference external" href="https://docs.python
 <div class="section" id="commands-using-regular-expressions">
 <h2>4.4. Commands using regular expressions<a class="headerlink" href="#commands-using-regular-expressions" title="Permalink to this headline">¶</a></h2>
 <p>In addition to the fixed commands created with the <code class="xref py py-func docutils literal"><span class="pre">botcmd()</span></code>
-decorator, Err supports an alternative type of bot function which can be triggered
+decorator, Errbot supports an alternative type of bot function which can be triggered
 based on a regular expression. These are created using the
 <code class="xref py py-func docutils literal"><span class="pre">re_botcmd()</span></code> decorator. There are two forms these can be
 used, with and without the usual bot prefix.</p>
@@ -223,7 +223,7 @@ keywords that could show up anywhere in a conversation:</p>
 
     <span class="nd">@re_botcmd</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s">r&quot;(^| )cookies?( |$)&quot;</span><span class="p">,</span> <span class="n">prefixed</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">listen_for_talk_of_cookies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">match</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Talk of cookies gives Err a craving...&quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot;Talk of cookies gives Errbot a craving...&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s">&quot;Somebody mentioned cookies? Om nom nom!&quot;</span>
 </pre></div>
 </div>

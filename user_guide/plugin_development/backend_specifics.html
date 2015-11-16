@@ -96,9 +96,12 @@
             
   <div class="section" id="backend-specifics">
 <h1>13. Backend-specifics<a class="headerlink" href="#backend-specifics" title="Permalink to this headline">¶</a></h1>
-<p>Err uses external libraries for most backends, which may offer additional functionality not exposed by Err in a generic, backend-agnostic fashion.
-It is possible to access the underlying client used by the backend you are using in order to provide functionality that isn't otherwise available.
-Additionally, interacting directly with the bot internals gives you the freedom to control Err in highly specific ways that may not be officially supported.</p>
+<p>Errbot uses external libraries for most backends, which may offer additional
+functionality not exposed by Errbot in a generic, backend-agnostic fashion.</p>
+<p>It is possible to access the underlying client used by the backend you are
+using in order to provide functionality that isn't otherwise available.
+Additionally, interacting directly with the bot internals gives you the freedom
+to control Errbot in highly specific ways that may not be officially supported.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">The following instructions describe how to interface directly with the underlying bot object and clients of backends.
@@ -156,7 +159,8 @@ The following table lists all the values for <cite>mode</cite> for the official 
 <div class="section" id="getting-to-the-underlying-client-library">
 <h2>13.2. Getting to the underlying client library<a class="headerlink" href="#getting-to-the-underlying-client-library" title="Permalink to this headline">¶</a></h2>
 <p>Most of the backends use a third-party library in order to connect to their respective network.
-These libraries often support additional features which Err doesn't expose in a generic way so you may wish to make use of these in order to access advanced functionality.</p>
+These libraries often support additional features which Errbot doesn't expose in a generic
+way so you may wish to make use of these in order to access advanced functionality.</p>
 <p>Backends set their own attribute(s) to point to the underlying libraries' client instance(s).
 The following table lists these attributes for the official backends, along with the library used by the backend:</p>
 <table border="1" class="docutils">

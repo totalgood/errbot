@@ -96,8 +96,11 @@
             
   <div class="section" id="testing-your-plugins">
 <h1>11. Testing your plugins<a class="headerlink" href="#testing-your-plugins" title="Permalink to this headline">¶</a></h1>
-<p>Just as Err has tests that validates that it behaves correctly so should your plugin. Err is tested using Python's <a class="reference external" href="http://pytest.org">py.test</a> module and because we already provide some utilities for that we highly advise you to use <cite>py.test</cite> too.</p>
-<p>We're going to write a simple plugin named <cite>myplugin.py</cite> with a <cite>MyPlugin</cite> class. It's tests will be stored in <cite>test_myplugin.py</cite> in the same directory.</p>
+<p>Just as Errbot has tests that validates that it behaves correctly so should your plugin.
+Errbot is tested using Python's <a class="reference external" href="http://pytest.org">py.test</a> module and because we already provide some
+utilities for that we highly advise you to use <cite>py.test</cite> too.</p>
+<p>We're going to write a simple plugin named <cite>myplugin.py</cite> with a <cite>MyPlugin</cite> class.
+It's tests will be stored in <cite>test_myplugin.py</cite> in the same directory.</p>
 <div class="section" id="interacting-with-the-bot">
 <h2>11.1. Interacting with the bot<a class="headerlink" href="#interacting-with-the-bot" title="Permalink to this headline">¶</a></h2>
 <p>Lets go for an example, <em>myplugin.py</em>:</p>
@@ -118,7 +121,9 @@
 <span class="na">Description</span> <span class="o">=</span> <span class="s">my plugin</span>
 </pre></div>
 </div>
-<p>This does absolutely nothing shocking, but how do you test it? We need to interact with the bot somehow, send it <cite>!mycommand</cite> and validate the reply. Fortunatly Err provides some help.</p>
+<p>This does absolutely nothing shocking, but how do you test it?
+We need to interact with the bot somehow, send it <cite>!mycommand</cite> and validate the reply.
+Fortunatly Errbot provides some help.</p>
 <p>Our test, <em>test_myplugin.py</em>:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">errbot.backends.test</span> <span class="kn">import</span> <span class="n">testbot</span>
@@ -293,7 +298,7 @@ myplugin      49      0   100%
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">3.3</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">3.4</span>
 <span class="l-Scalar-Plain">install</span><span class="p-Indicator">:</span>
-  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">pip install -q err pytest pytest-pep8 --use-wheel</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">pip install -q errbot pytest pytest-pep8 --use-wheel</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">pip install -q coverage coveralls --use-wheel</span>
 <span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">coverage run --source myplugin -m py.test --pep8</span>

@@ -106,20 +106,20 @@ facilitate the development process.</p>
 allows updating of them through the <cite>!repos update</cite> command.</p>
 <p>During development however, it would be easier if you could load
 your plugin(s) directly, without having to commit them to a Git
-repository and instructing Err to pull them down.</p>
+repository and instructing Errbot to pull them down.</p>
 <p>This can be achieved through the <cite>BOT_EXTRA_PLUGIN_DIR</cite> setting in
 the <cite>config.py</cite> configuration file. If you set a path here pointing
-to a directory on your local machine, Err will (recursively) scan
+to a directory on your local machine, Errbot will (recursively) scan
 that directory for plugins and attempt to load any it may find.</p>
 </div>
 <div class="section" id="local-test-mode">
 <h2>2.2. Local test mode<a class="headerlink" href="#local-test-mode" title="Permalink to this headline">¶</a></h2>
-<p>You can run Err in a local single-user mode that does not require
+<p>You can run Errbot in a local single-user mode that does not require
 any server connection by passing in the <code class="xref std std-option docutils literal"><span class="pre">--text</span></code> (or
 <code class="xref std std-option docutils literal"><span class="pre">-T</span></code>) option flag when starting the bot.</p>
 <p>In this mode, a very minimal back-end is used which you can interact
 with directly on the command-line. It looks like this:</p>
-<div class="highlight-python"><div class="highlight"><pre>$ err.py --text
+<div class="highlight-python"><div class="highlight"><pre>$ errbot -T
 [...]
 INFO:Plugin activation done.
 Talk to  me &gt;&gt; _
