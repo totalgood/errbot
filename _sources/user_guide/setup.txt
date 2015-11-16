@@ -70,7 +70,7 @@ Option 3: Or you can download this same template from curl too::
 
 
 Read the documentation within this file and edit the values as needed so the bot can
-connect to your chosen chat server.
+connect to your favorite chat server.
 
 Starting the daemon
 -------------------
