@@ -1,6 +1,8 @@
+import importlib
 import logging
 import sys
 import unittest
+import textwrap
 from os.path import sep, abspath
 from queue import Queue
 from tempfile import mkdtemp
@@ -9,14 +11,12 @@ from threading import Thread
 import pytest
 
 from errbot.rendering import text
-from errbot.backends.base import Message, MUCRoom, Identifier, MUCIdentifier, ONLINE
+from errbot.backends.base import Message, Room, Person, RoomOccupant, ONLINE
 from errbot.core_plugins.wsview import reset_app
-from errbot.errBot import ErrBot
-from errbot.main import setup_bot
+from errbot.core import ErrBot
+from errbot.bootstrap import setup_bot
 
-
-# Can't use __name__ because of Yapsy
-log = logging.getLogger('errbot.backends.test')
+log = logging.getLogger(__name__)
 
 QUIT_MESSAGE = '$STOP$'
 
@@ -25,7 +25,7 @@ STZ_PRE = 2
 STZ_IQ = 3
 
 
-class TestIdentifier(Identifier):
+class TestPerson(Person):
     """
     This is an identifier just represented as a string.
     DO NOT USE THIS DIRECTLY AS IT IS NOT COMPATIBLE WITH MOST BACKENDS,
@@ -38,6 +38,7 @@ class TestIdentifier(Identifier):
     from object instead and make sure it includes all properties and
     methods exposed by this class.
     """
+
     def __init__(self, person, client=None, nick=None, fullname=None):
         self._person = person
         self._client = client
@@ -51,7 +52,8 @@ class TestIdentifier(Identifier):
 
     @property
     def client(self):
-        """This needs to return the part of the identifier pointing to a client from which a person is sending a message from.
+        """This needs to return the part of the identifier pointing to a client
+        from which a person is sending a message from.
         Returns None is unspecified"""
         return self._client
 
@@ -71,19 +73,23 @@ class TestIdentifier(Identifier):
 
     def __unicode__(self):
         if self.client:
-            return self._person + "/" + self._client
-        return self._person
+            return f'{self._person}/{self._client}'
+        return f'{self._person}'
+
     __str__ = __unicode__
 
     def __eq__(self, other):
+        if not isinstance(other, Person):
+            return False
         return self.person == other.person
 
 
 # noinspection PyAbstractClass
-class TestMUCOccupant(TestIdentifier, MUCIdentifier):
+class TestOccupant(TestPerson, RoomOccupant):
     """ This is a MUC occupant represented as a string.
         DO NOT USE THIS DIRECTLY AS IT IS NOT COMPATIBLE WITH MOST BACKENDS,
     """
+
     def __init__(self, person, room):
         super().__init__(person)
         self._room = room
@@ -93,7 +99,7 @@ class TestMUCOccupant(TestIdentifier, MUCIdentifier):
         return self._room
 
     def __unicode__(self):
-        return self._person + '@' + self._room
+        return self._person + '@' + str(self._room)
 
     __str__ = __unicode__
 
@@ -101,7 +107,7 @@ class TestMUCOccupant(TestIdentifier, MUCIdentifier):
         return self.person == other.person and self.room == other.room
 
 
-class TestMUCRoom(MUCRoom):
+class TestRoom(Room):
     def invite(self, *args):
         pass
 
@@ -117,7 +123,7 @@ class TestMUCRoom(MUCRoom):
         self._topic = topic
         self._bot = bot
         self._name = name
-        self._bot_mucid = TestMUCOccupant(self._bot.bot_config.BOT_IDENTITY['username'], self._name)
+        self._bot_mucid = TestOccupant(self._bot.bot_config.BOT_IDENTITY['username'], self._name)
 
     @property
     def occupants(self):
@@ -139,26 +145,26 @@ class TestMUCRoom(MUCRoom):
 
     def join(self, username=None, password=None):
         if self.joined:
-            logging.warning("Attempted to join room '{!s}', but already in this room".format(self))
+            logging.warning('Attempted to join room %s, but already in this room.', self)
             return
 
         if not self.exists:
-            log.debug("Room {!s} doesn't exist yet, creating it".format(self))
+            log.debug("Room %s doesn't exist yet, creating it.", self)
             self.create()
 
         room = self.find_croom()
         room._occupants.append(self._bot_mucid)
-        log.info("Joined room {!s}".format(self))
+        log.info('Joined room %s.', self)
         self._bot.callback_room_joined(room)
 
     def leave(self, reason=None):
         if not self.joined:
-            logging.warning("Attempted to leave room '{!s}', but not in this room".format(self))
+            logging.warning('Attempted to leave room %s, but not in this room.', self)
             return
 
         room = self.find_croom()
         room._occupants.remove(self._bot_mucid)
-        log.info("Left room {!s}".format(self))
+        log.info('Left room %s.', self)
         self._bot.callback_room_left(room)
 
     @property
@@ -167,19 +173,19 @@ class TestMUCRoom(MUCRoom):
 
     def create(self):
         if self.exists:
-            logging.warning("Room {!s} already created".format(self))
+            logging.warning('Room %s already created.', self)
             return
 
         self._bot._rooms.append(self)
-        log.info("Created room {!s}".format(self))
+        log.info('Created room %s.', self)
 
     def destroy(self):
         if not self.exists:
-            logging.warning("Cannot destroy room {!s}, it doesn't exist".format(self))
+            logging.warning("Cannot destroy room %s, it doesn't exist.", self)
             return
 
         self._bot._rooms.remove(self)
-        log.info("Destroyed room {!s}".format(self))
+        log.info('Destroyed room %s.', self)
 
     @property
     def topic(self):
@@ -190,7 +196,7 @@ class TestMUCRoom(MUCRoom):
         self._topic = topic
         room = self.find_croom()
         room._topic = self._topic
-        log.info("Topic for room {!s} set to '{}'".format(self, topic))
+        log.info('Topic for room %s set to %s.', self, topic)
         self._bot.callback_room_topic(self)
 
     def __unicode__(self):
@@ -220,9 +226,14 @@ class TestBackend(ErrBot):
         self.reset_rooms()
         self.md = text()
 
-    def send_message(self, mess):
-        super(TestBackend, self).send_message(mess)
-        self.outgoing_message_queue.put(self.md.convert(mess.body))
+    def send_message(self, msg):
+        log.info("\n\n\nMESSAGE:\n%s\n\n\n", msg.body)
+        super().send_message(msg)
+        self.outgoing_message_queue.put(self.md.convert(msg.body))
+
+    def send_stream_request(self, user, fsource, name, size, stream_type):
+        # Just dump the stream contents to the message queue
+        self.outgoing_message_queue.put(fsource.read())
 
     def serve_forever(self):
         self.connect_callback()  # notify that the connection occured
@@ -238,7 +249,14 @@ class TestBackend(ErrBot):
                     msg = Message(entry)
                     msg.frm = self.sender
                     msg.to = self.bot_identifier  # To me only
+
                     self.callback_message(msg)
+
+                    # implements the mentions.
+                    mentioned = [self.build_identifier(word[1:]) for word in entry.split() if word.startswith('@')]
+                    if mentioned:
+                        self.callback_mention(msg, mentioned)
+
                 elif stanza_type is STZ_PRE:
                     log.info("Presence stanza received.")
                     self.callback_presence(entry)
@@ -261,12 +279,12 @@ class TestBackend(ErrBot):
         return
 
     def build_identifier(self, text_representation):
-        return TestIdentifier(text_representation)
+        return TestPerson(text_representation)
 
-    def build_reply(self, mess, text=None, private=False):
+    def build_reply(self, msg, text=None, private=False, threaded=False):
         msg = self.build_message(text)
         msg.frm = self.bot_identifier
-        msg.to = mess.frm
+        msg.to = msg.frm
         return msg
 
     @property
@@ -280,11 +298,12 @@ class TestBackend(ErrBot):
         try:
             return [r for r in self._rooms if str(r) == str(room)][0]
         except IndexError:
-            r = TestMUCRoom(room, bot=self)
+            r = TestRoom(room, bot=self)
             return r
 
     def prefix_groupchat_reply(self, message, identifier):
-        message.body = '{0} {1}'.format(identifier.nick, message.body)
+        super().prefix_groupchat_reply(message, identifier)
+        message.body = f'@{identifier.nick} {message.body}'
 
     def pop_message(self, timeout=5, block=True):
         return self.outgoing_message_queue.get(timeout=timeout, block=block)
@@ -300,15 +319,19 @@ class TestBackend(ErrBot):
     def zap_queues(self):
         while not self.incoming_stanza_queue.empty():
             msg = self.incoming_stanza_queue.get(block=False)
-            log.error('Message left in the incoming queue during a test : %s' % msg)
+            log.error('Message left in the incoming queue during a test: %s.', msg)
 
         while not self.outgoing_message_queue.empty():
             msg = self.outgoing_message_queue.get(block=False)
-            log.error('Message left in the outgoing queue during a test : %s' % msg)
+            log.error('Message left in the outgoing queue during a test: %s.', msg)
 
     def reset_rooms(self):
         """Reset/clear all rooms"""
         self._rooms = []
+
+
+class ShallowConfig(object):
+    pass
 
 
 class TestBot(object):
@@ -325,18 +348,30 @@ class TestBot(object):
     """
     bot_thread = None
 
-    def __init__(self, extra_plugin_dir=None, loglevel=logging.DEBUG):
+    def __init__(self, extra_plugin_dir=None, loglevel=logging.DEBUG, extra_config=None):
+        self.setup(extra_plugin_dir=extra_plugin_dir, loglevel=loglevel, extra_config=extra_config)
+
+    def setup(self, extra_plugin_dir=None, loglevel=logging.DEBUG, extra_config=None):
         """
+        :param extra_config: Piece of extra configuration you want to inject to the config.
         :param extra_plugin_dir: Path to a directory from which additional
             plugins should be loaded.
         :param loglevel: Logging verbosity. Expects one of the constants
             defined by the logging module.
         """
-        __import__('errbot.config-template')
-        config = sys.modules['errbot.config-template']
         tempdir = mkdtemp()
+
+        # This is for test isolation.
+        config = ShallowConfig()
+        config.__dict__.update(importlib.import_module('errbot.config-template').__dict__)
         config.BOT_DATA_DIR = tempdir
         config.BOT_LOG_FILE = tempdir + sep + 'log.txt'
+        config.STORAGE = 'Memory'
+
+        if extra_config is not None:
+            log.debug('Merging %s to the bot config.', repr(extra_config))
+            for k, v in extra_config.items():
+                setattr(config, k, v)
 
         # reset logging to console
         logging.basicConfig(format='%(levelname)s:%(message)s')
@@ -358,7 +393,7 @@ class TestBot(object):
         """
         if self.bot_thread is not None:
             raise Exception("Bot has already been started")
-        self.bot = setup_bot('Test', self.logger, self.bot_config)
+        self._bot = setup_bot('Test', self.logger, self.bot_config)
         self.bot_thread = Thread(target=self.bot.serve_forever, name='TestBot main thread')
         self.bot_thread.setDaemon(True)
         self.bot_thread.start()
@@ -366,7 +401,16 @@ class TestBot(object):
         self.bot.push_message("!echo ready")
 
         # Ensure bot is fully started and plugins are loaded before returning
-        assert self.bot.pop_message(timeout=60) == "ready"
+        for i in range(60):
+            #  Gobble initial error messages...
+            if self.bot.pop_message(timeout=1) == "ready":
+                break
+        else:
+            raise AssertionError('The "ready" message has not been received (timeout).')
+
+    @property
+    def bot(self) -> ErrBot:
+        return self._bot
 
     def stop(self):
         """
@@ -396,18 +440,48 @@ class TestBot(object):
         """
         return self.bot.push_presence(presence)
 
+    def exec_command(self, command, timeout=5):
+        """ Execute a command and return the first response.
+        This makes more py.test'ist like:
+        assert 'blah' in exec_command('!hello')
+        """
+        self.bot.push_message(command)
+        return self.bot.pop_message(timeout)
+
     def zap_queues(self):
         return self.bot.zap_queues()
 
-    def assertCommand(self, command, response, timeout=5):
+    def assertCommand(self, command, response, timeout=5, dedent=False):
         """Assert the given command returns the given response"""
+        if dedent:
+            command = '\n'.join(textwrap.dedent(command).splitlines()[1:])
         self.bot.push_message(command)
-        assert response in self.bot.pop_message(timeout)
+        msg = self.bot.pop_message(timeout)
+        assert response in msg, f'{response} not in {msg}.'
 
     def assertCommandFound(self, command, timeout=5):
-        """Assert the given command does not exist"""
+        """Assert the given command exists"""
         self.bot.push_message(command)
         assert 'not found' not in self.bot.pop_message(timeout)
+
+    def inject_mocks(self, plugin_name: str, mock_dict: dict):
+        """Inject mock objects into the plugin
+
+        mock_dict = {
+            'field_1': obj_1,
+            'field_2': obj_2,
+        }
+        testbot.inject_mocks(HelloWorld, mock_dict)
+        assert 'blah' in testbot.exec_command('!hello')
+        """
+        plugin = self.bot.plugin_manager.get_plugin_obj_by_name(plugin_name)
+
+        if plugin is None:
+            raise Exception(f'"{plugin_name}" is not loaded.')
+        for field, mock_obj in mock_dict.items():
+            if not hasattr(plugin, field):
+                raise ValueError(f'No property/attribute named "{field}" attached.')
+            setattr(plugin, field, mock_obj)
 
 
 class FullStackTest(unittest.TestCase, TestBot):
@@ -426,7 +500,7 @@ class FullStackTest(unittest.TestCase, TestBot):
                 self.assertIn('Err version', self.pop_message())
     """
 
-    def setUp(self, extra_plugin_dir=None, extra_test_file=None, loglevel=logging.DEBUG):
+    def setUp(self, extra_plugin_dir=None, extra_test_file=None, loglevel=logging.DEBUG, extra_config=None):
         """
         :param extra_plugin_dir: Path to a directory from which additional
             plugins should be loaded.
@@ -435,11 +509,12 @@ class FullStackTest(unittest.TestCase, TestBot):
             Path to an additional plugin which should be loaded.
         :param loglevel: Logging verbosity. Expects one of the constants
             defined by the logging module.
+        :param extra_config: Piece of extra bot config in a dict.
         """
         if extra_plugin_dir is None and extra_test_file is not None:
             extra_plugin_dir = sep.join(abspath(extra_test_file).split(sep)[:-2])
 
-        TestBot.__init__(self, extra_plugin_dir=extra_plugin_dir, loglevel=loglevel)
+        self.setup(extra_plugin_dir=extra_plugin_dir, loglevel=loglevel, extra_config=extra_config)
         self.start()
 
     def tearDown(self):
@@ -447,14 +522,12 @@ class FullStackTest(unittest.TestCase, TestBot):
 
 
 @pytest.fixture
-def testbot(request):
+def testbot(request) -> TestBot:
     """
     Pytest fixture to write tests against a fully functioning bot.
 
     For example, if you wanted to test the builtin `!about` command,
     you could write a test file with the following::
-
-        from errbot.backends.test import testbot
 
         def test_about(testbot):
             testbot.push_message('!about')
@@ -464,17 +537,13 @@ def testbot(request):
     by setting variables at module level or as class attributes (the
     latter taking precedence over the former). For example::
 
-        from errbot.backends.test import testbot
-
         extra_plugin_dir = '/foo/bar'
 
         def test_about(testbot):
-            testbot.pushMessage('!about')
+            testbot.push_message('!about')
             assert "Err version" in testbot.pop_message()
 
     ..or::
-
-        from errbot.backends.test import testbot
 
         extra_plugin_dir = '/foo/bar'
 
@@ -499,9 +568,7 @@ def testbot(request):
 
     #  setup the logging to something digestable.
     logger = logging.getLogger('')
-    logging.getLogger('yapsy').setLevel(logging.ERROR)  # this one is way too verbose in debug
     logging.getLogger('MARKDOWN').setLevel(logging.ERROR)  # this one is way too verbose in debug
-    logging.getLogger('Rocket.Errors').setLevel(logging.ERROR)  # this one is way too verbose in debug
     logger.setLevel(logging.DEBUG)
     console_hdlr = logging.StreamHandler(sys.stdout)
     console_hdlr.setFormatter(logging.Formatter("%(levelname)-8s %(name)-25s %(message)s"))
@@ -510,11 +577,11 @@ def testbot(request):
 
     kwargs = {}
 
-    for attr, default in (('extra_plugin_dir', None), ('loglevel', logging.DEBUG),):
-            if hasattr(request, 'instance'):
-                kwargs[attr] = getattr(request.instance, attr, None)
-            if kwargs[attr] is None:
-                kwargs[attr] = getattr(request.module, attr, default)
+    for attr, default in (('extra_plugin_dir', None), ('extra_config', None), ('loglevel', logging.DEBUG),):
+        if hasattr(request, 'instance'):
+            kwargs[attr] = getattr(request.instance, attr, None)
+        if kwargs[attr] is None:
+            kwargs[attr] = getattr(request.module, attr, default)
 
     bot = TestBot(**kwargs)
     bot.start()

@@ -1,8 +1,8 @@
-Multiple server back-ends
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Multiple server backends
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-Errbot has support for a number of different networks, and is architectured in a way
-that makes it relatively easy to write new back-ends in order to support more.
+Errbot has support for a number of different networks and is architectured in a way
+that makes it easy to write new backends in order to support more.
 Currently, the following networks are supported:
 
   * XMPP *(Any standards-compliant XMPP/Jabber server should work - Google Talk/Hangouts included)*
@@ -10,9 +10,18 @@ Currently, the following networks are supported:
   * IRC
   * Slack_
   * Telegram_
-  * Tox_ (maintained `separately <https://github.com/errbotio/err-backend-tox>`__)
-  * Gitter_ (maintained `separately <https://github.com/errbotio/err-backend-gitter>`__)
+  * `Bot Framework`_ (maintained `separately <https://github.com/vasilcovsky/errbot-backend-botframework>`__)
   * CampFire_ (maintained `separately <https://github.com/errbotio/err-backend-campfire>`__)
+  * `Cisco Webex Teams`_ (maintained `separately <https://github.com/marksull/err-backend-cisco-webex-teams>`__)
+  * Discord_ (maintained `separately <https://github.com/gbin/err-backend-discord>`__)
+  * Gitter_ (maintained `separately <https://github.com/errbotio/err-backend-gitter>`__)
+  * Matrix_ (maintained `separately <https://github.com/SShrike/err-backend-matrix>`__)
+  * Mattermost_ (maintained `separately <https://github.com/Vaelor/errbot-mattermost-backend>`__)
+  * Skype_ (maintained `separately <https://github.com/errbotio/errbot-backend-skype>`__)
+  * Tox_ (maintained `separately <https://github.com/errbotio/err-backend-tox>`__)
+  * VK_ (maintained `separately <https://github.com/Ax3Effect/errbot-vk>`__)
+  * Zulip_ (maintained `separately <https://github.com/zulip/errbot-backend-zulip>`__)
+
 
 Core features
 ^^^^^^^^^^^^^
@@ -24,16 +33,18 @@ Core features
 * A per-user command history system where users can recall previous commands
 * The ability to proxy and route one-to-one messages to MUC so it can enable simpler XMPP notifiers to be MUC compatible (for example the Jira XMPP notifier)
 
+
 Built-in administration and security
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * Can be setup so a restricted list of people have administrative rights
-* Fine-grained access controls may be defined which allow all or just specific commands to be limited to specific users and/or rooms
+* Fine-grained :ref:`access controls <access_controls>` may be defined which allow all or just specific commands to be limited to specific users and/or rooms
 * Plugins may be hosted publicly or privately and dynamically installed (by admins) via their Git url
 * Plugins can be configured directly from chat (no need to change setup files for every plugin)
 * Configs can be exported and imported again with two commands (!export and !import respectively)
 * Technical logs can be logged to file, inspected from the chat or optionally
   :doc:`logged to Sentry <user_guide/sentry>`
+
 
 Extensive plugin framework
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -50,19 +61,23 @@ Extensive plugin framework
 * A test backend for unittests for plugins which can make assertions about issued commands and their responses
 * And a templating framework to display fancy HTML messages. Automatic conversion from HTML to plaintext when the backend doesn't support HTML means you don't have to make separate text and HTML versions of your command output yourself
 
-
-.. _Hipchat: https://www.hipchat.com/
+.. _Bot Framework: https://botframework.com/
 .. _Campfire: https://campfirenow.com/
-.. _jabberbot: http://thp.io/2007/python-jabberbot/
-.. _Slack: http://slack.com/
-.. _Tox: https://tox.im/
-.. _Telegram: https://telegram.org/
+.. _Cisco Spark: https://www.ciscospark.com/
+.. _Discord: https://www.discordapp.com/
 .. _Gitter: http://gitter.im/
-.. _yapsy: http://yapsy.sourceforge.net/
-.. _jinja2: http://jinja.pocoo.org/
-.. _bottle: http://bottlepy.org/
-.. _rocket: https://pypi.python.org/pypi/rocket
-.. _sleekxmpp: http://sleekxmpp.com/
-.. _irc: https://pypi.python.org/pypi/irc/
-.. _six: https://pypi.python.org/pypi/six/
+.. _Hipchat: https://www.hipchat.com/
+.. _Matrix: https://matrix.org/
+.. _Mattermost: https://about.mattermost.com/
+.. _Skype: http://www.skype.com/en/
+.. _Slack: http://slack.com/
+.. _Telegram: https://telegram.org/
+.. _Tox: https://tox.im/
+.. _VK: https://vk.com/
+.. _Zulip: https://zulipchat.com/
 .. _`logged to Sentry`: https://github.com/errbotio/errbot/wiki/Logging-with-Sentry
+.. _irc: https://pypi.python.org/pypi/irc/
+.. _jabberbot: http://thp.io/2007/python-jabberbot/
+.. _jinja2: http://jinja.pocoo.org/
+.. _six: https://pypi.python.org/pypi/six/
+.. _sleekxmpp: http://sleekxmpp.com/

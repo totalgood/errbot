@@ -1,7 +1,7 @@
 Errbot
 ======
 
-*Errbot is a chatbot, a daemon that connects to your favorite chat service and bring
+*Errbot is a chatbot, a daemon that connects to your favorite chat service and brings
 your tools into the conversation.*
 
 The goal of the project is to make it easy for you to write your own plugins so you 
@@ -98,19 +98,12 @@ User guide
   :maxdepth: 2
 
   user_guide/setup
-  user_guide/interaction
+  user_guide/administration
   user_guide/plugin_development/index
-  user_guide/sentry
+  user_guide/flow_development/index
   user_guide/backend_development/index
-
-
-API documentation
------------------
-
-.. toctree::
-  :maxdepth: 3
-
-  errbot
+  user_guide/storage_development/index
+  user_guide/sentry
 
 
 Getting involved
@@ -120,6 +113,15 @@ Getting involved
   :maxdepth: 3
 
   contributing
+
+
+API documentation
+-----------------
+
+.. toctree::
+  :maxdepth: 3
+
+  errbot
 
 
 Release history

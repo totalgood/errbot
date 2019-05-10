@@ -1,5 +1,5 @@
 Normal Markdown:
-image: ![Err is talking](http://errbot.io/_static/err_speech.png)
+image: ![Err is talking](http://errbot.io/_static/errbot.png)
 
 link: This is [a link](http://www.errbot.io).
 
@@ -32,23 +32,45 @@ Paragraph in h6
 
 Markdown extra (colors):
 Red paragraph
-{color='red'}
+{:color='red'}
 
-Inline `blue text`{color='blue'}
-Inline `green text`{color='green'}
+Inline `blue text`{:color='blue'}
+Inline `green text`{:color='green'}
 
-Inline *emphasis blue text*{color='blue'}
+Inline *emphasis blue text*{:color='blue'}
 
-Inline `yellow on cyan`{color='yellow' bgcolor='cyan'}
+Inline `yellow on cyan`{:color='yellow' bgcolor='cyan'}
 
 Markdown extra (table):
 
+First Header   | Second Header
+-------------- | -------------
+Content Cell   | **bold**
+Normal Content | Normal content too
+Normal Content | Normal content too
+Normal Content | Normal content too
+Content Cell   | _italic_
+
+Markdown extra (table multiline):
+
 First Header  | Second Header
 ------------- | -------------
-Content Cell  | **Content Cell**
-Content Cell  | _Content Cell_
+Content Cell  | l1<br/>l2
+l3<br/>l5     | l4
 
 Special characters:
 Copyright: &copy;
 Natural amp: &
 Less : <
+
+Markdown extra (code) with brackets:
+
+```json
+{
+"employees":[
+    {"firstName":"John", "lastName":"Doe"}, 
+    {"firstName":"Anna", "lastName":"Smith"}, 
+    {"firstName":"Peter","lastName":"Jones"}
+]
+}
+```

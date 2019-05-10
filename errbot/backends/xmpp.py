@@ -1,37 +1,33 @@
 import logging
 import sys
-import warnings
+from functools import lru_cache
+
 from threading import Thread
 from time import sleep
 
-from errbot.backends.base import Message, MUCRoom, Presence, RoomNotJoinedError, Identifier, MUCIdentifier
+from errbot.backends.base import Message, Room, Presence, RoomNotJoinedError, Identifier, RoomOccupant, Person
 from errbot.backends.base import ONLINE, OFFLINE, AWAY, DND
-from errbot.errBot import ErrBot
-from errbot.rendering import text, xhtml
-from errbot.utils import deprecated
+from errbot.core import ErrBot
+from errbot.rendering import text, xhtml, xhtmlim
 
-
-# Can't use __name__ because of Yapsy
-log = logging.getLogger('errbot.backends.xmpp')
+log = logging.getLogger(__name__)
 
 try:
     from sleekxmpp import ClientXMPP
     from sleekxmpp.xmlstream import resolver, cert
-except ImportError as _:
+    from sleekxmpp import JID
+    from sleekxmpp.exceptions import IqError
+
+except ImportError:
     log.exception("Could not start the XMPP backend")
     log.fatal("""
-    If you intend to use the XMPP backend please install the python sleekxmpp package:
-    -> On debian-like systems
-    sudo apt-get install python-software-properties
-    sudo apt-get update
-    sudo apt-get install python-sleekxmpp
-    -> On Gentoo
-    sudo layman -a laurentb
-    sudo emerge -av dev-python/sleekxmpp
-    -> Generic
-    pip install sleekxmpp
+    If you intend to use the XMPP backend please install the support for XMPP with:
+    pip install errbot[XMPP]
     """)
     sys.exit(-1)
+
+# LRU to cache the JID queries.
+IDENTIFIERS_LRU = 1024
 
 
 class XMPPIdentifier(Identifier):
@@ -77,8 +73,6 @@ class XMPPIdentifier(Identifier):
     def client(self):
         return self._resource
 
-    aclattr = person
-
     def __str__(self):
         answer = self._node + '@' + self._domain  # don't call .person: see below
         if self._resource:
@@ -88,15 +82,29 @@ class XMPPIdentifier(Identifier):
     def __unicode__(self):
         return str(self.__str__())
 
+    def __eq__(self, other):
+        if not isinstance(other, XMPPIdentifier):
+            log.debug("Weird, you are comparing an XMPPIdentifier to a %s", type(other))
+            return False
+        return self._domain == other._domain and self._node == other._node and self._resource == other._resource
 
-class XMPPMUCRoom(MUCRoom):
-    def __init__(self, name, bot):
+
+class XMPPPerson(XMPPIdentifier, Person):
+    aclattr = XMPPIdentifier.person
+
+    def __eq__(self, other):
+        if not isinstance(other, XMPPPerson):
+            log.debug("Weird, you are comparing an XMPPPerson to a %s", type(other))
+            return False
+        return self._domain == other._domain and self._node == other._node
+
+
+class XMPPRoom(XMPPIdentifier, Room):
+    def __init__(self, room_jid, bot):
         self._bot = bot
-        self._name = name
         self.xep0045 = self._bot.conn.client.plugin['xep_0045']
-
-    def __str__(self):
-        return "%s" % self._name
+        node, domain, resource = split_identifier(room_jid)
+        super().__init__(node, domain, resource)
 
     def join(self, username=None, password=None):
         """
@@ -107,14 +115,8 @@ class XMPPMUCRoom(MUCRoom):
         """
         room = str(self)
         self.xep0045.joinMUC(room, username, password=password, wait=True)
-        self._bot.conn.add_event_handler(
-            "muc::{}::got_online".format(room),
-            self._bot.user_joined_chat
-        )
-        self._bot.conn.add_event_handler(
-            "muc::{}::got_offline".format(room),
-            self._bot.user_left_chat
-        )
+        self._bot.conn.add_event_handler(f'muc::{room}::got_online', self._bot.user_joined_chat)
+        self._bot.conn.add_event_handler(f'muc::{room}::got_offline', self._bot.user_left_chat)
         # Room configuration can only be done once a MUC presence stanza
         # has been received from the server. This HAS to take place in a
         # separate thread because of how SleekXMPP processes these stanzas.
@@ -122,7 +124,7 @@ class XMPPMUCRoom(MUCRoom):
         t.setDaemon(True)
         t.start()
         self._bot.callback_room_joined(self)
-        log.info("Joined room {}".format(room))
+        log.info('Joined room %s.', room)
 
     def leave(self, reason=None):
         """
@@ -137,18 +139,12 @@ class XMPPMUCRoom(MUCRoom):
         try:
             self.xep0045.leaveMUC(room=room, nick=self.xep0045.ourNicks[room], msg=reason)
 
-            self._bot.conn.del_event_handler(
-                "muc::{}::got_online".format(room),
-                self._bot.user_joined_chat
-            )
-            self._bot.conn.del_event_handler(
-                "muc::{}::got_offline".format(room),
-                self._bot.user_left_chat
-            )
-            log.info("Left room {}".format(room))
+            self._bot.conn.del_event_handler(f'muc::{room}::got_online', self._bot.user_joined_chat)
+            self._bot.conn.del_event_handler(f'muc::{room}::got_offline', self._bot.user_left_chat)
+            log.info('Left room %s.', room)
             self._bot.callback_room_left(self)
         except KeyError:
-            log.debug("Trying to leave {} while not in this room".format(room))
+            log.debug('Trying to leave %s while not in this room.', room)
 
     def create(self):
         """
@@ -168,7 +164,7 @@ class XMPPMUCRoom(MUCRoom):
         Calling this on a non-existing room is a no-op.
         """
         self.xep0045.destroy(str(self))
-        log.info("Destroyed room {!s}".format(self))
+        log.info('Destroyed room %s.', self)
 
     @property
     def exists(self):
@@ -179,9 +175,7 @@ class XMPPMUCRoom(MUCRoom):
             Returns `True` if the room exists, `False` otherwise.
         """
         logging.warning(
-            "XMPP back-end does not support determining if a room exists. "
-            "Returning the result of joined instead."
-        )
+            'XMPP back-end does not support determining if a room exists. Returning the result of joined instead.')
         return self.joined
 
     @property
@@ -236,12 +230,9 @@ class XMPPMUCRoom(MUCRoom):
         occupants = []
         try:
             for occupant in self.xep0045.rooms[str(self)].values():
-                room = self._bot.build_identifier(occupant['room'])
+                room_node, room_domain, _ = split_identifier(occupant['room'])
                 nick = occupant['nick']
-                log.debug("room %s" % room)
-                log.debug("nick %s" % nick)
-
-                occupants.append(XMPPMUCOccupant(room.node, room.domain, nick))
+                occupants.append(XMPPRoomOccupant(room_node, room_domain, nick, self))
         except KeyError:
             raise RoomNotJoinedError("Must be in a room in order to see occupants.")
         return occupants
@@ -256,7 +247,7 @@ class XMPPMUCRoom(MUCRoom):
         room = str(self)
         for jid in args:
             self.xep0045.invite(room, jid)
-            log.info("Invited {} to {}".format(jid, room))
+            log.info('Invited %s to %s.', jid, room)
 
     def configure(self):
         """
@@ -277,27 +268,42 @@ class XMPPMUCRoom(MUCRoom):
             )
 
         if affiliation == "owner":
-            log.debug("Configuring room {} because we have owner affiliation".format(room))
+            log.debug('Configuring room %s: we have owner affiliation.', room)
             form = self.xep0045.getRoomConfig(room)
             self.xep0045.configureRoom(room, form)
         else:
-            log.debug("Not configuring room {} because we don't have owner affiliation (affiliation={})"
-                      .format(room, affiliation))
+            log.debug("Not configuring room %s: we don't have owner affiliation (affiliation=%s)", room, affiliation)
 
 
-class XMPPMUCOccupant(MUCIdentifier, XMPPIdentifier):
+class XMPPRoomOccupant(XMPPPerson, RoomOccupant):
+    def __init__(self, node, domain, resource, room):
+        super().__init__(node, domain, resource)
+        self._room = room
+
     @property
     def person(self):
         return str(self)  # this is the full identifier.
 
     @property
+    def real_jid(self):
+        """
+        The JID of the room occupant, they used to login.
+        Will only work if the errbot is moderator in the MUC or it is not anonymous.
+        """
+        room_jid = self._node + '@' + self._domain
+        jid = JID(self._room.xep0045.getJidProperty(room_jid, self.resource, 'jid'))
+        return jid.bare
+
+    @property
     def room(self):
-        return self.node + '@' + self.domain
+        return self._room
+
+    nick = XMPPPerson.resource
 
 
 class XMPPConnection(object):
-    def __init__(self, jid, password, feature=None, keepalive=None, ca_cert=None, server=None, bot=None):
-        if feature is not None:
+    def __init__(self, jid, password, feature=None, keepalive=None, ca_cert=None, server=None, use_ipv6=None, bot=None):
+        if feature is None:
             feature = {}
         self._bot = bot
         self.connected = False
@@ -312,6 +318,9 @@ class XMPPConnection(object):
         if keepalive is not None:
             self.client.whitespace_keepalive = True  # Just in case SleekXMPP's default changes to False in the future
             self.client.whitespace_keepalive_interval = keepalive
+
+        if use_ipv6 is not None:
+            self.client.use_ipv6 = use_ipv6
 
         self.client.ca_certs = ca_cert  # Used for TLS certificate validation
 
@@ -343,49 +352,6 @@ class XMPPConnection(object):
     def del_event_handler(self, name, cb):
         self.client.del_event_handler(name, cb)
 
-    def join_room(self, room, username, password):
-        """
-        Attempt to join the given MUC
-
-        .. deprecated:: 2.2.0
-            Use the methods on :class:`XMPPMUCRoom` instead.
-        """
-        warnings.warn(
-            "Using join_room is deprecated, use join from the "
-            "MUCRoom class instead.",
-            DeprecationWarning
-        )
-        self._bot.query_room(room).join(username=username, password=password)
-
-    def configure_room(self, room):
-        """
-        Configure the given MUC
-
-        Currently this simply sets the default room configuration as
-        received by the server. May be extended in the future to set
-        a custom room configuration instead.
-
-        .. deprecated:: 2.2.0
-            Use the methods on :class:`XMPPMUCRoom` instead.
-        """
-        warnings.warn(
-            "Using configure_room is deprecated, use configure from the "
-            "MUCRoom class instead.",
-            DeprecationWarning
-        )
-        self._bot.query_room(room).configure()
-
-    def invite_in_room(self, room, jids_to_invite):
-        """
-        .. deprecated:: 2.2.0
-            Use the methods on :class:`XMPPMUCRoom` instead.
-        """
-        warnings.warn(
-            "Using invite_in_room is deprecated, use invite from the "
-            "MUCRoom class instead.",
-            DeprecationWarning,
-        )
-        self._bot.query_room(room).invite(jids_to_invite)
 
 XMPP_TO_ERR_STATUS = {'available': ONLINE,
                       'away': AWAY,
@@ -393,10 +359,23 @@ XMPP_TO_ERR_STATUS = {'available': ONLINE,
                       'unavailable': OFFLINE}
 
 
+def split_identifier(txtrep):
+    split_jid = txtrep.split('@', 1)
+    node, domain = '@'.join(split_jid[:-1]), split_jid[-1]
+    if domain.find('/') != -1:
+        domain, resource = domain.split('/', 1)
+    else:
+        resource = None
+
+    return node, domain, resource
+
+
 class XMPPBackend(ErrBot):
+    room_factory = XMPPRoom
+    roomoccupant_factory = XMPPRoomOccupant
 
     def __init__(self, config):
-        super(XMPPBackend, self).__init__(config)
+        super().__init__(config)
         identity = config.BOT_IDENTITY
 
         self.jid = identity['username']  # backward compatibility
@@ -405,9 +384,11 @@ class XMPPBackend(ErrBot):
         self.feature = config.__dict__.get('XMPP_FEATURE_MECHANISMS', {})
         self.keepalive = config.__dict__.get('XMPP_KEEPALIVE_INTERVAL', None)
         self.ca_cert = config.__dict__.get('XMPP_CA_CERT_FILE', '/etc/ssl/certs/ca-certificates.crt')
+        self.xhtmlim = config.__dict__.get('XMPP_XHTML_IM', False)
+        self.use_ipv6 = config.__dict__.get('XMPP_USE_IPV6', None)
 
         # generic backend compatibility
-        self.bot_identifier = self.build_identifier(self.jid)
+        self.bot_identifier = self._build_person(self.jid)
 
         self.conn = self.create_connection()
         self.conn.add_event_handler("message", self.incoming_message)
@@ -431,84 +412,75 @@ class XMPPBackend(ErrBot):
             keepalive=self.keepalive,
             ca_cert=self.ca_cert,
             server=self.server,
+            use_ipv6=self.use_ipv6,
             bot=self
         )
 
+    def _build_room_occupant(self, txtrep):
+        node, domain, resource = split_identifier(txtrep)
+        return self.roomoccupant_factory(node, domain, resource, self.query_room(node + '@' + domain))
+
+    def _build_person(self, txtrep):
+        return XMPPPerson(*split_identifier(txtrep))
+
     def incoming_message(self, xmppmsg):
         """Callback for message events"""
+        if xmppmsg['type'] == "error":
+            log.warning("Received error message: %s", xmppmsg)
+            return
+
         msg = Message(xmppmsg['body'])
         if 'html' in xmppmsg.keys():
             msg.html = xmppmsg['html']
-        msg.frm = self.build_identifier(xmppmsg['from'].full)
-        msg.to = self.build_identifier(xmppmsg['to'].full)
-        log.debug("incoming_message frm : %s" % msg.frm)
-        log.debug("incoming_message frm node: %s" % msg.frm.node)
-        log.debug("incoming_message frm domain: %s" % msg.frm.domain)
-        log.debug("incoming_message frm resource: %s" % msg.frm.resource)
-        msg.type = xmppmsg['type']
-        if msg.type == 'groupchat':
-            # those are not simple identifiers, they are muc occupants.
-            msg.frm = XMPPMUCOccupant(msg.frm.node, msg.frm.domain, msg.frm.resource)
-            msg.to = XMPPMUCOccupant(msg.to.node, msg.to.domain, msg.to.resource)
+        log.debug("incoming_message from: %s", msg.frm)
+        if xmppmsg['type'] == 'groupchat':
+            msg.frm = self._build_room_occupant(xmppmsg['from'].full)
+            msg.to = msg.frm.room
+        else:
+            msg.frm = self._build_person(xmppmsg['from'].full)
+            msg.to = self._build_person(xmppmsg['to'].full)
+
         msg.nick = xmppmsg['mucnick']
         msg.delayed = bool(xmppmsg['delay']._get_attr('stamp'))  # this is a bug in sleekxmpp it should be ['from']
         self.callback_message(msg)
 
+    def _idd_from_event(self, event):
+        txtrep = event['from'].full
+        return self._build_room_occupant(txtrep) if 'muc' in event else self._build_person(txtrep)
+
     def contact_online(self, event):
-        log.debug("contact_online %s" % event)
-        p = Presence(
-            identifier=self.build_identifier(event['from'].full),
-            status=ONLINE
-        )
-        self.callback_presence(p)
+        log.debug('contact_online %s.', event)
+        self.callback_presence(Presence(identifier=self._idd_from_event(event), status=ONLINE))
 
     def contact_offline(self, event):
-        log.debug("contact_offline %s" % event)
-        p = Presence(
-            identifier=self.build_identifier(event['from'].full),
-            status=OFFLINE
-        )
-        self.callback_presence(p)
+        log.debug('contact_offline %s.', event)
+        self.callback_presence(Presence(identifier=self._idd_from_event(event), status=OFFLINE))
 
     def user_joined_chat(self, event):
-        log.debug("user_join_chat %s" % event)
-        idd = self.build_identifier(event['from'].full)
-        p = Presence(chatroom=idd,
-                     nick=idd.resource,
-                     status=ONLINE)
-        self.callback_presence(p)
+        log.debug('user_join_chat %s', event)
+        self.callback_presence(Presence(identifier=self._idd_from_event(event), status=ONLINE))
 
     def user_left_chat(self, event):
-        log.debug("user_left_chat %s" % event)
-        idd = self.build_identifier(event['from'].full)
-        p = Presence(chatroom=idd,
-                     nick=idd.resource,
-                     status=OFFLINE)
-        self.callback_presence(p)
+        log.debug('user_left_chat %s', event)
+        self.callback_presence(Presence(identifier=self._idd_from_event(event), status=OFFLINE))
 
     def chat_topic(self, event):
-        log.debug("chat_topic %s" % event)
+        log.debug("chat_topic %s.", event)
         room = event.values['mucroom']
         topic = event.values['subject']
         if topic == "":
             topic = None
         self._room_topics[room] = topic
-        room = XMPPMUCRoom(event.values['mucroom'], self)
+        room = XMPPRoom(event.values['mucroom'], self)
         self.callback_room_topic(room)
 
     def user_changed_status(self, event):
-        log.debug("user_changed_status %s" % event)
+        log.debug('user_changed_status %s.', event)
         errstatus = XMPP_TO_ERR_STATUS.get(event['type'], None)
         message = event['status']
         if not errstatus:
             errstatus = event['type']
-
-        p = Presence(
-            identifier=self.build_identifier(event['from'].full),
-            status=errstatus,
-            message=message
-        )
-        self.callback_presence(p)
+        self.callback_presence(Presence(identifier=self._idd_from_event(event), status=errstatus, message=message))
 
     def connected(self, data):
         """Callback for connection events"""
@@ -518,22 +490,21 @@ class XMPPBackend(ErrBot):
         """Callback for disconnection events"""
         self.disconnect_callback()
 
-    def send_message(self, mess):
-        super(XMPPBackend, self).send_message(mess)
+    def send_message(self, msg):
+        super().send_message(msg)
 
-        # if the message is of type groupchat, we need to strip
-        # the resource from the jid because it represents a user.
-        if mess.type == 'groupchat':
-            log.debug("This is a groupchat message, strip the resource.")
-            mess.to = XMPPIdentifier(mess.to.node, mess.to.domain, None)
-        log.debug("send_message to %s", mess.to)
-        self.conn.client.send_message(mto=str(mess.to),
-                                      mbody=self.md_text.convert(mess.body),
-                                      mtype=mess.type)
-        # mhtml=self.md_xhtml.convert(mess.body)) This is too broken on clients.
+        log.debug('send_message to %s', msg.to)
 
-    def change_presence(self, status: str=ONLINE, message: str='') -> None:
-        log.debug("Change bot status to %s, message %s" % (status, message))
+        # We need to unescape the unicode characters (not the markup incompatible ones)
+        mhtml = xhtmlim.unescape(self.md_xhtml.convert(msg.body)) if self.xhtmlim else None
+
+        self.conn.client.send_message(mto=str(msg.to),
+                                      mbody=self.md_text.convert(msg.body),
+                                      mhtml=mhtml,
+                                      mtype='chat' if msg.is_direct else 'groupchat')
+
+    def change_presence(self, status: str = ONLINE, message: str = '') -> None:
+        log.debug('Change bot status to %s, message %s.', status, message)
         self.conn.client.send_presence(pshow=status, pstatus=message)
 
     def serve_forever(self):
@@ -547,63 +518,51 @@ class XMPPBackend(ErrBot):
             log.debug("Trigger shutdown")
             self.shutdown()
 
+    @lru_cache(IDENTIFIERS_LRU)
     def build_identifier(self, txtrep):
-        if txtrep.find('@') != -1:
-            split_jid = txtrep.split('@')
-            node, domain = '@'.join(split_jid[:-1]), split_jid[-1]
-            if domain.find('/') != -1:
-                domain, resource = domain.split('/', 1)
-            else:
-                resource = None
-        else:
-            node = txtrep
-            domain = None
-            resource = None
+        log.debug('build identifier for %s', txtrep)
+        try:
+            xep0030 = self.conn.client.plugin['xep_0030']
+            info = xep0030.get_info(jid=txtrep)
+            disco_info = info['disco_info']
+            if disco_info:  # Hipchat can return an empty response here.
+                for category, typ, _, name in disco_info['identities']:
+                    if category == 'conference':
+                        log.debug('This is a room ! %s', txtrep)
+                        return self.query_room(txtrep)
+                    if category == 'client' and 'http://jabber.org/protocol/muc' in info['disco_info']['features']:
+                        log.debug('This is room occupant ! %s', txtrep)
+                        return self._build_room_occupant(txtrep)
+        except IqError as iq:
+            log.debug('xep_0030 is probably not implemented on this server. %s.', iq)
+        log.debug('This is a person ! %s', txtrep)
+        return self._build_person(txtrep)
 
-        return XMPPIdentifier(node, domain, resource)
-
-    def build_reply(self, mess, text=None, private=False):
-        """Build a message for responding to another message.
-        Message is NOT sent"""
-        log.debug("build reply ...")
-        msg_type = mess.type
+    def build_reply(self, msg, text=None, private=False, threaded=False):
         response = self.build_message(text)
-
         response.frm = self.bot_identifier
-        if msg_type == 'groupchat' and not private:
+
+        if msg.is_group and not private:
             # stripped returns the full bot@conference.domain.tld/chat_username
             # but in case of a groupchat, we should only try to send to the MUC address
             # itself (bot@conference.domain.tld)
-            response.to = self.build_identifier(mess.frm.person)
-        elif msg_type == 'chat':
+            response.to = XMPPRoom(msg.frm.node + '@' + msg.frm.domain, self)
+        elif msg.is_direct:
             # preserve from in case of a simple chat message.
             # it is either a user to user or user_in_chatroom to user case.
             # so we need resource.
-            response.to = mess.frm
-        elif mess.to.person == self.bot_config.BOT_IDENTITY['username']:
+            response.to = msg.frm
+        elif hasattr(msg.to, 'person') and msg.to.person == self.bot_config.BOT_IDENTITY['username']:
             # This is a direct private message, not initiated through a MUC. Use
             # stripped to remove the resource so that the response goes to the
             # client with the highest priority
-            response.to = self.build_identifier(mess.frm.person)
+            response.to = XMPPPerson(msg.frm.node, msg.frm.domain, None)
         else:
             # This is a private message that was initiated through a MUC. Don't use
             # stripped here to retain the resource, else the XMPP server doesn't
             # know which user we're actually responding to.
-            response.to = mess.frm
-        response.type = 'chat' if private else msg_type
+            response.to = msg.frm
         return response
-
-    def invite_in_room(self, room, jids_to_invite):
-        """
-        .. deprecated:: 2.2.0
-            Use the methods on :class:`XMPPMUCRoom` instead.
-        """
-        warnings.warn(
-            "Using invite_in_room is deprecated, use invite from the "
-            "MUCRoom class instead.",
-            DeprecationWarning,
-        )
-        self.query_room(room).invite(jids_to_invite)
 
     @property
     def mode(self):
@@ -617,7 +576,7 @@ class XMPPBackend(ErrBot):
             A list of :class:`~errbot.backends.base.XMPPMUCRoom` instances.
         """
         xep0045 = self.conn.client.plugin['xep_0045']
-        return [XMPPMUCRoom(room, self) for room in xep0045.getJoinedRooms()]
+        return [XMPPRoom(room, self) for room in xep0045.getJoinedRooms()]
 
     def query_room(self, room):
         """
@@ -628,7 +587,11 @@ class XMPPBackend(ErrBot):
         :returns:
             An instance of :class:`~XMPPMUCRoom`.
         """
-        return XMPPMUCRoom(room, self)
+        return XMPPRoom(room, self)
 
     def prefix_groupchat_reply(self, message, identifier):
-        message.body = '@{0} {1}'.format(identifier.nick, message.body)
+        super().prefix_groupchat_reply(message, identifier)
+        message.body = f'@{identifier.nick} {message.body}'
+
+    def __hash__(self):
+        return 0

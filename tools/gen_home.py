@@ -1,31 +1,28 @@
 #!/usr/bin/env python3
 from jinja2 import Template
-import requests
-import time
+import json
 
 template = Template(open('plugins.md').read())
 
 blacklisted = [repo.strip() for repo in open('blacklisted.txt', 'r').readlines()]
 
-DEFAULT_AVATAR = 'https://upload.wikimedia.org/wikipedia/commons/5/5f/Err-logo.png'
+PREFIX_LEN = len('https://github.com/')
 
-with open('plugins.txt', 'r') as p:
-    plugins = [eval(line) for line in p]
-    # Removes the weird forks of errbot itself.
-    plugins = [plugin for plugin in plugins if not plugin['path'].startswith('errbot')]
+with open('repos.json', 'r') as p:
+    repos = json.load(p)
 
-    # Be sure to remove the blacklisted ones.
-    plugins = [plugin for plugin in plugins if plugin['repo'] not in blacklisted]
+    # Removes the weird forks of errbot itself and
+    # blacklisted repos
+    filtered_plugins = []
+    for repo, plugins in repos.items():
+        for name, plugin in plugins.items():
+            if plugin['path'].startswith('errbot/builtins'):
+                continue
+            if plugin['repo'][PREFIX_LEN:] in blacklisted:
+                continue
+            filtered_plugins.append(plugin)
 
-    # Removes dupes from the same repos.
-    plugins = {(plugin['repo'], plugin['name']): plugin for plugin in plugins}.values()
-
-    plugins = sorted(plugins, key=lambda plug: plug['name'])
-
-    with open('sorted-dedupped-plugins.txt', 'w') as out:
-        for plugin in plugins:
-            out.write(repr(plugin))
-            out.write('\n')
+    sorted_plugins = sorted(filtered_plugins, key=lambda plugin: -plugin['score'])
 
     with open('Home.md', 'w') as out:
-        out.write(template.render(plugins=plugins))
+        out.write(template.render(plugins=sorted_plugins))

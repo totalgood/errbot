@@ -2,19 +2,17 @@ import logging
 from time import sleep
 from errbot.backends.base import ONLINE
 
-from errbot.backends.test import TestIdentifier
-from errbot.errBot import ErrBot
+from errbot.backends.test import TestPerson
+from errbot.core import ErrBot
 
-
-# Can't use __name__ because of Yapsy
-log = logging.getLogger('errbot.backends.null')
+log = logging.getLogger(__name__)
 
 
 class ConnectionMock(object):
-    def send(self, mess):
+    def send(self, msg):
         pass
 
-    def send_message(self, mess):
+    def send_message(self, msg):
         pass
 
 
@@ -49,17 +47,26 @@ class NullBackend(ErrBot):
         return self.conn
 
     def build_identifier(self, strrep):
-        return TestIdentifier(strrep)
-
-    def join_room(self, room, username=None, password=None):
-        pass  # just ignore that
+        return TestPerson(strrep)
 
     def shutdown(self):
         if self.running:
             self.running = False
-            super(NullBackend, self).shutdown()  # only once (hackish)
+            super().shutdown()  # only once (hackish)
 
     def change_presence(self, status: str = ONLINE, message: str = '') -> None:
+        pass
+
+    def build_reply(self, msg, text=None, private=False, threaded=False):
+        pass
+
+    def prefix_groupchat_reply(self, message, identifier):
+        pass
+
+    def query_room(self, room):
+        pass
+
+    def rooms(self):
         pass
 
     @property

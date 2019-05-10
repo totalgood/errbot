@@ -1,136 +1,143 @@
-# -*- coding: utf-8 -*-
 from ast import literal_eval
-import subprocess
-from os import path
 from pprint import pformat
+import os
 import shutil
+import logging
 
 from errbot import BotPlugin, botcmd
-from errbot.repos import KNOWN_PUBLIC_REPOS
-from errbot.rendering import md_escape
-from errbot.utils import which
-from errbot.plugin_manager import check_dependencies, global_restart, PluginConfigurationException
+from errbot.plugin_manager import PluginConfigurationException, PluginActivationException
+from errbot.repo_manager import RepoException
 
 
 class Plugins(BotPlugin):
 
     @botcmd(admin_only=True)
-    def repos_install(self, mess, args):
+    def repos_install(self, _, args):
         """ install a plugin repository from the given source or a known public repo (see !repos to find those).
         for example from a known repo : !install err-codebot
         for example a git url : git@github.com:gbin/plugin.git
         or an url towards a tar.gz archive : http://www.gootz.net/plugin-latest.tar.gz
         """
-        if not args.strip():
-            return "You should have an urls/git repo argument"
-        errors = self._bot.install_repo(args)
-        if errors:
-            self.send(mess.frm, 'Some plugins are generating errors:\n' + '\n'.join(errors),
-                      message_type=mess.type)
-        else:
-            self.send(
-                mess.frm,
-                ("A new plugin repository has been installed correctly from "
-                 "%s. Refreshing the plugins commands..." % args),
-                message_type=mess.type
-            )
-        loading_errors = self._bot.activate_non_started_plugins()
-        if loading_errors:
-            return loading_errors
-        return "Plugins reloaded without any error."
+        args = args.strip()
+        if not args:
+            yield 'Please specify a repository listed in "!repos" or ' \
+                  'give me the URL to a git repository that I should clone for you.'
+            return
+        try:
+            yield f'Installing {args}...'
+            local_path = self._bot.repo_manager.install_repo(args)
+            errors = self._bot.plugin_manager.update_plugin_places(self._bot.repo_manager.get_all_repos_paths())
+            if errors:
+                v = '\n'.join(errors.values())
+                yield f'Some plugins are generating errors:\n{v}.'
+                # if the load of the plugin failed, uninstall cleanly teh repo
+                for path in errors.keys():
+                    if str(path).startswith(local_path):
+                        yield f'Removing {local_path} as it did not load correctly.'
+                        shutil.rmtree(local_path)
+            else:
+                yield f'A new plugin repository has been installed correctly from {args}. ' \
+                      f'Refreshing the plugins commands...'
+            loading_errors = self._bot.plugin_manager.activate_non_started_plugins()
+            if loading_errors:
+                yield loading_errors
+            yield 'Plugins reloaded.'
+        except RepoException as re:
+            yield f'Error installing the repo: {re}'
 
     @botcmd(admin_only=True)
-    def repos_uninstall(self, mess, args):
+    def repos_uninstall(self, _, repo_name):
         """ uninstall a plugin repository by name.
         """
-        if not args.strip():
-            return "You should have a repo name as argument"
-        repos = self._bot.get(self._bot.REPOS, {})
-        if args not in repos:
-            return "This repo is not installed check with " + self._bot.prefix + "repos the list of installed ones"
+        if not repo_name.strip():
+            yield "You should have a repo name as argument"
+            return
 
-        plugin_path = path.join(self._bot.plugin_dir, args)
-        for plugin in self._bot.getAllPlugins():
-            if plugin.path.startswith(plugin_path) and hasattr(plugin, 'is_activated') and plugin.is_activated:
-                self.send(mess.frm, '/me is unloading plugin %s' % plugin.name)
-                self._bot.deactivate_plugin(plugin.name)
+        repos = self._bot.repo_manager.get_installed_plugin_repos()
 
-        shutil.rmtree(plugin_path)
-        repos.pop(args)
-        self[self._bot.REPOS] = repos
+        if repo_name not in repos:
+            yield "This repo is not installed check with " + self._bot.prefix + "repos the list of installed ones"
+            return
 
-        return 'Plugins unloaded and repo %s removed' % args
+        plugin_path = os.path.join(self._bot.repo_manager.plugin_dir, repo_name)
+        self._bot.plugin_manager.remove_plugins_from_path(plugin_path)
+        self._bot.repo_manager.uninstall_repo(repo_name)
+        yield f'Repo {repo_name} removed.'
 
-    # noinspection PyUnusedLocal
     @botcmd(template='repos')
-    def repos(self, mess, args):
+    def repos(self, _, args):
         """ list the current active plugin repositories
         """
-        installed_repos = self._bot.get_installed_plugin_repos()
-        all_names = sorted(set([name for name in KNOWN_PUBLIC_REPOS] + [name for name in installed_repos]))
-        return {'repos': [
-            (repo_name in installed_repos, repo_name in KNOWN_PUBLIC_REPOS, repo_name,
-             KNOWN_PUBLIC_REPOS[repo_name][1]
-             if repo_name in KNOWN_PUBLIC_REPOS else installed_repos[repo_name])
-            for repo_name in all_names]}
+
+        installed_repos = self._bot.repo_manager.get_installed_plugin_repos()
+
+        all_names = [name for name in installed_repos]
+
+        repos = {'repos': []}
+
+        for repo_name in all_names:
+
+            installed = False
+
+            if repo_name in installed_repos:
+                installed = True
+
+            from_index = self._bot.repo_manager.get_repo_from_index(repo_name)
+
+            if from_index is not None:
+                description = '\n'.join((f'{plug.name}: {plug.documentation}' for plug in from_index))
+            else:
+                description = 'No description.'
+
+            # installed, public, name, desc
+            repos['repos'].append((installed, from_index is not None, repo_name, description))
+
+        return repos
+
+    @botcmd(template='repos2')
+    def repos_search(self, _, args):
+        """ Searches the repo index.
+        for example: !repos search jenkins
+        """
+        if not args:
+            # TODO(gbin): return all the repos.
+            return {'error': "Please specify a keyword."}
+        return {'repos': self._bot.repo_manager.search_repos(args)}
 
     @botcmd(split_args_with=' ', admin_only=True)
-    def repos_update(self, mess, args):
+    def repos_update(self, _, args):
         """ update the bot and/or plugins
         use : !repos update all
         to update everything
-        or : !repos update core
-        to update only the core
         or : !repos update repo_name repo_name ...
         to update selectively some repos
         """
-        git_path = which('git')
-        if not git_path:
-            return ('git command not found: You need to have git installed on '
-                    'your system to be able to install git based plugins.')
-
-        directories = set()
-        repos = self._bot.get(self._bot.REPOS, {})
-        core_to_update = 'all' in args or 'core' in args
-        if core_to_update:
-            directories.add(path.dirname(__file__))
-
         if 'all' in args:
-            directories.update([path.join(self._bot.plugin_dir, name) for name in repos])
+            results = self._bot.repo_manager.update_all_repos()
         else:
-            directories.update([path.join(self._bot.plugin_dir, name) for name in set(args).intersection(set(repos))])
+            results = self._bot.repo_manager.update_repos(args)
 
-        for d in directories:
-            self.send(mess.frm, "I am updating %s ..." % d, message_type=mess.type)
-            p = subprocess.Popen([git_path, 'pull'], cwd=d, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            feedback = p.stdout.read().decode('utf-8') + '\n' + '-' * 50 + '\n'
-            err = p.stderr.read().strip().decode('utf-8')
-            if err:
-                feedback += err + '\n' + '-' * 50 + '\n'
-            dep_err = check_dependencies(d)
-            if dep_err:
-                feedback += dep_err + '\n'
-            if p.wait():
-                self.send(mess.frm, "Update of %s failed...\n\n%s\n\n resuming..." % (d, feedback),
-                          message_type=mess.type)
+        yield "Start updating ... "
+
+        for d, success, feedback in results:
+            if success:
+                yield f'Update of {d} succeeded...\n\n{feedback}\n\n'
             else:
-                self.send(mess.frm, "Update of %s succeeded...\n\n%s\n\n" % (d, feedback),
-                          message_type=mess.type)
-                if not core_to_update:
-                    for plugin in self._bot.getAllPlugins():
-                        if plugin.path.startswith(d) and hasattr(plugin, 'is_activated') and plugin.is_activated:
-                            name = plugin.name
-                            self.send(mess.frm, '/me is reloading plugin %s' % name)
-                            self._bot.reload_plugin_by_name(plugin.name)
-                            self.send(mess.frm, '%s reloaded and reactivated' % name)
-        if core_to_update:
-            self.send(mess.frm, "You have updated the core, I need to restart.", message_type=mess.type)
-            global_restart()
-        return "Done."
+                yield f'Update of {d} failed...\n\n{feedback}'
 
-    # noinspection PyUnusedLocal
+            for plugin in self._bot.plugin_manager.getAllPlugins():
+                if plugin.path.startswith(d) and hasattr(plugin, 'is_activated') and plugin.is_activated:
+                    name = plugin.name
+                    yield f'/me is reloading plugin {name}'
+                    try:
+                        self._bot.plugin_manager.reload_plugin_by_name(plugin.name)
+                        yield f'Plugin {plugin.name} reloaded.'
+                    except PluginActivationException as pae:
+                        yield f'Error reactivating plugin {plugin.name}: {pae}'
+        yield "Done."
+
     @botcmd(split_args_with=' ', admin_only=True)
-    def plugin_config(self, mess, args):
+    def plugin_config(self, _, args):
         """ configure or get the configuration / configuration template for a specific plugin
         ie.
         !plugin config ExampleBot
@@ -139,32 +146,29 @@ class Plugins(BotPlugin):
         Copy paste, adapt so can configure the plugin :
         !plugin config ExampleBot {'LOGIN': 'my@email.com', 'PASSWORD': 'myrealpassword', 'DIRECTORY': '/tmp'}
         It will then reload the plugin with this config.
-        You can at any moment retreive the current values:
+        You can at any moment retrieve the current values:
         !plugin config ExampleBot
         should return :
         {'LOGIN': 'my@email.com', 'PASSWORD': 'myrealpassword', 'DIRECTORY': '/tmp'}
         """
         plugin_name = args[0]
-        if self._bot.is_plugin_blacklisted(plugin_name):
-            return 'Load this plugin first with ' + self._bot.prefix + 'load %s' % plugin_name
-        obj = self._bot.get_plugin_obj_by_name(plugin_name)
+        if self._bot.plugin_manager.is_plugin_blacklisted(plugin_name):
+            return f'Load this plugin first with {self._bot.prefix} load {plugin_name}.'
+        obj = self._bot.plugin_manager.get_plugin_obj_by_name(plugin_name)
         if obj is None:
-            return 'Unknown plugin or the plugin could not load %s' % plugin_name
+            return f'Unknown plugin or the plugin could not load {plugin_name}.'
         template_obj = obj.get_configuration_template()
         if template_obj is None:
             return 'This plugin is not configurable.'
 
         if len(args) == 1:
-            response = ("Default configuration for this plugin (you can copy and paste "
-                        "this directly as a command):\n\n"
-                        "```\n{prefix}plugin config {plugin_name} \n{config}\n```").format(
-                prefix=self._bot.prefix, plugin_name=plugin_name, config=pformat(template_obj))
+            response = f'Default configuration for this plugin (you can copy and paste this directly as a command):' \
+                       f'\n\n```\n{self._bot.prefix}plugin config {plugin_name} {pformat(template_obj)}\n```'
 
-            current_config = self._bot.get_plugin_configuration(plugin_name)
+            current_config = self._bot.plugin_manager.get_plugin_configuration(plugin_name)
             if current_config:
-                response += ("\n\nCurrent configuration:\n\n"
-                             "```\n{prefix}plugin config {plugin_name} \n{config}\n```").format(
-                    prefix=self._bot.prefix, plugin_name=plugin_name, config=pformat(current_config))
+                response += f'\n\nCurrent configuration:\n\n```\n{self._bot.prefix}plugin config {plugin_name} ' \
+                            f'{pformat(current_config)}\n```'
             return response
 
         # noinspection PyBroadException
@@ -176,14 +180,22 @@ class Plugins(BotPlugin):
         if type(real_config_obj) != type(template_obj):
             return 'It looks fishy, your config type is not the same as the template !'
 
-        self._bot.set_plugin_configuration(plugin_name, real_config_obj)
-        self._bot.deactivate_plugin(plugin_name)
+        self._bot.plugin_manager.set_plugin_configuration(plugin_name, real_config_obj)
+
         try:
-            self._bot.activate_plugin(plugin_name)
+            self._bot.plugin_manager.deactivate_plugin(plugin_name)
+        except PluginActivationException as pae:
+            return f'Error deactivating {plugin_name}: {pae}.'
+
+        try:
+            self._bot.plugin_manager.activate_plugin(plugin_name)
         except PluginConfigurationException as ce:
-            self.log.debug('Invalid configuration for the plugin, reverting the plugin to unconfigured')
-            self._bot.set_plugin_configuration(plugin_name, None)
-            return 'Incorrect plugin configuration: %s' % ce
+            self.log.debug('Invalid configuration for the plugin, reverting the plugin to unconfigured.')
+            self._bot.plugin_manager.set_plugin_configuration(plugin_name, None)
+            return f'Incorrect plugin configuration: {ce}.'
+        except PluginActivationException as pae:
+            return f'Error activating plugin: {pae}.'
+
         return 'Plugin configuration done.'
 
     def formatted_plugin_list(self, active_only=True):
@@ -195,88 +207,111 @@ class Plugins(BotPlugin):
         (blacklisted) plugins.
         """
         if active_only:
-            all_plugins = self._bot.get_all_active_plugin_names()
+            all_plugins = self._bot.plugin_manager.get_all_active_plugin_names()
         else:
-            all_plugins = self._bot.get_all_plugin_names()
+            all_plugins = self._bot.plugin_manager.get_all_plugin_names()
         return "\n".join(("- " + plugin for plugin in all_plugins))
 
-    # noinspection PyUnusedLocal
     @botcmd(admin_only=True)
-    def plugin_reload(self, mess, args):
+    def plugin_reload(self, _, args):
         """reload a plugin: reload the code of the plugin leaving the activation status intact."""
         name = args.strip()
         if not name:
-            yield ("Please tell me which of the following plugins to reload:\n"
-                   "{}".format(self.formatted_plugin_list(active_only=False)))
+            yield (
+                f'Please tell me which of the following plugins to reload:\n'
+                f'{self.formatted_plugin_list(active_only=False)}')
             return
-        if name not in self._bot.get_all_plugin_names():
-            yield ("{} isn't a valid plugin name. The current plugins are:\n"
-                   "{}".format(name, self.formatted_plugin_list(active_only=False)))
+        if name not in self._bot.plugin_manager.get_all_plugin_names():
+            yield (f'{name} isn\'t a valid plugin name. '
+                   f'The current plugins are:\n{self.formatted_plugin_list(active_only=False)}')
             return
 
-        if name not in self._bot.get_all_active_plugin_names():
-            yield (("Warning: plugin %s is currently not activated. " +
-                   "Use !plugin activate %s to activate it.") % (name, name))
+        if name not in self._bot.plugin_manager.get_all_active_plugin_names():
+            answer = f'Warning: plugin {name} is currently not activated. '
+            answer += f'Use `{self._bot.prefix}plugin activate {name}` to activate it.'
+            yield answer
 
-        self._bot.reload_plugin_by_name(name)
+        try:
+            self._bot.plugin_manager.reload_plugin_by_name(name)
+            yield f'Plugin {name} reloaded.'
+        except PluginActivationException as pae:
+            yield f'Error activating plugin {name}: {pae}.'
 
-        yield "Plugin %s reloaded." % name
-
-    # noinspection PyUnusedLocal
     @botcmd(admin_only=True)
-    def plugin_activate(self, mess, args):
+    def plugin_activate(self, _, args):
         """activate a plugin. [calls .activate() on the plugin]"""
         args = args.strip()
         if not args:
-            return ("Please tell me which of the following plugins to activate:\n"
-                    "{}".format(self.formatted_plugin_list(active_only=False)))
-        if args not in self._bot.get_all_plugin_names():
-            return ("{} isn't a valid plugin name. The current plugins are:\n"
-                    "{}".format(args, self.formatted_plugin_list(active_only=False)))
-        if args in self._bot.get_all_active_plugin_names():
-            return "{} is already activated.".format(args)
+            return (f'Please tell me which of the following plugins to activate:\n'
+                    f'{self.formatted_plugin_list(active_only=False)}')
+        if args not in self._bot.plugin_manager.get_all_plugin_names():
+            return (f"{args} isn't a valid plugin name. The current plugins are:\n"
+                    f"{self.formatted_plugin_list(active_only=False)}")
+        if args in self._bot.plugin_manager.get_all_active_plugin_names():
+            return f'{args} is already activated.'
 
-        return self._bot.activate_plugin(args)
+        try:
+            self._bot.plugin_manager.activate_plugin(args)
+        except PluginActivationException as pae:
+            return f'Error activating plugin: {pae}'
+        return f'Plugin {args} activated.'
 
-    # noinspection PyUnusedLocal
     @botcmd(admin_only=True)
-    def plugin_deactivate(self, mess, args):
+    def plugin_deactivate(self, _, args):
         """deactivate a plugin. [calls .deactivate on the plugin]"""
         args = args.strip()
         if not args:
-            return ("Please tell me which of the following plugins to deactivate:\n"
-                    "{}".format(self.formatted_plugin_list(active_only=False)))
-        if args not in self._bot.get_all_plugin_names():
-            return ("{} isn't a valid plugin name. The current plugins are:\n"
-                    "{}".format(args, self.formatted_plugin_list(active_only=False)))
-        if args not in self._bot.get_all_active_plugin_names():
-            return "{} is already deactivated.".format(args)
+            return (f'Please tell me which of the following plugins to deactivate:\n'
+                    f'{self.formatted_plugin_list(active_only=False)}')
+        if args not in self._bot.plugin_manager.get_all_plugin_names():
+            return (f"{args} isn't a valid plugin name. The current plugins are:\n"
+                    f"{self.formatted_plugin_list(active_only=False)}")
+        if args not in self._bot.plugin_manager.get_all_active_plugin_names():
+            return f'{args} is already deactivated.'
 
-        return self._bot.deactivate_plugin(args)
+        try:
+            self._bot.plugin_manager.deactivate_plugin(args)
+        except PluginActivationException as pae:
+            return f'Error deactivating {args}: {pae}'
+        return f'Plugin {args} deactivated.'
 
-    # noinspection PyUnusedLocal
     @botcmd(admin_only=True)
-    def plugin_blacklist(self, mess, args):
+    def plugin_blacklist(self, _, args):
         """Blacklist a plugin so that it will not be loaded automatically during bot startup.
         If the plugin is currently activated, it will deactiveate it first."""
-        if args not in self._bot.get_all_plugin_names():
-            return ("{} isn't a valid plugin name. The current plugins are:\n"
-                    "{}".format(args, self.formatted_plugin_list(active_only=False)))
+        if args not in self._bot.plugin_manager.get_all_plugin_names():
+            return (f"{args} isn't a valid plugin name. The current plugins are:\n"
+                    f"{self.formatted_plugin_list(active_only=False)}")
 
-        if args in self._bot.get_all_active_plugin_names():
-            self._bot.deactivate_plugin(args)
+        if args in self._bot.plugin_manager.get_all_active_plugin_names():
+            try:
+                self._bot.plugin_manager.deactivate_plugin(args)
+            except PluginActivationException as pae:
+                return f'Error deactivating {args}: {pae}.'
+        return self._bot.plugin_manager.blacklist_plugin(args)
 
-        return self._bot.blacklist_plugin(args)
-
-    # noinspection PyUnusedLocal
     @botcmd(admin_only=True)
-    def plugin_unblacklist(self, mess, args):
+    def plugin_unblacklist(self, _, args):
         """Remove a plugin from the blacklist"""
-        if args not in self._bot.get_all_plugin_names():
-            return ("{} isn't a valid plugin name. The current plugins are:\n"
-                    "{}".format(args, self.formatted_plugin_list(active_only=False)))
+        if args not in self._bot.plugin_manager.get_all_plugin_names():
+            return (f"{args} isn't a valid plugin name. The current plugins are:\n"
+                    f"{self.formatted_plugin_list(active_only=False)}")
 
-        if args not in self._bot.get_all_active_plugin_names():
-            self._bot.activate_plugin(args)
+        if args not in self._bot.plugin_manager.get_all_active_plugin_names():
+            try:
+                self._bot.plugin_manager.activate_plugin(args)
+            except PluginActivationException as pae:
+                return f'Error activating plugin: {pae}'
 
-        return self._bot.unblacklist_plugin(args)
+        return self._bot.plugin_manager.unblacklist_plugin(args)
+
+    @botcmd(admin_only=True, template='plugin_info')
+    def plugin_info(self, _, args):
+        """Gives you a more technical information about a specific plugin."""
+        pm = self._bot.plugin_manager
+        if args not in pm.get_all_plugin_names():
+            return (f"{args} isn't a valid plugin name. The current plugins are:\n"
+                    f"{self.formatted_plugin_list(active_only=False)}")
+        return {'plugin_info': pm.plugin_infos[args],
+                'plugin': pm.plugins[args],
+                'logging': logging}

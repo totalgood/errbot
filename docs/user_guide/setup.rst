@@ -4,73 +4,114 @@ Setup
 Prerequisites
 -------------
 
-Errbot runs under Python 2.7 as well as Python 3.2+ on Linux, Windows and Mac.
-
-You need to have registered a user for the bot to use on the XMPP or IRC server that
-you wish to run Errbot on. A lot of plugins use multi user chatrooms (MUC) as well, so
-it is recommended (but not required) to have a least one MUC for Errbot to use as well.
+Errbot runs under Python 3.3+ on Linux, Windows and Mac.
 
 Installation
 ------------
 
-Errbot may be installed directly from PyPi using `pip` (`easy_install` works too) by issuing::
+Option 1: Use the package manager of your distribution (if available)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+On some distributions, Errbot is also available as a package via your usual package manager.
+In these cases, it is generally recommended to use your distribution's package instead of installing from PyPi but note
+that the version packaged with your distribution may be a few versions behind.
+
+Example of packaged versions of Errbot:
+
+Gentoo: https://gpo.zugaina.org/net-im/errbot
+Arch: https://aur.archlinux.org/packages/python-err/
+Docker: https://hub.docker.com/r/rroemhild/errbot/
+Juju: https://jujucharms.com/u/onlineservices-charmers/errbot
+
+
+Option 2: Installing Errbot in a virtualenv (preferred)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Installing into a `virtualenv`_ is **strongly** recommended.
+If you have virtualenv installed, you can do for example::
+
+    virtualenv --python `which python3` ~/.errbot-ve
+    ~/.errbot-ve/bin/pip install errbot
+
+
+If you have virtualenvwrapper installed it is even simpler::
+
+    mkvirtualenv -p `which python3` errbot-ve
     pip install errbot
 
-Or if you wish to try out the latest, bleeding edge version::
 
-    pip install https://github.com/errbotio/errbot/archive/master.zip
+Option 3: Installing Errbot at the system level (not recommended)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Errbot may be installed directly from PyPi using `pip`_ by issuing::
 
-However, in these cases, installing into a dedicated `virtualenv`_ is recommended.
+    pip3 install errbot
 
-On some distributions, Errbot is available as a package via your usual package manager.
-In these cases, it is generally recommended to use your distribution's package instead
-of installing from PyPi.
 
-Extra dependencies
-^^^^^^^^^^^^^^^^^^
+.. note::
+    Some of errbot's dependencies need to build C extensions
+    which means you need to have development headers for some libraries installed.
+    On Debian/Ubuntu these may be installed with
+    `apt-get install python3-dev libssl-dev libffi-dev`
+    Package names may differ on other OS's.
 
-requirements.txt lists only the bare minimum list of dependencies needed to run Errbot.
-Depending on the backend you choose, additional requirements need to be installed.
+.. _configuration:
 
-For the XMPP based backends you must also install::
+First run
+^^^^^^^^^
 
-    sleekxmpp
-    pyasn1
-    pyasn1-modules
-    dnspython3  # dnspython for Python 2.7
+You can quickly configure Errbot by first creating a working directory and calling `errbot --init`::
 
-For the IRC backend, you must install::
+    mkdir ~/errbot-root
+    cd ~/errbot-root
+    errbot --init
 
-    irc
+This will create a minimally working errbot in text (development) mode. You can try it right away::
 
-For the Hipchat backend you must install::
+    errbot
+    [...]
+    >>>
 
-    hypchat
+
+`>>>` is a prompt, you can talk to errbot directly. You can try::
+
+    !tryme
+    !help
+    !about
 
 Configuration
 -------------
 
-After installing Errbot, you must create a data directory somewhere on your system where
-config and data may be stored.
+Once you have installed errbot and did `errbot --init`, you will have to tweak the generated `config.py` to connect
+to your desired chat network.
 
-You need to create there a config.py file to setup the basic parameters of your bot.
+You can use :download:`config-template.py` as a base for your `config.py`.
 
+We'll go through the options that you absolutely must check now so that you can quickly get started
+and make further tweaks to the configuration later on.
 
-Option 1: you can generate it directly from your errbot installation with::
+Open `config.py` in your favorite editor.
+The first setting to check or change if `BOT_DATA_DIR` if correct.
+This is the directory where the bot will store configuration data.
 
-    python -c "import errbot;import os;import shutil;shutil.copyfile(os.path.dirname(errbot.__file__) + os.path.sep + 'config-template.py', 'config.py')"
+The first setting to check or change `BOT_LOG_FILE` to be sure it point to a writeable directory on your system.
 
-Option 2: You can download a template from `this link <https://raw.githubusercontent.com/errbotio/errbot/master/errbot/config-template.py>`_ 
-and rename it `config.py`.
+The final configuration we absolutely must do is setting up a correct `BACKEND` which is set to `Text` by
+`errbot --init` but you can change to the name of the chat system you want to connect to (see the template above
+for valid values).
 
-Option 3: Or you can download this same template from curl too::
+You absolutely need a `BOT_IDENTITY` entry to set the credentials Errbot will use to connect to the chat system.
 
-    curl -o config.py https://raw.githubusercontent.com/errbotio/errbot/master/errbot/config-template.py
+You can find here more details about configuring Errbot for some specific chat systems:
 
+.. toctree::
+  :maxdepth: 1
 
-Read the documentation within this file and edit the values as needed so the bot can
-connect to your favorite chat server.
+  configuration/xmpp
+  configuration/irc
+  configuration/hipchat
+  configuration/slack
+  configuration/telegram
+
 
 Starting the daemon
 -------------------
@@ -80,30 +121,83 @@ be done with::
 
     errbot
 
+If you installed errbot into a virtualenv (as recommended),
+call it by prefixing the virtualenv `bin/` directory::
+
+    /path/to/my/virtualenv/bin/errbot
+
 Please pass -h or --help to errbot to get a list of supported parameters.
-Depending on your situation, you may need to pass --config (or -c) pointing to config.py
+Depending on your situation,
+you may need to pass --config (or -c)
+pointing to the directory holding your `config.py`
 when starting Errbot.
 
-If all that worked out, you can now use the -d (or --daemon) parameter to run it in a
-detached mode::
+If all that worked out,
+you can now use the -d (or --daemon) parameter to run it in a detached mode::
 
     errbot --daemon
 
 If you are going to run your bot all the time then using some process control system
 such as `supervisor`_ is highly recommended. Installing and configuring such a system
-is outside the scope of this document however.
+is outside the scope of this document, however, we do provide some sample daemon configurations below.
 
-Hacking on Errbot's code directly
-------------------------------
+.. note::
+    There are two ways to gracefully shut down a running bot.
 
-Errbot is written for Python 3. In order to run under Python 2.7 the code is run through
-3to2 at install time. This means that while it is possible to run Errbot under Python 3.3+
-directly from a source checkout, it is not possible to do so with Python 2.7.
-If you wish to develop or test with Errbot's code under 2.7, you must run::
+    You can use the :code:`!shutdown` command to do so via chat or you can send a `SIGINT` signal to the errbot process to do so from the commandline
 
-    python setup.py install
+    If you're running errbot in the foreground then pressing Ctrl+C is equivalent to sending `SIGINT`.
 
-Alternatively, you can also look into the `--editable` parameter of pip install.
+Daemon Configurations
+^^^^^^^^^^^^^^^^^^^^^
 
-.. _virtualenv: https://pypi.python.org/pypi/virtualenv
+These are a few example configurations using common init daemons:
+
+**supervisord** (`/etc/supervisor/conf.d/errbot.conf`)
+
+.. literalinclude:: ../code_examples/supervisord.conf
+    :language: sh
+
+**systemd** (`/etc/systemd/system/errbot.service`)
+
+.. literalinclude:: ../code_examples/systemd.service
+    :language: sh
+
+.. note::
+
+    Running errbot within a daemon process can have security implications if the daemon is started with an account containing elevated privileges.
+    We encourage errbot **not** be run under a `root` or `administrator` account but under a non-privileged account. The command below creates a non-privileged `errbot` account on Linux::
+
+        $ useradd --no-create-home --no-user-group -g nogroup -s /bin/false errbot
+
+
+Upgrading
+---------
+
+Errbot comes bundled with a plugin which automatically performs a periodic update check.
+Whenever there is a new release on PyPI,
+this plugin will notify the users set in `BOT_ADMINS` about the new version.
+
+Assuming you originally installed errbot using pip (see `installation`_),
+you can upgrade errbot in much the same way.
+If you used a virtualenv::
+
+    /path/to/my/virtualenv/bin/pip install --upgrade errbot
+
+Or if you used pip without virtualenv::
+
+    pip install --upgrade errbot
+
+It's recommended that you review the changelog before performing an upgrade
+in case backwards-incompatible changes have been introduced in the new version.
+The changelog for the release you will be installing can always be found
+on `PyPI <https://pypi.python.org/pypi/errbot>`_.
+
+Provisioning (advanced)
+-----------------------
+
+See the `provisioning documentation <provisioning.html>`_
+
+.. _virtualenv: https://virtualenv.pypa.io/en/latest/
+.. _pip: https://pip.pypa.io/en/stable/
 .. _supervisor: http://supervisord.org/
